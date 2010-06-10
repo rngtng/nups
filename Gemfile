@@ -13,6 +13,12 @@ gem 'mysql'
 # Deploy with Capistrano
 gem 'capistrano'
 
+#Authorization
+gem 'devise', '1.1.rc1'
+
+# Use resque for async jobs
+gem 'resque'
+
 # Bundle the extra gems:
 # gem 'bj'
 # gem 'nokogiri', '1.4.1'
@@ -25,4 +31,6 @@ gem 'capistrano'
 #   gem 'webrat'
 # end
 
-gem 'twitter'
+
+
+# gem 'twitter'
