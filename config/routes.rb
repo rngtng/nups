@@ -1,14 +1,13 @@
 Nups::Application.routes.draw do |map|
   devise_for :users
 
-  root :to => "home#index"
-  
   # The priority is based upon order of creation:
   # first created -> highest priority.
+  root :to => "home#index"
 
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
+  match 'home/menu' => 'home#menu', :as => :menu
+  match 'home/main' => 'home#main', :as => :main
+
 
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
@@ -29,11 +28,13 @@ Nups::Application.routes.draw do |map|
   #     end
   #   end
 
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  resources :users
+    
+  # resource route with sub-resources:
+  resources :accounts do
+    resources :newsletters
+    resources :recipients
+  end
 
   # Sample resource route with more complex sub-resources
   #   resources :products do

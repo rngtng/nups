@@ -1,0 +1,16 @@
+
+#menu {
+        font-family:verdana, arial;
+        font-size: 8pt; 
+        font-weight: normal;
+        border: 0;
+        border-right: 1px solid;
+        padding: 10px;
+}
+
+body {
+        font-family:verdana, arial;
+        font-size: 8pt; 
+        font-weight: normal;
+        padding: 10px;
+}

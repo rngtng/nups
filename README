@@ -1,4 +1,11 @@
 
+Overview of best plugins:
+-> http://ruby-toolbox.com/
+
 # Devise
 -> http://github.com/plataformatec/devise
 rails generate devise_install
+
+
+# to Test SMPT lockly:
+-> http://mocksmtpapp.com/
