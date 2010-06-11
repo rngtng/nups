@@ -3,8 +3,9 @@ set :application, "nups"
 set :use_sudo, false
 
 #it's rails 3 baby, so make sure rvm setup is used!
+p = '/kunden/warteschlange.de/.rvm/'
 set :default_environment, { 
-  'PATH' => "/kunden/warteschlange.de/.rvm/gems/ruby-1.9.1-p378/bin:/path/to/.rvm/bin:$PATH",
+  'PATH' => "#{p}rubies/ruby-1.9.1-p378/bin:#{p}gems/ruby-1.9.1-p378/bin:#{p}bin:$PATH",
   'RUBY_VERSION' => 'ruby 1.9.1p378',
   'GEM_HOME'     => '/kunden/warteschlange.de/.rvm/gems/ruby-1.9.1-p378',
   'GEM_PATH'     => '/kunden/warteschlange.de/.rvm/gems/ruby-1.9.1-p378',
