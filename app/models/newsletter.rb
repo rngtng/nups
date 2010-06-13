@@ -16,6 +16,18 @@ class Newsletter < ActiveRecord::Base
   
   scope :live, :conditions => { :mode => LIVE_MODE }
   
+  @queue = :newsletter
+  
+  def self.perform(id, args = {})
+    newsletter = Newsletter.find( id  )
+    return unless newsletter
+    args = args.symbolize_keys rescue {}
+    newsletter.test_user_emails <<  args[:test_user_email]     if args[:test_user_email]
+    newsletter.example_user_login = args[:example_user_login]  if args[:example_user_login]
+    newsletter.deliver!
+  end  
+
+  ########################################################################################################################
 
   def color
     "#FFFFFF"
@@ -29,9 +41,9 @@ class Newsletter < ActiveRecord::Base
     true
   end  
   
-  def template
-    type.to_s.underscore == 'non_business_newsletter' ? 'new_newsletter' : type.to_s.underscore
-  end   
+ #  def template
+ #    type.to_s.underscore == 'non_business_newsletter' ? 'new_newsletter' : type.to_s.underscore
+ #  end   
 
   ########################################################################################################################
 

@@ -72,6 +72,25 @@ namespace :bundler do
   end
 end
 
+namespace :resque do
+  desc "start all resque workers with monit"
+  task :start, :roles => :job do
+    run "QUEUE=* rake resque:workers"
+  end
+
+  desc "stop all resque workers with monit"
+  task :stop, :roles => :job do
+    run ""
+  end
+
+  desc "restart all resque workers with monit"
+  task :restart, :roles => :job do
+    run "QUEUE=* rake resque:workers"
+  end
+end
+
+
+
 # HOOKS
 after "deploy:update_code" do
   bundler.bundle_new_release

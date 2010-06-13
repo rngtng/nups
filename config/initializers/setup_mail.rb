@@ -3,12 +3,14 @@
 #http://apidock.com/rails/ActionMailer/Base
 
 if Rails.env.production?
-  mailconfig = YAML::load_file(File.join(File.dirname(__FILE__), 'mail.yml'))
+  rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
   
-  ActionMailer::Base.delivery_method = mailconfig['method'].to_sym
-  ActionMailer::Base.default_url_options[:host] = mailconfig['host']
+  mail_config = YAML.load_file(rails_root + '/config/mail.yml')
+
+  ActionMailer::Base.delivery_method = mail_config['method'].to_sym
+  ActionMailer::Base.default_url_options[:host] = mail_config['host']
   
-  ActionMailer::Base.server_settings = mailconfig['smtp_options']
+  ActionMailer::Base.server_settings = mail_config['smtp_options']
   
 elsif Rails.env.development?
   ActionMailer::Base.default_url_options[:host] = "localhost:3000"
