@@ -38,9 +38,11 @@ namespace :deploy do
   end
 
   desc "Link in the production database.yml" 
-  task :link_database_config do
-    run "ln -nfs #{deploy_to}/#{shared_dir}/database.yml #{release_path}/config/database.yml" 
-  end
+  task :link_configs do
+    run "ln -nfs #{deploy_to}/#{shared_dir}/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{deploy_to}/#{shared_dir}/mail.yml #{release_path}/config/mail.yml"
+  end  
+  
   
   [:start, :stop].each do |t|
     desc "#{t} task is a no-op with mod_rails"
@@ -73,5 +75,5 @@ end
 # HOOKS
 after "deploy:update_code" do
   bundler.bundle_new_release
-  deploy.link_database_config
+  deploy.link_configs
 end
