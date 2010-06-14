@@ -56,6 +56,6 @@ class AccountsControllerTest < ActionController::TestCase
     #change user to NON admin
     sign_in users(:biff)
     get :index
-    assert_response :not_found
+    assert_response 403
   end  
 end

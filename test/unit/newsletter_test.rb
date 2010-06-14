@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class NewsletterTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
+
+  setup do
+    ActionMailer::Base.deliveries.clear
+    @user = users(:biff)
+  end
+  
   test "the truth" do
     assert true
   end

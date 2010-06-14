@@ -86,10 +86,6 @@ class Newsletter < ActiveRecord::Base
     test? && finished?
   end
 
-  def dummy_user
-    User.find_by_login( example_user_login ) || User.first
-  end
-
   #fetches all status questions: finished?, running? etc
   def method_missing(m, *args)
     sym = m.to_s.delete('?').to_sym
@@ -149,7 +145,7 @@ class Newsletter < ActiveRecord::Base
     @exceptions = {}
 
     recipients_all do |recipient|
-      send_to!( recipient )
+      send_to!(recipient)
       runs -= 1 if runs
       self.reload   if (self.deliveries_count % 100) == 0 #reload only after 100 sendings
       deliver_stop! if runs && runs < 1
@@ -162,6 +158,10 @@ class Newsletter < ActiveRecord::Base
     self.update_only( :status, :delivery_finished_at )
   end
 
+  def async_deliver!(args = {})
+    Resque.enqueue(Newsletter, self.id, args)
+  end
+  
   def deliver_stop!
      self.reload
      throw :not_running unless running?
@@ -172,26 +172,26 @@ class Newsletter < ActiveRecord::Base
 
   protected
   def recipients_all( &block )
-    return live_users.paginated_each( :conditions => [ "users.id > ?", self.last_suc_sent_id ], :per_page => 1000, :order => 'users.id', &block) if live?
-    test_users.each( &block )
+    return account.users.greater_than(self.last_sent_id).paginated_each( :per_page => 1000, &block) if live?
+    account.test_users.each(&block)
   end
 
   def recipients_size
     return live_users.count( :select => "users.id") if live?
-    test_users.size
+    account.test_users.size
   end
 
   def send_to!(recipient)
     NewsletterMailer.issue(self, recipient).deliver
     logger.info("##- NEWSLETTER #{self.id} send to #{recipient.email} (#{recipient.id})")
-    self.last_suc_sent_id = recipient.id if live?
+    self.last_sent_id = recipient.id if live?
     self.deliveries_count += 1
   rescue  => exp
     self.errors_count += 1
     @exceptions ||= {}
     @exceptions[recipient] = exp
   ensure
-    self.update_only( :deliveries_count, :last_suc_sent_id, :errors_count )
+    self.update_only(:deliveries_count, :last_sent_id, :errors_count)
   end
 
   def update_only(*attributes)
@@ -202,14 +202,5 @@ class Newsletter < ActiveRecord::Base
     }
     Newsletter.update_all( query.join(", "), :id => self.id)
   end
-
-  #get test emails from config and a dummy user.
-  def test_users
-    test_user_emails.map do |email|
-      returning( dummy_user ) do |dummy_user|
-        dummy_user.email = email
-      end
-    end
-  end 
 
 end
