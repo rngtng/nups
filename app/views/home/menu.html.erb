@@ -3,7 +3,7 @@
 <head>
   <title>Nups</title>
   <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "jquery.js", "jquery.rails.js" %>
   <%= csrf_meta_tag %>
   <base target="main">
 
@@ -11,14 +11,14 @@
     var selected_user_id = 0;
     
     function show_menu(user_id) {
-        if(selected_user_id > 0) $('user_menu_' + selected_user_id).hide();
-        $('user_menu_' + user_id).show();
+        if(selected_user_id > 0) $('#user_menu_' + selected_user_id).hide();
+        $('#user_menu_' + user_id).show();
         selected_user_id = user_id;
     }
-    
-    Event.observe(window, 'load',
-          function() { show_menu(<%= @user.id %>) }
-    );
+
+    $(document).ready(function () {
+      show_menu(<%= @user.id %>)
+    });    
   </script>
 </head>
 <body bgcolor="#6699CC" id="menu">
@@ -39,14 +39,19 @@
     <br>
   <% end %>
 
-  <div><strong>Newsletters</strong>
+  <div><strong>Newsletters</strong><br>
+        
     <% @users.each do |user| %>  
-      <ul id="user_menu_<%= user.id %>" style="display:none">
-        <% user.accounts.each do |account| %>
-          <li><%= link_to account.name, account_newsletters_path(account) %></li>
-          <li><%= link_to " -> Recipients", account_recipients_path(account) %></li>            
-        <% end %>
-      </ul>
+      <div id="user_menu_<%= user.id %>" style="display:none">
+        <%= link_to 'All Newsletters', newsletters_path(:user_id => user) %>
+        <ul>
+          <% user.accounts.each do |account| %>
+            <li><%= link_to account.name, account_newsletters_path(account) %></li>
+            <li><%= link_to " -> new", new_account_newsletter_path(account) %></li>
+            <li><%= link_to " -> Recipients", account_recipients_path(account) %></li>            
+          <% end %>
+        </ul>
+      </div> 
     <% end %>
     
   </div>
