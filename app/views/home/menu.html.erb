@@ -6,6 +6,20 @@
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
   <base target="main">
+
+  <script type="text/javascript" charset="utf-8">
+    var selected_user_id = 0;
+    
+    function show_menu(user_id) {
+        if(selected_user_id > 0) $('user_menu_' + selected_user_id).hide();
+        $('user_menu_' + user_id).show();
+        selected_user_id = user_id;
+    }
+    
+    Event.observe(window, 'load',
+          function() { show_menu(<%= @user.id %>) }
+    );
+  </script>
 </head>
 <body bgcolor="#6699CC" id="menu">
   <%= image_tag 'logo.jpg' %>
@@ -13,22 +27,27 @@
 
   <% if current_user.admin? %>
    <div>
-     <%= select_tag 'menu', options_from_collection_for_select(User.all, :id, :email) %><br><br>
      <strong>Admin</strong>
       <ul> 
         <li><%= link_to 'Users',  users_path %></li>
         <li><%= link_to 'Accounts',  accounts_path %></li>
       </ul>
     </div>
-    <br><br>
+    <br>
+    <% opts = options_from_collection_for_select(@users, :id, :email) %>
+    <%= select_tag 'menu', opts, :onChange => "show_menu(this.options[this.selectedIndex].value)" %><br>
+    <br>
   <% end %>
-  
+
   <div><strong>Newsletters</strong>
-    <ul> 
-      <% @user.accounts.each do |account| %>
-        <li><%= link_to account.name, account_newsletters_path(account) %>
-      <% end %>
-    </ul>
+    <% @users.each do |user| %>  
+      <ul id="user_menu_<%= user.id %>" style="display:none">
+        <% user.accounts.each do |account| %>
+          <li><%= link_to account.name, account_newsletters_path(account) %></li>
+          <li><%= link_to " -> Recipients", account_recipients_path(account) %></li>            
+        <% end %>
+      </ul>
+    <% end %>
     
   </div>
   <br><br>
