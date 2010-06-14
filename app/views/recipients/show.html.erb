@@ -1,0 +1,25 @@
+<p class="notice"><%= notice %></p>
+
+<p>
+  <b>Gender:</b>
+  <%= @recipient.gender %>
+</p>
+
+<p>
+  <b>First name:</b>
+  <%= @recipient.first_name %>
+</p>
+
+<p>
+  <b>Last name:</b>
+  <%= @recipient.last_name %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @recipient.email %>
+</p>
+
+
+<%= link_to 'Edit', edit_account_recipient_path(@account,@recipient) %> |
+<%= link_to 'Back', account_recipients_path(@account) %>
