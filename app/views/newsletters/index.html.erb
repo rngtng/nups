@@ -1,0 +1,48 @@
+<div id="newsletter">
+  <h1>Listing newsletters</h1>
+
+  <%= form_tag(newsletters_path, :id => 'account_list') do %>
+    <% opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id)) %>
+    <strong>Account: <%= select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()" %></strong>
+  <% end %>
+  
+  <%= link_to( "New #{@account.name} Newsletter", new_account_newsletter_path(@account)) if @account %>
+  
+  <table id="index">
+    <tr>
+      <th>Date</th>
+      <th>Subject</th>
+      <th>Started</th>
+      <th>Finished</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    
+    <% @newsletters.each do |newsletter| %>
+      <tr>
+        <td style="background-color:<%= newsletter.color %>"><%= link_to newsletter.deliver_at.to_formatted_s(:short), account_newsletter_path( newsletter.account, newsletter ) %></td>
+        <td style="text-align:left"><%= truncate(newsletter.subject, :length => 40) %></td>
+        <td><%= newsletter.delivery_started_at.try(:to_formatted_s, :short) %></td>
+        <td><%= newsletter.delivery_ended_at.try(:to_formatted_s, :short) %></td>
+        </td>
+        <td id="status_<%= newsletter.id %>">
+          <%= render 'status', :newsletter => newsletter %>
+        </td>
+        <td>
+        <% if newsletter.running? || newsletter.scheduled? %>  
+          <%#= periodically_call_remote( :url => deliver_progress_admin_newsletter_path( :id => newsletter ), :method => :get, :frequency => 3, :update => "status_#{newsletter.id}" ) %>    
+          <%= image_tag( 'spinner_wheel.gif', :id => "spinner#{newsletter.id}" )  %>
+          <%#= link_to( 'Pause', deliver_stop_admin_newsletter_path( newsletter ), :confirm => "Stop sending newsletter?") if newsletter.live? || newsletter.scheduled?  %>   
+        <% else %> <!-- Default Menu -->
+           <%= link_to 'Show', [newsletter.account, newsletter] %> &bull;
+           <%= link_to 'Edit', edit_account_newsletter_path(newsletter.account, newsletter) %> &bull;
+           <%= link_to 'Delete', [newsletter.account, newsletter], :method => 'delete', :confirm => "Really delete newsletter?" %><br />
+           <%#= link_to( 'Send Test', deliver_test_admin_newsletter_path( newsletter ) ) unless newsletter.finished_live? %>
+           <%#= " | #{link_to( 'Send Live', deliver_start_admin_newsletter_path( newsletter ), :confirm => "Start  sending newsletter?" )}" if newsletter.finished_test? %>   
+           <%#= " | #{link_to( 'Resume',    deliver_start_admin_newsletter_path( newsletter ), :confirm => "Resume sending newsletter?" )}" if newsletter.stopped? %>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

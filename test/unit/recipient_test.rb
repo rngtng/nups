@@ -10,7 +10,7 @@ class RecipientTest < ActiveSupport::TestCase
     new_r = r.account.recipients.new(:email => r.email)
     assert !new_r.valid?
     
-    account = accounts(:one)
+    account = accounts(:first)
     new_r = account.recipients.new(:email => r.email)
     assert new_r.valid?
   end

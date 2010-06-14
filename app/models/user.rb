@@ -8,6 +8,6 @@ class User < ActiveRecord::Base
   attr_accessible :email, :admin, :password, :password_confirmation
   
   has_many :accounts
-  has_many :newsletter, :through => :accounts
+  has_many :newsletters, :through => :accounts
 
 end

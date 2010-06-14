@@ -9,23 +9,24 @@
     </ul>
   </div>
   <% end %>
+  
+  <div class="field">
+    <%= f.label :user_id %>:     <%= f.select :user_id, User.all.map { |u| [u.email, u.id] } %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :name %>:    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :from %>:     <%= f.text_field :from %>
+  </div>
+  <div class="field">
+    <%= f.label :subject %>:     <%= f.text_field :subject %>
+  </div>
+  <div class="field">
+    <%= f.label :host %>:     <%= f.text_field :host %>
+  </div>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :from %><br />
-    <%= f.text_field :from %>
-  </div>
-  <div class="field">
-    <%= f.label :host %><br />
-    <%= f.text_field :host %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.select :user_id, User.all.map { |u| [u.email, u.id] } %>
-  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

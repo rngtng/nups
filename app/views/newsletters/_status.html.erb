@@ -1,0 +1,9 @@
+<% return link_to( 'Send Test', account_newsletter_path( newsletter.account, newsletter ) ) if newsletter.created? %>
+
+<span style="color:green"><%= newsletter.deliveries_count %></span>/
+<span style="color:red"><%= newsletter.errors_count %></span>/
+<strong><%= newsletter.recipients_count %></strong><br>     
+<div style="margin: auto; width:100px; border: 1px solid #000; overflow: hidden">
+ <div style='background-color: <%= ( newsletter.errors_count && newsletter.errors_count > 0 ) ? 'red' : 'green' %>; width: <%= newsletter.progress_percent %>px; color: white;' align='center'><%= newsletter.progress_percent %>%</div>   
+</div>
+<%= Time.at( newsletter.sending_time ).utc.strftime( "%H:%M" ) %> - <%= "%.1f" % newsletter.deliveries_per_second %>/sec.

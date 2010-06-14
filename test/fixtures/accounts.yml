@@ -5,10 +5,10 @@
 # below each fixture, per the syntax in the comments below
 #
 
-one: 
+first: 
   name: First
   user: admin
 
-biff1:
+biff_account:
   name: Second
   user: biff

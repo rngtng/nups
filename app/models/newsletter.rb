@@ -1,8 +1,5 @@
 class Newsletter < ActiveRecord::Base
-  
-  belongs_to :account
-  has_many :recipients, :through => :account
-  
+    
   STATUS = {
     :created   => 0,
     :running   => 2,
@@ -13,8 +10,18 @@ class Newsletter < ActiveRecord::Base
 
   TEST_MODE = 0
   LIVE_MODE = 1
+
+  belongs_to :account
+  has_many :recipients, :through => :account
+
+  scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
+  scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
+   
+  validates :account_id, :presence => true
+  validates :subject, :presence => true
+  validates :deliver_at, :presence => true 
   
-  scope :live, :conditions => { :mode => LIVE_MODE }
+  delegate :from, :to => :account
   
   @queue = :newsletter
   
@@ -22,13 +29,12 @@ class Newsletter < ActiveRecord::Base
     newsletter = Newsletter.find( id  )
     return unless newsletter
     args = args.symbolize_keys rescue {}
-    newsletter.test_user_emails <<  args[:test_user_email]     if args[:test_user_email]
-    newsletter.example_user_login = args[:example_user_login]  if args[:example_user_login]
+    #newsletter.test_user_emails <<  args[:test_user_email]     if args[:test_user_email]
     newsletter.deliver!
   end  
 
   ########################################################################################################################
-
+ 
   def color
     "#FFFFFF"
   end
@@ -98,10 +104,6 @@ class Newsletter < ActiveRecord::Base
   def test_user_emails
     l = language || 'de'
     @test_users ||= UserSystem::CONFIG[:newsletter_test_recipients][l.to_sym]
-  end
-
-  def example_user_login
-    @example_user_login ||= UserSystem::CONFIG[:newsletter_test_user]
   end
 
   ##############################################################################################

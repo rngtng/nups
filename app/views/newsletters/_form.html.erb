@@ -1,0 +1,30 @@
+<table border="0" id="formular" width="700">
+    <thead>    
+     <tr><td colspan="2" align="center"><h2>Ausgabe erstellen</h2> - ID: <%= @newsletter.id %><br>
+      Aktuelle Zeit: <%= Time.now.to_formatted_s(:long) %>     
+    </td></tr>
+    </thead>
+    <tbody>
+
+    <%= form_for [@newsletter.account, @newsletter]  do |f| %>
+    <% if @newsletter.errors.any? %>
+    <div id="errorExplanation"
+      <h2><%= pluralize(@newsletter.errors.count, "error") %> prohibited this newsletter from being saved:</h2>
+      <ul>
+      <% @newsletter.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+    <% end %>
+
+      <tr><th>Absender:</th><td><%=  @newsletter.from  %></td></tr>
+      <tr><th>Versanddatum:</th><td><%= f.datetime_select :deliver_at %></td></tr>
+      <tr><th>Subject:</th><td><%= f.text_field :subject %></td></tr>
+    
+      <tr><td colspan="2" align="center"><%= f.submit %></td></tr>
+        
+     
+    <% end %>
+
+</table>

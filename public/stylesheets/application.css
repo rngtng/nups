@@ -1,16 +1,144 @@
-
-#menu {
-        font-family:verdana, arial;
-        font-size: 8pt; 
-        font-weight: normal;
-        border: 0;
-        border-right: 1px solid;
-        padding: 10px;
+body {
+   font-family:verdana, arial;
+   font-size: 8pt; 
+   font-weight: normal;
+   padding: 5px;
 }
 
-body {
+#menu ul {
+  list-style-type: none;
+  padding: 0px;
+  padding-left: 5px;
+  padding-bottom: 10px;
+  margin: 0px;
+}
+
+#menu ul ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+#menu li a {
+  text-decoration: none;
+  color: #000;
+}
+
+#menu li a:hover {
+  text-decoration: underline;
+}
+
+
+#content {
+    border-left: 1px solid;
+    border-top: 1px solid;
+}
+
+
+
+TH {
         font-family:verdana, arial;
-        font-size: 8pt; 
+        font-size: 9pt; 
+        color:#000000; 
+        text-decoration:none;
+        font-weight: bold;
+        padding: 2px;
+        text-align:left;
+}
+
+
+TD {
+        font-family:verdana, arial;
+        font-size: 9pt; 
+        color:#000000; 
+        text-decoration:none;
         font-weight: normal;
-        padding: 10px;
+}
+
+TR.bgdark       {
+        background-color:#DDDDDD;
+}
+
+TR.bglight      {
+        background-color:#EEEEEE;
+}
+
+
+#newsletter H2 {
+        font-family:Arial, Helvetica, sans-serif; 
+        font-size:18pt; 
+        color:#000000; 
+        text-decoration:none; 
+        font-weight:bold;
+        display:inline;
+}
+
+#newsletter H3 {
+        font-family:Arial, Helvetica, sans-serif; 
+        font-size:12pt; 
+        color:#000000; 
+        text-decoration:none; 
+        font-weight:bold;
+        text-align:left;
+        display:inline;
+}
+
+#newsletter #formular {
+        border: solid 2px #CCCCCC;
+}
+
+#newsletter #formular THEAD TR {
+        background-color:#669966;
+}
+
+#newsletter #formular TBODY TR {
+        background-color:#EEEEEE;
+}
+
+#newsletter #formular TBODY TR.red {
+        background-color:#EECECE;
+}
+
+#newsletter #formular TBODY TH {
+        text-align: left;
+}
+
+#newsletter #formular TBODY .small {
+        font-size:8pt;
+        font-weight:normal;
+}
+
+#newsletter #formular .error {
+        font-family:Arial, Helvetica, sans-serif; 
+        font-size:10pt; 
+        color:red; 
+        text-decoration:none; 
+        font-weight:bold;
+}
+
+#newsletter #preview {
+        border:solid 1px #CCCCCC;
+}
+
+#newsletter #index {
+    border: solid 2px #CCCCCC;
+    width: 100%;
+  }
+
+#newsletter #index th {
+    background-color:#669966;
+}
+
+
+#newsletter #index  td {
+    text-align: center;
+  }
+  
+#newsletter H1 {
+          display: inline;
+}
+
+#account_list {
+           display: inline;
+           margin-left: 20px;
+           margin-right: 20px;           
 }

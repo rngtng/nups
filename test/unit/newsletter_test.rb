@@ -7,7 +7,9 @@ class NewsletterTest < ActiveSupport::TestCase
     @user = users(:biff)
   end
   
-  test "the truth" do
-    assert true
+  test "find by account" do
+    @newsletter = newsletters(:biff_newsletter)
+    
+    assert_equal Newsletter.with_account(@newsletter.account).first, @newsletter
   end
 end

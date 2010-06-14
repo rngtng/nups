@@ -26,35 +26,32 @@
   <br><br>
 
   <% if current_user.admin? %>
-   <div>
-     <strong>Admin</strong>
-      <ul> 
-        <li><%= link_to 'Users',  users_path %></li>
-        <li><%= link_to 'Accounts',  accounts_path %></li>
-      </ul>
-    </div>
-    <br>
+    <strong>Administration</strong>
+    <ul> 
+      <li><%= link_to 'Users',  users_path %></li>
+      <li><%= link_to 'Accounts',  accounts_path %></li>
+    </ul>
     <% opts = options_from_collection_for_select(@users, :id, :email) %>
     <%= select_tag 'menu', opts, :onChange => "show_menu(this.options[this.selectedIndex].value)" %><br>
     <br>
   <% end %>
 
-  <div><strong>Newsletters</strong><br>
-        
-    <% @users.each do |user| %>  
-      <div id="user_menu_<%= user.id %>" style="display:none">
-        <%= link_to 'All Newsletters', newsletters_path(:user_id => user) %>
+   <% @users.each do |user| %>  
+      <div id="user_menu_<%= user.id %>" style="display:none"><strong>Newsletters</strong> - 
+        <%= link_to 'see all', newsletters_path(:user_id => user) %><br>
         <ul>
           <% user.accounts.each do |account| %>
-            <li><%= link_to account.name, account_newsletters_path(account) %></li>
-            <li><%= link_to " -> new", new_account_newsletter_path(account) %></li>
-            <li><%= link_to " -> Recipients", account_recipients_path(account) %></li>            
+            <li><%= link_to account.name, account_newsletters_path(account) %>
+              <ul>
+                <li><%= link_to "new", new_account_newsletter_path(account) %></li>
+                <li><%= link_to "Recipients", account_recipients_path(account) %></li>            
+              </ul>
+            </li>
           <% end %>
         </ul>
       </div> 
-    <% end %>
+   <% end %>
     
-  </div>
   <br><br>
 
 </body>

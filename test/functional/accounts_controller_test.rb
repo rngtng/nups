@@ -5,7 +5,7 @@ class AccountsControllerTest < ActionController::TestCase
     @admin = users(:admin)
     sign_in @admin
     
-    @account = accounts(:one)
+    @account = accounts(:first)
   end
 
   test "should get index" do

@@ -6,9 +6,9 @@
 #
 
 josh: 
- account: biff1
+ account: biff_account
  email: josh@biff.com
 
 wonne: 
-  account: biff1
+  account: biff_account
   email: wonne@biff.com
