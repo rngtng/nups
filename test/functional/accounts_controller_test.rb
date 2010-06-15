@@ -3,9 +3,8 @@ require 'test_helper'
 class AccountsControllerTest < ActionController::TestCase
   setup do
     @admin = users(:admin)
+    @account = @admin.accounts.first
     sign_in @admin
-    
-    @account = accounts(:first)
   end
 
   test "should get index" do

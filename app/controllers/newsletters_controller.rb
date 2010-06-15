@@ -22,6 +22,7 @@ class NewslettersController < ApplicationController
   def new
     redner404 && return unless @account
     @newsletter = @account.newsletters.new
+    @newsletter.subject ||= @account.subject
 
     respond_to do |format|
       format.html # new.html.erb
@@ -32,13 +33,14 @@ class NewslettersController < ApplicationController
   # GET /newsletters/1/edit
   def edit
     @newsletter = @account.newsletters.find(params[:id])
+    render :new
   end
 
   # POST /newsletters
   # POST /newsletters.xml
   def create
     @newsletter = @account.newsletters.new(params[:newsletter])
-
+        
     respond_to do |format|
       if @newsletter.save
         format.html { redirect_to([@account, @newsletter], :notice => 'Newsletter was successfully created.') }
@@ -87,6 +89,7 @@ class NewslettersController < ApplicationController
   def load_account
     return if params[:account_id].blank?
     klass = current_user.admin? ? Account : current_user.accounts
-    @account = klass.find(params[:account_id])
+    @account = klass.find_by_id(params[:account_id])
+    render_403 unless @account
   end  
 end

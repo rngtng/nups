@@ -2,9 +2,17 @@ require 'test_helper'
 
 class NewslettersControllerTest < ActionController::TestCase
   setup do
-    sign_in users(:biff)
+    @admin = users(:admin)
+    @user = users(:biff)
     @newsletter = newsletters(:biff_newsletter)
     @account = @newsletter.account
+    sign_in @user
+  end
+
+  test "should not get index if logged out" do
+    sign_out @user
+    get :index
+    assert_response 302
   end
 
   test "should get index" do
@@ -13,11 +21,26 @@ class NewslettersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:newsletters)
   end
 
+  test "should not get new if wrong account" do
+    account = accounts(:admin_account)
+    get :new, :account_id => account.to_param
+    assert_response 403
+  end
+
+  test "should get new if wrong account but admin" do
+    sign_out @user
+    sign_in @admin
+    get :new, :account_id => @account.to_param
+    assert_equal @account.subject, assigns(:newsletter).subject
+    assert_response :success
+  end
+
+
   test "should get new" do
     get :new, :account_id => @account.to_param
     assert_response :success
   end
-
+  
   test "should create newsletter" do
     assert_difference('Newsletter.count') do
       post :create, :account_id => @account.to_param, :newsletter => @newsletter.attributes

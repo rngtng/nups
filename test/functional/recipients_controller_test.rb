@@ -2,12 +2,28 @@ require 'test_helper'
 
 class RecipientsControllerTest < ActionController::TestCase
   setup do
-    sign_in users(:biff)
+    @admin = users(:admin)
+    @user  = users(:biff)
     @recipient = recipients(:josh)
     @account = @recipient.account
+    sign_in @user
+  end
+
+  test "should not get index with wrong account" do
+    account = accounts(:admin_account)
+    get :index, :account_id => account.to_param
+    assert_response 404
   end
 
   test "should get index" do
+    get :index, :account_id => @account.to_param
+    assert_response :success
+    assert_not_nil assigns(:recipients)
+  end
+  
+  test "should get index if wrong account but admin" do
+    sign_out @user
+    sign_in @admin
     get :index, :account_id => @account.to_param
     assert_response :success
     assert_not_nil assigns(:recipients)
