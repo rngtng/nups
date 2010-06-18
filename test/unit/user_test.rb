@@ -13,6 +13,7 @@
 #  remember_token       :string(255)
 #  reset_password_token :string(255)
 #  sign_in_count        :integer(4)      default(0)
+#  username             :string(255)
 #  confirmation_sent_at :datetime
 #  confirmed_at         :datetime
 #  created_at           :datetime

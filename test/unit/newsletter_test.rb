@@ -4,7 +4,7 @@
 #
 #  id                  :integer(4)      not null, primary key
 #  account_id          :integer(4)
-#  last_sent_id        :integer(4)      not null
+#  last_sent_id        :integer(4)
 #  attachemnts         :text
 #  content             :text
 #  deliveries_count    :integer(4)      not null

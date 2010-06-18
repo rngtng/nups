@@ -4,7 +4,7 @@
   <%= form_tag(newsletters_path, :id => 'account_list') do %>
     <% opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id)) %>
     <strong>Account: <%= select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()" %></strong>
-  <% end %>
+  <% end if @user.accounts.count > 1 %>
   
   <%= link_to( "New #{@account.name} Newsletter", new_account_newsletter_path(@account)) if @account %>
   

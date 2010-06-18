@@ -2,18 +2,19 @@
 #
 # Table name: accounts
 #
-#  id              :integer(4)      not null, primary key
-#  user_id         :integer(4)
-#  from            :string(255)
-#  host            :string(255)
-#  name            :string(255)
-#  subject         :string(255)
-#  test_recipients :text
-#  created_at      :datetime
-#  updated_at      :datetime
+#  id                    :integer(4)      not null, primary key
+#  user_id               :integer(4)
+#  from                  :string(255)
+#  host                  :string(255)
+#  name                  :string(255)
+#  subject               :string(255)
+#  template_html         :text
+#  template_text         :text
+#  test_recipient_emails :text
+#  created_at            :datetime
+#  updated_at            :datetime
 
 class Account < ActiveRecord::Base
-   #TODO template
      
   belongs_to :user
   
@@ -22,12 +23,16 @@ class Account < ActiveRecord::Base
   
   validates_presence_of :user_id
   
-  def test_users(additional_email = nil)
-    (test_user_emails + Array(additional_email)).compact.map do |email|
-      returning( recipients.first.clone ) do |dummy_user| #TODO test if clone or dup!?
+  def test_recipients(additional_emails = nil)
+    (test_recipient_emails_array + Array(additional_emails)).compact.map do |email|
+      returning(recipients.first.clone) do |dummy_user| #TODO test if clone or dup!?
         dummy_user.email = email
+        dummy_user.readonly!
       end
     end
   end
   
+  def test_recipient_emails_array
+    @test_recipient_emails_array = test_recipient_emails.split /,|;|\n|\t/
+  end
 end

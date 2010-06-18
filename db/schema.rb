@@ -9,17 +9,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100618174753) do
+ActiveRecord::Schema.define(:version => 20100611101344) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
     t.string   "from"
     t.string   "host"
     t.integer  "user_id"
+    t.string   "subject"
+    t.text     "template_html"
+    t.text     "template_text"
+    t.text     "test_recipient_emails"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject"
-    t.text     "test_recipients"
   end
 
   create_table "newsletters", :force => true do |t|
@@ -28,7 +30,7 @@ ActiveRecord::Schema.define(:version => 20100618174753) do
     t.text     "attachemnts"
     t.integer  "mode",                :null => false
     t.integer  "status",              :null => false
-    t.integer  "last_sent_id",        :null => false
+    t.integer  "last_sent_id"
     t.integer  "recipients_count",    :null => false
     t.integer  "deliveries_count",    :null => false
     t.integer  "errors_count",        :null => false
@@ -47,6 +49,9 @@ ActiveRecord::Schema.define(:version => 20100618174753) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
+    t.integer  "deliveries_count", :null => false
+    t.integer  "bounces_count",    :null => false
+    t.text     "bounces",          :null => false
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -72,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20100618174753) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "username"
     t.boolean  "admin"
   end
 

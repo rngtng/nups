@@ -31,7 +31,7 @@
       <li><%= link_to 'Users',  users_path %></li>
       <li><%= link_to 'Accounts',  accounts_path %></li>
     </ul>
-    <% opts = options_from_collection_for_select(@users, :id, :email) %>
+    <% opts = options_from_collection_for_select(@users, :id, :username) %>
     <%= select_tag 'menu', opts, :onChange => "show_menu(this.options[this.selectedIndex].value)" %><br>
     <br>
   <% end %>

@@ -8,6 +8,13 @@ class CreateAccounts < ActiveRecord::Migration
       
       t.belongs_to :user
       
+      t.string :subject
+      
+      t.text :template_html
+      t.text :template_text
+
+      t.text :test_recipient_emails
+            
       t.timestamps
     end
   end

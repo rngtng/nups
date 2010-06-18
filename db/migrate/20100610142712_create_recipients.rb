@@ -6,7 +6,9 @@ class CreateRecipients < ActiveRecord::Migration
       t.string :last_name
       t.string :email
       
-      #t.integer :deliveries_count
+      t.integer :deliveries_count,  :null => false, :default => 0
+      t.integer :bounces_count,  :null => false, :default => 0
+      t.text :bounces
       
       t.belongs_to :account
       

@@ -6,13 +6,13 @@ class CreateNewsletters < ActiveRecord::Migration
       t.text :content
       t.text :attachemnts
       
-      t.string :mode
-      t.string :status
+      t.integer :mode,  :null => false, :default => 0
+      t.integer :status,  :null => false, :default => 0
       t.integer :last_sent_id
       
-      t.integer :recipients_count
-      t.integer :deliveries_count
-      t.integer :errors_count
+      t.integer :recipients_count,  :null => false, :default => 0
+      t.integer :deliveries_count,  :null => false, :default => 0
+      t.integer :errors_count,  :null => false, :default => 0
       
       t.timestamp :deliver_at
       t.timestamp :delivery_started_at

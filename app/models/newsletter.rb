@@ -4,7 +4,7 @@
 #
 #  id                  :integer(4)      not null, primary key
 #  account_id          :integer(4)
-#  last_sent_id        :integer(4)      not null
+#  last_sent_id        :integer(4)
 #  attachemnts         :text
 #  content             :text
 #  deliveries_count    :integer(4)      not null
@@ -50,7 +50,7 @@ class Newsletter < ActiveRecord::Base
     newsletter = Newsletter.find(id)
     return unless newsletter
     args = args.symbolize_keys rescue {}
-    @test_email = args[:test_email] if args[:test_user_email]
+    @test_emails = args[:test_emails] if args[:test_emails]
     newsletter.deliver!
   end  
 
@@ -189,8 +189,8 @@ class Newsletter < ActiveRecord::Base
 
   protected
   def recipients_all( &block )
-    return account.users.greater_than(self.last_sent_id).paginated_each( :per_page => 1000, &block) if live?
-    account.test_users.each(&block)
+    return account.recipients.greater_than(self.last_sent_id).paginated_each( :per_page => 1000, &block) if live?
+    account.test_recipients(@test_emails).each(&block)
   end
 
   def recipients_size
