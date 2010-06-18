@@ -9,4 +9,5 @@ class Recipient < ActiveRecord::Base
   validates :account_id, :presence => true
   validates :email, :presence => true, :uniqueness => {:scope => :account_id}, :email_format => true
   
+  #TODO bounce count
 end

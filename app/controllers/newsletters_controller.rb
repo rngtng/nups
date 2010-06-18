@@ -14,6 +14,7 @@ class NewslettersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @newsletter }
+      format.js  { render @newsletter }
     end
   end
 
@@ -43,7 +44,7 @@ class NewslettersController < ApplicationController
         
     respond_to do |format|
       if @newsletter.save
-        format.html { redirect_to([@account, @newsletter], :notice => 'Newsletter was successfully created.') }
+        format.html { redirect_to( account_newsletters_path(@account) , :notice => 'Newsletter was successfully created.') }
         format.xml  { render :xml => @newsletter, :status => :created, :location => @newsletter }
       else
         format.html { render :action => "new" }
@@ -59,7 +60,10 @@ class NewslettersController < ApplicationController
 
     respond_to do |format|
       if @newsletter.update_attributes(params[:newsletter])
-        format.html { redirect_to([@account, @newsletter], :notice => 'Newsletter was successfully updated.') }
+        format.html { 
+          redirect_to( account_newsletter_path(*@newsletter.route)) and return if params[:preview]
+          redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully updated.') 
+        }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -79,7 +83,32 @@ class NewslettersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  ########################################################
+  def preview
+    @newsletter = @account.newsletters.find(params[:id])
+    @newsletter_issue = NewsletterMailer.issue(@newsletter, @account.recipients.first)
+    render :text => 'test', :layout => false
+  end
   
+  def start
+    @newsletter = @account.newsletters.find(params[:id])
+    #render_404 if !@newsletter.created? &&
+    @newsletter.schedule!(params[:mode])
+    @newsletter.async_deliver!( :test_email => current_user.email)
+    redirect_to account_newsletters_path(@account)
+  end
+  
+  def stop
+    @newsletter = @account.newsletters.find(params[:id])
+    #render_404 unless @newsletter.running?
+    @newsletter.stop! if @newsletter.running?
+    @newsletter.unschedule! if @newsletter.scheduled?
+    redirect_to account_newsletters_path(@account)
+  end
+  
+  ########################################################
+    
   private
   def load_user
     @user = current_user
@@ -92,4 +121,5 @@ class NewslettersController < ApplicationController
     @account = klass.find_by_id(params[:account_id])
     render_403 unless @account
   end  
+
 end

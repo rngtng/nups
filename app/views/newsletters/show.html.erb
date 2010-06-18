@@ -1,5 +1,31 @@
-<p class="notice"><%= notice %></p>
-
-
-<%= link_to 'Edit', edit_account_newsletter_path(@newsletter.account, @newsletter) %> |
-<%= link_to 'Back', newsletters_path %>
+<div id="newsletter">
+  <table border="0" id="formular" width="700">
+    <thead>    
+      <tr><td colspan="2" align="center"><h2>Ausgabe</h2> - ID: <%= @newsletter.id %><br>
+      Aktuelle Zeit: <%= Time.now.to_formatted_s(:long) %>     
+      </td></tr>
+    </thead>
+    <tbody>
+      <tr><th>Absender:</th><td><%=  @newsletter.from  %></td></tr>
+      <tr><th>Versanddatum:</th><td><%= @newsletter.deliver_at.try(:to_formatted_s, :short) %></td></tr>
+      <tr><th>Subject:</th><td><%= @newsletter.subject %></td></tr>
+      <tr><th>Status:</th><td><%= @newsletter.subject %></td></tr>
+      <tr><td colspan="2" align="center">
+          <%= link_to 'Edit', edit_account_newsletter_path(*@newsletter.route) %> &bull;
+          <%= link_to 'Delete', @newsletter.route, :method => 'delete', :confirm => "Really delete newsletter?" %>&bull;
+          <%= link_to( 'Send Test', start_account_newsletter_path(*@newsletter.route)) unless @newsletter.finished_live? %>
+       </td></tr>
+    </tbody>
+  </table>
+  <br>
+  <table border="0" id="formular" width="700">
+      <%# TODO: auto expand, HTML editor???  %>
+      <tr><td align="center">
+      <iframe src="<%= preview_account_newsletter_path(*@newsletter.route, :example_user => params[:example_user] ) %>" width="680" height="600"></iframe>
+      </td></tr>
+      <tr><td colspan="2" align="center">
+        <%= link_to 'Back', newsletters_path %> |
+        <%= link_to 'Edit', edit_account_newsletter_path(*@newsletter.route) %>
+       </td></tr>        
+  </table>
+</div>

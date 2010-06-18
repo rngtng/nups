@@ -9,3 +9,6 @@ rails generate devise_install
 
 # to Test SMPT lockly:
 -> http://mocksmtpapp.com/
+
+#TODO add default 0 values to newsetter
+#Add model anotations

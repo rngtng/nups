@@ -26,10 +26,10 @@ class Newsletter < ActiveRecord::Base
   @queue = :newsletter
   
   def self.perform(id, args = {})
-    newsletter = Newsletter.find( id  )
+    newsletter = Newsletter.find(id)
     return unless newsletter
     args = args.symbolize_keys rescue {}
-    #newsletter.test_user_emails <<  args[:test_user_email]     if args[:test_user_email]
+    @test_email = args[:test_email] if args[:test_user_email]
     newsletter.deliver!
   end  
 
@@ -47,9 +47,9 @@ class Newsletter < ActiveRecord::Base
     true
   end  
   
- #  def template
- #    type.to_s.underscore == 'non_business_newsletter' ? 'new_newsletter' : type.to_s.underscore
- #  end   
+  def route
+    [self.account, self]
+  end
 
   ########################################################################################################################
 
@@ -98,13 +98,6 @@ class Newsletter < ActiveRecord::Base
     return status == STATUS[sym] if Newsletter::STATUS.include?( sym )
     super(m, *args)
   end
-  
-  ##############################################################################################
-
-  def test_user_emails
-    l = language || 'de'
-    @test_users ||= UserSystem::CONFIG[:newsletter_test_recipients][l.to_sym]
-  end
 
   ##############################################################################################
 
@@ -140,17 +133,18 @@ class Newsletter < ActiveRecord::Base
     self.reload
     throw :not_scheduled unless self.scheduled?
     throw :running if running?
+    #TODO check dirty update here...
     self.status = STATUS[:running]
     self.delivery_started_at = Time.now
-    self.update_only( :status, :delivery_started_at )
-    logger.info("##- NEWSLETTER #{self.id} started")
+    self.update_only( :status, :delivery_started_at)
+    log("#{self.id} started")
     @exceptions = {}
 
     recipients_all do |recipient|
       send_to!(recipient)
       runs -= 1 if runs
       self.reload   if (self.deliveries_count % 100) == 0 #reload only after 100 sendings
-      deliver_stop! if runs && runs < 1
+      stop! if runs && runs < 1
       break if stopped?
     end
 
@@ -164,12 +158,12 @@ class Newsletter < ActiveRecord::Base
     Resque.enqueue(Newsletter, self.id, args)
   end
   
-  def deliver_stop!
+  def stop!
      self.reload
      throw :not_running unless running?
      self.status = STATUS[:stopped]
-     self.update_only( :status )
-     logger.info("##- NEWSLETTER #{self.id} stopped")
+     self.update_only(:status)
+     log("#{self.id} stopped")
   end
 
   protected
@@ -179,13 +173,12 @@ class Newsletter < ActiveRecord::Base
   end
 
   def recipients_size
-    return live_users.count( :select => "users.id") if live?
-    account.test_users.size
+    return account.recipients.count
   end
 
   def send_to!(recipient)
     NewsletterMailer.issue(self, recipient).deliver
-    logger.info("##- NEWSLETTER #{self.id} send to #{recipient.email} (#{recipient.id})")
+    log("#{self.id} send to #{recipient.email} (#{recipient.id})")
     self.last_sent_id = recipient.id if live?
     self.deliveries_count += 1
   rescue  => exp
@@ -204,5 +197,8 @@ class Newsletter < ActiveRecord::Base
     }
     Newsletter.update_all( query.join(", "), :id => self.id)
   end
-
+ 
+ def log(msg)
+   logger.info("##- #{'TEST' if self.test?} NEWSLETTER #{msg}")
+ end
 end

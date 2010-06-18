@@ -15,7 +15,11 @@ Nups::Application.routes.draw do |map|
   # resource route with sub-resources:
   resources :accounts do
     resources :newsletters do
-      
+      member do
+        get :start
+        get :stop
+        get :preview
+      end
     end
     resources :recipients
   end

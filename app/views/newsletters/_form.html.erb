@@ -1,12 +1,11 @@
 <%= form_for [@newsletter.account, @newsletter]  do |f| %>
   <table border="0" id="formular" width="700">
     <thead>    
-     <tr><td colspan="2" align="center"><h2>Ausgabe erstellen</h2> - ID: <%= @newsletter.id %><br>
-      Aktuelle Zeit: <%= Time.now.to_formatted_s(:long) %>     
-    </td></tr>
+      <tr><td colspan="2" align="center"><h2>Ausgabe erstellen</h2> - ID: <%= @newsletter.id %><br>
+        Aktuelle Zeit: <%= Time.now.to_formatted_s(:long) %>     
+      </td></tr>
     </thead>
     <tbody>
-
 
       <% if @newsletter.errors.any? %>
         <div id="errorExplanation"
@@ -19,21 +18,24 @@
         </div>
       <% end %>
 
-      <tr><th>Absender:</th><td><%=  @newsletter.from  %></td></tr>
+      <tr><th>Absender:</th><td><%= @newsletter.from  %></td></tr>
       <tr><th>Versanddatum:</th><td><%= f.datetime_select :deliver_at %></td></tr>
       <tr><th>Subject:</th><td><%= f.text_field :subject, :size => 60 %></td></tr>
     
       <tr><td colspan="2" align="center">
         <%#= link_to 'Back', account_newsletters_path(@account) %>
+        <%#= link_to 'Preview', account_newsletters_path(@account) %>
         <%= f.submit %>
+        <%= f.submit 'Preview', :name => :preview %>
        </td></tr>
-    </table>
-    <br>
-    <table border="0" id="formular" width="700">
-        <%# TODO: auto expand, HTML editor???  %>
-        <tr><td align="center"><%= f.text_area :content, :cols => 80, :rows => 40 %></td></tr>
-        <tr><td colspan="2" align="center">
-          <%= f.submit %>
-         </td></tr>        
-    </table>  
+    </tbody>
+  </table>
+  <br>
+  <table border="0" id="formular" width="700">
+      <%# TODO: auto expand, HTML editor???  %>
+      <tr><td align="center"><%= f.text_area :content, :cols => 80, :rows => 40 %></td></tr>
+      <tr><td colspan="2" align="center">
+        <%= f.submit %>
+       </td></tr>        
+  </table>  
 <% end %>    

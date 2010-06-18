@@ -8,6 +8,6 @@ class NewsletterMailer < ActionMailer::Base
     
     #default_url_options[:host]    = _('cmd_url_host')
     
-    mail :to => user.email, :subject => newsletter.subject, :from => newsletter.from
+    mail :to => recipient.email, :subject => newsletter.subject, :from => newsletter.from
   end
 end

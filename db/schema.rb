@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100614131349) do
+ActiveRecord::Schema.define(:version => 20100618174753) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -26,12 +26,12 @@ ActiveRecord::Schema.define(:version => 20100614131349) do
     t.string   "subject"
     t.text     "content"
     t.text     "attachemnts"
-    t.string   "mode"
-    t.string   "status"
-    t.integer  "last_sent_id"
-    t.integer  "recipients_count"
-    t.integer  "deliveries_count"
-    t.integer  "errors_count"
+    t.integer  "mode",                :null => false
+    t.integer  "status",              :null => false
+    t.integer  "last_sent_id",        :null => false
+    t.integer  "recipients_count",    :null => false
+    t.integer  "deliveries_count",    :null => false
+    t.integer  "errors_count",        :null => false
     t.datetime "deliver_at"
     t.datetime "delivery_started_at"
     t.datetime "delivery_ended_at"
