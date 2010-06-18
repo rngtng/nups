@@ -1,3 +1,16 @@
+# == Schema Info
+#
+# Table name: recipients
+#
+#  id         :integer(4)      not null, primary key
+#  account_id :integer(4)
+#  email      :string(255)
+#  first_name :string(255)
+#  gender     :string(255)
+#  last_name  :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+
 require 'test_helper'
 
 class RecipientTest < ActiveSupport::TestCase

@@ -1,3 +1,24 @@
+# == Schema Info
+#
+# Table name: newsletters
+#
+#  id                  :integer(4)      not null, primary key
+#  account_id          :integer(4)
+#  last_sent_id        :integer(4)      not null
+#  attachemnts         :text
+#  content             :text
+#  deliveries_count    :integer(4)      not null
+#  errors_count        :integer(4)      not null
+#  mode                :integer(4)      not null
+#  recipients_count    :integer(4)      not null
+#  status              :integer(4)      not null
+#  subject             :string(255)
+#  created_at          :datetime
+#  deliver_at          :datetime
+#  delivery_ended_at   :datetime
+#  delivery_started_at :datetime
+#  updated_at          :datetime
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 # This model initially had no columns defined.  If you add columns to the
@@ -14,4 +35,3 @@ two:
   account: biff_account
   subject: First Newsletter
   deliver_at: <%= Time.now %>  
-
