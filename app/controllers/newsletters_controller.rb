@@ -44,7 +44,10 @@ class NewslettersController < ApplicationController
         
     respond_to do |format|
       if @newsletter.save
-        format.html { redirect_to( account_newsletters_path(@account) , :notice => 'Newsletter was successfully created.') }
+        format.html { 
+          redirect_to( account_newsletter_path(*@newsletter.route)) and return if params[:preview]
+          redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully created.')
+        }
         format.xml  { render :xml => @newsletter, :status => :created, :location => @newsletter }
       else
         format.html { render :action => "new" }
@@ -87,9 +90,10 @@ class NewslettersController < ApplicationController
   ########################################################
   def preview
     @newsletter = @account.newsletters.find(params[:id])
-    @newsletter_issue = NewsletterMailer.issue(@newsletter, @account.recipients.first)
-    html = @newsletter_issue.parts[0].body.decoded
-    render :text => html, :layout => false
+    @newsletter_issue = NewsletterMailer.issue(@newsletter, @newsletter.recipients.first)
+    parts = params[:text] ? 1 : 0
+    content = @newsletter_issue.parts[parts].body.decoded
+    render :text => content, :layout => false
   end
   
   def start

@@ -23,8 +23,8 @@
      <%= link_to 'Edit', edit_account_newsletter_path(*newsletter.route) %> &bull;
      <%#= link_to 'Delete', newsletter.route, :method => 'delete', :confirm => "Really delete newsletter?" %>
      <%= link_to( 'Send Test', start_account_newsletter_path(*newsletter.route)) unless newsletter.finished_live? %>
-     <%= " | #{link_to( 'Send Live', start_account_newsletter_path(*newsletter.route), :confirm => "Start  sending newsletter?" )}" if newsletter.finished_test? %>   
-     <%= " | #{link_to( 'Resume',    start_account_newsletter_path(*newsletter.route), :confirm => "Resume sending newsletter?" )}" if newsletter.stopped? %>
+     <%= link_to( 'Send Live', start_account_newsletter_path(*newsletter.route), :confirm => "Start  sending newsletter?" ) if newsletter.finished_test? %>   
+     <%= link_to( 'Resume',    start_account_newsletter_path(*newsletter.route), :confirm => "Resume sending newsletter?" ) if newsletter.stopped? %>
   <% end %>
   </td>
 </tr>

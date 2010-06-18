@@ -42,7 +42,14 @@ class Newsletter < ActiveRecord::Base
   validates :subject, :presence => true
   validates :deliver_at, :presence => true 
   
-  delegate :from, :to => :account
+  with_options(:to => :account) do |account|
+    account.delegate :from
+    account.delegate :host
+    account.delegate :recipients
+    account.delegate :test_recipients
+    account.delegate :template_html
+    account.delegate :template_text
+  end
   
   @queue = :newsletter
   
@@ -71,7 +78,7 @@ class Newsletter < ActiveRecord::Base
   def route
     [self.account, self]
   end
-
+  
   ########################################################################################################################
 
   def progress_percent
@@ -86,7 +93,7 @@ class Newsletter < ActiveRecord::Base
   #How long did it take to send newsletter
   def sending_time
     return 0 unless self.delivery_started_at
-    time = self.delivery_finished_at? && !running? ? self.delivery_finished_at : Time.now
+    time = self.delivery_ended_at? && !running? ? self.delivery_ended_at : Time.now
     (time - self.delivery_started_at).to_i
   end
 
@@ -130,7 +137,7 @@ class Newsletter < ActiveRecord::Base
     #rest data if last run was a finished test
     if self.finished_test?
       self.deliveries_count      = 0
-      self.delivery_finished_at  = nil
+      self.delivery_ended_at  = nil
       self.recipients_count      = 0
       self.errors_count          = 0
     end
@@ -171,8 +178,8 @@ class Newsletter < ActiveRecord::Base
 
     self.reload
     self.status = STATUS[:finished] if running? #status may could be stopped
-    self.delivery_finished_at = Time.now
-    self.update_only( :status, :delivery_finished_at )
+    self.delivery_ended_at = Time.now
+    self.update_only( :status, :delivery_ended_at )
   end
 
   def async_deliver!(args = {})
@@ -189,12 +196,12 @@ class Newsletter < ActiveRecord::Base
 
   protected
   def recipients_all( &block )
-    return account.recipients.greater_than(self.last_sent_id).paginated_each( :per_page => 1000, &block) if live?
-    account.test_recipients(@test_emails).each(&block)
+    return recipients.greater_than(self.last_sent_id).paginated_each( :per_page => 1000, &block) if live?
+    test_recipients(@test_emails).each(&block)
   end
 
   def recipients_size
-    return account.recipients.count
+    return recipients.count
   end
 
   def send_to!(recipient)
