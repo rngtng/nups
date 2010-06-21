@@ -12,3 +12,5 @@ rails generate devise_install
 
 #TODO add default 0 values to newsetter
 #Add model anotations
+
+#spinner: http://www.andrewdavidson.com/articles/spinning-wait-icons/

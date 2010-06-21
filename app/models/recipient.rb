@@ -20,7 +20,7 @@ class Recipient < ActiveRecord::Base
   
   has_many :newsletters, :through => :account
   
-  scope :greater_than, lambda { |user_id|  {:conditions => [ "users.id > ?", self.user_id ], :order => 'users.id' } }
+  scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }
   
   validates :account_id, :presence => true
   validates :email, :presence => true, :uniqueness => {:scope => :account_id}, :email_format => true

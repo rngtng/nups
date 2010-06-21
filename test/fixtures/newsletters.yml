@@ -30,8 +30,10 @@ biff_newsletter:
   account: biff_account
   subject: First Newsletter
   deliver_at: <%= Time.now %>
+  last_sent_id: 0
   
 two: 
   account: biff_account
   subject: First Newsletter
-  deliver_at: <%= Time.now %>  
+  deliver_at: <%= Time.now %>
+  last_sent_id: 0

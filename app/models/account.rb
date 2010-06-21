@@ -24,15 +24,15 @@ class Account < ActiveRecord::Base
   validates_presence_of :user_id
   
   def test_recipients(additional_emails = nil)
-    (test_recipient_emails_array + Array(additional_emails)).compact.map do |email|
-      returning(recipients.first.clone) do |dummy_user| #TODO test if clone or dup!?
-        dummy_user.email = email
-        dummy_user.readonly!
-      end
-    end
+    (test_recipient_emails_array + Array(additional_emails)).uniq.map do |email|
+      dummy_user = recipients.first.clone
+      dummy_user.email = email
+      dummy_user.readonly!
+      dummy_user.valid? ? dummy_user : nil
+    end.compact
   end
   
   def test_recipient_emails_array
-    @test_recipient_emails_array = test_recipient_emails.split /,|;|\n|\t/
+    @test_recipient_emails_array = test_recipient_emails.to_s.split(/,|;|\n|\t/)
   end
 end

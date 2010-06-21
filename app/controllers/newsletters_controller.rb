@@ -12,9 +12,11 @@ class NewslettersController < ApplicationController
     @newsletter = @user.newsletters.with_account(@account).find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html {
+        render @newsletter and return if request.xhr?
+        # else show.html.erb
+      }
       format.xml  { render :xml => @newsletter }
-      format.js  { render @newsletter }
     end
   end
 
@@ -99,7 +101,8 @@ class NewslettersController < ApplicationController
   def start
     @newsletter = @account.newsletters.find(params[:id])
     #render_404 if !@newsletter.created? &&
-    @newsletter.schedule!(params[:mode])
+    mode = (params[:mode] == 'live') ? Newsletter::LIVE_MODE : Newsletter::TEST_MODE
+    @newsletter.schedule!(mode)
     @newsletter.async_deliver!( :test_email => current_user.email)
     redirect_to account_newsletters_path(@account)
   end

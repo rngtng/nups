@@ -18,7 +18,17 @@ require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
   # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  
+  test "test recipients" do
+    @account = accounts(:biff_account)
+    @account.test_recipient_emails = "test@test.de,test2@test.de\n;test3@test.de,"
+    
+    assert_equal 3, @account.test_recipients.size
+    assert_equal "test3@test.de", @account.test_recipients.last.email
+    
+    assert_equal 4, @account.test_recipients("test4@test.de").size
+    assert_equal 5, @account.test_recipients(["test4@test.de", "test5@test.de"]).size
+    
+    assert_equal 3, @account.test_recipients("test3@test.de").size
   end
 end

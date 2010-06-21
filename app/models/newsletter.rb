@@ -136,14 +136,13 @@ class Newsletter < ActiveRecord::Base
     throw :running if self.running?
     #rest data if last run was a finished test
     if self.finished_test?
-      self.deliveries_count      = 0
-      self.delivery_ended_at  = nil
-      self.recipients_count      = 0
-      self.errors_count          = 0
+      self.delivery_ended_at = nil
+      self.recipients_count  = 0
+      self.last_sent_id = 0
     end
     self.status = STATUS[:scheduled]
     self.mode = given_mode
-    self.recipients_count = recipients_size
+    self.recipients_count = recipients_all.count unless self.stopped?
     self.save!
   end
 
@@ -157,21 +156,24 @@ class Newsletter < ActiveRecord::Base
     self.save!
   end
 
-  def deliver!( runs = nil)
+  def deliver!(runs = nil)
     self.reload
     throw :not_scheduled unless self.scheduled?
     throw :running if running?
     #TODO check dirty update here...
     self.status = STATUS[:running]
     self.delivery_started_at = Time.now
-    self.update_only( :status, :delivery_started_at)
+    self.deliveries_count    = 0
+    self.errors_count        = 0
+    self.update_only( :status, :deliveries_count, :errors_count, :delivery_started_at)
     log("#{self.id} started")
     @exceptions = {}
 
-    recipients_all do |recipient|
+    method = live? ? :find_each : :each
+    recipients_all.send(method) do |recipient|
       send_to!(recipient)
       runs -= 1 if runs
-      self.reload   if (self.deliveries_count % 100) == 0 #reload only after 100 sendings
+      self.reload if (self.deliveries_count % 100) == 0 #reload only after 100 sendings
       stop! if runs && runs < 1
       break if stopped?
     end
@@ -195,13 +197,9 @@ class Newsletter < ActiveRecord::Base
   end
 
   protected
-  def recipients_all( &block )
-    return recipients.greater_than(self.last_sent_id).paginated_each( :per_page => 1000, &block) if live?
-    test_recipients(@test_emails).each(&block)
-  end
-
-  def recipients_size
-    return recipients.count
+  def recipients_all
+    return recipients.greater_than(self.last_sent_id) if live?
+    test_recipients(@test_emails)
   end
 
   def send_to!(recipient)
@@ -209,10 +207,10 @@ class Newsletter < ActiveRecord::Base
     log("#{self.id} send to #{recipient.email} (#{recipient.id})")
     self.last_sent_id = recipient.id if live?
     self.deliveries_count += 1
-  rescue  => exp
-    self.errors_count += 1
-    @exceptions ||= {}
-    @exceptions[recipient] = exp
+  #rescue  => exp
+  #  self.errors_count += 1
+  #  @exceptions ||= {}
+  #  @exceptions[recipient] = exp
   ensure
     self.update_only(:deliveries_count, :last_sent_id, :errors_count)
   end
@@ -227,6 +225,8 @@ class Newsletter < ActiveRecord::Base
   end
  
  def log(msg)
-   logger.info("##- #{'TEST' if self.test?} NEWSLETTER #{msg}")
+   msg = "##- #{'TEST' if self.test?} NEWSLETTER #{msg}"
+   #puts msg
+   logger.info(msg)
  end
 end
