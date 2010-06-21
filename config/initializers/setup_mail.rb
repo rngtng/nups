@@ -13,9 +13,8 @@ if Rails.env.production?
   
   ActionMailer::Base.smtp_settings = mail_config['smtp_options']
   
-elsif Rails.env.development?
+elsif Rails.env.development? || Rails.env.production?
   ActionMailer::Base.default_url_options[:host] = "localhost:3000"
-  
+  Mail.register_interceptor(DevelopmentMailInterceptor)
 end
 
-Mail.register_interceptor(DevelopmentMailInterceptor)

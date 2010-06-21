@@ -92,7 +92,10 @@ class NewslettersController < ApplicationController
   ########################################################
   def preview
     @newsletter = @account.newsletters.find(params[:id])
-    @newsletter_issue = NewsletterMailer.issue(@newsletter, @newsletter.recipients.first)
+    
+    recipient = @newsletter.recipients.first || Recipient.new(:email => current_user.email)
+    @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
+    
     parts = params[:text] ? 1 : 0
     content = @newsletter_issue.parts[parts].body.decoded
     render :text => content, :layout => false

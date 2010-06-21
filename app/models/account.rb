@@ -25,8 +25,7 @@ class Account < ActiveRecord::Base
   
   def test_recipients(additional_emails = nil)
     (test_recipient_emails_array + Array(additional_emails)).uniq.map do |email|
-      dummy_user = recipients.first.clone
-      dummy_user.email = email
+      dummy_user = Recipient.new(:email => email)
       dummy_user.readonly!
       dummy_user.valid? ? dummy_user : nil
     end.compact

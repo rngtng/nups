@@ -3,13 +3,15 @@ class NewsletterMailer < ActionMailer::Base
   def issue(newsletter, recipient)
     default_url_options[:host] = newsletter.host
     
-    content_html = content_text = newsletter.content #_html(recipient)
-    #l = render_to_string template_html
-    #newsletter.content_text(recipient)
+    template_html = newsletter.template_html.blank? ? "<%= content %>" : newsletter.template_html
+    template_text = newsletter.template_text.blank? ? "<%= content %>" : newsletter.template_text
     
-    mail :to => recipient.email, :subject => newsletter.subject, :from => newsletter.from do |format|
-        format.html { render :text => content_html }
-        format.text { render :text => content_text }
+    subject = newsletter.subject
+    subject = "TEST: #{subject}" if newsletter.test?
+    
+    mail :to => recipient.email, :subject => subject, :from => newsletter.from do |format|
+        format.html { render :inline => template_html, :locals => { :content => newsletter.content } }
+        format.text { render :inline => template_text, :locals => { :content => newsletter.content }  }
       end
   end
 end
