@@ -1,5 +1,4 @@
 class NewsletterMailer < ActionMailer::Base
-  default :from => "from@example.com"
   
   def issue(newsletter, recipient)
     default_url_options[:host] = newsletter.host

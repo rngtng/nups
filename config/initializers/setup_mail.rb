@@ -1,6 +1,7 @@
 #http://railscasts.com/episodes/206-action-mailer-in-rails-3
 #http://blog.thembid.com/2007/07/31/sending-smtp-e-mails-with-ruby-on-rails/
 #http://apidock.com/rails/ActionMailer/Base
+#http://blog.scopeport.org/ruby-on-rails/rails-smtp-configuration-parameters-database/
 
 if Rails.env.production?
   rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'

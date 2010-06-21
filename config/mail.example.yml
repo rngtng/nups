@@ -2,10 +2,10 @@
 method: smtp
 host: nups.warteschlange.de:8080
 smtp_options:
-  :port: 587
+  :port: 25
   :domain: "c-art-web.de"
   :user_name: "todo@c-art-web.de"
   :password: ""
   :address: "smtp.c-art-web.de"
-  :authentication: :login
-  :enable_starttls_auto: true
+  :authentication: :plain
+  :enable_starttls_auto: false
