@@ -4,12 +4,13 @@ set :use_sudo, false
 
 #it's rails 3 baby, so make sure rvm setup is used!
 p = '/kunden/warteschlange.de/.rvm/'
+ruby = "ruby-1.9.2-head"
 set :default_environment, { 
-  'PATH' => "#{p}rubies/ruby-1.9.1-p378/bin:#{p}gems/ruby-1.9.1-p378/bin:#{p}bin:$PATH",
-  'RUBY_VERSION' => 'ruby 1.9.1p378',
-  'GEM_HOME'     => '/kunden/warteschlange.de/.rvm/gems/ruby-1.9.1-p378',
-  'GEM_PATH'     => '/kunden/warteschlange.de/.rvm/gems/ruby-1.9.1-p378',
-  'BUNDLE_PATH'  => '/kunden/warteschlange.de/.rvm/gems/ruby-1.9.1-p378'  # If you are using bundler.
+  'PATH' => "#{p}rubies/#{ruby}/bin:#{p}gems/#{ruby}/bin:#{p}bin:$PATH",
+  'RUBY_VERSION' => ruby,
+  'GEM_HOME'     => "/kunden/warteschlange.de/.rvm/gems/#{ruby}",
+  'GEM_PATH'     => "/kunden/warteschlange.de/.rvm/gems/#{ruby}",
+  'BUNDLE_PATH'  => "/kunden/warteschlange.de/.rvm/gems/#{ruby}"  # If you are using bundler.
 }
 
 # If you aren't deploying to /u/apps/#{application} on the target
@@ -30,6 +31,7 @@ set :ssh_options, { :forward_agent => true }
 role :app, "nups.warteschlange.de"
 role :web, "nups.warteschlange.de"
 role :db,  "nups.warteschlange.de", :primary => true
+role :job, "nups.warteschlange.de"
 
 namespace :deploy do
   desc "Restarting mod_rails with restart.txt"
@@ -72,20 +74,40 @@ namespace :bundler do
   end
 end
 
+def remote_file_exists?(full_path)
+  'true' ==  capture("if [ -e #{full_path} ]; then echo 'true'; fi").strip
+end
+
 namespace :resque do
-  desc "start all resque workers with monit"
-  task :start, :roles => :job do
-    run "QUEUE=* rake resque:workers"
+  resque_pid = File.join(current_release,"tmp/pids/resque_worker.pid")
+  resque_log = "log/resque_worker.log"
+  
+  desc "start all resque workers"
+  task :start, :roles => :job do    
+    unless remote_file_exists?(resque_pid)
+      run "cd #{current_release}; RAILS_ENV=production QUEUE=* VERBOSE=1 nohup rake resque:work &> #{resque_log}& 2> /dev/null && echo $! > #{resque_pid}"
+    else
+      puts "PID File exits!!"
+    end
   end
 
-  desc "stop all resque workers with monit"
+  desc "stop all resque workers"
   task :stop, :roles => :job do
-    run ""
+    if remote_file_exists?(resque_pid)
+      begin
+        run "kill -s QUIT `cat #{resque_pid}`"
+      rescue
+      end
+      run "rm -f #{resque_pid}"
+    else
+      puts "No PID File found"
+    end
   end
 
-  desc "restart all resque workers with monit"
+  desc "restart resque workers"
   task :restart, :roles => :job do
-    run "QUEUE=* rake resque:workers"
+    resque.stop
+    resque.start
   end
 end
 

@@ -14,3 +14,6 @@ rails generate devise_install
 #Add model anotations
 
 #spinner: http://www.andrewdavidson.com/articles/spinning-wait-icons/
+
+# http://github.com/justinweiss/resque_unit
+#TODO shedule
