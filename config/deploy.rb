@@ -118,3 +118,7 @@ after "deploy:update_code" do
   bundler.bundle_new_release
   deploy.link_configs
 end
+
+after "deploy:restart" do
+  resque.restart
+end
