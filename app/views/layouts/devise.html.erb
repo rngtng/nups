@@ -1,0 +1,57 @@
+<html>
+ <head>
+  <title>MultiAdmin Login</title>
+  <meta name="author" content="C-Art Webdesign ">
+  <meta name="copyright" content="C-Art Webdesign">
+  <meta name="keywords" content="homepage, hosting, provider">
+  <meta name="page-topic" content="Gesellschaft">
+  <meta name="publisher" content="C-Art Webdesign">
+  <link rel="shortcut icon" href="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" href="http://www.c-art-web.de/sign/wp-content/themes/c-art/style.css">
+ </head>
+ <body bgcolor="#FFFFFF" background="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/background2.gif" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+    <center>
+    <table  width="802" height="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+          <td width="3"   height="100%" rowspan="7" bgcolor="#FFFFFF"><img src="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/spacer.gif" width="3" height="40"></td>
+          <td width="8"   height="100%" rowspan="7" background="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/left.gif"><img src="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/spacer.gif" width="8" height="800"></td>
+          <td width="670" height="40"   colspan="2" valign="top"><a href="http://www.c-art-web.de/sign/" border="0"><img src="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/logo.gif" width="670" height="40" border="0"></a></td>
+          <td width="8"   height="100%" rowspan="7" background="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/right.gif"><img src="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/spacer.gif" width="8" height="800"></td>
+          <td width="3"   height="100%" rowspan="7" bgcolor="#FFFFFF"><img src="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/spacer.gif" width="3" height="40"></td>
+          <td width="110" height="100%" rowspan="7"><img src="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/spacer.gif" width="110" height="40"></td>
+      </tr>
+      <tr height="7">
+        <td colspan="2"><img src="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/top.gif"  valign="top" width="670" height="7"></td>
+      </tr>
+      <tr height="334">
+        <td colspan="2"><img src="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/picture-<%= rand(15) + 1 %>.jpg" valign="top" width="670" height="334"></td>
+      </tr>
+      <tr height="37">
+          <td rowspan="3" bgcolor="#FFFFFF" background="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/logo_left.gif" width="110" height="500" style="background-repeat: no-repeat;"></td>
+        <td background="http://www.c-art-web.de/sign/wp-content/themes/c-art/img/menu.gif" width="560" height="37" align="center" valign="middle" id="menu">
+           <ul>
+            <li style="color:#FFDA9A;">[<a href="http://www.c-art-web.de/sign/"  class="orange">START</a>]</li>
+            <li style="color:#AED7F7;">[<a href="http://www.c-art-web.de/sign/loesungen"  class="blue">L&Ouml;SUNGEN</a>]</li>
+            <li style="color:#E0CFB0;">[<a href="http://www.c-art-web.de/sign/referenzen"  class="brown">REFERENZEN</a>]</li>                
+            <li style="color:#f2a0b7;">[<a href="http://www.c-art-web.de/sign/login" class="red">LOGIN</a>]</li>
+            <li style="color:#D0E2AC;">[<a href="http://www.c-art-web.de/sign/kontakt" class="green">KONTAKT</a>]</li>
+           </ul>     
+          </td>
+      </tr>
+      <tr>
+       <td width="560" height="500" bgcolor="#FFFFFF" id="content" valign="top">
+           <div id="loginbox">
+             <%= yield %>
+           </div>
+         </td>
+      </tr>
+        <tr>
+         <td align="center" bgcolor="#FFFFFF" valign="bottom" id="copyright">
+           Copyright &copy; 2010 - C-Art Webdesign - Steffen Hauth & Tobias Bielohlawek GdbR <br>
+           Humboldtstr. 2, 55286 W&ouml;rrstadt<br><br>
+         </td>
+        </tr> 
+    </table>
+    </center>
+ </body>
+</html>

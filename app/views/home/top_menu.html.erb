@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nups</title>
+  <%= stylesheet_link_tag :all %>
+  <%= csrf_meta_tag %>
+  <base target="main">
+</head>
+<body bgcolor="#6699CC" id="top_menu" marginheight="0" marginwidth="0" leftmargin="0" topmargin="0">
+  <div style="float: right;">
+    <% if current_user.admin? %>
+      <%= link_to 'Users',  users_path %> | 
+      <%= link_to 'Accounts',  accounts_path %> |
+    <% end %>
+    
+    <%= link_to image_tag('buttons/logout.gif'),  destroy_user_session_path, :target => '_top' %>
+  </div>
+</body>
+</html>

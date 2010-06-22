@@ -6,6 +6,7 @@ Nups::Application.routes.draw do |map|
   devise_for :users
 
   match 'home/menu' => 'home#menu', :as => :menu
+  match 'home/top_menu' => 'home#top_menu', :as => :top_menu
   match 'home/main' => 'home#main', :as => :main
   
   match 'newsletters' => 'newsletters#index', :as => :newsletters
