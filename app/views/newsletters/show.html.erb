@@ -7,7 +7,7 @@
     </thead>
     <tbody>
       <tr><th>Absender:</th><td><%=  @newsletter.from  %></td></tr>
-      <tr><th>Versanddatum:</th><td><%= @newsletter.deliver_at.try(:to_formatted_s, :short) %></td></tr>
+      <tr><th>Versanddatum:</th><td><%= @newsletter.deliver_at.try(:to_formatted_s, :nl) %></td></tr>
       <tr><th>Subject:</th><td><%= @newsletter.subject %></td></tr>
       <tr><th>Status:</th><td><%= @newsletter.human_status %> <%= @newsletter.human_mode %></td></tr>
       <tr><td colspan="2" align="center">

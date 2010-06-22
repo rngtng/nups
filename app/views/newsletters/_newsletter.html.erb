@@ -1,7 +1,7 @@
 <tr id="status_<%= newsletter.id %>" class="<%= cycle('bgdark', 'bglight') %>">
   <td><%= newsletter.human_status %> <%= newsletter.human_mode %></td>
   <td> <%# style="background-color:<%= newsletter.color % >"  %>
-    <strong><%= newsletter.deliver_at.to_formatted_s(:short) %></strong>: 
+    <strong><%= newsletter.deliver_at.to_formatted_s(:nl) %></strong>: 
     <%= link_to truncate(newsletter.subject, :length => 40), account_newsletter_path(*newsletter.route) %></td>
   </td>
   <td><%= newsletter.recipients_count %></td>
@@ -37,8 +37,8 @@
 <!-- 
 <td><%= newsletter.deliveries_count %></td>
 <td><%= newsletter.errors_count %></td>
-<td><%= newsletter.delivery_started_at.try(:to_formatted_s, :short) %></td>
-<td><%= newsletter.delivery_ended_at.try(:to_formatted_s, :short) %></td>
+<td><%= newsletter.delivery_started_at.try(:to_formatted_s, :nl) %></td>
+<td><%= newsletter.delivery_ended_at.try(:to_formatted_s, :nl) %></td>
 
 <th>Errors</th>
 <th>Deliveries</th>
