@@ -1,20 +1,22 @@
-<div id="newsletter">
-  <h1>Listing newsletters</h1>
-
-  <%= form_tag(newsletters_path, :id => 'account_list') do %>
-    <% opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id)) %>
-    <strong>Account: <%= select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()" %></strong>
-  <% end if @user.accounts.count > 1 %>
-  
-  <%= link_to( "New #{@account.name} Newsletter", new_account_newsletter_path(@account)) if @account %>
-  
-  <table id="index">
+<div id="index">
+   <div  style="float:left">
+     <h2>Newsletter <%= " - #{@account.name}" if @account %></h2>
+   </div>
+   <div style="float:right">
+    <%= form_tag(newsletters_path, :id => 'account_list') do %>
+      <% opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id)) %>
+      <strong>Account: <%= select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()" %></strong>
+    <% end if @user.accounts.count > 1 %>
+   </div>
+   <div  style="float:right">
+     <%= link_to( "New #{@account.name} Newsletter", new_account_newsletter_path(@account)) if @account %>
+   </div>
+  <table>
     <tr>
-      <th>Date</th>
-      <th>Subject</th>
-      <th>Deliver at</th>
-      <th>Recipients</th>
       <th>Status</th>
+      <th>Subject</th>
+      <th>Recipients</th>
+      <th>Progress</th>
       <th>Action</th>
     </tr>
 

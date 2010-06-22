@@ -3,7 +3,7 @@ class NewslettersController < ApplicationController
 
   def index
     @accounts    = current_user.admin? ? Account.all : current_user.accounts
-    @newsletters = @user.newsletters.with_account(@account).all( :order => 'id DESC', :limit => 20 )
+    @newsletters = @user.newsletters.with_account(@account).all( :order => 'deliver_at DESC', :limit => 20 )
   end  
 
   # GET /newsletters/1

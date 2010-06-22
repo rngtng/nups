@@ -43,12 +43,9 @@ class Newsletter < ActiveRecord::Base
   validates :deliver_at, :presence => true 
   
   with_options(:to => :account) do |account|
-    account.delegate :from
-    account.delegate :host
-    account.delegate :recipients
-    account.delegate :test_recipients
-    account.delegate :template_html
-    account.delegate :template_text
+    %w(from host recipients test_recipients template_html template_text color has_html? has_text?).each do |attr|
+      account.delegate attr
+    end
   end
   
   @queue = :newsletter
@@ -62,19 +59,7 @@ class Newsletter < ActiveRecord::Base
   end  
 
   ########################################################################################################################
- 
-  def color
-    "#FFFFFF"
-  end
-  
-  def has_html?
-    true
-  end
-
-  def has_text?
-    true
-  end  
-  
+   
   def route
     [self.account, self]
   end
@@ -120,6 +105,17 @@ class Newsletter < ActiveRecord::Base
     test? && finished?
   end
 
+  def human_status
+    STATUS.each do |key, value|
+      return key if value == self.status
+    end
+  end
+  
+  def human_mode
+    test? ? "TEST" : "LIVE"
+  end
+
+  
   #fetches all status questions: finished?, running? etc
   def method_missing(m, *args)
     sym = m.to_s.delete('?').to_sym

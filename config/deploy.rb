@@ -3,14 +3,14 @@ set :application, "nups"
 set :use_sudo, false
 
 #it's rails 3 baby, so make sure rvm setup is used!
-p = '/kunden/warteschlange.de/.rvm/'
-ruby = "ruby-1.9.2-head"
+rvm_path = '/kunden/warteschlange.de/.rvm'
+ruby_v   = "ruby-1.9.2-head"
 set :default_environment, { 
-  'PATH' => "#{p}rubies/#{ruby}/bin:#{p}gems/#{ruby}/bin:#{p}bin:$PATH",
-  'RUBY_VERSION' => ruby,
-  'GEM_HOME'     => "/kunden/warteschlange.de/.rvm/gems/#{ruby}",
-  'GEM_PATH'     => "/kunden/warteschlange.de/.rvm/gems/#{ruby}",
-  'BUNDLE_PATH'  => "/kunden/warteschlange.de/.rvm/gems/#{ruby}"  # If you are using bundler.
+  'PATH' => "#{rvm_path}/rubies/#{ruby_v}/bin:#{rvm_path}/gems/#{ruby_v}/bin:#{rvm_path}/bin:$PATH",
+  'RUBY_VERSION' => ruby_v,
+  'GEM_HOME'     => "#{rvm_path}/gems/#{ruby_v}",
+  'GEM_PATH'     => "#{rvm_path}/gems/#{ruby_v}",
+  'BUNDLE_PATH'  => "#{rvm_path}/gems/#{ruby_v}"  # If you are using bundler.
 }
 
 # If you aren't deploying to /u/apps/#{application} on the target

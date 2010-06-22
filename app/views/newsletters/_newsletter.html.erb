@@ -1,24 +1,26 @@
-<tr id="status_<%= newsletter.id %>">
-  <td style="background-color:<%= newsletter.color %>"><%= link_to newsletter.deliver_at.to_formatted_s(:short), account_newsletter_path(*newsletter.route) %></td>
-  <td style="text-align:left"><%= truncate(newsletter.subject, :length => 40) %></td>
-  <td><%= newsletter.deliver_at.try(:to_formatted_s, :short) %></td>
-  <td><%= newsletter.recipients.count %></td>
+<tr id="status_<%= newsletter.id %>" class="<%= cycle('bgdark', 'bglight') %>">
+  <td><%= newsletter.human_status %> <%= newsletter.human_mode %></td>
+  <td> <%# style="background-color:<%= newsletter.color % >"  %>
+    <strong><%= newsletter.deliver_at.to_formatted_s(:short) %></strong>: 
+    <%= link_to truncate(newsletter.subject, :length => 40), account_newsletter_path(*newsletter.route) %></td>
+  </td>
+  <td><%= newsletter.recipients_count %></td>
   <td>
     <% if newsletter.created? %>
       <%= link_to 'Send Test', start_account_newsletter_path(*newsletter.route) %>
     <% elsif newsletter.scheduled? %>
       <%= image_tag( 'spinner.gif', :id => "spinner#{newsletter.id}" )  %>
     <% else %>     
-      <div style="width:100px; border: 1px solid #000; overflow: hidden;margin:0;padding:0;float:left">
-       <div style='background-color: <%= ( newsletter.errors_count && newsletter.errors_count > 0 ) ? 'red' : 'green' %>; width: <%= newsletter.progress_percent %>px; color: white;' align='center'>&nbsp;</div>   
+      <div style="width:100px; border: 1px solid #000; overflow: hidden;margin:0;padding:0;">
+       <div style='background-color: <%= ( newsletter.errors_count && newsletter.errors_count > 0 ) ? 'red' : 'green' %>; width: <%= newsletter.progress_percent %>px; color: white;' align='center'>
+         <%= newsletter.progress_percent %>%
+       </div>
       </div>
-      <%= newsletter.progress_percent %>%<br>
       <%= Time.at(newsletter.sending_time).utc.strftime( "%H:%M" ) %> - <%= "%.1f" % newsletter.deliveries_per_second %>/sec.    
     <% end %> 
   </td>
   <td>
   <% if newsletter.running? || newsletter.scheduled? %>
-    <%= image_tag( 'spinner.gif', :id => "spinner#{newsletter.id}" )  %>
     <%= link_to( 'Pause', stop_account_newsletter_path(*newsletter.route), :confirm => "Stop sending newsletter?") if newsletter.live? || newsletter.scheduled?  %>
     <%= delayed_remote_function( :url => account_newsletter_path(*newsletter.route), :method => :get, :delay => 3000, :replace => "#status_#{newsletter.id}" ) %>
   <% else %> <!-- Default Menu -->

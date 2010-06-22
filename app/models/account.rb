@@ -25,13 +25,13 @@ class Account < ActiveRecord::Base
   
   def test_recipients(additional_emails = nil)
     (test_recipient_emails_array + Array(additional_emails)).uniq.map do |email|
-      dummy_user = Recipient.new(:email => email)
+      dummy_user = recipients.new(:email => email)
       dummy_user.readonly!
       dummy_user.valid? ? dummy_user : nil
     end.compact
   end
   
   def test_recipient_emails_array
-    @test_recipient_emails_array = test_recipient_emails.to_s.split(/,|;|\n|\t/)
+    @test_recipient_emails_array = test_recipient_emails.to_s.split(/,|;|\n|\t/).map(&:strip)
   end
 end

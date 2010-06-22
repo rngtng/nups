@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100611101344) do
+ActiveRecord::Schema.define(:version => 20100622104455) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -22,18 +22,21 @@ ActiveRecord::Schema.define(:version => 20100611101344) do
     t.text     "test_recipient_emails"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "color",                 :default => "#FFF"
+    t.boolean  "has_html",              :default => true
+    t.boolean  "has_text",              :default => true
   end
 
   create_table "newsletters", :force => true do |t|
     t.string   "subject"
     t.text     "content"
     t.text     "attachemnts"
-    t.integer  "mode",                :null => false
-    t.integer  "status",              :null => false
+    t.integer  "mode",                :default => 0, :null => false
+    t.integer  "status",              :default => 0, :null => false
     t.integer  "last_sent_id"
-    t.integer  "recipients_count",    :null => false
-    t.integer  "deliveries_count",    :null => false
-    t.integer  "errors_count",        :null => false
+    t.integer  "recipients_count",    :default => 0, :null => false
+    t.integer  "deliveries_count",    :default => 0, :null => false
+    t.integer  "errors_count",        :default => 0, :null => false
     t.datetime "deliver_at"
     t.datetime "delivery_started_at"
     t.datetime "delivery_ended_at"
@@ -49,9 +52,9 @@ ActiveRecord::Schema.define(:version => 20100611101344) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.integer  "deliveries_count", :null => false
-    t.integer  "bounces_count",    :null => false
-    t.text     "bounces",          :null => false
+    t.integer  "deliveries_count", :default => 0, :null => false
+    t.integer  "bounces_count",    :default => 0, :null => false
+    t.text     "bounces"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"

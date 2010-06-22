@@ -25,8 +25,12 @@ admin_account:
   name: First
   user: admin
   subject: example subject1
+  has_html: true
+  has_text: true
 
 biff_account:
   name: Second
   user: biff
   subject: example subject2
+  has_html: true
+  has_text: true  

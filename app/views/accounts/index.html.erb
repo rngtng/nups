@@ -1,29 +1,30 @@
-<h1>Listing accounts</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>From</th>
-    <th>Host</th>
-    <th>User</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @accounts.each do |account| %>
-  <tr>
-    <td><%= account.name %></td>
-    <td><%= account.from %></td>
-    <td><%= account.host %></td>
-    <td><%= account.user.email %></td>
-    <td><%= link_to 'Show', account %></td>
-    <td><%= link_to 'Edit', edit_account_path(account) %></td>
-    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Account', new_account_path %>
+<div id="index">
+  <div  style="float:left">
+    <h2>Accounts</h2>
+  </div>
+  <div  style="float:right">
+    <%= link_to 'New Account', new_account_path %>
+  </div>
+  
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>From</th>
+      <th>Host</th>
+      <th>User</th>
+      <th></th>
+    </tr>
+  
+  <% @accounts.each do |account| %>
+    <tr class="<%= cycle('bgdark', 'bglight') %>">
+      <td><%= account.name %></td>
+      <td><%= account.from %></td>
+      <td><%= account.host %></td>
+      <td><%= account.user.email %></td>
+      <td><%= link_to 'Show', account %> &bull;
+          <%= link_to 'Edit', edit_account_path(account) %> &bull;
+          <%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
