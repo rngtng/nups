@@ -10,8 +10,9 @@ class NewsletterMailer < ActionMailer::Base
     subject = "TEST: #{subject}" if newsletter.test?
     
     mail :to => recipient.email, :subject => subject, :from => newsletter.from do |format|
-        format.html { render :inline => template_html, :locals => { :content => newsletter.content } } if newsletter.has_html?
-        format.text { render :inline => template_text, :locals => { :content => newsletter.content }  } if newsletter.has_text?
+        data = { :content => newsletter.content, :newsletter => newsletter, :recipient => recipient }
+        format.html { render :inline => template_html, :locals => data } if newsletter.has_html?
+        format.text { render :inline => template_text, :locals => data } if newsletter.has_text?
       end
   end
 end

@@ -3,6 +3,7 @@
 #http://apidock.com/rails/ActionMailer/Base
 #http://blog.scopeport.org/ruby-on-rails/rails-smtp-configuration-parameters-database/
 
+
 if Rails.env.production?
   rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
   
@@ -13,7 +14,9 @@ if Rails.env.production?
   
   ActionMailer::Base.smtp_settings = mail_config['smtp_options']
   
-elsif Rails.env.development? || Rails.env.production?
+  Mail.register_interceptor(DevelopmentMailInterceptor) #liv is not in autoload path anymore
+  
+elsif Rails.env.development?
   ActionMailer::Base.default_url_options[:host] = "localhost:3000"
   Mail.register_interceptor(DevelopmentMailInterceptor)
 end

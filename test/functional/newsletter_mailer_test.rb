@@ -24,4 +24,17 @@ class NewsletterMailerTest < ActionMailer::TestCase
     assert_equal "HEADER TEST", nl.parts[1].body.decoded
   end
 
+  test "body should include recipient email" do
+    @newsletter.account.template_html = "<%= recipient.email %>"
+    @newsletter.account.template_text = "<%= newsletter.subject %>"
+    
+    recipient = @newsletter.recipients.first
+    
+    nl = NewsletterMailer.issue(@newsletter, recipient)
+    
+    assert_equal recipient.email, nl.parts[0].body.decoded
+    assert_equal @newsletter.subject, nl.parts[1].body.decoded
+  end
+
+
 end

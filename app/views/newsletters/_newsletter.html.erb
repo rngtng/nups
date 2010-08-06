@@ -1,6 +1,6 @@
 <tr id="status_<%= newsletter.id %>" class="<%= cycle('bgdark', 'bglight') %>">
   <td><%= newsletter.human_status %> <%= newsletter.human_mode %></td>
-  <td> <%# style="background-color:<%= newsletter.color % >"  %>
+  <td align="left"> <%# style="background-color:<%= newsletter.color % >"  %>
     <strong><%= newsletter.deliver_at.to_formatted_s(:nl) %></strong>: 
     <%= link_to truncate(newsletter.subject, :length => 40), account_newsletter_path(*newsletter.route) %></td>
   </td>
