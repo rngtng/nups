@@ -103,7 +103,11 @@ class NewslettersController < ApplicationController
     #render_404 if !@newsletter.created? &&
     mode = (params[:mode] == 'live') ? Newsletter::LIVE_MODE : Newsletter::TEST_MODE
     @newsletter.schedule!(mode)
-    @newsletter.async_deliver!( :test_email => current_user.email)
+    
+    unless @newsletter.async_deliver!(:test_email => current_user.email)
+      @newsletter.unschedule! 
+    end
+    
     redirect_to account_newsletters_path(@account)
   end
   

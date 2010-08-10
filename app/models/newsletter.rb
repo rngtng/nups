@@ -182,6 +182,9 @@ class Newsletter < ActiveRecord::Base
 
   def async_deliver!(args = {})
     Resque.enqueue(Newsletter, self.id, args)
+    true
+  rescue
+    false
   end
   
   def stop!

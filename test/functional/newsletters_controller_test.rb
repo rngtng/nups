@@ -75,4 +75,32 @@ class NewslettersControllerTest < ActionController::TestCase
 
     assert_redirected_to newsletters_path
   end
+  
+  test "should schedule test newsletter" do
+    Newsletter.any_instance.expects(:async_deliver!).returns(true)
+    get :start, :account_id => @account.to_param, :id => @newsletter.to_param
+    assert @newsletter.reload.scheduled?
+    assert @newsletter.reload.test?
+    
+    assert_redirected_to account_newsletters_path(@account)
+  end
+
+  test "should schedule live newsletter" do
+    Newsletter.any_instance.expects(:async_deliver!).returns(true)
+    get :start, :account_id => @account.to_param, :id => @newsletter.to_param, :mode => 'live'
+    assert @newsletter.reload.scheduled?
+    assert @newsletter.reload.live?
+    
+    assert_redirected_to account_newsletters_path(@account)
+  end
+
+  test "should unschedule newsletter on error" do
+    Newsletter.any_instance.expects(:async_deliver!).returns(false)
+
+    get :start, :account_id => @account.to_param, :id => @newsletter.to_param
+    
+    assert !@newsletter.reload.scheduled?
+    
+    assert_redirected_to account_newsletters_path(@account)
+  end  
 end

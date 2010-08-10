@@ -6,14 +6,11 @@ Overview of best plugins:
 -> http://github.com/plataformatec/devise
 rails generate devise_install
 
-
 # to Test SMPT lockly:
 -> http://mocksmtpapp.com/
-
-#TODO add default 0 values to newsetter
-#Add model anotations
 
 #spinner: http://www.andrewdavidson.com/articles/spinning-wait-icons/
 
 # http://github.com/justinweiss/resque_unit
 #TODO shedule
+# resque status: http://github.com/quirkey/resque-status

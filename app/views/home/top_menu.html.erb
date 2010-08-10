@@ -7,6 +7,11 @@
   <base target="main">
 </head>
 <body bgcolor="#6699CC" id="top_menu" marginheight="0" marginwidth="0" leftmargin="0" topmargin="0">
+  <% if current_user.admin? %>
+    <div style="float: left;">
+      <%= link_to image_tag("status/#{resque_status}.gif"),  top_menu_path, :target => '_self' %>
+    </div>
+  <% end %>
   <div style="float: right;">
     <% if current_user.admin? %>
       <%= link_to t('menu.users'),  users_path %> | 
