@@ -1,23 +1,23 @@
 <div id="index">
    <div  style="float:left">
-     <h2>Newsletter <%= " - #{@account.name}" if @account %></h2>
+     <h2><%= t 'newsletters.title' %><%= " - #{@account.name}" if @account %></h2>
    </div>
    <div style="float:right">
     <%= form_tag(newsletters_path, :id => 'account_list') do %>
       <% opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id)) %>
-      <strong>Account: <%= select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()" %></strong>
+      <strong><%= t 'newsletters.account' %>: <%= select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()" %></strong>
     <% end if @user.accounts.count > 1 %>
    </div>
    <div  style="float:right">
-     <%= link_to( "New #{@account.name} Newsletter", new_account_newsletter_path(@account)) if @account %>
+     <%= link_to( t( 'newsletters.new', :account_name => @account.name), new_account_newsletter_path(@account)) if @account %>
    </div>
   <table>
     <tr>
-      <th>Status</th>
-      <th>Subject</th>
-      <th>Recipients</th>
-      <th>Progress</th>
-      <th>Action</th>
+      <th><%= Newsletter.human_attribute_name(:status) %></th>
+      <th><%= Newsletter.human_attribute_name(:subject) %></th>
+      <th><%= Newsletter.human_attribute_name(:recipients_count) %></th>
+      <th><%= Newsletter.human_attribute_name(:progress) %></th>
+      <th><%= t 'newsletters.action' %></th>
     </tr>
 
     <% @newsletters.each do |newsletter| %>

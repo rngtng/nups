@@ -1,8 +1,8 @@
 <%= form_for [@newsletter.account, @newsletter]  do |f| %>
   <table border="0" id="formular" width="700">
     <thead>    
-      <tr><td colspan="2" align="center"><h2>Ausgabe erstellen</h2> - ID: <%= @newsletter.id %><br>
-        Aktuelle Zeit: <%= Time.now.to_formatted_s(:nl) %>
+      <tr><td colspan="2" align="center"><h2><%= t 'newsletters.form.title' %></h2> - ID: <%= @newsletter.id %><br>
+        <em><%= t 'newsletters.form.current_time' %>: <%= l Time.now, :format => :nl %></em>
       </td></tr>
     </thead>
     <tbody>
@@ -18,18 +18,18 @@
         </div>
       <% end %>
 
-      <tr><th>Absender:</th><td><%= @newsletter.from  %></td></tr>
-      <tr><th>Versanddatum:</th>
+      <tr><th><%= Newsletter.human_attribute_name(:from) %>:</th><td><%= @newsletter.from  %></td></tr>
+      <tr><th><%= Newsletter.human_attribute_name(:deliver_at) %>:</th>
           <td><%= f.datetime_select :deliver_at, 
         :order => [:day, :month, :year],
         :start_year => Date.current.year, :end_year => Date.current.year + 3 %>
           </td>
       </tr>
-      <tr><th>Subject:</th><td><%= f.text_field :subject, :size => 60 %></td></tr>
+      <tr><th><%= Newsletter.human_attribute_name(:subject) %>:</th><td><%= f.text_field :subject, :size => 60 %></td></tr>
     
       <tr><td colspan="2" align="center">
-        <%= link_to 'Back', account_newsletters_path(@account) %>
-        <%= f.submit 'Preview', :name => :preview %>
+        <%= link_to  t('ctrl.back'), account_newsletters_path(@account) %>
+        <%= f.submit t('ctrl.preview'), :name => :preview %>
        </td></tr>
     </tbody>
   </table>
@@ -38,7 +38,7 @@
       <%# TODO: auto expand, HTML editor???  %>
       <tr><td align="center"><%= f.text_area :content, :cols => 80, :rows => 40 %></td></tr>
       <tr><td colspan="2" align="center">
-        <%= f.submit 'Preview', :name => :preview %>
+        <%= f.submit t('ctrl.preview'), :name => :preview %>
        </td></tr>        
   </table>  
 <% end %>    

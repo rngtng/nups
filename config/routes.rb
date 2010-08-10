@@ -1,4 +1,4 @@
-Nups::Application.routes.draw do |map|
+Nups::Application.routes.draw do
   
   # first created -> highest priority.
   root :to => "home#index"

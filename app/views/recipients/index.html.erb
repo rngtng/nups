@@ -1,17 +1,17 @@
 <div id="index">
   <div  style="float:left">
-    <h2><%= "Recipients for #{@account.name}" %></h2>
+    <h2><%= t 'recipients.title', :account_name =>  @account.name %></h2>
   </div>
   <div  style="float:right">
-    <%= link_to 'New Recipient', new_account_recipient_path(@account) %>
+    <%= link_to t('recipients.new'), new_account_recipient_path(@account) %>
   </div>
   
   <table>
     <tr>
-      <th>Email</th>
-      <th>Gender</th>
-      <th>First name</th>
-      <th>Last name</th>
+      <th><%= Recipient.human_attribute_name(:email) %></th>
+      <th><%= Recipient.human_attribute_name(:gender) %></th>
+      <th><%= Recipient.human_attribute_name(:first_name) %></th>
+      <th><%= Recipient.human_attribute_name(:last_name) %></th>
       <th></th>
     </tr>
   
@@ -22,9 +22,9 @@
         <td><%= recipient.first_name %></td>
         <td><%= recipient.last_name %></td>
         <td>
-         <%= link_to 'Show', [@account, recipient] %> &bull;
-         <%= link_to 'Edit', edit_account_recipient_path(@account, recipient) %> &bull;
-         <%= link_to 'Destroy', [@account, recipient], :confirm => 'Are you sure?', :method => :delete %></td>
+         <%= link_to t('ctrl.show'), [@account, recipient] %> &bull;
+         <%= link_to t('ctrl.edit'), edit_account_recipient_path(@account, recipient) %> &bull;
+         <%= link_to t('ctrl.delete'), [@account, recipient], :confirm => t('ctrl.confirm'), :method => :delete %></td>
       </tr>
     <% end %>
   </table>

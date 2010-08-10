@@ -2,4 +2,43 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  application:
+    title: MultiAdmin - Nups
+  menu:
+    users: Users
+    user: User
+    accounts: Accounts
+    newsletters: Newsletters
+    new: New
+    recipients: Recipients
+    see_all: See all
+  ctrl:
+    show: show
+    preview: preview
+    edit: edit
+    delete: delete
+    back: back
+    cancel: cancel
+    confirm: Are you sure?
+    
+  recipients:
+    title: Recipients for %{account_name}
+    new: New Recipient
+
+  newsletters:
+    title: Newsletter
+    new: New Newsletter
+    action: Action
+    form:
+      title: Create Newsletter
+      current_time: current time
+    ctrl:
+      pause: stop
+      send_test: send test
+      send_live: send live
+      resume: start
+    confirm:
+      pause: Stop sending newsletter?
+      start: Start sending newsletter?
+      resume: Resume sending newsletter?
+      delete: Really delete newsletter?

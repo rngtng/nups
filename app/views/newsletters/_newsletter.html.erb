@@ -1,35 +1,35 @@
 <tr id="status_<%= newsletter.id %>" class="<%= cycle('bgdark', 'bglight') %>">
-  <td><%= newsletter.human_status %> <%= newsletter.human_mode %></td>
-  <td align="left"> <%# style="background-color:<%= newsletter.color % >"  %>
-    <strong><%= newsletter.deliver_at.to_formatted_s(:nl) %></strong>: 
-    <%= link_to truncate(newsletter.subject, :length => 40), account_newsletter_path(*newsletter.route) %></td>
-  </td>
-  <td><%= newsletter.recipients_count %></td>
   <td>
     <% if newsletter.created? %>
-      <%= link_to 'Send Test', start_account_newsletter_path(*newsletter.route) %>
+      <%= link_to t('newsletters.ctrl.send_test'), start_account_newsletter_path(*newsletter.route) %>
     <% elsif newsletter.scheduled? %>
       <%= image_tag( 'spinner.gif', :id => "spinner#{newsletter.id}" )  %>
     <% else %>     
-      <div style="width:100px; border: 1px solid #000; overflow: hidden;margin:0;padding:0;">
+      <div style="width:100px; border: 1px solid #000; overflow: hidden;margin:0 auto;padding:0;">
        <div style='background-color: <%= ( newsletter.errors_count && newsletter.errors_count > 0 ) ? 'red' : 'green' %>; width: <%= newsletter.progress_percent %>px; color: white;' align='center'>
          <%= newsletter.progress_percent %>%
        </div>
       </div>
-      <%= Time.at(newsletter.sending_time).utc.strftime( "%H:%M" ) %> - <%= "%.1f" % newsletter.deliveries_per_second %>/sec.    
+      <%= l Time.at(newsletter.sending_time), :format => :time %> - <%= "%.1f" % newsletter.deliveries_per_second %>/sec.    
     <% end %> 
+  </td>  
+  <td><%= newsletter.human_status %> <%= newsletter.human_mode %></td>
+  <td align="left"> <%# style="background-color:<%= newsletter.color % >"  %>
+    <strong><%= l newsletter.deliver_at, :format => :nl %></strong>: 
+    <%= link_to truncate(newsletter.subject, :length => 40), account_newsletter_path(*newsletter.route) %></td>
   </td>
+  <td><%= newsletter.recipients_count %></td>
   <td>
   <% if newsletter.running? || newsletter.scheduled? %>
-    <%= link_to( 'Pause', stop_account_newsletter_path(*newsletter.route), :confirm => "Stop sending newsletter?") if newsletter.live? || newsletter.scheduled?  %>
+    <%= link_to( t('newsletters.ctrl.pause'), stop_account_newsletter_path(*newsletter.route), :confirm => t('newsletters.confirm.pause')) if newsletter.live? || newsletter.scheduled?  %>
     <%= delayed_remote_function( :url => account_newsletter_path(*newsletter.route), :method => :get, :delay => 3000, :replace => "#status_#{newsletter.id}" ) %>
   <% else %> <!-- Default Menu -->
-     <%= link_to 'Preview', newsletter.route %> &bull;
-     <%= link_to 'Edit', edit_account_newsletter_path(*newsletter.route) %> &bull;
+     <%= link_to  t('ctrl.preview'), newsletter.route %> &bull;
+     <%= link_to  t('ctrl.edit'), edit_account_newsletter_path(*newsletter.route) %> &bull;
      <%#= link_to 'Delete', newsletter.route, :method => 'delete', :confirm => "Really delete newsletter?" %>
-     <%= link_to( 'Send Test', start_account_newsletter_path(*newsletter.route)) unless newsletter.finished_live? %>
-     <%= link_to( 'Send Live', start_account_newsletter_path(*newsletter.route, :mode => 'live'), :confirm => "Start  sending newsletter?" ) if newsletter.finished_test? %>   
-     <%= link_to( 'Resume',    start_account_newsletter_path(*newsletter.route), :confirm => "Resume sending newsletter?" ) if newsletter.stopped? %>
+     <%= link_to( t('newsletters.ctrl.send_test'), start_account_newsletter_path(*newsletter.route)) unless newsletter.finished_live? %>
+     <%= link_to( t('newsletters.ctrl.send_live'), start_account_newsletter_path(*newsletter.route, :mode => 'live'), :confirm => t('newsletters.confirm.start') ) if newsletter.finished_test? %>
+     <%= link_to( t('newsletters.ctrl.resume'), start_account_newsletter_path(*newsletter.route), :confirm => t('newsletters.confirm.resume') ) if newsletter.stopped? %>
   <% end %>
   </td>
 </tr>

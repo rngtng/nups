@@ -1,0 +1,44 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+de:
+  application:
+    title: MultiAdmin - Nups
+  menu:
+    users: Users
+    user: User
+    accounts: Accounts
+    newsletters: Newsletter
+    new: Neu
+    recipients: Empfänger
+    see_all: zeige alle
+  ctrl:
+    show: details
+    preview: vorschau
+    edit: ändern
+    delete: löschen
+    back: zurück
+    cancel: abbrechen
+    confirm: Sicher?
+    
+  recipients:
+    title: Empfänger für %{account_name}
+    new: Neuer Empfänger
+
+  newsletters:
+    title: Newsletter
+    new: Neue Ausgabe
+    action: Aktion
+    form:
+      title: Ausgabe erstellen
+      current_time: aktuelle Zeit
+    ctrl:
+      pause: stop
+      send_test: Test senden
+      send_live: Live senden
+      resume: start
+    confirm:
+      pause: Versand stoppen?
+      start: Versand starten?
+      resume: Versand forführen?
+      delete: Ausgabe löschen?
