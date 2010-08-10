@@ -12,7 +12,7 @@
       <tr><th><%= Newsletter.human_attribute_name(:status) %>:</th><td><%= @newsletter.human_status %> <%= @newsletter.human_mode %></td></tr>
       <tr><td colspan="2" align="center">
           <%= link_to t('ctrl.edit'), edit_account_newsletter_path(*@newsletter.route) %> &bull;
-          <%= link_to t('ctrl.delete'), @newsletter.route, :method => 'delete', :confirm => t('newsletters.delete') %> &bull;
+          <%= link_to t('ctrl.delete'), @newsletter.route, :method => 'delete', :confirm => t('ctrl.confirm') %> &bull;
           <%= link_to( t('newsletters.ctrl.send_test'), start_account_newsletter_path(*@newsletter.route)) unless @newsletter.finished_live? %>
        </td></tr>
     </tbody>

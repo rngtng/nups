@@ -28,6 +28,7 @@ de:
   newsletters:
     title: Newsletter
     new: Neue Ausgabe
+    account: Newsletter
     action: Aktion
     form:
       title: Ausgabe erstellen

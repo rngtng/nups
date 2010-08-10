@@ -28,6 +28,7 @@ en:
   newsletters:
     title: Newsletter
     new: New Newsletter
+    account: Account
     action: Action
     form:
       title: Create Newsletter
