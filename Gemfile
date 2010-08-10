@@ -14,7 +14,7 @@ gem 'mysql'
 gem 'capistrano'
 
 #Authorization
-gem 'devise', '1.1.rc1'
+gem 'devise', '1.1.1'
 
 # Use resque for async jobs
 gem 'resque'

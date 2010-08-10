@@ -1,5 +1,7 @@
 class NewslettersController < ApplicationController
   before_filter :load_user, :load_account
+  
+  respond_to :html, :xml
 
   def index
     @accounts    = current_user.admin? ? Account.all : current_user.accounts
@@ -11,12 +13,10 @@ class NewslettersController < ApplicationController
   def show
     @newsletter = @user.newsletters.with_account(@account).find(params[:id])
 
-    respond_to do |format|
+    respond_with @newsletter do |format|
       format.html {
         render @newsletter and return if request.xhr?
-        # else show.html.erb
       }
-      format.xml  { render :xml => @newsletter }
     end
   end
 
@@ -27,10 +27,7 @@ class NewslettersController < ApplicationController
     @newsletter = @account.newsletters.new
     @newsletter.subject ||= @account.subject
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @newsletter }
-    end
+    respond_with @newsletter
   end
 
   # GET /newsletters/1/edit
