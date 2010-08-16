@@ -35,7 +35,7 @@ class RecipientsControllerTest < ActionController::TestCase
   end
 
   test "should create recipient" do
-    assert_difference('Recipient.count') do
+    assert_difference('@account.recipients.count') do
       post :create, :account_id => @account.to_param, :recipient => @recipient.attributes.merge(:email => 'new@email.com')
     end
 
@@ -58,10 +58,48 @@ class RecipientsControllerTest < ActionController::TestCase
   end
 
   test "should destroy recipient" do
-    assert_difference('Recipient.count', -1) do
+    assert_difference('@account.recipients.count', -1) do
       delete :destroy, :account_id => @account.to_param, :id => @recipient.to_param
     end
 
     assert_redirected_to account_recipients_path(@account)
   end
+  
+  test "should show import" do
+    get :import, :account_id => @account.to_param
+    assert_response :success
+  end
+
+  test "should show valid/invalid adresses" do
+    assert_no_difference('@account.recipients.count') do
+      post :import, :account_id => @account.to_param, :emails => "valid@email1.de\ninvalid"
+    end
+    assert_equal 1, assigns(:valid_recipients).count
+    assert assigns(:valid_recipients).first.new_record?
+    assert assigns(:valid_recipients).first.valid?
+    
+    assert_equal 1, assigns(:invalid_recipients).count
+    assert assigns(:invalid_recipients).first.new_record?
+    assert !assigns(:invalid_recipients).first.valid?
+    
+    assert_response :success
+  end
+
+  test "should import valid adresses" do
+    assert_difference('@account.recipients.count') do
+      post :import, :account_id => @account.to_param, :emails => "valid@email1.de\ninvalid", :import => true
+    end
+
+    assert_equal 1, assigns(:valid_recipients).count
+    assert !assigns(:valid_recipients).first.new_record?
+    assert assigns(:valid_recipients).first.valid?
+    
+    assert_equal 1, assigns(:invalid_recipients).count
+    assert assigns(:invalid_recipients).first.new_record?    
+    assert !assigns(:invalid_recipients).first.valid?
+    
+    assert_response :success
+  end
+
+  
 end

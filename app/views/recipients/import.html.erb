@@ -1,0 +1,48 @@
+<h1><%= t('.title') %></h1>
+
+<%= form_tag import_account_recipients_path(@account), :method => :post do %>
+
+  <% unless @valid_recipients.empty? && @invalid_recipients.empty? %>
+    <table  width="700">
+      <tr>
+        <td width="50%" valign="top" style="color:green">
+          <strong><%= t('.valid_recipients', :size => @valid_recipients.size) %>:</strong>
+          <ul>
+            <% @valid_recipients.each do |recipient| %>
+              <li><%= recipient.email %></li>
+            <% end %>
+          </ul>
+        </td>
+        <td width="50%" valign="top" style="color:red"> 
+          <strong><%= t('.invalid_recipients', :size => @invalid_recipients.size) %>:</strong>
+          <ul>
+            <% @invalid_recipients.each do |recipient| %>
+              <li><%= recipient.email %> (<%= recipient.errors.full_messages.join(', ') %>)</li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+  
+  <% if params[:import].blank? %>
+  
+    <% unless @valid_recipients.empty? %>
+      <div class="actions">
+        <%= submit_tag t('.ctrl.valid_import'), :name => :import %>
+      </div>
+    <% end %>  
+    
+    <div>
+      <div class="field">
+        <%= text_area_tag :emails, params[:emails], {:cols => 80, :rows => 40} %>
+      </div>
+      
+      <div class="actions">
+        <%= link_to t('ctrl.back'), account_recipients_path(@account) %>
+        <%= submit_tag %>
+      </div>
+    </div>
+  <% end %>
+  
+<% end %>

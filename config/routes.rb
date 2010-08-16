@@ -22,7 +22,16 @@ Nups::Application.routes.draw do
         get :preview
       end
     end
-    resources :recipients
+    
+    resources :recipients do
+      collection do
+        get :import
+        post :import
+        get :export
+        get :multiple_delete
+      end
+    end
+    
   end
 
 end

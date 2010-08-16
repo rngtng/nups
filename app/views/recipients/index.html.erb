@@ -3,7 +3,11 @@
     <h2><%= t 'recipients.title', :account_name =>  @account.name %></h2>
   </div>
   <div  style="float:right">
-    <%= link_to t('recipients.new'), new_account_recipient_path(@account) %>
+    <%= t('recipients.menu.title') %>:
+    <%#= link_to t('ctrl.new'), new_account_recipient_path(@account) %>
+    <%#= link_to t('recipients.menu.export'), export_account_recipients_path(@account) %>     
+    <%= link_to t('recipients.menu.import'), import_account_recipients_path(@account) %> |
+    <%= link_to t('recipients.menu.multiple_delete'), multiple_delete_account_recipients_path(@account) %>
   </div>
   
   <table>
@@ -22,7 +26,7 @@
         <td><%= recipient.first_name %></td>
         <td><%= recipient.last_name %></td>
         <td>
-         <%= link_to t('ctrl.show'), [@account, recipient] %> &bull;
+         <%#= link_to t('ctrl.show'), [@account, recipient] %>
          <%= link_to t('ctrl.edit'), edit_account_recipient_path(@account, recipient) %> &bull;
          <%= link_to t('ctrl.delete'), [@account, recipient], :confirm => t('ctrl.confirm'), :method => :delete %></td>
       </tr>

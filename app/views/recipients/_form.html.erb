@@ -28,6 +28,7 @@
     <%= f.text_field :email %>
   </div>
   <div class="actions">
+    <%= link_to t('ctrl.back'), account_recipients_path(@account) %>
     <%= f.submit %>
   </div>
 <% end %>

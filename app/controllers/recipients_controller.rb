@@ -34,6 +34,24 @@ class RecipientsController < ApplicationController
     end
   end
 
+  def import
+    @valid_recipients  = []
+    @invalid_recipients  = []
+        
+    return if params[:emails].blank?
+    params[:emails].split("\n").each do |email|
+     
+      recipient = @account.recipients.new(:email => email.strip)
+      recipient.save unless params[:import].blank?
+      if recipient.valid?
+        @valid_recipients << recipient
+      else
+        @invalid_recipients << recipient
+      end
+    end
+
+  end
+
   # GET /recipients/1/edit
   def edit
     @recipient = @account.recipients.find(params[:id])

@@ -14,6 +14,7 @@ de:
     see_all: zeige alle
   ctrl:
     show: details
+    new: neu
     preview: vorschau
     edit: ändern
     delete: löschen
@@ -23,7 +24,24 @@ de:
     
   recipients:
     title: Empfänger für %{account_name}
-    new: Neuer Empfänger
+    menu: 
+      title: Empfänger
+      import: import
+      export: export
+      multiple_delete: löschen
+    new:
+      title: Empfänger erstellen
+    edit:
+      title: Empfänger editieren
+    import:
+        title: Empfänger importieren
+        valid_recipients: Folgende valide Empfänger werden hinzugefügt
+        invalid_recipients: Folgende Empfänger sind invalid
+        ctrl:
+          valid_import: Valide Empfänger importieren
+    export:
+        title: Empfänger exportieren
+        
 
   newsletters:
     title: Newsletter
