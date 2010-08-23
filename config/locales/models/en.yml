@@ -50,7 +50,7 @@ en:
         from: From
         # account_id:
         # last_sent_id:
-        attachemnts: Attachments
+        attachments: Attachments
         content: Content
         # deliveries_count:
         # errors_count:

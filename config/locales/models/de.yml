@@ -50,7 +50,7 @@ de:
         from: Absender
         # account_id:
         # last_sent_id:
-        attachemnts: Anhänge
+        attachments: Anhänge
         content: Inhalt
         # deliveries_count:
         # errors_count:

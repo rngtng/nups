@@ -5,7 +5,7 @@
 #  id                  :integer(4)      not null, primary key
 #  account_id          :integer(4)
 #  last_sent_id        :integer(4)
-#  attachemnts         :text
+#  attachments         :text
 #  content             :text
 #  deliveries_count    :integer(4)      not null
 #  errors_count        :integer(4)      not null
@@ -41,6 +41,8 @@ class Newsletter < ActiveRecord::Base
   validates :account_id, :presence => true
   validates :subject, :presence => true
   validates :deliver_at, :presence => true 
+  
+  #TODO serialize :attachments
   
   with_options(:to => :account) do |account|
     %w(from host recipients test_recipients template_html template_text color has_html? has_text?).each do |attr|
