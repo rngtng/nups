@@ -72,7 +72,7 @@ class RecipientsControllerTest < ActionController::TestCase
 
   test "should show valid/invalid adresses" do
     assert_no_difference('@account.recipients.count') do
-      post :import, :account_id => @account.to_param, :emails => "valid@email1.de\ninvalid"
+      post :import, :account_id => @account.to_param, :emails => "valid@email1.de,invalid"
     end
     assert_equal 1, assigns(:valid_recipients).count
     assert assigns(:valid_recipients).first.new_record?
@@ -101,5 +101,47 @@ class RecipientsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show multiple delete" do
+    get :multiple_delete, :account_id => @account.to_param
+    assert_response :success
+  end
+
+  test "should show existing and valid adresses" do
+    existing_email = @account.recipients.first.email
+    assert_no_difference('@account.recipients.count') do
+      post :multiple_delete, :account_id => @account.to_param, :emails => "#{existing_email}\n\tvalid@email1.de,invalid"
+    end
+    
+    assert_equal 1, assigns(:valid_recipients).count
+    assert_equal existing_email, assigns(:valid_recipients).first.email
+    
+    assert_equal 2, assigns(:invalid_recipients).count
+    assert assigns(:invalid_recipients).first.new_record?
+    assert assigns(:invalid_recipients).first.valid?
+
+    assert assigns(:invalid_recipients).last.new_record?
+    assert !assigns(:invalid_recipients).last.valid?
+    
+    assert_response :success
+  end
+
+  test "should delete existing valid adresses" do
+    existing_email = @account.recipients.first.email
+    assert_difference('@account.recipients.count', -1) do
+      post :multiple_delete, :account_id => @account.to_param, :emails => "#{existing_email}\nvalid@email1.de;invalid", :delete => true
+    end
+
+    assert_equal 1, assigns(:valid_recipients).count
+    assert_equal existing_email, assigns(:valid_recipients).first.email
+    
+    assert_equal 2, assigns(:invalid_recipients).count
+    assert assigns(:invalid_recipients).first.new_record?
+    assert assigns(:invalid_recipients).first.valid?
+
+    assert assigns(:invalid_recipients).last.new_record?
+    assert !assigns(:invalid_recipients).last.valid?
+    
+    assert_response :success
+  end
   
 end

@@ -39,7 +39,7 @@ class RecipientsController < ApplicationController
     @invalid_recipients  = []
         
     return if params[:emails].blank?
-    params[:emails].split("\n").each do |email|
+    params[:emails].split(/[\n,;]/).each do |email| #split by \n or , or ;
      
       recipient = @account.recipients.new(:email => email.strip)
       recipient.save unless params[:import].blank?
@@ -51,6 +51,26 @@ class RecipientsController < ApplicationController
     end
 
   end
+
+  def multiple_delete
+    @valid_recipients  = []
+    @invalid_recipients  = []
+        
+    return if params[:emails].blank?
+    params[:emails].split(/[\n,;]/).each do |email| #split by \n or , or ;
+     
+      recipient = @account.recipients.where(:email => email.strip).first || @account.recipients.new(:email => email.strip)
+      recipient.delete unless params[:delete].blank? #TODO what happens with log etc !?
+      
+      unless recipient.new_record?
+        @valid_recipients << recipient
+      else
+        @invalid_recipients << recipient
+      end
+    end
+
+  end
+
 
   # GET /recipients/1/edit
   def edit

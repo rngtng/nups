@@ -23,7 +23,34 @@ en:
     
   recipients:
     title: Recipients for %{account_name}
-    new: New Recipient
+    menu: 
+      title: Recipient
+      import: import
+      export: export
+      multiple_delete: delete
+    new:
+      title: Add Recipient
+    edit:
+      title: Edit Recipient
+    import:
+        title: Import Recipient
+        explanation: "One Email-Adress(es) each line or seperate by , or ;"
+        valid_recipients: Following valid recipients will be added
+        invalid_recipients: Following recipients are invalid
+        ctrl:
+          valid_import: Import valid Recipients
+          check: Check given Emails-Address(es)
+    export:
+        title: Export Recipients
+    multiple_delete:
+        title: Delete Multiple Recipients
+        explanation: "One Email-Adress(es) each line or seperate by , or ;"
+        valid_recipients: Following valid recipients will be added
+        invalid_recipients: Following recipients are invalid
+        ctrl:
+          valid_delete: Delete valid Recipients
+          confirm_delete: Are you sure?
+          check: Check given Emails-Address(es)
 
   newsletters:
     title: Newsletter

@@ -1,6 +1,6 @@
 <h1><%= t('.title') %></h1>
 
-<%= form_tag import_account_recipients_path(@account), :method => :post do %>
+<%= form_tag multiple_delete_account_recipients_path(@account), :method => :post do %>
 
   <% unless @valid_recipients.empty? && @invalid_recipients.empty? %>
     <table  width="700">
@@ -25,13 +25,13 @@
     </table>
   <% end %>
   
-  <% if params[:import].blank? %>
+  <% if params[:delte].blank? %>
   
     <% unless @valid_recipients.empty? %>
       <div class="actions">
-        <%= submit_tag t('.ctrl.valid_import'), :name => :import %>
+        <%= submit_tag t('.ctrl.valid_delete'), :name => :delete, :confirm => t('.ctrl.confirm_delete') %>
       </div>
-    <% end %>
+    <% end %>  
     
     <div>
       <%= t('.explanation') %><br>

@@ -27,8 +27,11 @@ Nups::Application.routes.draw do
       collection do
         get :import
         post :import
+        
         get :export
+        
         get :multiple_delete
+        post :multiple_delete
       end
     end
     
