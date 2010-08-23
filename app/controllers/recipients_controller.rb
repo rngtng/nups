@@ -39,9 +39,9 @@ class RecipientsController < ApplicationController
     @invalid_recipients  = []
         
     return if params[:emails].blank?
-    params[:emails].split(/[\n,;]/).each do |email| #split by \n or , or ;
-     
-      recipient = @account.recipients.new(:email => email.strip)
+    
+    split_emails(params[:emails]).each do |email| 
+      recipient = @account.recipients.new(:email => email)
       recipient.save unless params[:import].blank?
       if recipient.valid?
         @valid_recipients << recipient
@@ -57,9 +57,9 @@ class RecipientsController < ApplicationController
     @invalid_recipients  = []
         
     return if params[:emails].blank?
-    params[:emails].split(/[\n,;]/).each do |email| #split by \n or , or ;
-     
-      recipient = @account.recipients.where(:email => email.strip).first || @account.recipients.new(:email => email.strip)
+    
+    split_emails(params[:emails]).each do |email|
+      recipient = @account.recipients.where(:email => email).first || @account.recipients.new(:email => email)
       recipient.delete unless params[:delete].blank? #TODO what happens with log etc !?
       
       unless recipient.new_record?
@@ -127,4 +127,8 @@ class RecipientsController < ApplicationController
     @account = klass.find_by_id(params[:account_id])
     render_404 unless @account
   end  
+  
+  def split_emails( emails )  #split by \n or , or ;
+    emails.delete("\"' ").split(/[\n,;]/).delete_if(&:blank?).map(&:strip)
+  end
 end

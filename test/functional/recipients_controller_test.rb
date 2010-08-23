@@ -144,4 +144,9 @@ class RecipientsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  test "should split email string" do
+   string = "1\n2\n,,3,'4';\"5\""
+   assert_equal Array(1..5), @controller.send(:split_emails, string).map(&:to_i) #string <-> integer
+  end
+  
 end
