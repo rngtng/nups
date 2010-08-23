@@ -80,7 +80,7 @@ TR.bglight      {
         background-color:#EEEEEE;
 }
 
-#index h2 {
+.index h2 {
         font-size:15pt; 
         color:#000000; 
         text-decoration:none;
@@ -88,20 +88,19 @@ TR.bglight      {
         display:inline;
 }
 
-#index table {
+.index table {
     border: solid 2px #CCCCCC;
     width: 100%;
   }
 
-#index th {
+.index th {
     background-color:#669966;
 }
 
 
-#index  td {
+#newsletter.index  td {
     text-align: center;
 }
-
 
 
 #newsletter h2 {

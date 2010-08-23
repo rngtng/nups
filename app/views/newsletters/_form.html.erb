@@ -26,6 +26,17 @@
           </td>
       </tr>
       <tr><th><%= Newsletter.human_attribute_name(:subject) %>:</th><td><%= f.text_field :subject, :size => 60 %></td></tr>
+      <tr>
+        <th><%= Newsletter.human_attribute_name(:attachments) %>:</th>
+        <td>
+         <ul>  
+           <% Array(@newsletter.attachments).each do |attachment| %>
+            <li>attachment</li>
+           <% end %>
+         </ul>
+        <%= t('newsletters.form.add_attachment') %>:<br>
+        <%= f.file_field :attachment %></td>
+      </tr>
     
       <tr><td colspan="2" align="center">
         <%= link_to  t('ctrl.back'), account_newsletters_path(@account) %>
@@ -41,4 +52,6 @@
         <%= f.submit t('ctrl.preview'), :name => :preview %>
        </td></tr>        
   </table>  
-<% end %>    
+<% end %> 
+<br>
+<br>   
