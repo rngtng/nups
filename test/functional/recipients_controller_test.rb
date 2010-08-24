@@ -20,6 +20,13 @@ class RecipientsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:recipients)
   end
+
+  test "should get index with excel" do
+    account = accounts(:admin_account)
+    get :index, :account_id => account.to_param, :format => :xls
+    assert_response :success
+    assert_not_nil assigns(:recipients)
+  end
   
   test "should get index if wrong account but admin" do
     sign_out @user

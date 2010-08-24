@@ -19,6 +19,15 @@ gem 'devise', '1.1.1'
 # Use resque for async jobs
 gem 'resque'
 
+#For handling File uploads
+gem 'carrierwave-rails3'
+
+#For proper pagination
+gem 'will_paginate', '~> 3.0.pre2'
+
+# For excel export
+gem "ekuseru"
+
 # Bundle the extra gems:
 # gem 'bj'
 # gem 'nokogiri', '1.4.1'
@@ -26,11 +35,7 @@ gem 'resque'
 # gem 'aws-s3', :require => 'aws/s3'
 
 # Bundle gems for certain environments:
-# gem 'rspec', :group => :test
-# group :test do
-#   gem 'webrat'
-# end
 
-
-#For testing
-gem 'mocha'
+group :test do
+  gem 'mocha'
+end

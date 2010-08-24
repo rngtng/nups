@@ -27,7 +27,7 @@ de:
     menu: 
       title: Empfänger
       import: import
-      export: export
+      export_xls: export Exceldatei
       multiple_delete: löschen
     new:
       title: Empfänger erstellen
@@ -41,8 +41,6 @@ de:
         ctrl:
           valid_import: Valide Empfänger importieren
           check: Emailadresse(n) überprüfen
-    export:
-        title: Empfänger exportieren
     multiple_delete:
         title: Mehrere Empfänger löschen
         explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
@@ -61,6 +59,7 @@ de:
     form:
       title: Ausgabe erstellen
       current_time: aktuelle Zeit
+      add_attachment: Anhang hinzufügen
     ctrl:
       pause: stop
       send_test: Test senden

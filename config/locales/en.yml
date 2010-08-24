@@ -26,7 +26,7 @@ en:
     menu: 
       title: Recipient
       import: import
-      export: export
+      export_xls: export as Excel
       multiple_delete: delete
     new:
       title: Add Recipient
@@ -40,8 +40,6 @@ en:
         ctrl:
           valid_import: Import valid Recipients
           check: Check given Emails-Address(es)
-    export:
-        title: Export Recipients
     multiple_delete:
         title: Delete Multiple Recipients
         explanation: "One Email-Adress(es) each line or seperate by , or ;"
@@ -60,6 +58,7 @@ en:
     form:
       title: Create Newsletter
       current_time: current time
+      add_attachment: add attachment
     ctrl:
       pause: stop
       send_test: send test

@@ -1,30 +1,18 @@
 class RecipientsController < ApplicationController
   before_filter :load_account
   
-  # GET /recipients
-  # GET /recipients.xml
+  respond_to :html, :xls
+  
   def index
-    @recipients = @account.recipients
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @recipients }
-    end
+    @recipients = @account.recipients.paginate :page => params[:page], :per_page => 100
+    
+    respond_with @recipients
   end
 
-  # GET /recipients/1
-  # GET /recipients/1.xml
   def show
     @recipient = @account.recipients.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @recipient }
-    end
   end
 
-  # GET /recipients/new
-  # GET /recipients/new.xml
   def new
     @recipient = @account.recipients.new
 
@@ -70,7 +58,6 @@ class RecipientsController < ApplicationController
     end
 
   end
-
 
   # GET /recipients/1/edit
   def edit

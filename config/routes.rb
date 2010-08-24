@@ -28,8 +28,6 @@ Nups::Application.routes.draw do
         get :import
         post :import
         
-        get :export
-        
         get :multiple_delete
         post :multiple_delete
       end
