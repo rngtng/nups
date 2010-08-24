@@ -12,6 +12,8 @@ Nups::Application.routes.draw do
   match 'newsletters' => 'newsletters#index', :as => :newsletters
 
   resources :users
+
+  resources :attachments #TODO just create route!
     
   # resource route with sub-resources:
   resources :accounts do

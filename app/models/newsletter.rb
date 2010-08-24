@@ -34,6 +34,7 @@ class Newsletter < ActiveRecord::Base
 
   belongs_to :account
   has_many :recipients, :through => :account
+  has_many :attachments
 
   scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
@@ -41,8 +42,6 @@ class Newsletter < ActiveRecord::Base
   validates :account_id, :presence => true
   validates :subject, :presence => true
   validates :deliver_at, :presence => true 
-  
-  #TODO serialize :attachments
   
   with_options(:to => :account) do |account|
     %w(from host recipients test_recipients template_html template_text color has_html? has_text?).each do |attr|
