@@ -20,10 +20,11 @@ de:
     delete: löschen
     back: zurück
     cancel: abbrechen
+    search: suchen
     confirm: Sicher?
     
   recipients:
-    title: Empfänger für %{account_name}
+    title: %{account_name} - Empfänger
     menu: 
       title: Empfänger
       import: import
@@ -52,7 +53,7 @@ de:
           check: Emailadresse(n) überprüfen
 
   newsletters:
-    title: Newsletter
+    title: Ausgaben
     new: Neue Ausgabe
     account: Newsletter
     action: Aktion

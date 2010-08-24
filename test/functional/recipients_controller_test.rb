@@ -21,12 +21,20 @@ class RecipientsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:recipients)
   end
 
-  test "should get index with excel" do
-    account = accounts(:admin_account)
-    get :index, :account_id => account.to_param, :format => :xls
+  test "should get index and find by given search token" do
+    assert @account.recipients.size > 1
+    
+    get :index, :account_id => @account.to_param, :search => @account.recipients.first.email
     assert_response :success
-    assert_not_nil assigns(:recipients)
+    assert_equal 1, assigns(:recipients).size
   end
+  
+  #test "should get index with excel" do
+  #  account = accounts(:admin_account)
+  #  get :index, :account_id => account.to_param, :format => :xls
+  #  assert_response :success
+  #  assert_not_nil assigns(:recipients)
+  #end
   
   test "should get index if wrong account but admin" do
     sign_out @user

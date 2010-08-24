@@ -19,10 +19,11 @@ en:
     delete: delete
     back: back
     cancel: cancel
+    search: search
     confirm: Are you sure?
     
   recipients:
-    title: Recipients for %{account_name}
+    title: %{account_name} - Recipients
     menu: 
       title: Recipient
       import: import

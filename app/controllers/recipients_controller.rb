@@ -4,7 +4,7 @@ class RecipientsController < ApplicationController
   respond_to :html, :xls
   
   def index
-    @recipients = @account.recipients.paginate :page => params[:page], :per_page => 100
+    @recipients = @account.recipients.search(params[:search]).paginate :page => params[:page], :per_page => 100
     
     respond_with @recipients
   end

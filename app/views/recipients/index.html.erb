@@ -1,16 +1,25 @@
 <div id="recipients" class="index">
-  <div  style="float:left">
-    <h2><%= t 'recipients.title', :account_name =>  @account.name %></h2>
-  </div>
-  <div  style="float:right">
-    <%= t('recipients.menu.title') %>:
-    <%#= link_to t('ctrl.new'), new_account_recipient_path(@account) %>
-    <%#= link_to t('recipients.menu.export'), export_account_recipients_path(@account) %>     
-    <%= link_to t('recipients.menu.import'), import_account_recipients_path(@account) %> |
-    <%= link_to t('recipients.menu.multiple_delete'), multiple_delete_account_recipients_path(@account) %>
-  </div>
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td>
+      <h2><%= t 'recipients.title', :account_name =>  @account.name %></h2> 
+      (<%= @recipients.offset+1 %>-<%= @recipients.offset+@recipients.per_page %>/<%= @recipients.total_entries %>)
+    </td>
+    <td align="center">
+      <%= form_tag account_recipients_path(@account), :method => :get do %>
+        <%= text_field_tag :search, params[:search], :size => 40 %>
+        <%= submit_tag t('ctrl.search') %>
+      <% end %>
+    </td>
+    <td align="right">
+      <%#= link_to t('ctrl.new'), new_account_recipient_path(@account) %>
+      <%= link_to t('recipients.menu.import'), import_account_recipients_path(@account) %> |
+      <%= link_to t('recipients.menu.export_xls'), account_recipients_path(@account, :format => :xls) %> |
+      <%= link_to t('recipients.menu.multiple_delete'), multiple_delete_account_recipients_path(@account) %>
+    </td></tr>
+  </table>
+  <br>
   
-  <table>
+  <table class="content">
     <tr>
       <th><%= Recipient.human_attribute_name(:email) %></th>
       <th><%= Recipient.human_attribute_name(:gender) %></th>
@@ -18,6 +27,10 @@
       <th><%= Recipient.human_attribute_name(:last_name) %></th>
       <th></th>
     </tr>
+
+    <tr><td align="center" colspan="5">
+      <%= will_paginate @recipients %>
+    </td></tr>
   
     <% @recipients.each do |recipient| %>
       <tr class="<%= cycle('bgdark', 'bglight') %>">
@@ -25,11 +38,16 @@
         <td><%= recipient.gender %></td>
         <td><%= recipient.first_name %></td>
         <td><%= recipient.last_name %></td>
-        <td>
+        <td align="center">
          <%#= link_to t('ctrl.show'), [@account, recipient] %>
          <%= link_to t('ctrl.edit'), edit_account_recipient_path(@account, recipient) %> &bull;
          <%= link_to t('ctrl.delete'), [@account, recipient], :confirm => t('ctrl.confirm'), :method => :delete %></td>
       </tr>
     <% end %>
+    
+    <tr><td align="center" colspan="5">
+      <%= will_paginate @recipients %>
+    </td></tr>
+    
   </table>
-</div>    <%= link_to t('recipients.menu.export_xls'), account_recipients_path(@account, :format => :xls) %> |
+</div>

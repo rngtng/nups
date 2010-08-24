@@ -24,7 +24,11 @@
 josh: 
  account: biff_account
  email: josh@biff.com
+ first_name: josh
+ last_name: joshua
 
 wonne: 
   account: biff_account
   email: wonne@biff.com
+  first_name: wonne
+  last_name: sonne  
