@@ -43,6 +43,7 @@ namespace :deploy do
   task :link_configs do
     run "ln -nfs #{deploy_to}/#{shared_dir}/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{deploy_to}/#{shared_dir}/mail.yml #{release_path}/config/mail.yml"
+    run "ln -nfs #{deploy_to}/#{shared_dir}/uploads #{release_path}/public/system"
   end  
   
   
