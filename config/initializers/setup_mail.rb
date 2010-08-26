@@ -14,7 +14,7 @@ if Rails.env.production?
   
   ActionMailer::Base.smtp_settings = mail_config['smtp_options']
   
-  Mail.register_interceptor(DevelopmentMailInterceptor) #liv is not in autoload path anymore
+  #Mail.register_interceptor(DevelopmentMailInterceptor)
   
 elsif Rails.env.development?
   ActionMailer::Base.default_url_options[:host] = "localhost:3000"
