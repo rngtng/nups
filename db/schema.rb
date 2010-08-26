@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100824181301) do
+ActiveRecord::Schema.define(:version => 20100826143835) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20100824181301) do
     t.boolean  "has_html",              :default => true
     t.boolean  "has_text",              :default => true
     t.boolean  "has_attachments"
+    t.boolean  "has_scheduling"
   end
 
   create_table "assets", :force => true do |t|

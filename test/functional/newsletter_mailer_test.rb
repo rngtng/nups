@@ -4,6 +4,9 @@ class NewsletterMailerTest < ActionMailer::TestCase
   
   setup do
     @newsletter = newsletters(:biff_newsletter)
+    asset = @newsletter.attachments.first
+    asset.attachment = fixture_file_upload('Example.jpg', 'image/jpeg')
+    asset.save!
   end
   
   test "body should include content" do

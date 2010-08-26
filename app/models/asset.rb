@@ -7,8 +7,9 @@ class Asset < ActiveRecord::Base
   has_attached_file :attachment
   
   validates_attachment_presence :attachment
-  validates :account_id, :presence => true
+
   validates :user_id, :presence => true
+  validates :account_id, :presence => true
   
   def name
     attachment_file_name
@@ -17,5 +18,8 @@ class Asset < ActiveRecord::Base
   def size
     attachment_file_size
   end
-    
+  
+  def path
+    attachment.path
+  end
 end
