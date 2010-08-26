@@ -14,6 +14,7 @@ en:
     see_all: See all
   ctrl:
     show: show
+    new: new
     preview: preview
     edit: edit
     delete: delete
@@ -56,6 +57,7 @@ en:
     new: New Newsletter
     account: Account
     action: Action
+    uploading: Uploading
     form:
       title: Create Newsletter
       current_time: current time
@@ -64,6 +66,7 @@ en:
       pause: stop
       send_test: send test
       send_live: send live
+      add_files: add File(s)
       resume: start
     confirm:
       pause: Stop sending newsletter?

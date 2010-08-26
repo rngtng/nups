@@ -1,26 +1,36 @@
+Welcome to NUPS
+------------------------------------------------------------
 
-Overview of best plugins:
--> http://ruby-toolbox.com/
+# Overview of best plugins:
+  http://ruby-toolbox.com/
 
 # Devise
--> http://github.com/plataformatec/devise
-rails generate devise_install
+  http://github.com/plataformatec/devise
+  rails generate devise_install
 
-# to Test SMPT lockly:
--> http://mocksmtpapp.com/
+# Test SMPT lockally
+  http://mocksmtpapp.com/
 
-#spinner: http://www.andrewdavidson.com/articles/spinning-wait-icons/
+# spinners: 
+  http://www.andrewdavidson.com/articles/spinning-wait-icons/
+  http://mentalized.net/activity-indicators/
 
-# http://github.com/justinweiss/resque_unit
+# reques test 
+  http://github.com/justinweiss/resque_unit
 
-#TODO shedule
-# resque status: http://github.com/quirkey/resque-status
+------------------------------------------------------------
 
-recipients 
- * in place editing
- * pagination, show total amount
- * Suche
- * filter valid/invalid
- * details -> when which newsletter was send
- 
- * unsubscribe ->
+# DONE:
+ * search pagination, show total amount
+ * attachment upload
+
+------------------------------------------------------------
+
+# TODO 
+ * sheduling
+ * resque status: http://github.com/quirkey/resque-status
+ * recipients 
+   * in place editing
+   * filter valid/invalid
+   * details -> when which newsletter was send
+   * unsubscribe ->

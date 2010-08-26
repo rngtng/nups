@@ -66,7 +66,7 @@ de:
       pause: stop
       send_test: Test senden
       send_live: Live senden
-      select_files: Datei(en) hinzufügen
+      add_files: Datei(en) hinzufügen
       resume: start
     confirm:
       pause: Versand stoppen?
