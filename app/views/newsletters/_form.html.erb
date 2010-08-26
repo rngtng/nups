@@ -19,12 +19,14 @@
       <% end %>
 
       <tr><th><%= Newsletter.human_attribute_name(:from) %>:</th><td><%= @newsletter.from  %></td></tr>
-      <tr><th><%= Newsletter.human_attribute_name(:deliver_at) %>:</th>
-          <td><%= f.datetime_select :deliver_at, 
-        :order => [:day, :month, :year],
-        :start_year => Date.current.year, :end_year => Date.current.year + 3 %>
-          </td>
-      </tr>
+      <% if @account.has_scheduling %>
+        <tr><th><%= Newsletter.human_attribute_name(:deliver_at) %>:</th>
+            <td><%= f.datetime_select :deliver_at, 
+          :order => [:day, :month, :year],
+          :start_year => Date.current.year, :end_year => Date.current.year + 3 %>
+            </td>
+        </tr>
+      <% end %>
       <tr><th><%= Newsletter.human_attribute_name(:subject) %>:</th><td><%= f.text_field :subject, :size => 60 %></td></tr>
       <% if @account.has_attachments %>
         <tr>

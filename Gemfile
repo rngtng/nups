@@ -2,9 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.0.rc'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'mysql2'
 
 # Use unicorn as the web server
@@ -18,6 +15,7 @@ gem 'devise', '1.1.1'
 
 # Use resque for async jobs
 gem 'resque'
+#gem 'resque-scheduler'
 
 #For handling File uploads
 gem 'paperclip'
