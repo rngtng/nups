@@ -34,7 +34,7 @@ class Newsletter < ActiveRecord::Base
 
   belongs_to :account
   has_many :recipients, :through => :account
-  has_many :attachments
+  has_many :attachments, :class_name => 'Asset'
 
   scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
@@ -48,7 +48,7 @@ class Newsletter < ActiveRecord::Base
       account.delegate attr
     end
   end
-  
+    
   @queue = :newsletter
   
   def self.perform(id, args = {})
@@ -63,6 +63,14 @@ class Newsletter < ActiveRecord::Base
    
   def route
     [self.account, self]
+  end
+  
+  def attachment_ids=(attachment_ids)
+    self.attachments = []
+    attachment_ids.each do |attachment_id|
+      asset = account.assets.where(:id => attachment_id).first
+      self.attachments << asset if asset
+    end
   end
   
   ########################################################################################################################
@@ -229,4 +237,5 @@ class Newsletter < ActiveRecord::Base
    #puts msg
    logger.info(msg)
  end
+
 end

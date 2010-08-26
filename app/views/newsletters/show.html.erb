@@ -9,6 +9,16 @@
       <tr><th><%= Newsletter.human_attribute_name(:from) %>:</th><td><%=  @newsletter.from  %></td></tr>
       <tr><th><%= Newsletter.human_attribute_name(:deliver_at) %>:</th><td><%= l @newsletter.deliver_at, :format => :nl %></td></tr>
       <tr><th><%= Newsletter.human_attribute_name(:subject) %>:</th><td><%= @newsletter.subject %></td></tr>
+      <% if @account.has_attachments %>
+        <tr>
+          <th valign="top"><%= Newsletter.human_attribute_name(:attachments) %>:</th>
+          <td>
+            <div id="filelist">
+                <%= render @newsletter.attachments, :no_checkbox => true %>
+            </div>
+          </td>
+        </tr>
+      <% end %>      
       <tr><th><%= Newsletter.human_attribute_name(:status) %>:</th><td><%= @newsletter.human_status %> <%= @newsletter.human_mode %></td></tr>
       <tr><td colspan="2" align="center">
           <%= link_to t('ctrl.edit'), edit_account_newsletter_path(*@newsletter.route) %> &bull;

@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  account: biff_account
+  newsletter: biff_newsletter
+  attachment_file_name: picture_one.jpg
+  user: admin
+
+two:
+  account: biff_account
+  attachment_file_name: picture_two.jpg
+  user: admin
+
+three:
+  account: biff_account
+  attachment_file_name: picture_three.jpg
+  user: admin

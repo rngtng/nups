@@ -26,18 +26,25 @@
           </td>
       </tr>
       <tr><th><%= Newsletter.human_attribute_name(:subject) %>:</th><td><%= f.text_field :subject, :size => 60 %></td></tr>
-      <tr>
-        <th><%= Newsletter.human_attribute_name(:attachments) %>:</th>
-        <td>
-         <ul>  
-           <% Array(@newsletter.attachments).each do |attachment| %>
-            <li>attachment</li>
-           <% end %>
-         </ul>
-        <%= t('newsletters.form.add_attachment') %>:<br>
-        <%= f.file_field :attachment %></td>
-      </tr>
-    
+      <% if @account.has_attachments %>
+        <tr>
+          <th valign="top"><%= Newsletter.human_attribute_name(:attachments) %>:</th>
+          <td>
+           <input type="hidden" name="newsletter[attachment_ids][]">
+           <%= render 'plupload' %>
+           
+           <div id="upcontainer">
+               <input type="button" id="pickfiles" disabled value="<%= t('newsletters.ctrl.select_files') %>">
+               <div id="filelist">
+                   <%= render @newsletter.attachments %>
+               </div>
+               <div id="uploadlist">
+               </div>
+           </div>
+          </td>
+        </tr>
+      <% end %>
+      
       <tr><td colspan="2" align="center">
         <%= link_to  t('ctrl.back'), account_newsletters_path(@account) %>
         <%= f.submit t('ctrl.preview'), :name => :preview %>

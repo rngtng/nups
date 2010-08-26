@@ -26,13 +26,15 @@ ActiveRecord::Schema.define(:version => 20100824181301) do
     t.string   "color",                 :default => "#FFF"
     t.boolean  "has_html",              :default => true
     t.boolean  "has_text",              :default => true
+    t.boolean  "has_attachments"
   end
 
-  create_table "attachments", :force => true do |t|
-    t.string   "name"
-    t.string   "type"
-    t.string   "extension"
+  create_table "assets", :force => true do |t|
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.string   "attachment_file_size"
     t.integer  "user_id"
+    t.integer  "account_id"
     t.integer  "newsletter_id"
     t.datetime "created_at"
     t.datetime "updated_at"

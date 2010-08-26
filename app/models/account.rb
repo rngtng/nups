@@ -18,6 +18,7 @@ class Account < ActiveRecord::Base
      
   belongs_to :user
   
+  has_many :assets
   has_many :newsletters
   has_many :recipients
   

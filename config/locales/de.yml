@@ -57,6 +57,7 @@ de:
     new: Neue Ausgabe
     account: Newsletter
     action: Aktion
+    uploading: Uploading
     form:
       title: Ausgabe erstellen
       current_time: aktuelle Zeit
@@ -65,6 +66,7 @@ de:
       pause: stop
       send_test: Test senden
       send_live: Live senden
+      select_files: Datei(en) hinzufügen
       resume: start
     confirm:
       pause: Versand stoppen?

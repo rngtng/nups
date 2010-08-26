@@ -20,7 +20,7 @@ gem 'devise', '1.1.1'
 gem 'resque'
 
 #For handling File uploads
-gem 'carrierwave-rails3'
+gem 'paperclip'
 
 #For proper pagination
 gem 'will_paginate', '~> 3.0.pre2'

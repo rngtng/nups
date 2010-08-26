@@ -112,10 +112,6 @@ TR.bglight      {
         display:inline;
 }
 
-
-
-
-
 #newsletter #formular {
         border: solid 2px #CCCCCC;
 }
@@ -139,6 +135,16 @@ TR.bglight      {
 #newsletter #formular TBODY .small {
         font-size:8pt;
         font-weight:normal;
+}
+
+#newsletter #formular #filelist {
+        margin: 3px;
+}
+
+#newsletter #formular .upload {
+        margin: 3px;
+        background-color: #CCC;
+        padding: 5px;
 }
 
 #newsletter #formular .error {

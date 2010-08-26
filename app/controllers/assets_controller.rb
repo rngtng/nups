@@ -1,11 +1,9 @@
-class AttachmentsController < ApplicationController
+class AssetsController < ApplicationController
   before_filter :load_user, :load_account
   
   def create
-    @attachment = @newsletter.attachments.new(:name => params[:name])
-    @attachment.file = params[:file]
-    @attachment.save!
-    render :nothing => true
+    @asset = @account.assets.create(:attachment => params[:file], :user_id => current_user.id, :newsletter_id => params[:newsletter_id])
+    render @asset
   end
 
   private
@@ -19,12 +17,5 @@ class AttachmentsController < ApplicationController
     klass = current_user.admin? ? Account : current_user.accounts
     @account = klass.find_by_id(params[:account_id])
     render_403 unless @account
-  end  
-
-  # def load_newsletter
-  #   return if params[:newsletter_id].blank?
-  #   @newsletter = @account.newsletters.find_by_id(params[:newsletter_id])
-  #   render_403 unless @newsletter
-  # end 
-
+  end
 end

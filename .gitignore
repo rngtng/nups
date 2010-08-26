@@ -6,10 +6,6 @@ tmp/**/*
 .DS_Store
 config/database.yml
 config/mail.yml
-public/javascripts/controls.js
-public/javascripts/dragdrop.js
-public/javascripts/effects.js
-public/javascripts/prototype.js
-public/javascripts/rails.js
+public/system
 Gemfile.lock
 dump.rdb

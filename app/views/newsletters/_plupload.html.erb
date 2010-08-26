@@ -1,0 +1,59 @@
+<script type="text/javascript">
+<%#= javascript_tag do %>
+  var re = null;
+  
+ $(function(){
+  var uploader = new plupload.Uploader({
+   runtimes: "gears,flash,html5,silverlight",
+   browse_button: 'pickfiles',
+   container: "upcontainer",
+   max_file_size: '3mb',
+   url: '<%= account_assets_path(@account) %>',
+   flash_swf_url: "/javascripts/plupload/plupload.flash.swf",
+   silverlight_xap_url: "/javascripts/plupload/plupload.silverlight.xap",
+   multipart: true,
+   multipart_params: {
+    "authenticity_token": '<%= form_authenticity_token %>',
+    "newsletter_id": '<%= @newsletter.try(:id) %>'
+   }
+  });
+
+  uploader.bind('Init', function(up, params) {
+       $('#runtime').html(params.runtime);
+       $('#pickfiles').attr('disabled', false);
+  });
+  
+  uploader.bind('QueueChanged', function() {
+      uploader.start();
+  });
+
+  uploader.bind('FilesAdded', function(up, files) {
+    $.each(files, function(i, file) {
+           $('#uploadlist').append(
+            '<div id="file_' + file.id + '" class="upload">' +
+              '<%= image_tag( 'spinner.gif', :valign => :middle) %> ' +
+              '<b><%= t('newsletters.uploading') %>:</b> ' +
+                file.name + ' (' + plupload.formatSize(file.size) + ') ' +
+              '<b>0%</b>' +
+            '</div>'
+            );
+       });
+   });
+
+   uploader.bind('Error', function(up, e) {
+     alert('error' + e.message)
+     $('#uploadlist').html('')
+   });
+
+   uploader.bind('UploadProgress', function(up, file) {
+      $('#file_' + file.id + " b").html(file.percent + "%");
+   });
+
+   uploader.bind('FileUploaded', function(up, file, response) {
+      $('#filelist').append(response.response);
+      $('#file_' + file.id).remove();
+   });
+
+   uploader.init();
+ });
+</script>
