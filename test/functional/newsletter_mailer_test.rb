@@ -13,7 +13,7 @@ class NewsletterMailerTest < ActionMailer::TestCase
     @newsletter.content = "TEST"
     nl = NewsletterMailer.issue(@newsletter, @newsletter.recipients.first)
     
-    assert_equal "TEST", nl.parts[0].body.decoded
+    assert_equal "TEST", html(nl)
   end
 
   test "body should include template AND content" do
@@ -23,8 +23,8 @@ class NewsletterMailerTest < ActionMailer::TestCase
     
     nl = NewsletterMailer.issue(@newsletter, @newsletter.recipients.first)
     
-    assert_equal "<html><body>TEST</body></html>", nl.parts[0].body.decoded
-    assert_equal "HEADER TEST", nl.parts[1].body.decoded
+    assert_equal "<html><body>TEST</body></html>", html(nl)
+    assert_equal "HEADER TEST", text(nl)
   end
 
   test "body should include recipient email" do
@@ -35,9 +35,17 @@ class NewsletterMailerTest < ActionMailer::TestCase
     
     nl = NewsletterMailer.issue(@newsletter, recipient)
     
-    assert_equal recipient.email, nl.parts[0].body.decoded
-    assert_equal @newsletter.subject, nl.parts[1].body.decoded
+    assert_equal recipient.email, html(nl)
+    assert_equal @newsletter.subject, text(nl)
+  end
+  
+  private
+  def html(nl)
+    nl.parts[1].body.decoded
   end
 
+  def text(nl)
+    nl.parts[0].body.decoded
+  end
 
 end
