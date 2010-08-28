@@ -1,6 +1,6 @@
 ---
 method: smtp
-host: nups.warteschlange.de:8080
+host: www2.multiadmin.de:8080
 smtp_options:
   :port: 25
   :domain: "c-art-web.de"

@@ -28,10 +28,10 @@ set :deploy_via, :remote_cache
 set :user, 'ssh-21560'
 set :ssh_options, { :forward_agent => true }
 
-role :app, "nups.warteschlange.de"
-role :web, "nups.warteschlange.de"
-role :db,  "nups.warteschlange.de", :primary => true
-role :job, "nups.warteschlange.de"
+role :app, "www2.multiadmin.de"
+role :web, "www2.multiadmin.de"
+role :db,  "www2.multiadmin.de", :primary => true
+role :job, "www2.multiadmin.de"
 
 namespace :deploy do
   desc "Restarting mod_rails with restart.txt"
