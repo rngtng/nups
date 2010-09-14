@@ -68,6 +68,8 @@ en:
       send_live: send live
       add_files: add File(s)
       resume: start
+      format_view: Format View
+      html_view: HTML View
     confirm:
       pause: Stop sending newsletter?
       start: Start sending newsletter?

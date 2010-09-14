@@ -68,6 +68,8 @@ de:
       send_live: Live senden
       add_files: Datei(en) hinzufügen
       resume: start
+      format_view: Formatierungs Ansicht
+      html_view: HTML Ansicht
     confirm:
       pause: Versand stoppen?
       start: Versand starten?

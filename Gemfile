@@ -20,6 +20,9 @@ gem 'resque'
 #For handling File uploads
 gem 'paperclip'
 
+#for HTML textfield
+gem 'tiny_mce'
+
 #For proper pagination
 gem 'will_paginate', '~> 3.0.pre2'
 

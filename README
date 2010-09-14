@@ -28,6 +28,7 @@ Welcome to NUPS
 
 # TODO 
  * sheduling
+ * mv to haml / sass
  * resque status: http://github.com/quirkey/resque-status
  * recipients 
    * in place editing

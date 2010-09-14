@@ -1,12 +1,14 @@
 class NewslettersController < ApplicationController
   before_filter :load_user, :load_account
-  
+
   respond_to :html, :xml
+
+  uses_tiny_mce
 
   def index
     @accounts    = current_user.admin? ? Account.all : current_user.accounts
     @newsletters = @user.newsletters.with_account(@account).all( :order => 'deliver_at DESC', :limit => 20 )
-  end  
+  end
 
   # GET /newsletters/1
   # GET /newsletters/1.xml
@@ -41,10 +43,10 @@ class NewslettersController < ApplicationController
   def create
     params[:newsletter][:deliver_at] ||= Time.now
     @newsletter = @account.newsletters.new(params[:newsletter])
-        
+
     respond_to do |format|
       if @newsletter.save
-        format.html { 
+        format.html {
           redirect_to( account_newsletter_path(*@newsletter.route)) and return if params[:preview]
           redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully created.')
         }
@@ -63,9 +65,9 @@ class NewslettersController < ApplicationController
 
     respond_to do |format|
       if @newsletter.update_attributes(params[:newsletter])
-        format.html { 
+        format.html {
           redirect_to( account_newsletter_path(*@newsletter.route)) and return if params[:preview]
-          redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully updated.') 
+          redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully updated.')
         }
         format.xml  { head :ok }
       else
@@ -90,28 +92,28 @@ class NewslettersController < ApplicationController
   ########################################################
   def preview
     @newsletter = @account.newsletters.find(params[:id])
-    
+
     recipient = @newsletter.recipients.first || Recipient.new(:email => current_user.email)
     @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
-    
+
     parts = params[:text] ? 1 : 0
     content = @newsletter_issue.parts[parts].body.decoded
     render :text => content, :layout => false
   end
-  
+
   def start
     @newsletter = @account.newsletters.find(params[:id])
     #render_404 if !@newsletter.created? &&
     mode = (params[:mode] == 'live') ? Newsletter::LIVE_MODE : Newsletter::TEST_MODE
     @newsletter.schedule!(mode)
-    
+
     unless @newsletter.async_deliver!(:test_email => current_user.email)
-      @newsletter.unschedule! 
+      @newsletter.unschedule!
     end
-    
+
     redirect_to account_newsletters_path(@account)
   end
-  
+
   def stop
     @newsletter = @account.newsletters.find(params[:id])
     #render_404 unless @newsletter.running?
@@ -119,9 +121,9 @@ class NewslettersController < ApplicationController
     @newsletter.unschedule! if @newsletter.scheduled?
     redirect_to account_newsletters_path(@account)
   end
-  
+
   ########################################################
-    
+
   private
   def load_user
     @user = current_user
@@ -133,6 +135,6 @@ class NewslettersController < ApplicationController
     klass = current_user.admin? ? Account : current_user.accounts
     @account = klass.find_by_id(params[:account_id])
     render_403 unless @account
-  end  
+  end
 
 end

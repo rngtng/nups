@@ -1,3 +1,14 @@
+<script type="text/javascript">
+  function toggleEditor(id) {
+    $('#show_editor').toggle();
+    $('#show_html').toggle();
+    if (!tinyMCE.get(id))
+      tinyMCE.execCommand('mceAddControl', false, id);
+    else
+      tinyMCE.execCommand('mceRemoveControl', false, id);
+  }
+</script>
+
 <%= form_for [@newsletter.account, @newsletter]  do |f| %>
   <table border="0" id="formular" width="700">
     <thead>    
@@ -55,8 +66,13 @@
   </table>
   <br>
   <table border="0" id="formular" width="700">
-      <%# TODO: auto expand, HTML editor???  %>
-      <tr><td align="center"><%= f.text_area :content, :cols => 80, :rows => 40 %></td></tr>
+      <tr><td align="center">
+        <div class="tabs" style="text-align:left; margin-left:55px;margin-top:10px;margin-bottom:5px">
+          <a href="javascript:toggleEditor('newsletter_content');" id="show_editor" style="display:none"><%= t('newsletters.ctrl.format_view') %></a>
+          <a href="javascript:toggleEditor('newsletter_content');" id="show_html"><%= t('newsletters.ctrl.html_view') %></a>
+        </div>
+        <%= f.text_area :content, :cols => 80, :rows => 20, :class => "mceEditor" %>
+      </td></tr>
       <tr><td colspan="2" align="center">
         <%= f.submit t('ctrl.preview'), :name => :preview %>
        </td></tr>        
