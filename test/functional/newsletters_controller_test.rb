@@ -48,6 +48,16 @@ class NewslettersControllerTest < ActionController::TestCase
     assert_redirected_to account_newsletter_path(@account, assigns(:newsletter))
   end
 
+  test "admin should be able to create newsletter for other user " do
+    sign_out @user
+    sign_in @admin
+    
+    assert_difference('Newsletter.count') do
+      post :create, :account_id => @account.to_param, :newsletter => @newsletter.attributes, :preview => true
+    end
+    assert_redirected_to account_newsletter_path(@account, assigns(:newsletter))
+  end
+
   test "should show newsletter" do
     get :show, :account_id => @account.to_param, :id => @newsletter.to_param
     assert_response :success

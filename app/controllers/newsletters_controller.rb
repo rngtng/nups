@@ -1,19 +1,20 @@
 class NewslettersController < ApplicationController
-  before_filter :load_user, :load_account
+  before_filter :load_account
 
   respond_to :html, :xml
 
   uses_tiny_mce
 
   def index
-    @accounts    = current_user.admin? ? Account.all : current_user.accounts
+    @user        = (params[:user_id] && current_user.admin?) ? User.find(params[:user_id]) : current_user
     @newsletters = @user.newsletters.with_account(@account).all( :order => 'deliver_at DESC', :limit => 20 )
+    @accounts    = current_user.admin? ? Account.all : @user.accounts
   end
 
   # GET /newsletters/1
   # GET /newsletters/1.xml
   def show
-    @newsletter = @user.newsletters.with_account(@account).find(params[:id])
+    @newsletter = @account.newsletters.find(params[:id])
 
     respond_with @newsletter do |format|
       format.html {
@@ -125,11 +126,6 @@ class NewslettersController < ApplicationController
   ########################################################
 
   private
-  def load_user
-    @user = current_user
-    @user = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
-  end
-
   def load_account
     return if params[:account_id].blank?
     klass = current_user.admin? ? Account : current_user.accounts
