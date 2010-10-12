@@ -97,7 +97,7 @@ class NewslettersController < ApplicationController
     recipient = @newsletter.recipients.first || Recipient.new(:email => current_user.email)
     @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
 
-    parts = params[:text] ? 1 : 0
+    parts = 1 #params[:text] ? 1 : 0
     content = @newsletter_issue.parts[parts].body.decoded
     render :text => content, :layout => false
   end

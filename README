@@ -35,3 +35,8 @@ Welcome to NUPS
    * filter valid/invalid
    * details -> when which newsletter was send
    * unsubscribe ->
+   
+# Resque Startup:
+1. redis-server
+
+2. COUNT=1 QUEUE=* rake resque:workers
