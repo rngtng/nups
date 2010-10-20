@@ -35,12 +35,11 @@ class NewslettersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-
   test "should get new" do
     get :new, :account_id => @account.to_param
     assert_response :success
   end
-  
+
   test "should create newsletter" do
     assert_difference('Newsletter.count') do
       post :create, :account_id => @account.to_param, :newsletter => @newsletter.attributes, :preview => true
@@ -48,10 +47,28 @@ class NewslettersControllerTest < ActionController::TestCase
     assert_redirected_to account_newsletter_path(@account, assigns(:newsletter))
   end
 
-  test "admin should be able to create newsletter for other user " do
+  test "admin should see newsletter for other user" do
     sign_out @user
     sign_in @admin
-    
+
+    post :index, :account_id => @account.to_param
+
+    assert_equal 2, assigns(:newsletters).size
+  end
+
+  test "admin should see all newsletter for other user" do
+    sign_out @user
+    sign_in @admin
+
+    post :index, :user_id => @user.id
+
+    assert_equal 2, assigns(:newsletters).size
+  end
+
+  test "admin should be able to create newsletter for other user" do
+    sign_out @user
+    sign_in @admin
+
     assert_difference('Newsletter.count') do
       post :create, :account_id => @account.to_param, :newsletter => @newsletter.attributes, :preview => true
     end
@@ -85,13 +102,13 @@ class NewslettersControllerTest < ActionController::TestCase
 
     assert_redirected_to newsletters_path
   end
-  
+
   test "should schedule test newsletter" do
     Newsletter.any_instance.expects(:async_deliver!).returns(true)
     get :start, :account_id => @account.to_param, :id => @newsletter.to_param
     assert @newsletter.reload.scheduled?
     assert @newsletter.reload.test?
-    
+
     assert_redirected_to account_newsletters_path(@account)
   end
 
@@ -100,7 +117,7 @@ class NewslettersControllerTest < ActionController::TestCase
     get :start, :account_id => @account.to_param, :id => @newsletter.to_param, :mode => 'live'
     assert @newsletter.reload.scheduled?
     assert @newsletter.reload.live?
-    
+
     assert_redirected_to account_newsletters_path(@account)
   end
 
@@ -108,9 +125,9 @@ class NewslettersControllerTest < ActionController::TestCase
     Newsletter.any_instance.expects(:async_deliver!).returns(false)
 
     get :start, :account_id => @account.to_param, :id => @newsletter.to_param
-    
+
     assert !@newsletter.reload.scheduled?
-    
+
     assert_redirected_to account_newsletters_path(@account)
-  end  
+  end
 end

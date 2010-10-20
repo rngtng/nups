@@ -20,7 +20,7 @@
 #  updated_at          :datetime
 
 class Newsletter < ActiveRecord::Base
-    
+
   STATUS = {
     :created   => 0,
     :running   => 2,
@@ -38,33 +38,33 @@ class Newsletter < ActiveRecord::Base
 
   scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
-   
+
   validates :account_id, :presence => true
   validates :subject, :presence => true
-  validates :deliver_at, :presence => true 
-  
+  validates :deliver_at, :presence => true
+
   with_options(:to => :account) do |account|
     %w(from host recipients test_recipients template_html template_text color has_html? has_text?).each do |attr|
       account.delegate attr
     end
   end
-    
+
   @queue = :newsletter
-  
+
   def self.perform(id, args = {})
     newsletter = Newsletter.find(id)
     return unless newsletter
     args = args.symbolize_keys rescue {}
     @test_emails = args[:test_emails] if args[:test_emails]
     newsletter.deliver!
-  end  
+  end
 
   ########################################################################################################################
-   
+
   def route
     [self.account, self]
   end
-  
+
   def attachment_ids=(attachment_ids)
     self.attachments = []
     attachment_ids.each do |attachment_id|
@@ -72,7 +72,7 @@ class Newsletter < ActiveRecord::Base
       self.attachments << asset if asset
     end
   end
-  
+
   ########################################################################################################################
 
   def progress_percent
@@ -95,7 +95,7 @@ class Newsletter < ActiveRecord::Base
     return 0 if sending_time == 0
     return deliveries_count.to_f / sending_time.to_f
   end
-  
+
   ########################################################################################################################
 
   def live?
@@ -119,12 +119,11 @@ class Newsletter < ActiveRecord::Base
       return key if value == self.status
     end
   end
-  
+
   def human_mode
     test? ? "TEST" : "LIVE"
   end
 
-  
   #fetches all status questions: finished?, running? etc
   def method_missing(m, *args)
     sym = m.to_s.delete('?').to_sym
@@ -195,7 +194,7 @@ class Newsletter < ActiveRecord::Base
   rescue
     false
   end
-  
+
   def stop!
      self.reload
      throw :not_running unless running?
@@ -231,7 +230,7 @@ class Newsletter < ActiveRecord::Base
     }
     Newsletter.update_all( query.join(", "), :id => self.id)
   end
- 
+
  def log(msg)
    msg = "##- #{'TEST' if self.test?} NEWSLETTER #{msg}"
    #puts msg
