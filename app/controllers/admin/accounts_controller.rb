@@ -1,4 +1,4 @@
-class AccountsController < ApplicationController
+class Admin::AccountsController < Admin::AdminController
   
   before_filter :authenticate_admin!
   
@@ -47,7 +47,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to(@account, :notice => 'Account was successfully created.') }
+        format.html { redirect_to(admin_account_path(@account), :notice => 'Account was successfully created.') }
         format.xml  { render :xml => @account, :status => :created, :location => @account }
       else
         format.html { render :action => "new" }
@@ -63,7 +63,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.update_attributes(params[:account])
-        format.html { redirect_to(@account, :notice => 'Account was successfully updated.') }
+        format.html { redirect_to(admin_account_path(@account), :notice => 'Account was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -79,7 +79,7 @@ class AccountsController < ApplicationController
     @account.destroy
 
     respond_to do |format|
-      format.html { redirect_to(accounts_url) }
+      format.html { redirect_to(admin_accounts_path) }
       format.xml  { head :ok }
     end
   end

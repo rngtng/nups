@@ -1,4 +1,6 @@
-<%= form_for(@user) do |f| %>
+<% url    = @user.new_record? ? admin_users_path : admin_user_path(@user) %>
+<% method = @user.new_record? ? :post : :put %>
+<%= form_for(@user, :as => :user, :url => url, :html => { :method => method }) do |f| %>
   <% if @user.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>

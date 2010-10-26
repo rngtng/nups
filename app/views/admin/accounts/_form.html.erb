@@ -1,4 +1,6 @@
-<%= form_for(@account) do |f| %>
+<% url    = @account.new_record? ? admin_accounts_path : admin_account_path(@account) %>
+<% method = @account.new_record? ? :post : :put %>
+<%= form_for(@account, :as => :account, :url => url, :html => { :method => method }) do |f| %>
   <% if @account.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:</h2>

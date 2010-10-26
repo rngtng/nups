@@ -3,7 +3,7 @@
     <h2>Accounts</h2>
   </div>
   <div  style="float:right">
-    <%= link_to 'New Account', new_account_path %>
+    <%= link_to 'New Account', new_admin_account_path %>
   </div>
   
   <table class="content">
@@ -21,9 +21,9 @@
       <td><%= account.from %></td>
       <td><%= account.host %></td>
       <td><%= account.user.email %></td>
-      <td><%= link_to 'Show', account %> &bull;
-          <%= link_to 'Edit', edit_account_path(account) %> &bull;
-          <%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td><%= link_to 'Show', admin_account_path(account) %> &bull;
+          <%= link_to 'Edit', edit_admin_account_path(account) %> &bull;
+          <%= link_to 'Destroy', admin_account_path(account), :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
   </table>

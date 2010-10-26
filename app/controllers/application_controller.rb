@@ -5,11 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!, :unless => proc { |c| c.devise_controller? } #TODO remove this hack!!
   
   before_filter :set_user_language
-  
-  def authenticate_admin!
-    render_403 unless current_user.admin?
-  end
-  
+    
   def render_403
     render :file => "public/404", :layout => false, :status => 403
   end

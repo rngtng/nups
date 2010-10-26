@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UsersControllerTest < ActionController::TestCase
+class Admin::UsersControllerTest < ActionController::TestCase
   setup do    
     @admin = users(:admin)
     sign_in @admin
@@ -24,7 +24,7 @@ class UsersControllerTest < ActionController::TestCase
   #     post :create, :user => @user.attributes.merge( :email => "New@localhost.com", :password => "testest")
   #   end
   # 
-  #   assert_redirected_to user_path(assigns(:user))
+  #   assert_redirected_to admin_user_path(assigns(:user))
   # end
 
   test "should show user" do
@@ -39,7 +39,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should update user" do
     put :update, :id => @user.to_param, :user => @user.attributes
-    assert_redirected_to user_path(assigns(:user))
+    assert_redirected_to admin_user_path(assigns(:user))
   end
 
   test "should destroy user" do
@@ -47,7 +47,7 @@ class UsersControllerTest < ActionController::TestCase
       delete :destroy, :id => @user.to_param
     end
 
-    assert_redirected_to users_path
+    assert_redirected_to admin_users_path
   end
   
   test "should deny access to normal user" do

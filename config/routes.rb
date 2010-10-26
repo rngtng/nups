@@ -11,10 +11,14 @@ Nups::Application.routes.draw do
   
   match 'newsletters' => 'newsletters#index', :as => :newsletters
 
-  resources :users
+  namespace :admin do
+    resources :users
+    resources :accounts
+  end
   
   # resource route with sub-resources:
-  resources :accounts do
+  resources :accounts, :only => [:index] do
+  #scope 'accounts/:account_id/' do
     resources :newsletters do
       member do
         get :start

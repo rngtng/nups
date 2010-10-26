@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AccountsControllerTest < ActionController::TestCase
+class Admin::AccountsControllerTest < ActionController::TestCase
   setup do
     @admin = users(:admin)
     @account = @admin.accounts.first
@@ -23,7 +23,7 @@ class AccountsControllerTest < ActionController::TestCase
       post :create, :account => @account.attributes
     end
 
-    assert_redirected_to account_path(assigns(:account))
+    assert_redirected_to admin_account_path(assigns(:account))
   end
 
   test "should show account" do
@@ -38,7 +38,7 @@ class AccountsControllerTest < ActionController::TestCase
 
   test "should update account" do
     put :update, :id => @account.to_param, :account => @account.attributes
-    assert_redirected_to account_path(assigns(:account))
+    assert_redirected_to admin_account_path(assigns(:account))
   end
 
   test "should destroy account" do
@@ -46,7 +46,7 @@ class AccountsControllerTest < ActionController::TestCase
       delete :destroy, :id => @account.to_param
     end
 
-    assert_redirected_to accounts_path
+    assert_redirected_to admin_accounts_path
   end
   
   test "should deny access to normal user" do
