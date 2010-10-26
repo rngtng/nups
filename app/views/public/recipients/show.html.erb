@@ -1,0 +1,4 @@
+
+Möchten Sie wirklich die Email <b><%= @recipient.email %></b> von <%= @account.name %> austragen?
+
+<%= link_to 'Ja', unsubscribe_path(@account,@recipient), :confirm => 'Sicher?', :method => :delete %>
