@@ -1,4 +1,4 @@
-class Admin::AdminController < ApplicationController
+class Admin::AdminController < ApplicationNupsController
 
   before_filter :authenticate_admin!
 

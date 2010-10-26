@@ -1,4 +1,4 @@
-class HomeController < ApplicationController
+class HomeController < ApplicationNupsController
   
   def index
     render :layout => false

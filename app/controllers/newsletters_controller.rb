@@ -1,4 +1,4 @@
-class NewslettersController < ApplicationController
+class NewslettersController < ApplicationNupsController
   before_filter :load_account
 
   respond_to :html, :xml

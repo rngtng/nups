@@ -1,4 +1,4 @@
-class RecipientsController < ApplicationController
+class RecipientsController < ApplicationNupsController
   before_filter :load_account
   
   respond_to :html, :xls

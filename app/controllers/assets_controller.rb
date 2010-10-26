@@ -1,4 +1,4 @@
-class AssetsController < ApplicationController
+class AssetsController < ApplicationNupsController
   before_filter :load_user, :load_account
   
   def create
