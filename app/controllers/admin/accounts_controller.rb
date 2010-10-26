@@ -1,7 +1,7 @@
 class Admin::AccountsController < Admin::AdminController
-  
+
   before_filter :authenticate_admin!
-  
+
   # GET /accounts
   # GET /accounts.xml
   def index

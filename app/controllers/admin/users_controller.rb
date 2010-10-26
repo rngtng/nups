@@ -61,7 +61,7 @@ class Admin::UsersController < Admin::AdminController
 
     params[:user].delete(:password) if params[:user][:password].blank?
     params[:user].delete(:password_confirmation) if params[:user][:password_confirmation].blank?
-      
+
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to( admin_user_path(@user), :notice => 'User was successfully updated.') }

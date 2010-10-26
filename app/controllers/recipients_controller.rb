@@ -5,7 +5,7 @@ class RecipientsController < ApplicationNupsController
   
   def index
     @recipients = @account.recipients.search(params[:search]).paginate :page => params[:page], :per_page => 100
-    
+
     respond_with @recipients
   end
 

@@ -1,10 +1,10 @@
 class Public::RecipientsController < ApplicationController
   layout 'public'
-  
+
   before_filter :load_account, :except => [:index]
 
   respond_to :html, :xls
-  
+
   def index
   end
 
@@ -69,7 +69,7 @@ class Public::RecipientsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
   def load_account
     @account = Account.find_by_id(params[:account_id])

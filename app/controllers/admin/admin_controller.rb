@@ -4,5 +4,5 @@ class Admin::AdminController < ApplicationNupsController
 
   def authenticate_admin!
     render_403 unless current_user.admin?
-  end 
+  end
 end
