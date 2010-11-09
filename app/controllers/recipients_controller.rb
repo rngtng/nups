@@ -1,8 +1,8 @@
 class RecipientsController < ApplicationNupsController
   before_filter :load_account
-  
+
   respond_to :html, :xls
-  
+
   def index
     @recipients = @account.recipients.search(params[:search]).paginate :page => params[:page], :per_page => 100
 
@@ -25,31 +25,29 @@ class RecipientsController < ApplicationNupsController
   def import
     @valid_recipients  = []
     @invalid_recipients  = []
-        
+
     return if params[:emails].blank?
-    
-    split_emails(params[:emails]).each do |email| 
+
+    split_emails(params[:emails]).each do |email|
       recipient = @account.recipients.new(:email => email)
-      recipient.save unless params[:import].blank?
-      if recipient.valid?
+      if recipient.save
         @valid_recipients << recipient
       else
         @invalid_recipients << recipient
       end
     end
-
   end
 
   def multiple_delete
     @valid_recipients  = []
     @invalid_recipients  = []
-        
+
     return if params[:emails].blank?
-    
+
     split_emails(params[:emails]).each do |email|
       recipient = @account.recipients.where(:email => email).first || @account.recipients.new(:email => email)
       recipient.delete unless params[:delete].blank? #TODO what happens with log etc !?
-      
+
       unless recipient.new_record?
         @valid_recipients << recipient
       else
@@ -107,14 +105,14 @@ class RecipientsController < ApplicationNupsController
       format.xml  { head :ok }
     end
   end
-  
+
   private
   def load_account
     klass = current_user.admin? ? Account : current_user.accounts
     @account = klass.find_by_id(params[:account_id])
     render_404 unless @account
-  end  
-  
+  end
+
   def split_emails( emails )  #split by \n or , or ;
     emails.delete("\"' ").split(/[\n,;]/).delete_if(&:blank?).map(&:strip)
   end

@@ -23,19 +23,19 @@ class RecipientsControllerTest < ActionController::TestCase
 
   test "should get index and find by given search token" do
     assert @account.recipients.size > 1
-    
+
     get :index, :account_id => @account.to_param, :search => @account.recipients.first.email
     assert_response :success
     assert_equal 1, assigns(:recipients).size
   end
-  
+
   #test "should get index with excel" do
   #  account = accounts(:admin_account)
   #  get :index, :account_id => account.to_param, :format => :xls
   #  assert_response :success
   #  assert_not_nil assigns(:recipients)
   #end
-  
+
   test "should get index if wrong account but admin" do
     sign_out @user
     sign_in @admin
@@ -79,40 +79,25 @@ class RecipientsControllerTest < ActionController::TestCase
 
     assert_redirected_to account_recipients_path(@account)
   end
-  
+
   test "should show import" do
     get :import, :account_id => @account.to_param
     assert_response :success
   end
 
   test "should show valid/invalid adresses" do
-    assert_no_difference('@account.recipients.count') do
-      post :import, :account_id => @account.to_param, :emails => "valid@email1.de,invalid"
-    end
-    assert_equal 1, assigns(:valid_recipients).count
-    assert assigns(:valid_recipients).first.new_record?
-    assert assigns(:valid_recipients).first.valid?
-    
-    assert_equal 1, assigns(:invalid_recipients).count
-    assert assigns(:invalid_recipients).first.new_record?
-    assert !assigns(:invalid_recipients).first.valid?
-    
-    assert_response :success
-  end
-
-  test "should import valid adresses" do
     assert_difference('@account.recipients.count') do
-      post :import, :account_id => @account.to_param, :emails => "valid@email1.de\ninvalid", :import => true
+      post :import, :account_id => @account.to_param, :emails => "valid@email1.de,invalid"
     end
 
     assert_equal 1, assigns(:valid_recipients).count
     assert !assigns(:valid_recipients).first.new_record?
     assert assigns(:valid_recipients).first.valid?
-    
+
     assert_equal 1, assigns(:invalid_recipients).count
-    assert assigns(:invalid_recipients).first.new_record?    
+    assert assigns(:invalid_recipients).first.new_record?
     assert !assigns(:invalid_recipients).first.valid?
-    
+
     assert_response :success
   end
 
@@ -126,17 +111,17 @@ class RecipientsControllerTest < ActionController::TestCase
     assert_no_difference('@account.recipients.count') do
       post :multiple_delete, :account_id => @account.to_param, :emails => "#{existing_email}\n\tvalid@email1.de,invalid"
     end
-    
+
     assert_equal 1, assigns(:valid_recipients).count
     assert_equal existing_email, assigns(:valid_recipients).first.email
-    
+
     assert_equal 2, assigns(:invalid_recipients).count
     assert assigns(:invalid_recipients).first.new_record?
     assert assigns(:invalid_recipients).first.valid?
 
     assert assigns(:invalid_recipients).last.new_record?
     assert !assigns(:invalid_recipients).last.valid?
-    
+
     assert_response :success
   end
 
@@ -148,20 +133,20 @@ class RecipientsControllerTest < ActionController::TestCase
 
     assert_equal 1, assigns(:valid_recipients).count
     assert_equal existing_email, assigns(:valid_recipients).first.email
-    
+
     assert_equal 2, assigns(:invalid_recipients).count
     assert assigns(:invalid_recipients).first.new_record?
     assert assigns(:invalid_recipients).first.valid?
 
     assert assigns(:invalid_recipients).last.new_record?
     assert !assigns(:invalid_recipients).last.valid?
-    
+
     assert_response :success
   end
-  
+
   test "should split email string" do
    string = "1\n2\n,,3,'4';\"5\""
    assert_equal Array(1..5), @controller.send(:split_emails, string).map(&:to_i) #string <-> integer
   end
-  
+
 end
