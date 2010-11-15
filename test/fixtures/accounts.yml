@@ -33,4 +33,8 @@ biff_account:
   user: biff
   subject: example subject2
   has_html: true
-  has_text: true  
+  has_text: true
+  test_recipient_emails: |-
+    test@test.com
+    test2@test.com
+  

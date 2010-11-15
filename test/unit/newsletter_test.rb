@@ -45,6 +45,7 @@ class NewsletterTest < ActiveSupport::TestCase
   test "deliver to test users" do
     @newsletter = newsletters(:biff_newsletter)
     count = @newsletter.test_recipients.count
+    assert count > 0
     
     @newsletter.schedule!(Newsletter::TEST_MODE)
     
