@@ -4,7 +4,7 @@ set :use_sudo, false
 
 #it's rails 3 baby, so make sure rvm setup is used!
 rvm_path = '/kunden/warteschlange.de/.rvm'
-rubies   = "ruby-1.9.2-tv1_9_2_rc2"
+rubies   = "ruby-1.9.2-rc2"
 set :default_environment, { 
   'PATH' => "#{rvm_path}/rubies/#{rubies}/bin:#{rvm_path}/gems/#{rubies}/bin:#{rvm_path}/bin:$PATH",
   'RUBY_VERSION' => rubies,
