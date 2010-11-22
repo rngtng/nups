@@ -1,17 +1,11 @@
 set :application, "nups"
 
 set :use_sudo, false
+set :rvm_type, :user
 
-#it's rails 3 baby, so make sure rvm setup is used!
-rvm_path = '/kunden/warteschlange.de/.rvm'
-rubies   = "ruby-1.9.2-rc2"
-set :default_environment, { 
-  'PATH' => "#{rvm_path}/rubies/#{rubies}/bin:#{rvm_path}/gems/#{rubies}/bin:#{rvm_path}/bin:$PATH",
-  'RUBY_VERSION' => rubies,
-  'GEM_HOME'     => "#{rvm_path}/gems/#{rubies}",
-  'GEM_PATH'     => "#{rvm_path}/gems/#{rubies}",
-  'BUNDLE_PATH'  => "#{rvm_path}/gems/#{rubies}"  # If you are using bundler.
-}
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require "rvm/capistrano"
+set :rvm_ruby_string, 'ruby-1.9.2-rc2'
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
