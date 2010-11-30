@@ -6,18 +6,19 @@
 
 if Rails.env.production?
   rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
-  
+
   mail_config = YAML.load_file(rails_root + '/config/mail.yml')
 
   ActionMailer::Base.delivery_method = mail_config['method'].to_sym
   ActionMailer::Base.default_url_options[:host] = mail_config['host']
-  
+
   ActionMailer::Base.smtp_settings = mail_config['smtp_options']
-  
+
+  ActionController::Base.asset_host = "www2.multiadmin.de:8080"
+
   #Mail.register_interceptor(DevelopmentMailInterceptor)
-  
+
 elsif Rails.env.development?
   ActionMailer::Base.default_url_options[:host] = "localhost:3000"
   Mail.register_interceptor(DevelopmentMailInterceptor)
 end
-
