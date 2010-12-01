@@ -13,13 +13,13 @@ class NewsletterMailer < ActionMailer::Base
     head[:sender]  = "error@c-art-web.de"
 
     head[:subject] = newsletter.subject
-    head[:subject] = "TEST: #{subject}" if newsletter.test?
+    head[:subject] = "TEST: #{newsletter.subject}" if newsletter.test?
 
     head["X-Sender"] = "MultiAdmin"
     head["X-MA-Account-Id"] = newsletter.account.id.to_s
 
     mail(head) do |format|
-      data = { :subject => subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }
+      data = { :subject => newsletter.subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }
       if newsletter.has_text?
         format.text { render :inline => template_text, :locals => data }
       end
