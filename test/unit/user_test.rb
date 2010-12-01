@@ -1,3 +1,12 @@
+require 'test_helper'
+
+class UserTest < ActiveSupport::TestCase
+  # Replace this with your real tests.
+  test "the truth" do
+    assert true
+  end
+end
+
 # == Schema Info
 #
 # Table name: users
@@ -21,12 +30,3 @@
 #  last_sign_in_at      :datetime
 #  remember_created_at  :datetime
 #  updated_at           :datetime
-
-require 'test_helper'
-
-class UserTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
-end
