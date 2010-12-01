@@ -10,7 +10,7 @@ class NewsletterMailer < ActionMailer::Base
     head[:to]      = recipient.email
     head[:from]    = newsletter.from
 
-    head[:sender]  = newsletter.sender || newsletter.from
+    head[:sender]  = "bounces+#{newsletter.account.id}.#{newsletter.id}.#{recipient.id}@multiadmin.de"
 
     head[:subject] = newsletter.subject
     head[:subject] = "TEST: #{newsletter.subject}" if newsletter.test?

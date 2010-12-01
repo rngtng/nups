@@ -23,7 +23,7 @@ class Newsletter < ActiveRecord::Base
   validates :deliver_at, :presence => true
 
   with_options(:to => :account) do |account|
-    %w(from sender host recipients test_recipients template_html template_text color has_html? has_text?).each do |attr|
+    %w(from host recipients test_recipients template_html template_text color has_html? has_text?).each do |attr|
       account.delegate attr
     end
   end

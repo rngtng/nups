@@ -10,3 +10,8 @@ config/mail.yml
 public/system
 Gemfile.lock
 dump.rdb
+public/javascripts/controls.js
+public/javascripts/dragdrop.js
+public/javascripts/effects.js
+public/javascripts/prototype.js
+public/javascripts/rails.js
