@@ -11,11 +11,11 @@
     </ul>
   </div>
   <% end %>
-  
+
   <div class="field">
     <%= f.label :user_id %>:     <%= f.select :user_id, User.all.map { |u| [u.email, u.id] } %>
   </div>
-  
+
   <div class="field">
     <%= f.label :name %>:    <%= f.text_field :name %>
   </div>
@@ -32,18 +32,26 @@
   <div class="field">
     <%= f.label :has_attachments %>:     <%= f.check_box :has_attachments %>
   </div>
-  
+
   <div class="field">
     <%= f.label :has_scheduling %>:     <%= f.check_box :has_scheduling %>
   </div>
 
   <div class="field">
+    <%= f.label :has_html %>:     <%= f.check_box :has_html %>
+  </div>
+
+  <div class="field">
     <%= f.label :template_html %>:     <%= f.text_area :template_html, :cols => 80, :rows => 40 %>
   </div>
-  
+
+  <div class="field">
+    <%= f.label :has_text %>:     <%= f.check_box :has_text %>
+  </div>
+
   <div class="field">
     <%= f.label :template_text %>:     <%= f.text_area :template_text, :cols => 80, :rows => 30 %>
-  </div>  
+  </div>
 
   <div class="field">
     <%= f.label :test_recipient_emails %>:     <%= f.text_area :test_recipient_emails %>
