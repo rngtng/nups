@@ -11,15 +11,17 @@ class NewsletterMailer < ActionMailer::Base
     head[:from]    = newsletter.from
 
     #head[:sender]  = "cartspam+ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || test}@gmail.com" #nups bounce
-    head[:sender]  = "ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || 'test'}@bounces.multiadmin.de" #nups bounce
+    id = "ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || 'test'}"
+    #head[:sender]  = "#{id}@bounces.multiadmin.de" #nups bounce
 
+    head[:sender]  = "no-reply@millioneninvest.de"
     head[:reply_to]  = "info@millioneninvest.de"
 
     head[:subject] = newsletter.subject
     head[:subject] = "TEST: #{newsletter.subject}" if newsletter.test?
 
     head["X-Sender"] = "MultiAdmin"
-    head["X-MA-Account-Id"] = newsletter.account.id.to_s
+    head["X-MA-Id"] = id
 
     mail(head) do |format|
       data = { :subject => newsletter.subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }
