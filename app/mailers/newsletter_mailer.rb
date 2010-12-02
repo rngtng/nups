@@ -13,6 +13,8 @@ class NewsletterMailer < ActionMailer::Base
     #head[:sender]  = "cartspam+ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || test}@gmail.com" #nups bounce
     head[:sender]  = "ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || 'test'}@bounces.multiadmin.de" #nups bounce
 
+    head[:reply_to]  = "info@millioneninvest.de"
+
     head[:subject] = newsletter.subject
     head[:subject] = "TEST: #{newsletter.subject}" if newsletter.test?
 
