@@ -10,12 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100826143835) do
+ActiveRecord::Schema.define(:version => 20101205175829) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
     t.string   "from"
-    t.string   "host"
     t.integer  "user_id"
     t.string   "subject"
     t.text     "template_html"
@@ -28,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20100826143835) do
     t.boolean  "has_text",              :default => true
     t.boolean  "has_attachments"
     t.boolean  "has_scheduling"
+    t.text     "mail_config"
   end
 
   create_table "assets", :force => true do |t|

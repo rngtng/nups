@@ -10,7 +10,7 @@
     <tr>
       <th>Name</th>
       <th>From</th>
-      <th>Host</th>
+      <th>Subject</th>
       <th>User</th>
       <th></th>
     </tr>
@@ -19,7 +19,7 @@
     <tr class="<%= cycle('bgdark', 'bglight') %>">
       <td><%= account.name %></td>
       <td><%= account.from %></td>
-      <td><%= account.host %></td>
+      <td><%= account.subject %></td>
       <td><%= account.user.email %></td>
       <td><%= link_to 'Show', admin_account_path(account) %> &bull;
           <%= link_to 'Edit', edit_admin_account_path(account) %> &bull;

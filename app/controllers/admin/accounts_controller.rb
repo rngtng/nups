@@ -47,7 +47,7 @@ class Admin::AccountsController < Admin::AdminController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to(admin_account_path(@account), :notice => 'Account was successfully created.') }
+        format.html { redirect_to(admin_accounts_path, :notice => 'Account was successfully created.') }
         format.xml  { render :xml => @account, :status => :created, :location => @account }
       else
         format.html { render :action => "new" }
@@ -63,7 +63,7 @@ class Admin::AccountsController < Admin::AdminController
 
     respond_to do |format|
       if @account.update_attributes(params[:account])
-        format.html { redirect_to(admin_account_path(@account), :notice => 'Account was successfully updated.') }
+        format.html { redirect_to(admin_accounts_path, :notice => 'Account was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

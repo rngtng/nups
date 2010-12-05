@@ -1,13 +1,13 @@
 class Account < ActiveRecord::Base
-     
+
   belongs_to :user
-  
+
   has_many :assets
   has_many :newsletters
   has_many :recipients
-  
+
   validates_presence_of :user_id
-  
+
   def test_recipients(additional_emails = nil)
     (test_recipient_emails_array + Array(additional_emails)).uniq.map do |email|
       dummy_user = recipients.new(:email => email)
@@ -15,10 +15,17 @@ class Account < ActiveRecord::Base
       dummy_user.valid? ? dummy_user : nil
     end.compact
   end
-  
+
   def test_recipient_emails_array
     @test_recipient_emails_array = test_recipient_emails.to_s.split(/,|;|\n|\t/).map(&:strip)
   end
+
+  def mail_config
+    YAML::parse(self.mail_config)
+  rescue
+    nil
+  end
+
 end
 
 # == Schema Info

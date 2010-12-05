@@ -1,27 +1,29 @@
 class NewsletterMailer < ActionMailer::Base
 
   def issue(newsletter, recipient)
-    default_url_options[:host] = newsletter.host
+    sending_id = "ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || 'test'}"
+
+    if mail_config = newsletter.account.mail_config
+      self.delivery_method            = mail_config['method'].to_sym
+      self.default_url_options[:host] = mail_config['host']
+      self.smtp_settings              = mail_config['smtp_settings']
+    end
 
     template_html  = newsletter.template_html.blank? ? "<%= content %>" : newsletter.template_html
     template_text  = newsletter.template_text.blank? ? "<%= content %>" : newsletter.template_text
 
     head = {}
-    head[:to]      = recipient.email
-    head[:from]    = newsletter.from
+    head[:to]        = recipient.email
+    head[:from]      = newsletter.from
 
-    #head[:sender]  = "cartspam+ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || test}@gmail.com" #nups bounce
-    id = "ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || 'test'}"
-    #head[:sender]  = "#{id}@bounces.multiadmin.de" #nups bounce
+    head[:sender]    = newsletter.sender   #{}"no-reply@millioneninvest.de" if newsletter.account.has_smtp_settings?
+    head[:reply_to]  = newsletter.reply_to #{}"info@millioneninvest.de"   if newsletter.account.has_smtp_settings?
 
-    head[:sender]  = "no-reply@millioneninvest.de"
-    head[:reply_to]  = "info@millioneninvest.de"
-
-    head[:subject] = newsletter.subject
-    head[:subject] = "TEST: #{newsletter.subject}" if newsletter.test?
+    head[:subject]   = newsletter.subject
+    head[:subject]   = "TEST: #{newsletter.subject}" if newsletter.test?
 
     head["X-Sender"] = "MultiAdmin"
-    head["X-MA-Id"] = id
+    head["X-MA-Id"]  = sending_id
 
     mail(head) do |format|
       data = { :subject => newsletter.subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }

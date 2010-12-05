@@ -9,10 +9,9 @@ if Rails.env.production?
 
   mail_config = YAML.load_file(rails_root + '/config/mail.yml')
 
-  ActionMailer::Base.delivery_method = mail_config['method'].to_sym
+  ActionMailer::Base.delivery_method            = mail_config['method'].to_sym
   ActionMailer::Base.default_url_options[:host] = mail_config['host']
-
-  ActionMailer::Base.smtp_settings = mail_config['smtp_options']
+  ActionMailer::Base.smtp_settings              = mail_config['smtp_settings']
 
   ActionController::Base.asset_host = "www2.multiadmin.de:8080"
 

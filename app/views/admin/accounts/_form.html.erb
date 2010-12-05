@@ -29,10 +29,6 @@
   </div>
 
   <div class="field">
-    <%= f.label :host %>:     <%= f.text_field :host %>
-  </div>
-
-  <div class="field">
     <%= f.label :has_attachments %>:     <%= f.check_box :has_attachments %>
   </div>
 
@@ -45,7 +41,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :template_html %>:     <%= f.text_area :template_html, :cols => 80, :rows => 40 %>
+    <%= f.label :template_html %>:     <%= f.text_area :template_html, :cols => 80, :rows => 30 %>
   </div>
 
   <div class="field">
@@ -57,7 +53,11 @@
   </div>
 
   <div class="field">
-    <%= f.label :test_recipient_emails %>:     <%= f.text_area :test_recipient_emails %>
+    <%= f.label :mail_config %>:     <%= f.text_area :mail_config, :cols => 80, :rows => 10  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :test_recipient_emails %>:     <%= f.text_area :test_recipient_emails, :cols => 80, :rows => 10  %>
   </div>
 
   <div class="actions">
