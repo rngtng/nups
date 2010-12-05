@@ -111,10 +111,16 @@ class NewslettersController < ApplicationNupsController
   def start
     @newsletter = @account.newsletters.find(params[:id])
     #render_404 if !@newsletter.created? &&
-    mode = (params[:mode] == 'live') ? Newsletter::LIVE_MODE : Newsletter::TEST_MODE
-    @newsletter.schedule!(mode)
 
-    unless @newsletter.async_deliver!(:test_email => current_user.email)
+    opts = if params[:mode] == 'live'
+      { :mode => Newsletter::LIVE_MODE, :test_email => current_user.email }
+    else
+      { :mode => Newsletter::TEST_MODE }
+    end
+
+    @newsletter.schedule!( opts[:mode] )
+
+    unless @newsletter.async_deliver!( opts )
       @newsletter.unschedule!
     end
 
