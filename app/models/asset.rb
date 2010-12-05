@@ -24,7 +24,6 @@ class Asset < ActiveRecord::Base
   end
 end
 
-
 # == Schema Info
 #
 # Table name: assets

@@ -29,7 +29,7 @@ end
 #  has_html              :boolean(1)      default(TRUE)
 #  has_scheduling        :boolean(1)
 #  has_text              :boolean(1)      default(TRUE)
-#  host                  :string(255)
+#  mail_config           :text
 #  name                  :string(255)
 #  subject               :string(255)
 #  template_html         :text
