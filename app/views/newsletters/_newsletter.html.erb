@@ -21,7 +21,7 @@
   <td><%= newsletter.recipients_count %></td>
   <td>
   <% if newsletter.running? || newsletter.scheduled? %>
-    <%= link_to( t('newsletters.ctrl.pause'), stop_account_newsletter_path(*newsletter.route), :confirm => t('newsletters.confirm.pause')) if newsletter.live? || newsletter.scheduled?  %>
+    <%= link_to( t('newsletters.ctrl.pause'), stop_account_newsletter_path(*newsletter.route), :confirm => t('newsletters.confirm.pause')) %>
     <%= delayed_remote_function( :url => account_newsletter_path(*newsletter.route), :method => :get, :delay => 3000, :replace => "#status_#{newsletter.id}" ) %>
   <% else %> <!-- Default Menu -->
      <%= link_to  t('ctrl.preview'), newsletter.route %> &bull;
@@ -33,15 +33,3 @@
   <% end %>
   </td>
 </tr>
-
-<!-- 
-<td><%= newsletter.deliveries_count %></td>
-<td><%= newsletter.errors_count %></td>
-<td><%= newsletter.delivery_started_at.try(:to_formatted_s, :nl) %></td>
-<td><%= newsletter.delivery_ended_at.try(:to_formatted_s, :nl) %></td>
-
-<th>Errors</th>
-<th>Deliveries</th>
-<th>Started</th>
-<th>Finished</th>
--->
