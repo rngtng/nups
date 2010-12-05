@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20101205175829) do
     t.boolean  "has_text",              :default => true
     t.boolean  "has_attachments"
     t.boolean  "has_scheduling"
-    t.text     "mail_config"
+    t.text     "mail_config_raw"
   end
 
   create_table "assets", :force => true do |t|

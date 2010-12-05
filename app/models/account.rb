@@ -21,9 +21,22 @@ class Account < ActiveRecord::Base
   end
 
   def mail_config
-    YAML::parse(self.mail_config)
+    @mail_config ||= YAML::parse(self.mail_config_raw)
   rescue
     nil
+  end
+
+  def from_email
+    email_exp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
+    self.from.scan(email_exp).first
+  end
+
+  def sender
+    @sender ||= mail_config ? mail_config['sender'] : self.from_email
+  end
+
+  def reply_to
+    @reply_to ||= mail_config ? mail_config['reply_to'] : self.from_email
   end
 
 end

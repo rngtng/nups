@@ -16,8 +16,8 @@ class NewsletterMailer < ActionMailer::Base
     head[:to]        = recipient.email
     head[:from]      = newsletter.from
 
-    head[:sender]    = newsletter.sender   #{}"no-reply@millioneninvest.de" if newsletter.account.has_smtp_settings?
-    head[:reply_to]  = newsletter.reply_to #{}"info@millioneninvest.de"   if newsletter.account.has_smtp_settings?
+    head[:sender]    = newsletter.sender
+    head[:reply_to]  = newsletter.reply_to
 
     head[:subject]   = newsletter.subject
     head[:subject]   = "TEST: #{newsletter.subject}" if newsletter.test?

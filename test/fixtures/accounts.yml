@@ -9,6 +9,7 @@ admin_account:
   name: First
   user: admin
   subject: example subject1
+  from: admin@email.test
   has_html: true
   has_text: true
 
@@ -16,6 +17,7 @@ biff_account:
   name: Second
   user: biff
   subject: example subject2
+  from: Biff <biff@email.test>
   has_html: true
   has_text: true
   test_recipient_emails: |-
