@@ -32,11 +32,11 @@ class Account < ActiveRecord::Base
   end
 
   def sender
-    @sender ||= mail_config ? mail_config['sender'] : self.from_email
+    @sender   ||= (self.mail_config && self.mail_config['sender']) || self.from_email
   end
 
   def reply_to
-    @reply_to ||= mail_config ? mail_config['reply_to'] : self.from_email
+    @reply_to ||= (self.mail_config && self.mail_config['reply_to']) || self.from_email
   end
 
 end
