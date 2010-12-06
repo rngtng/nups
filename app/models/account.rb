@@ -21,7 +21,7 @@ class Account < ActiveRecord::Base
   end
 
   def mail_config
-    @mail_config ||= YAML::parse(self.mail_config_raw)
+    @mail_config ||= YAML::load(self.mail_config_raw)
   rescue
     nil
   end
