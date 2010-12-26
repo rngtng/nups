@@ -118,9 +118,9 @@ class NewslettersController < ApplicationNupsController
       { :mode => Newsletter::TEST_MODE }
     end
 
-    @newsletter.schedule!( opts[:mode] )
+    @newsletter.schedule!(opts[:mode])
 
-    unless @newsletter.async_deliver!( opts )
+    unless @newsletter.async_deliver!(opts)
       @newsletter.unschedule!
     end
 

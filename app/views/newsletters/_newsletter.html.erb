@@ -4,18 +4,18 @@
       <%= link_to t('newsletters.ctrl.send_test'), start_account_newsletter_path(*newsletter.route) %>
     <% elsif newsletter.scheduled? %>
       <%= image_tag( 'spinner.gif', :id => "spinner#{newsletter.id}" )  %>
-    <% else %>     
+    <% else %>
       <div style="width:100px; border: 1px solid #000; overflow: hidden;margin:0 auto;padding:0;">
        <div style='background-color: <%= ( newsletter.errors_count && newsletter.errors_count > 0 ) ? 'red' : 'green' %>; width: <%= newsletter.progress_percent %>px; color: white;' align='center'>
          <%= newsletter.progress_percent %>%
        </div>
       </div>
-      <%= l Time.at(newsletter.sending_time), :format => :time %> - <%= "%.1f" % newsletter.deliveries_per_second %>/sec.    
-    <% end %> 
-  </td>  
+      <%= l Time.at(newsletter.sending_time), :format => :time %> - <%= "%.1f" % newsletter.deliveries_per_second %>/sec.
+    <% end %>
+  </td>
   <td><%= newsletter.human_status %> <%= newsletter.human_mode %></td>
   <td align="left"> <%# style="background-color:<%= newsletter.color % >"  %>
-    <strong><%= l newsletter.deliver_at, :format => :nl %></strong>: 
+    <strong><%= l newsletter.deliver_at, :format => :nl %></strong>:
     <%= link_to truncate(newsletter.subject, :length => 40), account_newsletter_path(*newsletter.route) %></td>
   </td>
   <td><%= newsletter.recipients_count %></td>
@@ -29,7 +29,7 @@
      <%#= link_to 'Delete', newsletter.route, :method => 'delete', :confirm => "Really delete newsletter?" %>
      <%= link_to( t('newsletters.ctrl.send_test'), start_account_newsletter_path(*newsletter.route)) unless newsletter.finished_live? %>
      <%= link_to( t('newsletters.ctrl.send_live'), start_account_newsletter_path(*newsletter.route, :mode => 'live'), :confirm => t('newsletters.confirm.start') ) if newsletter.finished_test? %>
-     <%= link_to( t('newsletters.ctrl.resume'), start_account_newsletter_path(*newsletter.route), :confirm => t('newsletters.confirm.resume') ) if newsletter.stopped? %>
+     <%= link_to( t('newsletters.ctrl.resume'), start_account_newsletter_path(*newsletter.route, :mode => (newsletter.live? ? 'live' : nil) ), :confirm => t('newsletters.confirm.resume') ) if newsletter.stopped? %>
   <% end %>
   </td>
 </tr>

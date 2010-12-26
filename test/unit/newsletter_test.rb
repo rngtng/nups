@@ -6,13 +6,13 @@ class NewsletterTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     @user = users(:biff)
   end
-  
+
   test "find by account" do
     @newsletter = newsletters(:biff_newsletter)
-    
+
     assert_equal Newsletter.with_account(@newsletter.account).first, @newsletter
   end
-  
+
   test "should sent to user" do
     @newsletter = newsletters(:biff_newsletter)
     assert_difference '@newsletter.deliveries_count' do
@@ -25,34 +25,58 @@ class NewsletterTest < ActiveSupport::TestCase
     @newsletter = newsletters(:biff_newsletter)
     count = @newsletter.test_recipients.count
     assert count > 0
-    
+
     @newsletter.schedule!(Newsletter::TEST_MODE)
-    
+
     assert @newsletter.test?
     assert @newsletter.scheduled?
-    
+
     @newsletter.deliver!
-    
+
     assert_equal count, @newsletter.deliveries_count
     assert_equal count, ActionMailer::Base.deliveries.size
-  end  
+  end
 
-  
   test "deliver to live users" do
     @newsletter = newsletters(:biff_newsletter)
     count = @newsletter.recipients.count
-    
+
     @newsletter.schedule!(Newsletter::LIVE_MODE)
-    
+
     assert @newsletter.live?
     assert @newsletter.scheduled?
-    
+
     @newsletter.deliver!
-    
+
     assert_equal count, @newsletter.deliveries_count
     assert_equal count, ActionMailer::Base.deliveries.size
-  end  
-  
+  end
+
+  test "stop of deliver to live users should resume live" do
+    @newsletter = newsletters(:biff_newsletter)
+    count = @newsletter.recipients.count
+    puts count
+
+    @newsletter.schedule!(Newsletter::LIVE_MODE)
+
+    assert @newsletter.live?
+    assert @newsletter.scheduled?
+
+    stop_after = 1
+    @newsletter.deliver!(stop_after)
+
+    assert @newsletter.live?
+    assert @newsletter.stopped?
+    assert_equal stop_after, @newsletter.deliveries_count
+    assert_equal stop_after, ActionMailer::Base.deliveries.size
+
+    @newsletter.schedule!(Newsletter::LIVE_MODE)
+    @newsletter.deliver!
+
+    assert_equal 1, @newsletter.deliveries_count
+    assert_equal count, ActionMailer::Base.deliveries.size
+  end
+
   test "should not scheduled twice" do
     @newsletter = newsletters(:biff_newsletter)
     @newsletter.schedule!( Newsletter::LIVE_MODE )
@@ -68,24 +92,24 @@ class NewsletterTest < ActiveSupport::TestCase
     @newsletter.send(:update_only, :delivery_started_at)
     @newsletter.reload
     assert @newsletter.delivery_started_at != @newsletter.delivery_ended_at
-  end  
-  
+  end
+
   test "should update attachments" do
     @newsletter = newsletters(:biff_newsletter)
     assert_equal @newsletter.id, assets(:one).reload.newsletter_id
     assert_equal 1, @newsletter.attachments.size
-    
+
     @newsletter.attachment_ids = [assets(:two), assets(:three)].map(&:id)
     @newsletter.save!
-    
+
     @newsletter.reload
-    
+
     assert_equal nil, assets(:one).reload.newsletter_id
     assert_equal @newsletter.id, assets(:two).reload.newsletter_id
     assert_equal @newsletter.id, assets(:three).reload.newsletter_id
     assert_equal 2, @newsletter.attachments.size
   end
-  
+
 end
 
 # == Schema Info

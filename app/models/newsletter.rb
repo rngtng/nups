@@ -129,6 +129,10 @@ class Newsletter < ActiveRecord::Base
     self.save!
   end
 
+  def resume!
+    self.schedule!(self.mode)
+  end
+
   #set status the scheduled to prevent newsletter is scheduled twice
   def unschedule!
     self.reload
@@ -139,7 +143,7 @@ class Newsletter < ActiveRecord::Base
     self.save!
   end
 
-  def deliver!(runs = nil)
+  def deliver!(stop_after = nil)
     self.reload
     throw :not_scheduled unless self.scheduled?
     throw :running if running?
@@ -148,23 +152,25 @@ class Newsletter < ActiveRecord::Base
     self.delivery_started_at = Time.now
     self.deliveries_count    = 0
     self.errors_count        = 0
-    self.update_only( :status, :deliveries_count, :errors_count, :delivery_started_at)
+    self.update_only(:status, :deliveries_count, :errors_count, :delivery_started_at)
     log("#{self.id} started")
     @exceptions = {}
 
     method = live? ? :find_each : :each
     recipients_all.send(method) do |recipient|
       send_to!(recipient)
-      runs -= 1 if runs
       self.reload if (self.deliveries_count % 100) == 0 #reload only after 100 sendings
-      stop! if runs && runs < 1
+      if stop_after
+        stop_after -= 1
+        stop! if stop_after < 1
+      end
       break if stopped?
     end
 
     self.reload
     self.status = STATUS[:finished] if running? #status may could be stopped
     self.delivery_ended_at = Time.now
-    self.update_only( :status, :delivery_ended_at )
+    self.update_only(:status, :delivery_ended_at)
   end
 
   def async_deliver!(args = {})
@@ -207,7 +213,7 @@ class Newsletter < ActiveRecord::Base
       value = value.to_s(:db) if value.is_a?( Time )
       "#{a} = '#{value}'"
     }
-    Newsletter.update_all( query.join(", "), :id => self.id)
+    Newsletter.update_all(query.join(", "), :id => self.id)
   end
 
  def log(msg)
