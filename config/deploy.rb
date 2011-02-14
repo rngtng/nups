@@ -51,6 +51,10 @@ namespace :deploy do
   end
 end
 
+def remote_file_exists?(full_path)
+  'true' ==  capture("if [ -e #{full_path} ]; then echo 'true'; fi").strip
+end
+
 namespace :resque do
   resque_pid = File.join(current_release,"tmp/pids/resque_worker.pid")
   resque_log = "log/resque_worker.log"
