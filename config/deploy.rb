@@ -10,7 +10,7 @@ set :use_sudo, false
 set :user, 'ssh-21560'
 
 set :rvm_type, :user
-set :rvm_ruby_string, "ruby-1.9.2-rc2@#{application}"
+set :rvm_ruby_string, "ruby-1.9.2-p136@#{application}"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
