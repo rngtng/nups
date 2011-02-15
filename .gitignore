@@ -8,7 +8,6 @@ tmp/**/*
 config/database.yml
 config/mail.yml
 public/system
-Gemfile.lock
 dump.rdb
 public/javascripts/controls.js
 public/javascripts/dragdrop.js
