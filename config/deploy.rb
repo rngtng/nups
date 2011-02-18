@@ -27,10 +27,10 @@ set :deploy_via, :remote_cache
 
 set :ssh_options, :forward_agent => true
 
-role :app, "#{application}.warteschlange.de"
-role :web, "#{application}.warteschlange.de"
-role :db,  "#{application}.warteschlange.de", :primary => true
-role :job, "#{application}.warteschlange.de"
+role :app, "www2.warteschlange.de"
+role :web, "www2.warteschlange.de"
+role :db,  "www2.warteschlange.de", :primary => true
+role :job, "www2.warteschlange.de"
 
 namespace :deploy do
   desc "Restarting mod_rails with restart.txt"
@@ -56,8 +56,13 @@ def remote_file_exists?(full_path)
 end
 
 namespace :resque do
-  resque_pid = File.join(current_release,"tmp/pids/resque_worker.pid")
-  resque_log = "log/resque_worker.log"
+  def resque_pid
+    File.join(current_release,"tmp/pids/resque_worker.pid")
+  end
+
+  def resque_log
+    "log/resque_worker.log"
+  end
 
   desc "start all resque workers"
   task :start, :roles => :job do
