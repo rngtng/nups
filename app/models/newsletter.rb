@@ -28,7 +28,7 @@ class Newsletter < ActiveRecord::Base
     end
   end
 
-  @queue = :newsletter
+  @queue = :nups_newsletter
 
   def self.perform(id, args = {})
     newsletter = Newsletter.find(id)
