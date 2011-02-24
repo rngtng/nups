@@ -199,10 +199,14 @@ class Newsletter < ActiveRecord::Base
     log("#{self.id} send to #{recipient.email} (#{recipient.id})")
     self.last_sent_id = recipient.id if live?
     self.deliveries_count += 1
-  #rescue  => exp
-  #  self.errors_count += 1
-  #  @exceptions ||= {}
-  #  @exceptions[recipient] = exp
+  rescue  => exp
+    recipient.bounces_count = recipient.bounces_count + 1
+    recipient.bounces = recipient.bounces.to_s + exp.message
+    recipient.save
+
+    self.errors_count += 1
+    @exceptions ||= {}
+    @exceptions[recipient] = exp
   ensure
     self.update_only(:deliveries_count, :last_sent_id, :errors_count)
   end

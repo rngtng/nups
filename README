@@ -31,6 +31,7 @@ Welcome to NUPS
  * mv to haml / sass
  * resque status: http://github.com/quirkey/resque-status
  * recipients 
+   * errors_count + erros messaage
    * in place editing
    * filter valid/invalid
    * details -> when which newsletter was send
