@@ -27,6 +27,8 @@ end
 #  bounces_count    :integer(4)      not null, default(0)
 #  deliveries_count :integer(4)      not null, default(0)
 #  email            :string(255)
+#  fails            :text
+#  fails_count      :string(255)
 #  first_name       :string(255)
 #  gender           :string(255)
 #  last_name        :string(255)

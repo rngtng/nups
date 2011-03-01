@@ -32,6 +32,19 @@ class Delivery < ActiveRecord::Base
     event :finish do
       transition :running => :finished
     end
+    
+    state :scheduled do
+    end
+    
+    state :running do
+    end
+
+    state :finished do
+    end
+
+    state :stopped do
+    end
+    
   end
 
   ########################################################################################################################
@@ -93,16 +106,16 @@ class Delivery < ActiveRecord::Base
   # end
   ########################################################################################################################
 
-  def start!(reload_after = 100)
-    # check if sheduled?
-    self.update_only :status => 'running', :start_at => Time.now
-
-    recipients.find_each do |recipient|
-      self.send_to!(recipient)
-      break if self.stopped?( (self.deliveries % reload_after) == 0 )
-    end
-    self.update_only :status => 'finished', :finished_at => Time.now
-  end
+  # def start!(reload_after = 100)
+  #   # check if sheduled?
+  #   self.update_only :status => 'running', :start_at => Time.now
+  # 
+  #   recipients.find_each do |recipient|
+  #     self.send_to!(recipient)
+  #     break if self.stopped?( (self.deliveries % reload_after) == 0 )
+  #   end
+  #   self.update_only :status => 'finished', :finished_at => Time.now
+  # end
 
   def stop!
     return if finished?(true)
@@ -145,3 +158,22 @@ class Delivery < ActiveRecord::Base
     Newsletter.update_all(todo_attributes, :id => self.id)
   end
 end
+
+
+# == Schema Info
+#
+# Table name: deliveries
+#
+#  id               :integer(4)      not null, primary key
+#  last_id          :integer(4)      not null, default(0)
+#  newsletter_id    :integer(4)
+#  bounces          :integer(4)      not null, default(0)
+#  fails            :integer(4)      not null, default(0)
+#  oks              :integer(4)      not null, default(0)
+#  recipients_count :integer(4)
+#  state            :string(255)
+#  type             :string(255)
+#  created_at       :datetime
+#  finished_at      :datetime
+#  start_at         :datetime
+#  updated_at       :datetime
