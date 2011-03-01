@@ -1,14 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.4'
-
+gem 'rails', '3.0.5'
 gem 'mysql2'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-gem 'capistrano'
 
 #Authorization
 gem 'devise', '~> 1.1.2'
@@ -29,13 +22,14 @@ gem 'will_paginate', '~> 3.0.pre2'
 # For excel export
 gem "ekuseru"
 
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri', '1.4.1'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
+# parsing bounce emails
+gem "rngtng-bounce-email"
 
-# Bundle gems for certain environments:
+
+group :development do
+  # Deploy with Capistrano
+  gem 'capistrano'
+end
 
 group :test do
   gem 'mocha'
