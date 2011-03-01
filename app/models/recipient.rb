@@ -1,17 +1,20 @@
 class Recipient < ActiveRecord::Base
-  
+
   SEARCH_COLUMNS = %w(email first_name last_name)
-  
+
   belongs_to :account
-  
+
   has_many :newsletters, :through => :account
-  
+
   scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }
   scope :search, lambda { |search| search.blank? ? {} : {:conditions => SEARCH_COLUMNS.map { |column| "#{column} LIKE '%#{search}%'" }.join(' OR ') } }
-  
+
   validates :account_id, :presence => true
   validates :email, :presence => true, :uniqueness => {:scope => :account_id}, :email_format => true
-  
+
+  def to_param
+    self.id || 'test'
+  end
 end
 
 # == Schema Info

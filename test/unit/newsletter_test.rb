@@ -16,7 +16,7 @@ class NewsletterTest < ActiveSupport::TestCase
   test "should sent to user" do
     @newsletter = newsletters(:biff_newsletter)
     assert_difference '@newsletter.deliveries_count' do
-      @newsletter.send(:send_to!,@newsletter.recipients.first)
+      @newsletter.send(:send_to!, @newsletter.recipients.first)
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
@@ -26,14 +26,13 @@ class NewsletterTest < ActiveSupport::TestCase
     count = @newsletter.test_recipients.count
     assert count > 0
 
-    @newsletter.schedule!(Newsletter::TEST_MODE)
+    @newsletter.deliver_test!
 
-    assert @newsletter.test?
-    assert @newsletter.scheduled?
+    assert @newsletter.delivery.is_a? TestDelivery
+    assert @newsletter.delivery.scheduled?
 
     @newsletter.deliver!
 
-    assert_equal count, @newsletter.deliveries_count
     assert_equal count, ActionMailer::Base.deliveries.size
   end
 
@@ -41,14 +40,11 @@ class NewsletterTest < ActiveSupport::TestCase
     @newsletter = newsletters(:biff_newsletter)
     count = @newsletter.recipients.count
 
-    @newsletter.schedule!(Newsletter::LIVE_MODE)
+    @newsletter.deliver_live!
 
-    assert @newsletter.live?
-    assert @newsletter.scheduled?
+    assert @newsletter.delivery.is_a? LiveDelivery
 
-    @newsletter.deliver!
-
-    assert_equal count, @newsletter.deliveries_count
+    assert_equal count, @newsletter.delivery.oks
     assert_equal count, ActionMailer::Base.deliveries.size
   end
 

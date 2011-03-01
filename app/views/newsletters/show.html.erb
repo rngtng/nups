@@ -19,7 +19,7 @@
           </td>
         </tr>
       <% end %>      
-      <tr><th><%= Newsletter.human_attribute_name(:status) %>:</th><td><%= @newsletter.human_status %> <%= @newsletter.human_mode %></td></tr>
+      <tr><th><%= Newsletter.human_attribute_name(:status) %>:</th><td><%= @newsletter.status %> <%= @newsletter.type %></td></tr>
       <tr><td colspan="2" align="center">
           <%= link_to t('ctrl.edit'), edit_account_newsletter_path(*@newsletter.route) %> &bull;
           <%= link_to t('ctrl.delete'), @newsletter.route, :method => 'delete', :confirm => t('ctrl.confirm') %> &bull;

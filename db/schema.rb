@@ -10,7 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20110603085449) do
+=======
+ActiveRecord::Schema.define(:version => 20110226100650) do
+>>>>>>> moved and restructured send logic to delivery model
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -41,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20110603085449) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
   create_table "bounces", :force => true do |t|
     t.integer  "account_id"
     t.integer  "user_id"
@@ -70,6 +75,19 @@ ActiveRecord::Schema.define(:version => 20110603085449) do
     t.string   "number"
     t.string   "username"
     t.string   "password"
+=======
+  create_table "deliveries", :force => true do |t|
+    t.integer  "newsletter_id"
+    t.string   "type"
+    t.string   "status",        :default => "scheduled", :null => false
+    t.integer  "recipients"
+    t.datetime "start_at"
+    t.integer  "last_id"
+    t.integer  "oks",                                    :null => false
+    t.integer  "errors",                                 :null => false
+    t.integer  "bounces",                                :null => false
+    t.datetime "finished_at"
+>>>>>>> moved and restructured send logic to delivery model
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -95,7 +113,12 @@ ActiveRecord::Schema.define(:version => 20110603085449) do
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+<<<<<<< HEAD
     t.integer  "failed_deliveries_count",  :default => 0, :null => false
+=======
+    t.string   "fails_count"
+    t.text     "fails"
+>>>>>>> moved and restructured send logic to delivery model
   end
 
   add_index "recipients", ["email"], :name => "index_recipients_on_email"

@@ -110,18 +110,11 @@ class NewslettersController < ApplicationNupsController
 
   def start
     @newsletter = @account.newsletters.find(params[:id])
-    #render_404 if !@newsletter.created? &&
 
-    opts = if params[:mode] == 'live'
-      { :mode => Newsletter::LIVE_MODE, :test_email => current_user.email }
+    if params[:mode] == 'live'
+      @newsletter.deliver_live!
     else
-      { :mode => Newsletter::TEST_MODE }
-    end
-
-    @newsletter.schedule!(opts[:mode])
-
-    unless @newsletter.async_deliver!(opts)
-      @newsletter.unschedule!
+      @newsletter.deliver_test!
     end
 
     redirect_to account_newsletters_path(@account)
@@ -129,9 +122,7 @@ class NewslettersController < ApplicationNupsController
 
   def stop
     @newsletter = @account.newsletters.find(params[:id])
-    #render_404 unless @newsletter.running?
-    @newsletter.stop! if @newsletter.running?
-    @newsletter.unschedule! if @newsletter.scheduled?
+    @newsletter.stop!
     redirect_to account_newsletters_path(@account)
   end
 

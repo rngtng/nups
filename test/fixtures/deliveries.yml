@@ -1,0 +1,8 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  type: "TestDelivery"
+  status: "finished"
+  last_id: 0
+  oks: 0
+  errors: 0

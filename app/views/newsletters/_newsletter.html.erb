@@ -13,7 +13,7 @@
       <%= l Time.at(newsletter.sending_time), :format => :time %> - <%= "%.1f" % newsletter.deliveries_per_second %>/sec.
     <% end %>
   </td>
-  <td><%= newsletter.human_status %> <%= newsletter.human_mode %></td>
+  <td><%= newsletter.status %> <%= newsletter.type %></td>
   <td align="left"> <%# style="background-color:<%= newsletter.color % >"  %>
     <strong><%= l newsletter.deliver_at, :format => :nl %></strong>:
     <%= link_to truncate(newsletter.subject, :length => 40), account_newsletter_path(*newsletter.route) %></td>

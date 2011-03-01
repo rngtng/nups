@@ -1,12 +1,13 @@
 class NewsletterMailer < ActionMailer::Base
 
   def issue(newsletter, recipient)
-    sending_id = "ma-#{newsletter.account.id}-#{newsletter.id}-#{recipient.id || 'test'}"
+    recipient  = 
+    sending_id = "ma-#{newsletter.delivery.id}-#{recipient.to_param}"
 
     if mail_config = newsletter.account.mail_config
-     NewsletterMailer.delivery_method            = mail_config['method'].to_sym
-     NewsletterMailer.default_url_options[:host] = mail_config['host']
-     NewsletterMailer.smtp_settings              = mail_config['smtp_settings']
+      NewsletterMailer.delivery_method            = mail_config['method'].to_sym
+      NewsletterMailer.default_url_options[:host] = mail_config['host']
+      NewsletterMailer.smtp_settings              = mail_config['smtp_settings']
     end
 
     template_html  = newsletter.template_html.blank? ? "<%= content %>" : newsletter.template_html
