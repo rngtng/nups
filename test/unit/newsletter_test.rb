@@ -79,15 +79,6 @@ class NewsletterTest < ActiveSupport::TestCase
     end
   end
 
-  test "should update_only" do
-    @newsletter = newsletters(:biff_newsletter)
-    @newsletter.delivery_started_at = @newsletter.delivery_ended_at = Time.now
-
-    @newsletter.send(:update_only, :delivery_started_at)
-    @newsletter.reload
-    assert @newsletter.delivery_started_at != @newsletter.delivery_ended_at
-  end
-
   test "should update attachments" do
     @newsletter = newsletters(:biff_newsletter)
     assert_equal @newsletter.id, assets(:one).reload.newsletter_id

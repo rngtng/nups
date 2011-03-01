@@ -5,8 +5,6 @@ class Delivery < ActiveRecord::Base
 
   with_options(:presence => true) do |present|
     present.validates :newsletter_id
-    present.validates :status, :inclusion => { :in => Status::ALL }
-
     present.validates :recipients_count
     present.validates :start_at
   end
@@ -15,8 +13,9 @@ class Delivery < ActiveRecord::Base
   validate do |delivery|
     if nl = delivery.newsletter || Newsletter.find(delivery.newsletter_id)
       return true unless nl.delivery
+      errors.add(:base, "Another delivery already exists with state '#{nl.delivery.state}'")
     end
-    errors.add_to_base("Another delivery already exists")
+    
   end
 
   ########################################################################################################################
@@ -37,11 +36,10 @@ class Delivery < ActiveRecord::Base
 
   ########################################################################################################################
 
-  before_create :set_recipients_count
+  before_validation :set_recipients_count, :set_start_at
   after_create  :async_start!
 
-  scope :current, :conditions => { :status => [Status::SCHEDULED, Status::RUNNING] }
-
+  scope :current, :conditions => { :state => [:scheduled, :running] }
 
   def self.perform(id, args = {})
     if delivery = Delivery.find(id)
@@ -65,7 +63,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def deliveries
-    self.oks + self.errors
+    self.oks + self.fails
   end
 
   def deliveries_per_second
@@ -74,25 +72,25 @@ class Delivery < ActiveRecord::Base
   end
 
   ########################################################################################################################
-  def scheduled?(reload = false)
-    self.reload if reload
-    self.status == Status::SCHEDULED
-  end
-
-  def running?(reload = false)
-    self.reload if reload
-    self.status == Status::RUNNING
-  end
-
-  def stopped?(reload = false)
-    self.reload if reload
-    self.status == Status::STOPPED
-  end
-
-  def finished?(reload = false)
-    self.reload if reload
-    self.status == Status::FINISHED
-  end
+  # def scheduled?(reload = false)
+  #   self.reload if reload
+  #   self.status == Status::SCHEDULED
+  # end
+  #
+  # def running?(reload = false)
+  #   self.reload if reload
+  #   self.status == Status::RUNNING
+  # end
+  #
+  # def stopped?(reload = false)
+  #   self.reload if reload
+  #   self.status == Status::STOPPED
+  # end
+  #
+  # def finished?(reload = false)
+  #   self.reload if reload
+  #   self.status == Status::FINISHED
+  # end
   ########################################################################################################################
 
   def start!(reload_after = 100)
@@ -121,6 +119,7 @@ class Delivery < ActiveRecord::Base
   def recipients
     []
   end
+
   # #fetches all status questions: finished?, running? etc
   # def method_missing(m, *args)
   #   sym = m.to_s.delete('?').to_sym
@@ -131,6 +130,14 @@ class Delivery < ActiveRecord::Base
   private
   def async_start!
     Resque.enqueue(Delivery, self.id) #, args
+  end
+
+  def set_recipients_count
+    self.recipients_count = recipients.count
+  end
+
+  def set_start_at
+    self.start_at ||= Time.now
   end
 
   def update_only(todo_attributes = {})

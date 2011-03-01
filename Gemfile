@@ -32,6 +32,9 @@ group :development do
   gem 'capistrano'
 end
 
-group :test do
-  gem 'mocha'
+
+group :test, :development do
+  gem "rspec-rails", "~> 2.4"
+  gem "resque_spec"
+  #gem "resque_unit"
 end

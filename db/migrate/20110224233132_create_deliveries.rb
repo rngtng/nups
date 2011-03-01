@@ -9,10 +9,10 @@ class CreateDeliveries < ActiveRecord::Migration
       t.integer   :recipients_count
       t.timestamp :start_at
 
-      t.integer   :last_id,   :null => false
-      t.integer   :oks,       :null => false
-      t.integer   :fails,     :null => false
-      t.integer   :bounces,   :null => false
+      t.integer   :last_id,   :null => false, :default => 0
+      t.integer   :oks,       :null => false, :default => 0
+      t.integer   :fails,     :null => false, :default => 0
+      t.integer   :bounces,   :null => false, :default => 0
 
       t.timestamp :finished_at
 

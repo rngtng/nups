@@ -1,8 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  type: "TestDelivery"
-  status: "finished"
+biff_delivery:
+  newsletter: biff_newsletter
+  type: TestDelivery
+  state: finished
+  recipients_count: 2
+  start_at: 2011-02-11
   last_id: 0
   oks: 0
-  errors: 0
+  fails: 0

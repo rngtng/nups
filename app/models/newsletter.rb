@@ -5,7 +5,9 @@ class Newsletter < ActiveRecord::Base
   has_many :attachments, :class_name => 'Asset'
 
   has_many :deliveries
-
+  has_many :live_deliveries
+  has_many :test_deliveries
+  
   #scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
 
@@ -34,7 +36,7 @@ class Newsletter < ActiveRecord::Base
   end
 
   def delivery
-    @delivery ||= self.deliveries.current.first
+    self.deliveries.current.first
   end
 
   ########################################################################################################################

@@ -79,13 +79,13 @@ ActiveRecord::Schema.define(:version => 20110226100650) do
   create_table "deliveries", :force => true do |t|
     t.integer  "newsletter_id"
     t.string   "type"
-    t.string   "status",        :default => "scheduled", :null => false
-    t.integer  "recipients"
+    t.string   "state"
+    t.integer  "recipients_count"
     t.datetime "start_at"
-    t.integer  "last_id"
-    t.integer  "oks",                                    :null => false
-    t.integer  "errors",                                 :null => false
-    t.integer  "bounces",                                :null => false
+    t.integer  "last_id",          :default => 0, :null => false
+    t.integer  "oks",              :default => 0, :null => false
+    t.integer  "fails",            :default => 0, :null => false
+    t.integer  "bounces",          :default => 0, :null => false
     t.datetime "finished_at"
 >>>>>>> moved and restructured send logic to delivery model
     t.datetime "created_at"
