@@ -52,7 +52,7 @@ class NewsletterTest < ActiveSupport::TestCase
     @newsletter = newsletters(:biff_newsletter)
     count = @newsletter.recipients.count
 
-    @newsletter.schedule!(Newsletter::LIVE_MODE)
+    @newsletter.deliver_live!
 
     assert @newsletter.live?
     assert @newsletter.scheduled?
@@ -65,8 +65,7 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_equal stop_after, @newsletter.deliveries_count
     assert_equal stop_after, ActionMailer::Base.deliveries.size
 
-    @newsletter.schedule!(Newsletter::LIVE_MODE)
-    @newsletter.deliver!
+    @newsletter.deliver_live!
 
     assert_equal 1, @newsletter.deliveries_count
     assert_equal count, ActionMailer::Base.deliveries.size
@@ -74,9 +73,9 @@ class NewsletterTest < ActiveSupport::TestCase
 
   test "should not scheduled twice" do
     @newsletter = newsletters(:biff_newsletter)
-    @newsletter.schedule!( Newsletter::LIVE_MODE )
+    @newsletter.deliver_live!
     assert_throws :scheduled do
-      @newsletter.schedule!( Newsletter::LIVE_MODE )
+      @newsletter.deliver_live!
     end
   end
 

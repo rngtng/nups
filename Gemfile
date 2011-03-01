@@ -25,6 +25,7 @@ gem 'ekuseru'
 # parsing bounce emails
 gem 'rngtng-bounce-email', '0.1.0'
 
+gem 'state_machine'
 
 group :development do
   # Deploy with Capistrano

@@ -101,6 +101,7 @@ GEM
       tilt (~> 1.2)
     spreadsheet (0.6.5.2)
       ruby-ole (>= 1.0)
+    state_machine (0.9.4)
     thor (0.14.6)
     tilt (1.2.2)
     tiny_mce (0.1.4)
@@ -124,7 +125,7 @@ DEPENDENCIES
   mysql2
   paperclip
   rails (= 3.0.5)
-  resque
   rngtng-bounce-email (= 0.1.0)
+  state_machine
   tiny_mce
   will_paginate (~> 3.0.pre2)

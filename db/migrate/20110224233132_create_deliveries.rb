@@ -5,11 +5,11 @@ class CreateDeliveries < ActiveRecord::Migration
 
       t.string    :type
 
-      t.string    :status,    :null => false, :default => "scheduled"
-      t.integer   :recipients
+      t.string    :state
+      t.integer   :recipients_count
       t.timestamp :start_at
 
-      t.integer   :last_id
+      t.integer   :last_id,   :null => false
       t.integer   :oks,       :null => false
       t.integer   :fails,     :null => false
       t.integer   :bounces,   :null => false

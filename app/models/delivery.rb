@@ -1,34 +1,47 @@
 class Delivery < ActiveRecord::Base
-
-  QUEUE     = :nups_delivery
-
-  module Status
-    SCHEDULED = 'scheduled'
-    RUNNING   = 'running'
-    STOPPED   = 'stopped'
-    FINISHED  = 'finished'
-  end
-
-  with_options(:presence => true) do |present|
-    present.validates :newsletter_id
-    present.validates :status, :inclusion => { :in => STATUS }
-
-    present.validates :recipients
-    present.validates :start_at
-  end
-
-  validates_uniqueness_of :status, :scope => :newsletter_id, :if => { |d| d.status.scheduled? || d.status.running? }
-
-  #validation
-  # there can be only one delivery with STATUS_NEW
-
-  scope :current, :conditions => { :status => STATUS_NEW }
+  @queue = QUEUE = :nups_delivery
 
   belongs_to :newsletter
 
-  after_save :async_start!
+  with_options(:presence => true) do |present|
+    present.validates :newsletter_id
+    present.validates :status, :inclusion => { :in => Status::ALL }
 
-  @queue = QUEUE
+    present.validates :recipients_count
+    present.validates :start_at
+  end
+
+  #validation, there can be only one delivery with STATUS_NEW - no_paralell_deliveries
+  validate do |delivery|
+    if nl = delivery.newsletter || Newsletter.find(delivery.newsletter_id)
+      return true unless nl.delivery
+    end
+    errors.add_to_base("Another delivery already exists")
+  end
+
+  ########################################################################################################################
+
+  state_machine :initial => :scheduled do
+    event :start do
+      transition :scheduled => :running
+    end
+
+    event :stop do
+      transition :running => :stopped
+    end
+
+    event :finish do
+      transition :running => :finished
+    end
+  end
+
+  ########################################################################################################################
+
+  before_create :set_recipients_count
+  after_create  :async_start!
+
+  scope :current, :conditions => { :status => [Status::SCHEDULED, Status::RUNNING] }
+
 
   def self.perform(id, args = {})
     if delivery = Delivery.find(id)
@@ -40,15 +53,19 @@ class Delivery < ActiveRecord::Base
   ########################################################################################################################
 
   def progress_percent
-    return 0 if recipients.to_i < 1
-    (100 * (oks.to_i + errors.to_i) / recipients.to_i).round
+    return 0 if recipients_count < 1
+    (100 * deliveries / recipients_count).round
   end
 
   #How long did it take to send newsletter
   def sending_time
     return 0 unless self.start_at
-    time = self.ended_at? && !running? ? self.ended_at : Time.now
+    time = (self.ended_at? && !running?) ? self.ended_at : Time.now
     (time - self.start_at).to_i
+  end
+
+  def deliveries
+    self.oks + self.errors
   end
 
   def deliveries_per_second
@@ -66,43 +83,44 @@ class Delivery < ActiveRecord::Base
     self.reload if reload
     self.status == Status::RUNNING
   end
-  
+
   def stopped?(reload = false)
     self.reload if reload
     self.status == Status::STOPPED
   end
-  
+
   def finished?(reload = false)
     self.reload if reload
     self.status == Status::FINISHED
-  end    
+  end
   ########################################################################################################################
 
-  def start!(reloads = 100)
+  def start!(reload_after = 100)
     # check if sheduled?
     self.update_only :status => 'running', :start_at => Time.now
 
-    recipients_all.find_each do |recipient|
-      send_to!(recipient, reloads)
-      self.reload if ((self.oks + self.errors) % reloads) == 0
-      break if stopped?
+    recipients.find_each do |recipient|
+      self.send_to!(recipient)
+      break if self.stopped?( (self.deliveries % reload_after) == 0 )
     end
     self.update_only :status => 'finished', :finished_at => Time.now
   end
 
   def stop!
-    # check if running?
-    self.reload
+    return if finished?(true)
     self.update_only :status => 'stopped', :finished_at => Time.now
     #log("#{self.id} stopped")
   end
 
   def send_to!(recipient)
-    self.newsletter.send_to! recipient
+    self.newsletter.send_to!(recipient)
   end
 
   ########################################################################################################################
 
+  def recipients
+    []
+  end
   # #fetches all status questions: finished?, running? etc
   # def method_missing(m, *args)
   #   sym = m.to_s.delete('?').to_sym
