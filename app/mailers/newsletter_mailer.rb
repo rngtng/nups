@@ -1,8 +1,7 @@
 class NewsletterMailer < ActionMailer::Base
 
-  def issue(newsletter, recipient)
-    recipient  = 
-    sending_id = "ma-#{newsletter.delivery.id}-#{recipient.to_param}"
+  def issue(sending, recipient)
+    newsletter = sending.newsletter
 
     if mail_config = newsletter.account.mail_config
       NewsletterMailer.delivery_method            = mail_config['method'].to_sym
@@ -10,21 +9,19 @@ class NewsletterMailer < ActionMailer::Base
       NewsletterMailer.smtp_settings              = mail_config['smtp_settings']
     end
 
-    template_html  = newsletter.template_html.blank? ? "<%= content %>" : newsletter.template_html
-    template_text  = newsletter.template_text.blank? ? "<%= content %>" : newsletter.template_text
-
     head = {}
     head[:to]        = recipient.email
     head[:from]      = newsletter.from
 
     head[:sender]    = newsletter.sender
     head[:reply_to]  = newsletter.reply_to
-
-    head[:subject]   = newsletter.subject
-    head[:subject]   = "TEST: #{newsletter.subject}" if newsletter.test?
+    
+    prefix           = sending.is_a?(TestSending) ? "TEST: " : ""
+    
+    head[:subject]   =  [prefix, newsletter.subject].compact.join(' ')
 
     head["X-Sender"] = "MultiAdmin"
-    head["X-MA-Id"]  = sending_id
+    head["X-MA-Id"]  = ["ma", sending.id, recipient.to_param].join('-')
 
     newsletter.attachments.each do |attachment|
        next unless File.exists?(attachment.path)
@@ -37,11 +34,11 @@ class NewsletterMailer < ActionMailer::Base
     mail(head) do |format|
       data = { :subject => newsletter.subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }
       if newsletter.has_text?
-        format.text { render :inline => template_text, :locals => data }
+        format.text { render :inline => newsletter.template_text, :locals => data }
       end
 
       if newsletter.has_html?
-        format.html { render :inline => template_html, :locals => data }
+        format.html { render :inline => newsletter.template_html, :locals => data }
       end
     end
 

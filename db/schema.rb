@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20110226100650) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
+<<<<<<< HEAD
     t.integer  "deliveries_count",         :default => 0, :null => false
     t.integer  "bounced_deliveries_count", :default => 0, :null => false
     t.integer  "account_id"
@@ -119,6 +120,16 @@ ActiveRecord::Schema.define(:version => 20110226100650) do
     t.string   "fails_count"
     t.text     "fails"
 >>>>>>> moved and restructured send logic to delivery model
+=======
+    t.integer  "deliveries_count", :default => 0, :null => false
+    t.integer  "bounces_count",    :default => 0, :null => false
+    t.text     "bounces",                         :null => false
+    t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "fails_count",      :default => 0, :null => false
+    t.text     "fails",                           :null => false
+>>>>>>> renamed delivery to sending and added new delivery to keep track of fails and bounces
   end
 
   add_index "recipients", ["email"], :name => "index_recipients_on_email"

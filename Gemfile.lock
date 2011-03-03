@@ -37,6 +37,9 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.0.0)
+    chronic (0.3.0)
+    delorean (1.0.0)
+      chronic
     devise (1.1.7)
       bcrypt-ruby (~> 2.1.2)
       warden (~> 1.0.2)
@@ -135,6 +138,7 @@ PLATFORMS
 
 DEPENDENCIES
   capistrano
+  delorean
   devise (~> 1.1.2)
   ekuseru
   mysql2

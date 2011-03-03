@@ -2,24 +2,6 @@ require 'test_helper'
 
 class NewsletterTest < ActiveSupport::TestCase
 
-  setup do
-    ActionMailer::Base.deliveries.clear
-    @user = users(:biff)
-  end
-
-  test "find by account" do
-    @newsletter = newsletters(:biff_newsletter)
-
-    assert_equal Newsletter.with_account(@newsletter.account).first, @newsletter
-  end
-
-  test "should sent to user" do
-    @newsletter = newsletters(:biff_newsletter)
-    assert_difference '@newsletter.deliveries_count' do
-      @newsletter.send(:send_to!, @newsletter.recipients.first)
-    end
-    assert_equal 1, ActionMailer::Base.deliveries.size
-  end
 
   test "deliver to test users" do
     @newsletter = newsletters(:biff_newsletter)
@@ -28,8 +10,8 @@ class NewsletterTest < ActiveSupport::TestCase
 
     @newsletter.deliver_test!
 
-    assert @newsletter.delivery.is_a? TestDelivery
-    assert @newsletter.delivery.scheduled?
+    assert @newsletter.sending.is_a? TestSending
+    assert @newsletter.sending.scheduled?
 
     @newsletter.deliver!
 
@@ -42,9 +24,9 @@ class NewsletterTest < ActiveSupport::TestCase
 
     @newsletter.deliver_live!
 
-    assert @newsletter.delivery.is_a? LiveDelivery
+    assert @newsletter.sending.is_a? LiveSending
 
-    assert_equal count, @newsletter.delivery.oks
+    assert_equal count, @newsletter.sending.oks
     assert_equal count, ActionMailer::Base.deliveries.size
   end
 

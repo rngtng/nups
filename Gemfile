@@ -36,5 +36,6 @@ end
 group :test, :development do
   gem "rspec-rails", "~> 2.4"
   gem "resque_spec"
+  gem "delorean"
   #gem "resque_unit"
 end

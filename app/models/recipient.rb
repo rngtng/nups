@@ -6,6 +6,9 @@ class Recipient < ActiveRecord::Base
 
   has_many :newsletters, :through => :account
 
+  has_many :failed_deliveries
+  has_many :bounced_deliveries
+
   scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }
   scope :search, lambda { |search| search.blank? ? {} : {:conditions => SEARCH_COLUMNS.map { |column| "#{column} LIKE '%#{search}%'" }.join(' OR ') } }
 

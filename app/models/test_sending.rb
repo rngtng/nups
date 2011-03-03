@@ -1,6 +1,6 @@
-class TestDelivery < Delivery
+class TestSending < Sending
 
-  def recipients_all
+  def recipients
     self.newsletter.account.test_recipients
   end
 end

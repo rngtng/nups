@@ -1,29 +1,21 @@
-class LiveDelivery < Delivery
-  # before_save
+class LiveSending < Sending
 
-  def recipients_all
-    self.newsletter.recipients.greater_than(self.last_sent_id)
-  end
-
-  def send_to!(recipient)
-    super(recipient)    
-    self.update_only(:oks => self.oks + 1, :last_id => recipient.id)
-    log("#{self.newsletter.id} send to #{recipient.email} (#{recipient.id})")
-  rescue  => exp
-    recipient.errors_count += 1
-    recipient.errors << "\n#{self.id} = " << exp.message
-    recipient.save
-
-    self.update_only(:errors => self.errors + 1, :last_id => recipient.id)
-  ensure
-    self.reload
+  def recipients
+    self.newsletter.recipients.greater_than(self.last_id)
   end
 
   private
-  def set_recipients
-    recipients = 0
-    recipients = recipients_all.count
+  def send_to!(recipient)
+    self.last_id = recipient.id
+    super(recipient)
+    self.oks =+ 1
+    log("#{self.newsletter.id} send to #{recipient.email} (#{recipient.id})")
+  rescue  => exp
+    recipient.failed_deliveries.create!(:message => exp.message, :sending => self)
+  ensure
+    self.save!
   end
+
 end
 
 # == Schema Info

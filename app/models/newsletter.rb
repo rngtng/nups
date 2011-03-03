@@ -4,10 +4,10 @@ class Newsletter < ActiveRecord::Base
   has_many :recipients, :through => :account
   has_many :attachments, :class_name => 'Asset'
 
-  has_many :deliveries
-  has_many :live_deliveries
-  has_many :test_deliveries
-  
+  has_many :sendings
+  has_many :live_sendings
+  has_many :test_sendings
+
   #scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
 
@@ -35,45 +35,51 @@ class Newsletter < ActiveRecord::Base
     end
   end
 
-  def delivery
-    self.deliveries.current.first
+  def sending
+    self.sendings.current.first
+  end
+
+  ########################################################################################################################
+  def template_html
+    read_attribute(:template_html) || "<%= content %>"
+  end
+
+  def template_text
+    read_attribute(:template_text) || "<%= content %>"
   end
 
   ########################################################################################################################
 
-  def created?
-    !self.delivery
-  end
+  # def created?
+  #   !self.delivery
+  # end
+  # 
+  # def scheduled?
+  #   self.delivery.try(:scheduled?)
+  # end
+  # 
+  # def running?
+  #   self.delivery.try(:running?)
+  # end
 
-  def scheduled?
-    self.delivery.try(:scheduled?)
-  end
-
-  def running?
-    self.delivery.try(:running?)
-  end
   ########################################################################################################################
 
-  def deliver_test!( args = {} )
-    self.test_deliveries.create!
+  def send_test!( args = {} )
+    self.test_sendings.create!
   end
 
-  def deliver_live!( args = {} )
-    raise if self.delivery #check sth not sheduled/running?
-    self.live_deliveries.create!
+  def send_live!( args = {} )
+    #check if test is available?
+    self.live_sendings.create!
   end
 
   def stop!
-    self.delivery.try(:stop!)
+    self.sending.try(:stop!)
   end
 
   def resume!
-    raise if self.delivery #check sth running?
-    self.live_deliveries.create!( :last_id => self.delivery.try(:last_id) )
-  end
-
-  def send_to!(recipient)
-    NewsletterMailer.issue(self, recipient).deliver
+    #check if another live is?
+    self.live_sendings.create!( :last_id => self.sending.try(:last_id) )
   end
 
 end

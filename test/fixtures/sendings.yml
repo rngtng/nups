@@ -1,6 +1,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-biff_delivery:
+biff_sending:
   newsletter: biff_newsletter
   type: TestDelivery
   state: finished
