@@ -1,11 +1,7 @@
 class Delivery < ActiveRecord::Base
-end
 
+  belongs_to :sending
 
-class FailedDelivery < Delivery
-end
-
-class BouncedDelivery < Delivery
 end
 
 ########################################################################################################################
@@ -34,7 +30,7 @@ end
 #   sym = m.to_s.delete('?').to_sym
 #   return status == STATUS[sym] if Newsletter::STATUS.include?( sym )
 #   super(m, *args)
-# end  
+# end
 ########################################################################################################################
 
 

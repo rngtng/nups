@@ -112,9 +112,9 @@ class NewslettersController < ApplicationNupsController
     @newsletter = @account.newsletters.find(params[:id])
 
     if params[:mode] == 'live'
-      @newsletter.deliver_live!
+      @newsletter.send_live!
     else
-      @newsletter.deliver_test!
+      @newsletter.send_test!
     end
 
     redirect_to account_newsletters_path(@account)

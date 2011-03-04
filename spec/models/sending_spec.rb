@@ -6,38 +6,46 @@ describe Sending do
   describe "#create" do
     before(:each) do
       @newsletter = newsletters(:biff_newsletter)
-      @sending    = @newsletter.live_sendings.create!
+      @sending    = @newsletter.send_live!
     end
 
     it "should not allow multiple instances of state 'scheduled'" do
       lambda do
-        @newsletter.live_deliveries.create!
+        @newsletter.send_live!
       end.should raise_error
     end
 
     it "should not allow multiple instances of state 'scheduled'" do
       @sending.update_attribute(:state, 'running')
       lambda do
-        @newsletter.live_deliveries.create!
+        @newsletter.send_live!
       end.should raise_error
     end
 
     it "should allow multiple instances of state 'scheduled' and 'stopped'" do
       @sending.update_attribute(:state, 'stopped')
       lambda do
-        @newsletter.reload.live_deliveries.create!
+        @newsletter.reload.send_live!
       end.should_not raise_error
     end
 
     it "should allow multiple instances of state 'scheduled' and 'finished'" do
       @sending.update_attribute(:state, 'finished')
       lambda do
-        @newsletter.reload.live_deliveries.create!
+        @newsletter.reload.send_live!
       end.should_not raise_error
     end
-    
+  end
+
+  context "#async_start!" do
+    before do
+      ResqueSpec.reset!
+    end
+
     it "should be scheduled after create" do
-      
+      @newsletter = newsletters(:biff_newsletter)
+      @newsletter.send_live!
+      Sending.should have_queued(@newsletter.sending.id)
     end
   end
 
@@ -45,11 +53,10 @@ describe Sending do
     before(:each) do
       ActionMailer::Base.deliveries.clear
       @newsletter = newsletters(:biff_newsletter)
-
     end
 
     it "should send out test sending" do
-      @sending = @newsletter.test_deliveries.create!
+      @sending = @newsletter.send_test!
 
       expect do
        @sending.send(:send_to!, @newsletter.recipients.first)
@@ -57,7 +64,7 @@ describe Sending do
     end
 
     it "should send out live sending" do
-      @sending = @newsletter.live_deliveries.create!
+      @sending = @newsletter.send_live!
 
       expect do
         @sending.send(:send_to!, @newsletter.recipients.first)
@@ -69,27 +76,28 @@ describe Sending do
   describe "states" do
     before(:each) do
       @newsletter = newsletters(:biff_newsletter)
-      @sending   = @newsletter.live_deliveries.create!
+      @sending    = @newsletter.send_live!
+      @sending.stub!(:after_start).and_return(true)
       @sending.start!
     end
 
-    after(:each) { back_to_1985 }
+    # after(:each) { back_to_1985 }
 
     it "should change state to running" do
-      @sending.reload.state.should == 'running'
+      @sending.state.should == 'running'
       @sending.finished_at.should be_nil
     end
 
     it "should change state to stopped" do
       @sending.stop!
 
-      @sending.reload.state.should == 'stopped'
+      @sending.state.should == 'stopped'
       @sending.finished_at.should_not be_nil
     end
 
     it "should change state to finished" do
       @sending.finish!
-      @sending.reload.state.should == 'finished'
+      @sending.state.should == 'finished'
       @sending.finished_at.should_not be_nil
     end
 

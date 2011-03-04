@@ -41,6 +41,9 @@ class Sending < ActiveRecord::Base
       me.finished_at = Time.now
     end
 
+    after_transition :scheduled => :running do |me, transition|
+       me.send :after_start, 100
+    end
   end
 
   ########################################################################################################################
@@ -49,10 +52,10 @@ class Sending < ActiveRecord::Base
   after_create  :async_start!
 
   scope :current, :conditions => { :state => [:scheduled, :running] }
+  scope :latest, :order => "updated_at DESC"
 
   def self.perform(id, args = {})
     if sending = Sending.find(id)
-      args = args.symbolize_keys rescue {}
       sending.start!
     end
   end
@@ -79,23 +82,25 @@ class Sending < ActiveRecord::Base
     return self.oks.to_f / sending_time
   end
 
-  def after_start(reload_after = 100)
-    recipients.find_each do |recipient|
-      self.send_to!(recipient)
-      break if self.stopped?( (self.sendings % reload_after) == 0 )
-    end
-    finish!
-  end
- 
   ########################################################################################################################
 
   def recipients
     []
   end
 
+  ########################################################################################################################
+
   private
   def async_start!
     Resque.enqueue(Sending, self.id) #, args
+  end
+
+  def after_start(reload_after = 100)
+    self.recipients.find_each do |recipient|
+      send_to!(recipient)
+      break if self.stopped?( (self.sendings % reload_after) == 0 )
+    end
+    self.finish!
   end
 
   def set_recipients_count
@@ -110,8 +115,8 @@ class Sending < ActiveRecord::Base
     NewsletterMailer.issue(self, recipient).deliver
   end
 
-  def update_only(todo_attributes = {})
-    self.attributes = todo_attributes
-    Newsletter.update_all(todo_attributes, :id => self.id)
-  end
+  # def update_only(todo_attributes = {})
+  #   self.attributes = todo_attributes
+  #   Newsletter.update_all(todo_attributes, :id => self.id)
+  # end
 end

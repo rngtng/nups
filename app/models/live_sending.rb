@@ -11,6 +11,7 @@ class LiveSending < Sending
     self.oks =+ 1
     log("#{self.newsletter.id} send to #{recipient.email} (#{recipient.id})")
   rescue  => exp
+    self.fails =+ 1
     recipient.failed_deliveries.create!(:message => exp.message, :sending => self)
   ensure
     self.save!

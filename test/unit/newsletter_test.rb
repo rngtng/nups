@@ -2,63 +2,20 @@ require 'test_helper'
 
 class NewsletterTest < ActiveSupport::TestCase
 
-
-  test "deliver to test users" do
-    @newsletter = newsletters(:biff_newsletter)
-    count = @newsletter.test_recipients.count
-    assert count > 0
-
-    @newsletter.deliver_test!
-
-    assert @newsletter.sending.is_a? TestSending
-    assert @newsletter.sending.scheduled?
-
-    @newsletter.deliver!
-
-    assert_equal count, ActionMailer::Base.deliveries.size
-  end
-
-  test "deliver to live users" do
-    @newsletter = newsletters(:biff_newsletter)
-    count = @newsletter.recipients.count
-
-    @newsletter.deliver_live!
-
-    assert @newsletter.sending.is_a? LiveSending
-
-    assert_equal count, @newsletter.sending.oks
-    assert_equal count, ActionMailer::Base.deliveries.size
-  end
-
   test "stop of deliver to live users should resume live" do
     @newsletter = newsletters(:biff_newsletter)
     count = @newsletter.recipients.count
 
-    @newsletter.deliver_live!
+    @newsletter.send_live!
 
-    assert @newsletter.live?
-    assert @newsletter.scheduled?
-
-    stop_after = 1
-    @newsletter.deliver!(stop_after)
-
-    assert @newsletter.live?
     assert @newsletter.stopped?
     assert_equal stop_after, @newsletter.deliveries_count
     assert_equal stop_after, ActionMailer::Base.deliveries.size
 
-    @newsletter.deliver_live!
+    @newsletter.send_live!
 
     assert_equal 1, @newsletter.deliveries_count
     assert_equal count, ActionMailer::Base.deliveries.size
-  end
-
-  test "should not scheduled twice" do
-    @newsletter = newsletters(:biff_newsletter)
-    @newsletter.deliver_live!
-    assert_throws :scheduled do
-      @newsletter.deliver_live!
-    end
   end
 
   test "should update attachments" do

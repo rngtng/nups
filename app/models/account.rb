@@ -5,10 +5,10 @@ class Account < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :assets
-  has_many :newsletters
-  has_many :recipients
-  has_many :bounces
+  has_many :assets,      :dependent => :destroy
+  has_many :newsletters, :dependent => :destroy
+  has_many :recipients,  :dependent => :destroy
+  has_many :bounces,  :dependent => :destroy
 
   validates :user_id, :presence => true
 

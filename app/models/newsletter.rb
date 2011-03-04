@@ -1,10 +1,11 @@
 class Newsletter < ActiveRecord::Base
 
   belongs_to :account
-  has_many :recipients, :through => :account
+
+  has_many :recipients,  :through => :account
   has_many :attachments, :class_name => 'Asset'
 
-  has_many :sendings
+  has_many :sendings, :dependent => :destroy
   has_many :live_sendings
   has_many :test_sendings
 
@@ -15,7 +16,7 @@ class Newsletter < ActiveRecord::Base
   validates :subject,    :presence => true
 
   with_options(:to => :account) do |account|
-    %w(from host sender reply_to recipients test_recipients template_html template_text color has_html? has_text?).each do |attr|
+    %w(from host sender reply_to recipients test_recipients color has_html? has_text?).each do |attr|
       account.delegate attr
     end
   end
@@ -36,16 +37,16 @@ class Newsletter < ActiveRecord::Base
   end
 
   def sending
-    self.sendings.current.first
+    self.live_sendings.latest.first
   end
 
   ########################################################################################################################
   def template_html
-    read_attribute(:template_html) || "<%= content %>"
+    account.template_html || "<%= content %>"
   end
 
   def template_text
-    read_attribute(:template_text) || "<%= content %>"
+    account.template_text || "<%= content %>"
   end
 
   ########################################################################################################################
@@ -53,11 +54,11 @@ class Newsletter < ActiveRecord::Base
   # def created?
   #   !self.delivery
   # end
-  # 
+  #
   # def scheduled?
   #   self.delivery.try(:scheduled?)
   # end
-  # 
+  #
   # def running?
   #   self.delivery.try(:running?)
   # end
@@ -70,16 +71,12 @@ class Newsletter < ActiveRecord::Base
 
   def send_live!( args = {} )
     #check if test is available?
-    self.live_sendings.create!
+    self.live_sendings.create!( :last_id => self.live_sendings.last_f.try(:last_id) )
   end
+  alias_method :send_live!, :resume!
 
   def stop!
     self.sending.try(:stop!)
-  end
-
-  def resume!
-    #check if another live is?
-    self.live_sendings.create!( :last_id => self.sending.try(:last_id) )
   end
 
 end

@@ -11,10 +11,14 @@
 # It's strongly recommended to check this file into your version control system.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20110603085449) do
 =======
 ActiveRecord::Schema.define(:version => 20110226100650) do
 >>>>>>> moved and restructured send logic to delivery model
+=======
+ActiveRecord::Schema.define(:version => 20110303180059) do
+>>>>>>> added delivery/sending, updated & fixed tests
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -77,8 +81,8 @@ ActiveRecord::Schema.define(:version => 20110226100650) do
     t.string   "password"
 =======
   create_table "deliveries", :force => true do |t|
-    t.integer  "newsletter_id"
     t.string   "type"
+<<<<<<< HEAD
     t.string   "state"
     t.integer  "recipients_count"
     t.datetime "start_at"
@@ -88,6 +92,12 @@ ActiveRecord::Schema.define(:version => 20110226100650) do
     t.integer  "bounces",          :default => 0, :null => false
     t.datetime "finished_at"
 >>>>>>> moved and restructured send logic to delivery model
+=======
+    t.integer  "sending_id"
+    t.integer  "recipient_id"
+    t.string   "code"
+    t.text     "message"
+>>>>>>> added delivery/sending, updated & fixed tests
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -108,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20110226100650) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
+<<<<<<< HEAD
 <<<<<<< HEAD
     t.integer  "deliveries_count",         :default => 0, :null => false
     t.integer  "bounced_deliveries_count", :default => 0, :null => false
@@ -130,6 +141,14 @@ ActiveRecord::Schema.define(:version => 20110226100650) do
     t.integer  "fails_count",      :default => 0, :null => false
     t.text     "fails",                           :null => false
 >>>>>>> renamed delivery to sending and added new delivery to keep track of fails and bounces
+=======
+    t.integer  "deliveries_count",         :default => 0, :null => false
+    t.integer  "bounced_deliveries_count", :default => 0, :null => false
+    t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "failed_deliveries_count",  :default => 0, :null => false
+>>>>>>> added delivery/sending, updated & fixed tests
   end
 
   add_index "recipients", ["email"], :name => "index_recipients_on_email"
