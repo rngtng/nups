@@ -25,6 +25,14 @@ class NewsletterMailer < ActionMailer::Base
     head["X-Sender"] = "MultiAdmin"
     head["X-MA-Id"]  = sending_id
 
+    newsletter.attachments.each do |attachment|
+       next unless File.exists?(attachment.path)
+       attachments[attachment.name] = {
+          :mime_type => attachment.content_type,
+          :content => File.read(attachment.path)
+        }
+    end
+
     mail(head) do |format|
       data = { :subject => newsletter.subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }
       if newsletter.has_text?
@@ -36,13 +44,6 @@ class NewsletterMailer < ActionMailer::Base
       end
     end
 
-    newsletter.attachments.each do |attachment|
-       next unless File.exists?(attachment.path)
-       attachments[attachment.name] = {
-          :mime_type => attachment.content_type,
-          :content => File.read(attachment.path)
-        }
-    end
   end
 
 end
