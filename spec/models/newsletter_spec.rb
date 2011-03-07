@@ -42,6 +42,25 @@ describe Newsletter do
           end
         end.to change(ActionMailer::Base.deliveries, :size).by(2)
       end
+
+      it "should resume a stopped sending" do
+        @newsletter = newsletters(:biff_newsletter)
+
+        sending = @newsletter.send_live!
+
+        sending.stub!(:after_start) do
+          sending.send :send_to!, sending.recipients.first
+          sending.stop!
+        end
+
+        sending.start!
+
+        expect do
+          with_resque do
+            @newsletter.send_live!
+          end
+        end.to change(ActionMailer::Base.deliveries, :size).by(1)
+      end
     end
 
     it "should not scheduled twice" do
@@ -52,8 +71,22 @@ describe Newsletter do
     end
   end
 
-  describe "#update_only" do
+  describe "#last_id" do
+    before(:each) do
+      @newsletter = newsletters(:biff_newsletter)
+    end
+
+    it "should return zero if no other sending exitst" do
+      @newsletter.last_id.should == 0
+    end
+
+    it "should return zero if no other sending exitst" do
+      @newsletter.live_sendings.create!(:last_id => 42)
+      @newsletter.last_id.should == 42
+    end
   end
+
+
 
 
   # it "should deliver to live users" do

@@ -44,8 +44,8 @@ describe Sending do
 
     it "should be scheduled after create" do
       @newsletter = newsletters(:biff_newsletter)
-      @newsletter.send_live!
-      Sending.should have_queued(@newsletter.sending.id)
+      deliver = @newsletter.send_live!
+      Sending.should have_queued(deliver.id)
     end
   end
 

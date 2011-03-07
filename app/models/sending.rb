@@ -11,7 +11,7 @@ class Sending < ActiveRecord::Base
 
   #validation, there can be only one sendingery with STATUS_NEW - no_paralell_sendings
   validate do |me|
-    if (sending = me.newsletter.try(:sending)) && sending != me
+    unless (newsletter.sendings.scheduled_or_running - Array(me)).empty?
       errors.add(:base, "Another sending already exists with state '#{sending.state}'")
     end
   end
@@ -25,6 +25,7 @@ class Sending < ActiveRecord::Base
 
     event :stop do
       transition :running => :stopped
+      transition :scheduled => :stopped
     end
 
     event :finish do
@@ -42,7 +43,7 @@ class Sending < ActiveRecord::Base
     end
 
     after_transition :scheduled => :running do |me, transition|
-       me.send :after_start, 100
+       me.send :after_start, :reload_after => 100
     end
   end
 
@@ -51,8 +52,9 @@ class Sending < ActiveRecord::Base
   before_validation :set_recipients_count, :set_start_at
   after_create  :async_start!
 
-  scope :current, :conditions => { :state => [:scheduled, :running] }
-  scope :latest, :order => "updated_at DESC"
+  scope :latest, :order => "updated_at DESC", :limit => 1
+  scope :scheduled_or_running, :conditions => { :state => [:scheduled, :running] }
+  scope :stopped_or_finished,  :conditions => { :state => [:stopped, :finished] }, :order => "updated_at DESC"
 
   def self.perform(id, args = {})
     if sending = Sending.find(id)
@@ -64,7 +66,7 @@ class Sending < ActiveRecord::Base
 
   def progress_percent
     return 0 if self.recipients_count < 1
-    (100 * self.sendings / self.recipients_count).round
+    (100 * self.count / self.recipients_count).round
   end
 
   #How long did it take to send newsletter
@@ -73,7 +75,7 @@ class Sending < ActiveRecord::Base
     ((self.finished_at || Time.now) - self.start_at).to_f
   end
 
-  def sendings
+  def count
     self.oks + self.fails
   end
 
@@ -95,10 +97,12 @@ class Sending < ActiveRecord::Base
     Resque.enqueue(Sending, self.id) #, args
   end
 
-  def after_start(reload_after = 100)
+  def after_start(opts = {})
+    reload_after = opts.delete(:reload_after) || 100
+
     self.recipients.find_each do |recipient|
       send_to!(recipient)
-      break if self.stopped?( (self.sendings % reload_after) == 0 )
+      break if (self.count % reload_after) == 0 && self.reload.stopped?
     end
     self.finish!
   end

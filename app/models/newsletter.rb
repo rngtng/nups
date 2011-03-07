@@ -36,10 +36,6 @@ class Newsletter < ActiveRecord::Base
     end
   end
 
-  def sending
-    self.live_sendings.latest.first
-  end
-
   ########################################################################################################################
   def template_html
     account.template_html || "<%= content %>"
@@ -64,6 +60,9 @@ class Newsletter < ActiveRecord::Base
   # end
 
   ########################################################################################################################
+  def last_id
+    self.live_sendings.latest.first.try(:last_id) || 0
+  end
 
   def send_test!( args = {} )
     self.test_sendings.create!
@@ -71,12 +70,12 @@ class Newsletter < ActiveRecord::Base
 
   def send_live!( args = {} )
     #check if test is available?
-    self.live_sendings.create!( :last_id => self.live_sendings.last_f.try(:last_id) )
+    self.live_sendings.create!( :last_id => last_id )
   end
-  alias_method :send_live!, :resume!
+  alias_method :resume!, :send_live!
 
   def stop!
-    self.sending.try(:stop!)
+    self.scheduled_or_running.map(&:stop!)
   end
 
 end
