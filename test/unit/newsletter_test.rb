@@ -55,7 +55,6 @@ class NewsletterTest < ActiveSupport::TestCase
   test "stop of deliver to live users should resume live" do
     @newsletter = newsletters(:biff_newsletter)
     count = @newsletter.recipients.count
-    puts count
 
     @newsletter.schedule!(Newsletter::LIVE_MODE)
 

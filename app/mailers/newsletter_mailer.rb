@@ -37,7 +37,11 @@ class NewsletterMailer < ActionMailer::Base
     end
 
     newsletter.attachments.each do |attachment|
-       attachments[attachment.name] = File.read(attachment.path) if File.exists?(attachment.path)
+       next unless File.exists?(attachment.path)
+       attachments[attachment.name] = {
+          :mime_type => attachment.content_type,
+          :content => File.read(attachment.path)
+        }
     end
   end
 
