@@ -109,3 +109,23 @@ describe Newsletter do
   # end
 
 end
+
+# == Schema Info
+#
+# Table name: newsletters
+#
+#  id                  :integer(4)      not null, primary key
+#  account_id          :integer(4)
+#  last_sent_id        :integer(4)
+#  content             :text
+#  deliveries_count    :integer(4)      not null, default(0)
+#  errors_count        :integer(4)      not null, default(0)
+#  mode                :integer(4)      not null, default(0)
+#  recipients_count    :integer(4)      not null, default(0)
+#  status              :integer(4)      not null, default(0)
+#  subject             :string(255)
+#  created_at          :datetime
+#  deliver_at          :datetime
+#  delivery_ended_at   :datetime
+#  delivery_started_at :datetime
+#  updated_at          :datetime

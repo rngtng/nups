@@ -21,16 +21,14 @@ wonne:
 #
 # Table name: recipients
 #
-#  id               :integer(4)      not null, primary key
-#  account_id       :integer(4)
-#  bounces          :text
-#  bounces_count    :integer(4)      not null, default(0)
-#  deliveries_count :integer(4)      not null, default(0)
-#  email            :string(255)
-#  fails            :text
-#  fails_count      :string(255)
-#  first_name       :string(255)
-#  gender           :string(255)
-#  last_name        :string(255)
-#  created_at       :datetime
-#  updated_at       :datetime
+#  id                       :integer(4)      not null, primary key
+#  account_id               :integer(4)
+#  bounced_deliveries_count :integer(4)      not null, default(0)
+#  deliveries_count         :integer(4)      not null, default(0)
+#  email                    :string(255)
+#  failed_deliveries_count  :integer(4)      not null, default(0)
+#  first_name               :string(255)
+#  gender                   :string(255)
+#  last_name                :string(255)
+#  created_at               :datetime
+#  updated_at               :datetime
