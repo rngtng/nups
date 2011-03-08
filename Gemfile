@@ -27,11 +27,12 @@ gem 'rngtng-bounce-email', '0.1.0'
 
 gem 'state_machine'
 
+gem 'haml'
+
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'
 end
-
 
 group :test, :development do
   gem "rspec-rails", "~> 2.4"
