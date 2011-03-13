@@ -2,7 +2,7 @@
 
 biff_sending:
   newsletter: biff_newsletter
-  type: TestDelivery
+  type: TestSending
   state: finished
   recipients_count: 2
   start_at: 2011-02-11

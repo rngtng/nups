@@ -32,6 +32,8 @@ gem 'haml'
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'
+
+  gem 'ruby-graphviz', :require => 'graphviz'
 end
 
 group :test, :development do

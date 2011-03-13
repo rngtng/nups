@@ -5,17 +5,19 @@
 # below each fixture, per the syntax in the comments below
 #
 
-biff_newsletter: 
+biff_newsletter:
   account: biff_account
   subject: First Newsletter
-  deliver_at: <%= Time.now %>
-  last_sent_id: 0
-  
-two: 
+  state: tested
+#  deliver_at: <%= Time.now %>
+#  last_sent_id: 0
+
+two:
   account: biff_account
   subject: First Newsletter
-  deliver_at: <%= Time.now %>
-  last_sent_id: 0
+  state: new
+#  deliver_at: <%= Time.now %>
+#  last_sent_id: 0
 
 # == Schema Info
 #

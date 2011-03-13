@@ -12,6 +12,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20110603085449) do
 =======
 ActiveRecord::Schema.define(:version => 20110226100650) do
@@ -19,6 +20,9 @@ ActiveRecord::Schema.define(:version => 20110226100650) do
 =======
 ActiveRecord::Schema.define(:version => 20110303180059) do
 >>>>>>> added delivery/sending, updated & fixed tests
+=======
+ActiveRecord::Schema.define(:version => 20110309145947) do
+>>>>>>> added state machine to newsletter, model cleanup
 
   create_table "accounts", :force => true do |t|
     t.string   "name"

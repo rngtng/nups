@@ -6,7 +6,8 @@ describe Sending do
   describe "#create" do
     before(:each) do
       @newsletter = newsletters(:biff_newsletter)
-      @sending    = @newsletter.send_live!
+      @newsletter.send_live!
+      @sending    = @newsletter.sendings.first
     end
 
     it "should not allow multiple instances of state 'scheduled'" do
@@ -44,8 +45,8 @@ describe Sending do
 
     it "should be scheduled after create" do
       @newsletter = newsletters(:biff_newsletter)
-      deliver = @newsletter.send_live!
-      Sending.should have_queued(deliver.id)
+      @newsletter.send_live!
+      Sending.should have_queued(@newsletter.sendings.first.id)
     end
   end
 
@@ -56,7 +57,8 @@ describe Sending do
     end
 
     it "should send out test sending" do
-      @sending = @newsletter.send_test!
+      @newsletter.send_test!
+      @sending = @newsletter.sendings.first
 
       expect do
        @sending.send(:send_to!, @newsletter.recipients.first)
@@ -76,7 +78,8 @@ describe Sending do
   describe "states" do
     before(:each) do
       @newsletter = newsletters(:biff_newsletter)
-      @sending    = @newsletter.send_live!
+      @newsletter.send_live!
+      @sending    = @newsletter.sendings.first
       @sending.stub!(:after_start).and_return(true)
       @sending.start!
     end
@@ -105,15 +108,6 @@ describe Sending do
 
   describe "#update_only" do
   end
-
-  # test "should " do
-  #   @sending = deliveries(:biff_sending)
-  #
-  #
-  #   @newsletter.send(:update_only, :sending_started_at)
-  #   @newsletter.reload
-  #   assert @newsletter.sending_started_at != @newsletter.sending_ended_at
-  # end
 
 end
 

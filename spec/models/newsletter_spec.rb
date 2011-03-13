@@ -46,14 +46,16 @@ describe Newsletter do
       it "should resume a stopped sending" do
         @newsletter = newsletters(:biff_newsletter)
 
-        sending = @newsletter.send_live!
+        @newsletter.send_live!
+        sending = @newsletter.sendings.first
 
         sending.stub!(:after_start) do
           sending.send :send_to!, sending.recipients.first
-          sending.stop!
         end
 
         sending.start!
+        @newsletter.stop!
+        @newsletter.reload
 
         expect do
           with_resque do
@@ -80,33 +82,16 @@ describe Newsletter do
       @newsletter.last_id.should == 0
     end
 
-    it "should return zero if no other sending exitst" do
+    it "should not return id of last test sending" do
+      @newsletter.test_sendings.create!(:last_id => 42)
+      @newsletter.last_id.should == 0
+    end
+
+    it "should return id of last live sending" do
       @newsletter.live_sendings.create!(:last_id => 42)
       @newsletter.last_id.should == 42
     end
   end
-
-
-
-
-  # it "should deliver to live users" do
-  #   count = @newsletter.recipients.count
-  #
-  #   @newsletter.send_live!
-  #
-  #   assert @newsletter.sending.is_a? LiveSending
-  #
-  #   assert_equal count, @newsletter.sending.oks
-  #   assert_equal count, ActionMailer::Base.deliveries.size
-  # end
-  # test "should " do
-  #   @delivery = deliveries(:biff_sending)
-  #
-  #
-  #   @newsletter.send(:update_only, :delivery_started_at)
-  #   @newsletter.reload
-  #   assert @newsletter.delivery_started_at != @newsletter.delivery_ended_at
-  # end
 
 end
 

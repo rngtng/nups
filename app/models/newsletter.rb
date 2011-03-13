@@ -5,9 +5,9 @@ class Newsletter < ActiveRecord::Base
   has_many :recipients,  :through => :account
   has_many :attachments, :class_name => 'Asset'
 
-  has_many :sendings, :dependent => :destroy
-  has_many :live_sendings
-  has_many :test_sendings
+  has_many :sendings,      :order => "updated_at DESC", :dependent => :destroy
+  has_many :live_sendings, :order => "updated_at DESC"
+  has_many :test_sendings, :order => "updated_at DESC"
 
   #scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
@@ -20,6 +20,50 @@ class Newsletter < ActiveRecord::Base
       account.delegate attr
     end
   end
+
+  ########################################################################################################################
+
+  state_machine :initial => :new do
+    event :send_test do
+      transition :new     => :testing
+      transition :tested  => :testing
+      transition :stopped => :testing
+    end
+
+    event :send_live do
+      transition :tested  => :sending
+      transition :stopped => :sending
+    end
+
+    event :stop do
+      transition :sending => :stopping
+    end
+
+    event :finish do
+      transition :sending  => :finished
+      transition :testing  => :tested
+      transition :stopping => :stopped
+    end
+
+    event :clone do
+      transition :finished => :finished
+    end
+
+    after_transition all => :testing do |me|
+      me.test_sendings.create!
+    end
+
+    after_transition all => :sending do |me|
+      me.live_sendings.create!( :last_id => me.last_id )
+    end
+
+    after_transition all => :stopping do |me|
+      me.sendings.first.stop!
+    end
+  end
+
+  ########################################################################################################################
+
 
   ########################################################################################################################
 
@@ -46,36 +90,27 @@ class Newsletter < ActiveRecord::Base
   end
 
   ########################################################################################################################
-
-  # def created?
-  #   !self.delivery
-  # end
   #
-  # def scheduled?
-  #   self.delivery.try(:scheduled?)
+  # def test_ok?
+  #   self.test_sendings.finished.any?
   # end
   #
   # def running?
-  #   self.delivery.try(:running?)
+  #   self.sendings.scheduled_or_running.any?
   # end
-
+  #
+  # def finished?
+  #   self.live_sendings.finished.any?
+  # end
+  #
+  # def stopped?
+  #   !finished? && self.live_sendings.stopped.any?
+  # end
+  #
   ########################################################################################################################
+
   def last_id
-    self.live_sendings.latest.first.try(:last_id) || 0
-  end
-
-  def send_test!( args = {} )
-    self.test_sendings.create!
-  end
-
-  def send_live!( args = {} )
-    #check if test is available?
-    self.live_sendings.create!( :last_id => last_id )
-  end
-  alias_method :resume!, :send_live!
-
-  def stop!
-    self.scheduled_or_running.map(&:stop!)
+    self.live_sendings.first.try(:last_id) || 0
   end
 
 end
@@ -86,16 +121,7 @@ end
 #
 #  id                  :integer(4)      not null, primary key
 #  account_id          :integer(4)
-#  last_sent_id        :integer(4)
 #  content             :text
-#  deliveries_count    :integer(4)      not null, default(0)
-#  errors_count        :integer(4)      not null, default(0)
-#  mode                :integer(4)      not null, default(0)
-#  recipients_count    :integer(4)      not null, default(0)
-#  status              :integer(4)      not null, default(0)
 #  subject             :string(255)
 #  created_at          :datetime
-#  deliver_at          :datetime
-#  delivery_ended_at   :datetime
-#  delivery_started_at :datetime
 #  updated_at          :datetime

@@ -40,6 +40,7 @@ class Sending < ActiveRecord::Base
 
     before_transition :running => [:stopped, :finished] do |me|
       me.finished_at = Time.now
+      me.newsletter.finish!
     end
 
     after_transition :scheduled => :running do |me, transition|
@@ -52,9 +53,9 @@ class Sending < ActiveRecord::Base
   before_validation :set_recipients_count, :set_start_at
   after_create  :async_start!
 
-  scope :latest, :order => "updated_at DESC", :limit => 1
   scope :scheduled_or_running, :conditions => { :state => [:scheduled, :running] }
   scope :stopped_or_finished,  :conditions => { :state => [:stopped, :finished] }, :order => "updated_at DESC"
+  scope :finished, :conditions => { :state => [:finished] }
 
   def self.perform(id, args = {})
     if sending = Sending.find(id)
