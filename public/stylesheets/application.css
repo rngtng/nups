@@ -1,8 +1,38 @@
+html, body, table#container, iframe {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+iframe {
+  width: 100%;
+  border-left: 1px solid;
+  border-top: 1px solid;
+  padding: 0px;
+  background-color:#FFF;
+}
+
+* html table#container {
+  height: 100%;
+}
+
 body {
-   font-family:Arial, Helvetica, sans-serif;
-   font-size: 9pt; 
-   font-weight: normal;
-   padding: 0px;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+  font-weight: normal;
+}
+
+body#index {
+  overflow:hidden;
+  background-color:#6699CC
+}
+
+body#content {
+  min-width:700px;
+  background-color:#FFF;
 }
 
 #top_menu a {
@@ -17,19 +47,21 @@ body {
   text-decoration: underline;
 }
 
+
 #menu {
+  width: 145px;
   padding-left: 5px;
-} 
- 
+}
+
 #menu .menu_item a {
   color: #000;
   text-decoration: none;
 }
- 
+
 #menu .menu_item a:hover {
   text-decoration: underline;
-} 
- 
+}
+
 #menu ul {
   list-style-type: none;
   padding: 0px;
@@ -53,123 +85,122 @@ body {
 }
 
 
-#body_content {
-    padding: 0 5px;
-    margin: 0px;
-    border-left: 1px solid;
-    border-top: 1px solid;
-}
-
-
-
 TH {
-        font-family:verdana, arial;
-        font-size: 9pt; 
-        color:#000000; 
-        text-decoration:none;
-        font-weight: bold;
-        padding: 2px;
-        text-align:left;
+  font-family:verdana, arial;
+  font-size: 9pt;
+  color:#000000;
+  text-decoration:none;
+  font-weight: bold;
+  padding: 2px;
+  text-align:left;
 }
 
 
 TD {
-        font-family:verdana, arial;
-        font-size: 9pt; 
-        color:#000000; 
-        text-decoration:none;
-        font-weight: normal;
+  font-family:verdana, arial;
+  font-size: 9pt;
+  color:#000000;
+  text-decoration:none;
+  font-weight: normal;
 }
 
-TR.bgdark       {
-        background-color:#DDDDDD;
+TR.bgdark {
+  background-color:#DDDDDD;
 }
 
-TR.bglight      {
-        background-color:#EEEEEE;
+TR.bglight {
+  background-color:#EEEEEE;
 }
 
 .index h2 {
-        font-size:15pt; 
-        color:#000000; 
-        text-decoration:none;
-        font-weight:bold;
-        display:inline;
+  font-size: 15pt;
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline;
 }
 
 .index table.content {
-    border: solid 2px #CCCCCC;
-    width: 100%;
-  }
+  border: solid 2px #CCCCCC;
+  width: 100%;
+}
 
 .index th {
-    background-color:#669966;
+  background-color: #669966;
 }
 
 
 #newsletter.index  td {
-    text-align: center;
+  text-align: center;
 }
 
 
 #newsletter h2 {
-        font-size:15pt; 
-        color:#000000; 
-        text-decoration:none; 
-        font-weight:bold;
-        text-align:left;
-        display:inline;
+  font-size:15pt;
+  color:#000000;
+  text-decoration:none;
+  font-weight:bold;
+  text-align:left;
+  display:inline;
 }
 
 #newsletter #formular {
-        border: solid 2px #CCCCCC;
+  border: solid 2px #CCCCCC;
 }
 
 #newsletter #formular THEAD TR {
-        background-color:#669966;
+  background-color:#669966;
 }
 
 #newsletter #formular TBODY TR {
-        background-color:#EEEEEE;
+  background-color:#EEEEEE;
 }
 
 #newsletter #formular TBODY TR.red {
-        background-color:#EECECE;
+  background-color:#EECECE;
 }
 
 #newsletter #formular TBODY TH {
-        text-align: left;
+  text-align: left;
 }
 
 #newsletter #formular TBODY .small {
-        font-size:8pt;
-        font-weight:normal;
+  font-size:8pt;
+  font-weight:normal;
 }
 
 #newsletter #formular #filelist {
-        margin: 3px;
+  margin: 3px;
 }
 
 #newsletter #formular .upload {
-        margin: 3px;
-        background-color: #CCC;
-        padding: 5px;
+  margin: 3px;
+  background-color: #CCC;
+  padding: 5px;
 }
 
 #newsletter #formular .error {
-        font-family:Arial, Helvetica, sans-serif; 
-        font-size:10pt; 
-        color:red; 
-        text-decoration:none; 
-        font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:10pt;
+  color:red;
+  text-decoration:none;
+  font-weight:bold;
 }
 
 #newsletter #preview {
-        border:solid 1px #CCCCCC;
+  border:solid 1px #CCCCCC;
 }
-  
+
 #account_list {
-           display: inline;
-           margin-left: 20px;
-           margin-right: 20px;           
+  display: inline;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.progress_bar {
+  width: 100px;
+  border: 1px solid #000;
+  overflow: hidden;
+  margin:0 auto;
+  padding:0;
 }

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= t 'application.title' %></title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag "jquery.js", "jquery.rails.js", "plupload/jquery.plupload.queue.min.js", "plupload/plupload.full.min.js" %>
-  <%= include_tiny_mce_if_needed %>
-  <%= csrf_meta_tag %>
-</head>
-<body id="body_content"  leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-
-  <%= yield %>
-
-</body>
+  <head>
+    <title><%= t 'application.title' %></title>
+    <%= stylesheet_link_tag :all %>
+    <%= javascript_include_tag "jquery.js", "jquery.rails.js", "plupload/jquery.plupload.queue.min.js", "plupload/plupload.full.min.js" %>
+    <%= include_tiny_mce_if_needed %>
+    <%= csrf_meta_tag %>
+  </head>
+  <body id="content">
+    <div style="padding:5px;">
+      <%= yield %>
+    </div>
+  </body>
 </html>

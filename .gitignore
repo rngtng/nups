@@ -14,3 +14,6 @@ public/javascripts/dragdrop.js
 public/javascripts/effects.js
 public/javascripts/prototype.js
 public/javascripts/rails.js
+tmp/routes_cache
+Newsletter_state.png
+Sending_state.png
