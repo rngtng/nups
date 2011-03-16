@@ -1,0 +1,113 @@
+#newsletter
+  .index TD
+    text-align: center
+
+  h2
+    font-size: 15pt
+    color: #000000
+    text-decoration: none
+    font-weight: bold
+    text-align: left
+    display: inline
+
+  #formular
+    border: solid 2px #CCCCCC
+
+    THEAD TR
+      background-color: #669966
+
+    TBODY TR
+      background-color: #EEEEEE
+
+    TBODY TR.red
+      background-color: #EECECE
+
+    TBODY TH
+      text-align: left
+
+    TBODY .small
+      font-size: 8pt
+      font-weight: normal
+
+    #filelist
+      margin: 3px
+
+    .upload
+      margin: 3px
+      background-color: #CCC
+      padding: 5px
+
+    .error
+      font-family: Arial, Helvetica, sans-serif
+      font-size: 10pt
+      color: red
+      text-decoration: none
+      font-weight: bold
+
+  #preview
+    border: solid 1px #CCCCCC
+
+
+// http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html
+.clear
+  overflow: hidden
+  width: 100%
+a.button
+  background: transparent url('/images/buttons/bg_button_a.gif') no-repeat scroll top right
+  color: #444
+  display: block
+  float: left
+  font: normal 12px arial, sans-serif
+  height: 24px
+  margin-right: 6px
+  padding-right: 18px
+  text-decoration: none
+  &:active
+    background-position: bottom right
+    color: #000
+    outline: none
+  span
+    background: transparent url('/images/buttons/bg_button_span.gif') no-repeat
+    display: block
+    line-height: 14px
+    padding: 5px 0 5px 18px
+  &:active span
+    background-position: bottom left
+    padding: 6px 0 4px 18px
+
+TR.newsletter
+  &.bgdark
+    background-color: #DDDDDD
+  &.bglight
+    background-color: #EEEEEE
+  .actions a
+    display: none
+  &.new, &.tested, &.stopped
+    .send_test
+      display: block
+  &.tested
+    .send_live
+      display: block
+  &.stopped
+    .resume
+      display: block
+  &.testing, &.sending
+    .stop
+      display: block
+  &.finished
+    .clone
+      display: block
+
+  .menu img
+    border: 0
+    margin: 5px
+    height: 22px
+
+  .preview
+
+// disable urls: http://css-tricks.com/pointer-events-current-nav/
+  &.sending, &.finished
+    .edit, .delete
+      pointer-events: none
+      cursor: default
+

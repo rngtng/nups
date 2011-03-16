@@ -1,0 +1,84 @@
+#newsletter .index TD {
+  text-align: center; }
+#newsletter h2 {
+  font-size: 15pt;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: left;
+  display: inline; }
+#newsletter #formular {
+  border: solid 2px #cccccc; }
+  #newsletter #formular THEAD TR {
+    background-color: #669966; }
+  #newsletter #formular TBODY TR {
+    background-color: #eeeeee; }
+  #newsletter #formular TBODY TR.red {
+    background-color: #eecece; }
+  #newsletter #formular TBODY TH {
+    text-align: left; }
+  #newsletter #formular TBODY .small {
+    font-size: 8pt;
+    font-weight: normal; }
+  #newsletter #formular #filelist {
+    margin: 3px; }
+  #newsletter #formular .upload {
+    margin: 3px;
+    background-color: #cccccc;
+    padding: 5px; }
+  #newsletter #formular .error {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    color: red;
+    text-decoration: none;
+    font-weight: bold; }
+#newsletter #preview {
+  border: solid 1px #cccccc; }
+
+.clear {
+  overflow: hidden;
+  width: 100%; }
+
+a.button {
+  background: transparent url("/images/buttons/bg_button_a.gif") no-repeat scroll top right;
+  color: #444444;
+  display: block;
+  float: left;
+  font: normal 12px arial, sans-serif;
+  height: 24px;
+  margin-right: 6px;
+  padding-right: 18px;
+  text-decoration: none; }
+  a.button:active {
+    background-position: bottom right;
+    color: black;
+    outline: none; }
+  a.button span {
+    background: transparent url("/images/buttons/bg_button_span.gif") no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px; }
+  a.button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; }
+
+TR.newsletter.bgdark {
+  background-color: #dddddd; }
+TR.newsletter.bglight {
+  background-color: #eeeeee; }
+TR.newsletter .actions a {
+  display: none; }
+TR.newsletter.new .send_test, TR.newsletter.tested .send_test, TR.newsletter.stopped .send_test {
+  display: block; }
+TR.newsletter.tested .send_live {
+  display: inline; }
+TR.newsletter.stopped .resume {
+  display: inline; }
+TR.newsletter.testing .stop, TR.newsletter.sending .stop {
+  display: inline; }
+TR.newsletter.finished .clone {
+  display: inline; }
+TR.newsletter .menu img {
+  border: 0;
+  margin: 5px;
+  height: 22px; }

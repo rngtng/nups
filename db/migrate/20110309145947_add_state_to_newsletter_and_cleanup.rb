@@ -6,7 +6,7 @@ class AddStateToNewsletterAndCleanup < ActiveRecord::Migration
                recipients_count, state, type,
                created_at, finished_at, start_at, updated_at)
         SELECT last_sent_id, id, errors_count, deliveries_count,
-               recipients_count, status, IF(mode = 0,'TestSending','LiveSending'),
+               recipients_count, IF(status=5,'finished',status), IF(mode=0,'TestSending','LiveSending'),
                deliver_at, delivery_ended_at, deliver_at, delivery_ended_at
         FROM newsletters
     SQL
@@ -22,7 +22,7 @@ class AddStateToNewsletterAndCleanup < ActiveRecord::Migration
       t.remove :delivery_ended_at
       t.remove :delivery_started_at
 
-      t.string :state
+      t.string :state, :default => 'finished'
     end
 
   end

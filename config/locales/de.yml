@@ -60,13 +60,14 @@ de:
     new: Neuer Newsletter
     account: Newsletter
     action: Aktion
+    menu: Menu
     uploading: Uploading
     form:
       title: Newsletter erstellen
       current_time: aktuelle Zeit
       add_attachment: Anhang hinzufügen
     ctrl:
-      pause: stop
+      stop: stop
       send_test: Test senden
       send_live: Live senden
       add_files: Datei(en) hinzufügen
@@ -74,7 +75,7 @@ de:
       format_view: Formatierungs Ansicht
       html_view: HTML Ansicht
     confirm:
-      pause: Versand stoppen?
-      start: Versand starten?
+      stop: Versand stoppen?
+      send_live: Versand starten?
       resume: Versand forführen?
       delete: Newsletter löschen?

@@ -66,7 +66,7 @@ en:
       current_time: current time
       add_attachment: add attachment
     ctrl:
-      pause: stop
+      stop: stop
       send_test: send test
       send_live: send live
       add_files: add File(s)
@@ -74,7 +74,7 @@ en:
       format_view: Format View
       html_view: HTML View
     confirm:
-      pause: Stop sending newsletter?
-      start: Start sending newsletter?
+      stop: Stop sending newsletter?
+      send_live: Start sending newsletter?
       resume: Resume sending newsletter?
       delete: Really delete newsletter?

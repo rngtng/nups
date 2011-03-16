@@ -8,7 +8,7 @@ class NewslettersController < ApplicationNupsController
   def index
     @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
     @user        ||= (@account) ? @account.user : current_user
-    @newsletters = @user.newsletters.with_account(@account).all( :order => 'deliver_at DESC', :limit => 20 )
+    @newsletters = @user.newsletters.with_account(@account).all( :order => 'updated_at DESC', :limit => 20 )
     @accounts    = current_user.admin? ? Account.all : @user.accounts
   end
 
