@@ -30,6 +30,7 @@ Nups::Application.routes.draw do
         get :start
         get :stop
         get :preview
+        get :clone
       end
     end
 

@@ -8,7 +8,7 @@
       <strong><%= t 'newsletters.account' %>: <%= select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()" %></strong>
     <% end if @user.accounts.count > 1 %>
    </div>
-   <div  style="float:right">
+   <div style="float:right">
      <%= link_to( t( 'newsletters.new', :account_name => @account.name), new_account_newsletter_path(@account)) if @account %>
    </div>
   <table class="content">

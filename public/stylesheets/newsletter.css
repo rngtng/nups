@@ -35,24 +35,23 @@
 #newsletter #preview {
   border: solid 1px #cccccc; }
 
-.clear {
-  overflow: hidden;
-  width: 100%; }
-
 a.button {
+  height: 24px;
+  margin: 2px;
+  padding-right: 18px;
   background: transparent url("/images/buttons/bg_button_a.gif") no-repeat scroll top right;
   color: #444444;
+  text-align: center;
   display: block;
-  float: left;
   font: normal 12px arial, sans-serif;
-  height: 24px;
-  margin-right: 6px;
-  padding-right: 18px;
+  font-weight: bold;
   text-decoration: none; }
   a.button:active {
     background-position: bottom right;
     color: black;
     outline: none; }
+  a.button:hover {
+    color: black; }
   a.button span {
     background: transparent url("/images/buttons/bg_button_span.gif") no-repeat;
     display: block;
@@ -62,23 +61,76 @@ a.button {
     background-position: bottom left;
     padding: 6px 0 4px 18px; }
 
+TH {
+  text-align: center;
+  font-weight: bold; }
+
 TR.newsletter.bgdark {
   background-color: #dddddd; }
 TR.newsletter.bglight {
   background-color: #eeeeee; }
-TR.newsletter .actions a {
-  display: none; }
+TR.newsletter .icon {
+  width: 60px; }
+  TR.newsletter .icon a {
+    float: left;
+    display: block;
+    width: 48px;
+    height: 48px;
+    margin: 2px;
+    border: 0; }
+    TR.newsletter .icon a span {
+      display: none; }
+TR.newsletter.new .icon a {
+  background: transparent url("/images/icon/new.png") no-repeat; }
+TR.newsletter.testing .icon a, TR.newsletter.tested .icon a {
+  background: transparent url("/images/icon/tested.png") no-repeat; }
+TR.newsletter.sending .icon a {
+  background: transparent url("/images/icon/sending.png") no-repeat; }
+TR.newsletter.stopping .icon a, TR.newsletter.stopped .icon a {
+  background: transparent url("/images/icon/stopped.png") no-repeat; }
+TR.newsletter.finished .icon a {
+  background: transparent url("/images/icon/finished.png") no-repeat; }
+TR.newsletter .recipients {
+  width: 120px;
+  text-align: center;
+  font-weight: bold; }
+TR.newsletter .actions {
+  width: 120px; }
+  TR.newsletter .actions a {
+    display: none; }
 TR.newsletter.new .send_test, TR.newsletter.tested .send_test, TR.newsletter.stopped .send_test {
   display: block; }
 TR.newsletter.tested .send_live {
-  display: inline; }
+  display: block; }
 TR.newsletter.stopped .resume {
-  display: inline; }
+  display: block; }
 TR.newsletter.testing .stop, TR.newsletter.sending .stop {
-  display: inline; }
+  display: block; }
 TR.newsletter.finished .clone {
-  display: inline; }
-TR.newsletter .menu img {
-  border: 0;
-  margin: 5px;
-  height: 22px; }
+  display: block; }
+TR.newsletter .menu {
+  width: 120px;
+  padding-left: 15px; }
+  TR.newsletter .menu a {
+    float: left;
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 2px;
+    border: 0; }
+    TR.newsletter .menu a span {
+      display: none; }
+TR.newsletter .preview {
+  background: transparent url("/images/menu/preview.png") no-repeat; }
+TR.newsletter .edit {
+  background: transparent url("/images/menu/edit.png") no-repeat; }
+TR.newsletter .delete {
+  background: transparent url("/images/menu/delete.png") no-repeat; }
+TR.newsletter.testing .edit, TR.newsletter.sending .edit, TR.newsletter.stopping .edit, TR.newsletter.finished .edit {
+  background: transparent url("/images/menu/disabled/edit.png") no-repeat;
+  pointer-events: none;
+  cursor: default; }
+TR.newsletter.testing .delete, TR.newsletter.sending .delete, TR.newsletter.stopping .delete, TR.newsletter.finished .delete {
+  background: transparent url("/images/menu/disabled/delete.png") no-repeat;
+  pointer-events: none;
+  cursor: default; }

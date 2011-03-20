@@ -49,23 +49,26 @@
 
 
 // http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html
-.clear
-  overflow: hidden
-  width: 100%
+// .clear
+//   overflow: hidden
+//   width: 100%
 a.button
+  height: 24px
+  margin: 2px
+  padding-right: 18px
   background: transparent url('/images/buttons/bg_button_a.gif') no-repeat scroll top right
   color: #444
+  text-align: center
   display: block
-  float: left
   font: normal 12px arial, sans-serif
-  height: 24px
-  margin-right: 6px
-  padding-right: 18px
+  font-weight: bold
   text-decoration: none
   &:active
     background-position: bottom right
     color: #000
     outline: none
+  &:hover
+    color: #000
   span
     background: transparent url('/images/buttons/bg_button_span.gif') no-repeat
     display: block
@@ -75,13 +78,51 @@ a.button
     background-position: bottom left
     padding: 6px 0 4px 18px
 
+TH
+  text-align: center
+  font-weight: bold
+
 TR.newsletter
   &.bgdark
     background-color: #DDDDDD
   &.bglight
     background-color: #EEEEEE
-  .actions a
-    display: none
+  .icon
+    width: 60px
+    a
+      float: left
+      display: block
+      width: 48px
+      height: 48px
+      margin: 2px
+      border: 0
+      span
+        display: none
+  &.new
+    .icon a
+      background: transparent url('/images/icon/new.png') no-repeat
+  &.testing, &.tested
+    .icon a
+      background: transparent url('/images/icon/tested.png') no-repeat
+  &.sending
+    .icon a
+      background: transparent url('/images/icon/sending.png') no-repeat
+  &.stopping, &.stopped
+    .icon a
+      background: transparent url('/images/icon/stopped.png') no-repeat
+  &.finished
+    .icon a
+      background: transparent url('/images/icon/finished.png') no-repeat
+
+  .recipients
+    width: 120px
+    text-align: center
+    font-weight: bold
+
+  .actions
+    width: 120px
+    a
+      display: none
   &.new, &.tested, &.stopped
     .send_test
       display: block
@@ -98,16 +139,35 @@ TR.newsletter
     .clone
       display: block
 
-  .menu img
-    border: 0
-    margin: 5px
-    height: 22px
-
+  .menu
+    width: 120px
+    padding-left: 15px
+    a
+      float: left
+      display: block
+      width: 32px
+      height: 32px
+      margin: 2px
+      border: 0
+      span
+        display: none
   .preview
+    background: transparent url('/images/menu/preview.png') no-repeat
+  .edit
+    background: transparent url('/images/menu/edit.png') no-repeat
+  .delete
+    background: transparent url('/images/menu/delete.png') no-repeat
 
-// disable urls: http://css-tricks.com/pointer-events-current-nav/
-  &.sending, &.finished
-    .edit, .delete
+  // disable urls: http://css-tricks.com/pointer-events-current-nav
+  &.testing, &.sending, &.stopping, &.finished
+    .edit
+      background: transparent url('/images/menu/disabled/edit.png') no-repeat
       pointer-events: none
       cursor: default
+
+    .delete
+      background: transparent url('/images/menu/disabled/delete.png') no-repeat
+      pointer-events: none
+      cursor: default
+
 

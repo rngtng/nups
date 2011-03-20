@@ -3,8 +3,8 @@
 
 %tr{ :id => "status_#{newsletter.id}", :class => "newsletter #{cycle('bgdark', 'bglight')} #{newsletter.state}" }
   %td.icon
-    = newsletter.state
-    %img
+    %a.preview{ :href => account_newsletters_path(*newsletter.route) }
+      %span= newsletter.state
 
   %td.progress
     %strong
@@ -18,7 +18,7 @@
     -# #{"%.1f" % newsletter.deliveries_per_second}/sec.
     -# - # color: white;' align='center'
 
-  %td
+  %td.recipients
     0 #{Newsletter.human_attribute_name(:recipients_count)}
 
   %td.actions
@@ -30,8 +30,14 @@
       %span=t('newsletters.ctrl.resume')
     %a.button.stop{ :href => stop_account_newsletter_path(*newsletter.route), 'data-confirm' => t('newsletters.confirm.stop') }
       %span=t('newsletters.ctrl.stop')
+    %a.button.clone{ :href => clone_account_newsletter_path(*newsletter.route) }
+      %span=t('newsletters.ctrl.clone')
 
   %td.menu
-    = link_to image_tag('buttons/preview.png', :title => t('ctrl.preview')), newsletter.route, :class => 'preview'
-    = link_to image_tag('buttons/edit.png',    :title => t('ctrl.edit')),    edit_account_newsletter_path(*newsletter.route), :class => 'edit'
-    = link_to image_tag('buttons/delete.png',  :title => t('ctrl.delete')),  newsletter.route, :method => 'delete', :class => 'delete', :confirm => t('newsletters.confirm.delete')
+    %a.preview{ :href => account_newsletter_path(*newsletter.route) }
+      %span=t('ctrl.preview')
+    %a.edit{ :href => edit_account_newsletter_path(*newsletter.route) }
+      %span=t('ctrl.edit')
+    %a.delete{ :href => newsletter.route, 'data-method' => 'delete', 'data-confirm' => t('newsletters.confirm.delete') }
+      %span=t('ctrl.delete')
+
