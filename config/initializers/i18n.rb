@@ -4,7 +4,7 @@
 # but additionally logs missing translations to a given log.
 #
 module I18n
- # class << self
+ class << self
     def missing_translations_logger
       @@missing_translations_logger ||= Logger.new("#{RAILS_ROOT}/log/missing_translations.log")
     end
@@ -18,7 +18,7 @@ module I18n
         raise exception
       end
     end
-  #end
+ end
 end
 
 I18n.exception_handler = :missing_translations_log_handler

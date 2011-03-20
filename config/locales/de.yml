@@ -23,7 +23,6 @@ de:
     delete: löschen
     back: zurück
     cancel: abbrechen
-    search: suchen
     confirm: Sicher?
 
   recipients:
@@ -60,22 +59,53 @@ de:
     new: Neuer Newsletter
     account: Newsletter
     action: Aktion
-    menu: Menu
-    uploading: Uploading
-    form:
-      title: Newsletter erstellen
-      current_time: aktuelle Zeit
-      add_attachment: Anhang hinzufügen
-    ctrl:
-      stop: stop
-      send_test: Test senden
-      send_live: Live senden
-      add_files: Datei(en) hinzufügen
+    confirm: 
+      delete: "Newsletter löschen?"
+      resume: "Versand forführen?"
+      send_live: "Versand starten?"
+      stop: "Versand stoppen?"
+    ctrl: 
+      add_files: "Datei(en) hinzufügen"
+      clone: Duplizieren
+      format_view: "Formatierungs Ansicht"
+      html_view: "HTML Ansicht"
       resume: start
-      format_view: Formatierungs Ansicht
-      html_view: HTML Ansicht
-    confirm:
-      stop: Versand stoppen?
-      send_live: Versand starten?
-      resume: Versand forführen?
-      delete: Newsletter löschen?
+      send_live: "Live senden"
+      send_test: "Test senden"
+      stop: stop
+    form: 
+      add_attachment: "Anhang hinzufügen"
+      current_time: "aktuelle Zeit"
+      title: "Newsletter erstellen"
+    menu: Menu
+    new: "Neuer Newsletter"
+    title: Newsletter
+    uploading: Uploading
+  recipients: 
+    edit: 
+      title: "Empfänger editieren"
+    import: 
+      ctrl: 
+        check: "Emailadresse(n) überprüfen"
+        valid_import: "Valide Empfänger importieren"
+      explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
+      invalid_recipients: "Folgende Empfänger sind invalid"
+      title: "Empfänger importieren"
+      valid_recipients: "Folgende valide Empfänger werden hinzugefügt"
+    menu: 
+      export_xls: "export Exceldatei"
+      import: import
+      multiple_delete: löschen
+      title: Empfänger
+    multiple_delete: 
+      ctrl: 
+        check: "Emailadresse(n) überprüfen"
+        confirm_delete: Sicher?
+        valid_delete: "Empfänger löschen"
+      explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
+      invalid_recipients: "Folgende Empfänger wurde nicht gefunden"
+      title: "Mehrere Empfänger löschen"
+      valid_recipients: "Folgende Empfänger werden gelöscht"
+    new: 
+      title: "Empfänger erstellen"
+    title: "%{account_name} - Empfänger"
