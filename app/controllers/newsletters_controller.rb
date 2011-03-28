@@ -1,7 +1,7 @@
 class NewslettersController < ApplicationNupsController
   before_filter :load_account
 
-  respond_to :html, :xml
+  respond_to :html
 
   uses_tiny_mce
 
@@ -12,20 +12,16 @@ class NewslettersController < ApplicationNupsController
     @accounts    = current_user.admin? ? Account.all : @user.accounts
   end
 
-  # GET /newsletters/1
-  # GET /newsletters/1.xml
   def show
     @newsletter = @account.newsletters.find(params[:id])
 
     respond_with @newsletter do |format|
       format.html {
-        render @newsletter and return if request.xhr?
+        #render @newsletter
       }
     end
   end
 
-  # GET /newsletters/new
-  # GET /newsletters/new.xml
   def new
     redner404 && return unless @account
     @newsletter = @account.newsletters.new
@@ -34,14 +30,11 @@ class NewslettersController < ApplicationNupsController
     respond_with @newsletter
   end
 
-  # GET /newsletters/1/edit
   def edit
     @newsletter = @account.newsletters.find(params[:id])
     render :new
   end
 
-  # POST /newsletters
-  # POST /newsletters.xml
   def create
     params[:newsletter][:deliver_at] ||= Time.now
     @newsletter = @account.newsletters.new(params[:newsletter])
@@ -96,16 +89,15 @@ class NewslettersController < ApplicationNupsController
     @newsletter = @account.newsletters.find(params[:id])
 
     recipient = @newsletter.recipients.first || Recipient.new(:email => current_user.email)
-    @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
+    @newsletter_issue = NewsletterMailer.issue(@newsletter.test_sendings.new, recipient)
 
-    content =  if @account.has_html? && @account.has_text?
-      parts = 1 #params[:text] ? 1 : 0
-      @newsletter_issue.parts[parts].body.decoded
-    else
-      @newsletter_issue.body.decoded
-    end
+    required_content_type = params[:text] ? "text/plain" : "text/html"
 
-    render :text => content, :layout => false
+    part = @newsletter_issue.parts.select do |part|
+      part.content_type.include?(required_content_type)
+    end.first
+
+    render :text => part.body.decoded, :layout => false
   end
 
   def start

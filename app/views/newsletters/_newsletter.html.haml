@@ -1,5 +1,5 @@
 - if newsletter.state?(:sending)
-  = delayed_remote_function( :url => account_newsletter_path(*newsletter.route), :method => :get, :delay => 2000, :replace => "#status_#{newsletter.id}" )
+  =# delayed_remote_function( :url => account_newsletter_path(*newsletter.route), :method => :get, :delay => 2000, :replace => "#status_#{newsletter.id}" )
 
 %tr{ :id => "status_#{newsletter.id}", :class => "newsletter #{cycle('bgdark', 'bglight')} #{newsletter.state}" }
   %td.icon
@@ -34,7 +34,7 @@
       %span=t('newsletters.ctrl.clone')
 
   %td.menu
-    %a.preview{ :href => account_newsletter_path(*newsletter.route) }
+    %a.preview{ :href => preview_account_newsletter_path(*newsletter.route), :rel => "#overlay" }
       %span=t('ctrl.preview')
     %a.edit{ :href => edit_account_newsletter_path(*newsletter.route) }
       %span=t('ctrl.edit')

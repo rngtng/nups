@@ -18,7 +18,7 @@ class NewsletterMailer < ActionMailer::Base
     
     prefix           = sending.is_a?(TestSending) ? "TEST: " : ""
     
-    head[:subject]   =  [prefix, newsletter.subject].compact.join(' ')
+    head[:subject]   = [prefix, newsletter.subject].compact.join(' ')
 
     head["X-Sender"] = "MultiAdmin"
     head["X-MA-Id"]  = ["ma", sending.id, recipient.to_param].join('-')

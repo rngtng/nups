@@ -3,13 +3,23 @@
   <head>
     <title><%= t 'application.title' %></title>
     <%= stylesheet_link_tag :all %>
-    <%= javascript_include_tag "jquery.js", "jquery.rails.js", "plupload/jquery.plupload.queue.min.js", "plupload/plupload.full.min.js" %>
+    <%= javascript_include_tag "jquery.js", "jquery.rails.js", "jquery.tools.min.js" %>
+    <%= javascript_include_tag "plupload/jquery.plupload.queue.min.js", "plupload/plupload.full.min.js" %>
+    <%= javascript_include_tag "behaviors/overlay.js" %>
     <%= include_tiny_mce_if_needed %>
+    
     <%= csrf_meta_tag %>
   </head>
   <body id="content">
     <div style="padding:5px;">
       <%= yield %>
     </div>
+
+    <!-- overlayed element -->
+    <div id="overlay" class="apple">
+      <div class="content"></div>
+      <div class="footer"></div>
+    </div>
+
   </body>
 </html>
