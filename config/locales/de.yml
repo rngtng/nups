@@ -12,9 +12,8 @@ de:
     new: Neuer Newsletter
     recipients: Empfänger
     see_all: zeige alle
-    domains: Domains
+    domains: Domain Verwaltung
     ftp: FTP
-    email: Email
 
   ctrl:
     show: details
