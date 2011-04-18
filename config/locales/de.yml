@@ -12,6 +12,10 @@ de:
     new: Neuer Newsletter
     recipients: Empfänger
     see_all: zeige alle
+    domains: Domains
+    ftp: FTP
+    email: Email
+
   ctrl:
     show: details
     new: neu
@@ -22,10 +26,10 @@ de:
     cancel: abbrechen
     search: suchen
     confirm: Sicher?
-    
+
   recipients:
     title: %{account_name} - Empfänger
-    menu: 
+    menu:
       title: Empfänger
       import: import
       export_xls: export Exceldatei

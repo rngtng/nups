@@ -12,6 +12,10 @@ en:
     new: New
     recipients: Recipients
     see_all: See all
+    domains: Domains
+    ftp: FTP
+    email: Email
+
   ctrl:
     show: show
     new: new
@@ -22,10 +26,10 @@ en:
     cancel: cancel
     search: search
     confirm: Are you sure?
-    
+
   recipients:
     title: %{account_name} - Recipients
-    menu: 
+    menu:
       title: Recipient
       import: import
       export_xls: export as Excel

@@ -1,18 +1,20 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable and :timeoutable, :confirmable,
-  devise :database_authenticatable, :registerable, 
+  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   devise :database_authenticatable, :authentication_keys => [:username]
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :admin, :password, :password_confirmation
-  
+
   validate :username, :presence => true, :uniqueness => true
-  
+
   has_many :accounts
   has_many :newsletters, :through => :accounts
+
+  has_many :domains
 
   #http://wiki.github.com/plataformatec/devise/log-in-using-login-or-mail
   def self.find_for_database_authentication(conditions)

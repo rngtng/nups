@@ -40,7 +40,7 @@
          <% @users.each do |user| %>
             <div id="user_menu_<%= user.id %>" class="menu_item" style="display:none">
               <strong><%= link_to t('menu.newsletters'), newsletters_path(:user_id => user) %></strong><br>
-              <ul>
+              <ul class="newletter">
                 <% user.accounts.each do |account| %>
                   <li><%= link_to account.name, account_newsletters_path(account) %>
                     <ul>
@@ -50,6 +50,21 @@
                   </li>
                 <% end %>
               </ul>
+
+              <% if user.domains.any? %>
+                <strong><%= link_to t('menu.domains'), newsletters_path(:user_id => user) %></strong><br>
+                <ul class="domains">
+                  <% user.domains.each do |domain| %>
+                    <li><%= domain.name %>
+                      <ul>
+                        <li><%= link_to t('menu.ftp'), domain.email_url %></li>
+                        <li><%= link_to t('menu.email'), domain.ftp_url %></li>
+                      </ul>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+
             </div>
          <% end %>
 
