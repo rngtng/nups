@@ -40,7 +40,7 @@
          <% @users.each do |user| %>
             <div id="user_menu_<%= user.id %>" class="menu_item" style="display:none">
               <% user.domains.each do |domain| %>
-                <strong><%= link_to t('menu.domains'), domain.main_url %></strong><br>
+                <strong><%= link_to t('menu.domains'), domain.main_url %></strong><br><br>
                 <!-- <strong><%= link_to t('menu.ftp'), domain.ftp_url %></strong><br><br>  -->
               <% end %>
 
