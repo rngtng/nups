@@ -1,4 +1,6 @@
 class Sending < ActiveRecord::Base
+  include Stats
+  
   @queue = QUEUE = :nups_sending
 
   belongs_to :newsletter
@@ -61,28 +63,6 @@ class Sending < ActiveRecord::Base
     if sending = Sending.find(id)
       sending.start!
     end
-  end
-
-  ########################################################################################################################
-
-  def progress_percent
-    return 0 if self.recipients_count < 1
-    (100 * self.count / self.recipients_count).round
-  end
-
-  #How long did it take to send newsletter
-  def sending_time
-    return 0 if state?(:scheduled)
-    ((self.finished_at || Time.now) - self.start_at).to_f
-  end
-
-  def count
-    self.oks + self.fails
-  end
-
-  def sendings_per_second
-    return 0 if sending_time < 1
-    return self.oks.to_f / sending_time
   end
 
   ########################################################################################################################

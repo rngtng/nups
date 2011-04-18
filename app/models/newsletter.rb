@@ -1,4 +1,5 @@
 class Newsletter < ActiveRecord::Base
+  include Stats
 
   belongs_to :account
 
@@ -64,9 +65,6 @@ class Newsletter < ActiveRecord::Base
 
   ########################################################################################################################
 
-
-  ########################################################################################################################
-
   def route
     [self.account, self]
   end
@@ -87,6 +85,28 @@ class Newsletter < ActiveRecord::Base
 
   def template_text
     account.template_text || "<%= content %>"
+  end
+  ########################################################################################################################
+
+  #%w(recipients_count oks fails start_at finished_at).each do |method|
+  def start_at
+    self.live_sendings.last.try(:start_at)
+  end
+
+  def finished_at
+    self.live_sendings.first.finished_at
+  end
+
+  def oks
+    self.live_sendings.map(&:oks).sum
+  end
+
+  def fails
+    self.live_sendings.map(&:fails).sum
+  end
+
+  def recipients_count
+    self.live_sendings.first.try(:recipients_count) || 0
   end
 
   ########################################################################################################################

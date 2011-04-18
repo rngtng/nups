@@ -11,12 +11,14 @@
       #{l(newsletter.updated_at, :format => :nl)}:
     = link_to truncate(newsletter.subject, :length => 80), account_newsletter_path(*newsletter.route)
 
-    -# .progress_bar
-    -#   .progress{:style => "background-color: #{newsletter.errors_count > 0 ? 'red' : 'green'}; width: #{newsletter.progress_percent}px;"}
-    -#     #{newsletter.progress_percent}%
-    -# = l Time.at(newsletter.sending_time), :format => :time
-    -# #{"%.1f" % newsletter.deliveries_per_second}/sec.
-    -# - # color: white;' align='center'
+    .progress-bar
+      .progress{:style => "background-color: #{newsletter.fails > 0 ? 'red' : 'green'}; width: #{newsletter.progress_percent}%;"}
+        %label
+          Processing
+          %b.value= newsletter.progress_percent.to_s + '%'
+
+    = l Time.at(newsletter.sending_time), :format => :time
+    #{"%.1f" % newsletter.sendings_per_second}/sec.
 
   %td.recipients
     0 #{Newsletter.human_attribute_name(:recipients_count)}
