@@ -38,12 +38,12 @@
         <% end %>
 
          <% @users.each do |user| %>
-           <% user.domains.each do |domain| %>
-             <strong><%= link_to t('menu.domains'), domain.main_url %></strong><br>
-             <strong><%= link_to t('menu.ftp'), domain.ftp_url %></strong><br><br>
-           <% end %>
-
             <div id="user_menu_<%= user.id %>" class="menu_item" style="display:none">
+              <% user.domains.each do |domain| %>
+                <strong><%= link_to t('menu.domains'), domain.main_url %></strong><br>
+                <!-- <strong><%= link_to t('menu.ftp'), domain.ftp_url %></strong><br><br>  -->
+              <% end %>
+
               <strong><%= link_to t('menu.newsletters'), newsletters_path(:user_id => user) %></strong><br>
               <ul class="newletter">
                 <% user.accounts.each do |account| %>
