@@ -72,7 +72,7 @@
             <%= link_to t('menu.accounts'),  admin_accounts_path %> |
           <% end %>
 
-          <%= link_to image_tag('buttons/logout.gif', :style => "border:0; margin-top:0px"), destroy_user_session_path %>
+          <%= link_to image_tag('buttons/logout.gif', :style => "border:0; margin-top:0px"), destroy_user_session_path, :target => "_self" %>
         </div>
 
       </td>
