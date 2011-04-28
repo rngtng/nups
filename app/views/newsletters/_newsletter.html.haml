@@ -12,13 +12,9 @@
     = link_to truncate(newsletter.subject, :length => 80), account_newsletter_path(*newsletter.route)
 
     .progress-bar
-      .progress{:style => "background-color: #{newsletter.fails > 0 ? 'red' : 'green'}; width: #{newsletter.progress_percent}%;"}
-        %label
-          Processing
-          %b.value= newsletter.progress_percent.to_s + '%'
-
-    = l Time.at(newsletter.sending_time), :format => :time
-    #{"%.1f" % newsletter.sendings_per_second}/sec.
+      - title = "#{l Time.at(newsletter.sending_time), :format => :time} - #{"%.1f" % newsletter.sendings_per_second}/sec."
+      .progress{:title => title, :style => "background-color: #{newsletter.fails > 0 ? 'red' : 'green'}; width: #{newsletter.progress_percent}%;"}
+        %label= newsletter.progress_percent.to_s + '%'
 
   %td.recipients
     0 #{Newsletter.human_attribute_name(:recipients_count)}
