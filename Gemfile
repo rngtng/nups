@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.5'
-gem 'mysql2'
+gem 'rails', '3.0.7'
+gem 'mysql2', '0.2.7'
 
 #Authorization
 gem 'devise', '~> 1.1.2'
