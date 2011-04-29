@@ -1,7 +1,7 @@
 class Sending < ActiveRecord::Base
   include Stats
-  
-  @queue = QUEUE = :nups_sending
+
+  QUEUE = :nups_sending
 
   belongs_to :newsletter
 
@@ -16,6 +16,10 @@ class Sending < ActiveRecord::Base
     unless (newsletter.sendings.scheduled_or_running - Array(me)).empty?
       errors.add(:base, "Another sending already exists with state '#{sending.state}'")
     end
+  end
+
+  def self.queue
+    QUEUE
   end
 
   ########################################################################################################################

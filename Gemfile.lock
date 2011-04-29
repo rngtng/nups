@@ -117,6 +117,7 @@ GEM
       rspec (~> 2.5.0)
     ruby-graphviz (0.9.21)
     ruby-ole (1.2.11.1)
+    sass (3.1.1)
     sinatra (1.2.3)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
@@ -153,6 +154,7 @@ DEPENDENCIES
   rngtng-bounce-email
   rspec-rails (~> 2.4)
   ruby-graphviz
+  sass
   state_machine
   tiny_mce
   will_paginate (~> 3.0.pre2)

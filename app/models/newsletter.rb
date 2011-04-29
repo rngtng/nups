@@ -38,6 +38,7 @@ class Newsletter < ActiveRecord::Base
 
     event :stop do
       transition :sending => :stopping
+      transition :testing => :new
     end
 
     event :finish do
@@ -60,6 +61,10 @@ class Newsletter < ActiveRecord::Base
 
     after_transition all => :stopping do |me|
       me.sendings.first.stop!
+    end
+
+    after_transition :testing => :new do |me|
+      me.test_sendings.map &:destroy
     end
   end
 

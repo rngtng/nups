@@ -28,6 +28,7 @@ gem 'rngtng-bounce-email', '0.1.0'
 gem 'state_machine'
 
 gem 'haml'
+gem 'sass'
 
 group :development do
   # Deploy with Capistrano
@@ -36,7 +37,7 @@ group :development do
   gem 'ruby-graphviz', :require => 'graphviz'
 end
 
-group :test, :development do
+group :test do
   gem "rspec-rails", "~> 2.4"
   gem "resque_spec"
   gem "delorean"
