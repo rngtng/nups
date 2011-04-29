@@ -15,13 +15,13 @@ class NewsletterMailer < ActionMailer::Base
 
     head[:sender]    = newsletter.sender
     head[:reply_to]  = newsletter.reply_to
-    
+
     prefix           = sending.is_a?(TestSending) ? "TEST: " : ""
-    
+
     head[:subject]   = [prefix, newsletter.subject].compact.join(' ')
 
     head["X-Sender"] = "MultiAdmin"
-    head["X-MA-Id"]  = ["ma", sending.id, recipient.to_param].join('-')
+    head["X-MA-Id"]  = ["ma", sending.id, recipient.id || 'test'].join('-')
 
     newsletter.attachments.each do |attachment|
        next unless File.exists?(attachment.path)

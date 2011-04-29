@@ -11,7 +11,7 @@ class Sending < ActiveRecord::Base
     present.validates :start_at
   end
 
-  #validation, there can be only one sendingery with STATUS_NEW - no_paralell_sendings
+  #validation, there can be only one sending with STATUS_NEW - no_paralell_sendings
   validate do |me|
     unless (newsletter.sendings.scheduled_or_running - Array(me)).empty?
       errors.add(:base, "Another sending already exists with state '#{sending.state}'")

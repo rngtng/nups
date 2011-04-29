@@ -36,7 +36,6 @@ class NewslettersController < ApplicationNupsController
   end
 
   def create
-    params[:newsletter][:deliver_at] ||= Time.now
     @newsletter = @account.newsletters.new(params[:newsletter])
 
     respond_to do |format|

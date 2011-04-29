@@ -16,9 +16,6 @@ class Recipient < ActiveRecord::Base
   validates :account_id, :presence => true
   validates :email, :presence => true, :uniqueness => {:scope => :account_id}, :email_format => true
 
-  def to_param
-    self.id || 'test'
-  end
 end
 
 # == Schema Info

@@ -89,9 +89,9 @@ de:
         check: "Emailadresse(n) überprüfen"
         valid_import: "Valide Empfänger importieren"
       explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
-      invalid_recipients: "Folgende Empfänger sind invalid"
+      invalid_recipients: "Folgende Empfänger sind ungültig"
       title: "Empfänger importieren"
-      valid_recipients: "Folgende valide Empfänger werden hinzugefügt"
+      valid_recipients: "Folgende valide Empfänger wurden hinzugefügt"
     menu: 
       export_xls: "export Exceldatei"
       import: import
@@ -103,7 +103,7 @@ de:
         confirm_delete: Sicher?
         valid_delete: "Empfänger löschen"
       explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
-      invalid_recipients: "Folgende Empfänger wurde nicht gefunden"
+      invalid_recipients: "Folgende Empfänger wurden nicht gefunden"
       title: "Mehrere Empfänger löschen"
       valid_recipients: "Folgende Empfänger werden gelöscht"
     new: 

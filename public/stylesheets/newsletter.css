@@ -91,7 +91,7 @@ TR.newsletter.stopping .icon a, TR.newsletter.stopped .icon a {
 TR.newsletter.finished .icon a {
   background: transparent url("/images/icon/finished.png") no-repeat; }
 TR.newsletter .progress {
-  vertical-align: top; }
+  vertical-align: middle; }
 TR.newsletter .recipients {
   width: 120px;
   text-align: center;

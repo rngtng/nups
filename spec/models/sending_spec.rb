@@ -25,6 +25,7 @@ describe Sending do
 
     it "should allow multiple instances of state 'scheduled' and 'stopped'" do
       @sending.update_attribute(:state, 'stopped')
+      @newsletter.update_attribute(:state, 'tested')
       lambda do
         @newsletter.reload.send_live!
       end.should_not raise_error
@@ -32,6 +33,7 @@ describe Sending do
 
     it "should allow multiple instances of state 'scheduled' and 'finished'" do
       @sending.update_attribute(:state, 'finished')
+      @newsletter.update_attribute(:state, 'tested')
       lambda do
         @newsletter.reload.send_live!
       end.should_not raise_error
@@ -66,7 +68,8 @@ describe Sending do
     end
 
     it "should send out live sending" do
-      @sending = @newsletter.send_live!
+      @newsletter.send_live!
+      @sending = @newsletter.sendings.first
 
       expect do
         @sending.send(:send_to!, @newsletter.recipients.first)

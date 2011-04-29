@@ -33,13 +33,12 @@ gem 'sass'
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'
-
   gem 'ruby-graphviz', :require => 'graphviz'
+  gem "rspec-rails", "~> 2.4"
 end
 
 group :test do
   gem "rspec-rails", "~> 2.4"
   gem "resque_spec"
   gem "delorean"
-  #gem "resque_unit"
 end

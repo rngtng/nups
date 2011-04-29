@@ -12,12 +12,14 @@
         </ul>
       </td>
       <td width="50%" valign="top" style="color:red">
-        <strong><%= t('.invalid_recipients', :size => @invalid_recipients.size) %>:</strong>
-        <ul>
-          <% @invalid_recipients.each do |recipient| %>
-            <li><%= recipient.email %> (<%= recipient.errors.full_messages.join(', ') %>)</li>
-          <% end %>
-        </ul>
+        <% if @invalid_recipients.any? %>
+          <strong><%= t('.invalid_recipients', :size => @invalid_recipients.size) %>:</strong>
+          <ul>
+            <% @invalid_recipients.each do |recipient| %>
+              <li><%= recipient.email %> (<%= recipient.errors.full_messages.join(', ') %>)</li>
+            <% end %>
+          </ul>
+        <% end %>
       </td>
     </tr>
   </table>
