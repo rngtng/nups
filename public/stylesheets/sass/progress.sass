@@ -26,15 +26,15 @@ $wf: rgba(255,255,255,0)
 $height: 20px
 $padding: 2px
 
-=border_radius(!radius)
-  border-radius = !radius
-  -moz-border-radius = !radius
-  -webkit-border-radius = !radius
+@mixin border_radius($radius)
+  border-radius: $radius
+  -moz-border-radius: $radius
+  -webkit-border-radius: $radius
 
-=box_shadow(!data1, !data2)
-  -webkit-box-shadow: !data1, !data2
-  -moz-box-shadow: !data1, !data2
-  box-shadow: !data1, !data2
+@mixin box_shadow($data1, $data2)
+  -webkit-box-shadow: $data1, $data2
+  -moz-box-shadow: $data1, $data2
+  box-shadow: $data1, $data2
 
 /* Webkit animation keyframes */
 @-webkit-keyframes animate-stripes
@@ -56,8 +56,8 @@ $padding: 2px
 
   /* Rounds the ends, we specify an excessive amount to make sure they are completely rounded */
   /* Adjust to your liking, and don't forget to adjust to the same amount in .ui-progress */
-  +border_radius($height)
-  +box_shadow(inset 0px 1px 2px 0px rgba(0, 0, 0, 0.5), 0px 1px 0px 0px #FFF)
+  @include border_radius($height)
+  @include box_shadow(inset 0px 1px 2px 0px rgba(0, 0, 0, 0.5), 0px 1px 0px 0px #FFF)
 
   /* Webkit background gradient */
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #b6bcc6), color-stop(1, #9da5b0))
@@ -74,8 +74,8 @@ $padding: 2px
 
     /* Rounds the ends, we specify an excessive amount to make sure they are completely rounded */
     /* Adjust to your liking, and don't forget to adjust to the same amount in .ui-progress-bar */
-    +border_radius($height)
-    +box_shadow(inset 0px 1px 0px 0px #dbf383, inset 0px -1px 1px #58c43a)
+    @include border_radius($height)
+    @include box_shadow(inset 0px 1px 0px 0px #dbf383, inset 0px -1px 1px #58c43a)
 
     /* Set the background size so the stripes work correctly */
     -webkit-background-size: 44px 44px
