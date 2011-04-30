@@ -28,9 +28,9 @@ html, body {
         font-weight: bold;
         font-size: 14px;
         padding: 2px; }
-    #application table.content tbody tr:nth-child(odd) {
+    #application table.content tbody.zebra tr:nth-child(odd) {
       background-color: #dddddd; }
-    #application table.content tbody tr:nth-child(even) {
+    #application table.content tbody.zebra tr:nth-child(even) {
       background-color: #eeeeee; }
   #application a.button {
     height: 24px;
@@ -74,5 +74,9 @@ html, body {
       background: transparent url("/images/menu/edit.png") no-repeat; }
     #application .menu .delete {
       background: transparent url("/images/menu/delete.png") no-repeat; }
+    #application .menu .save {
+      background: transparent url("/images/menu/save.png") no-repeat; }
+    #application .menu .cancel {
+      background: transparent url("/images/menu/cancel.png") no-repeat; }
   #application .hidden {
     display: none; }

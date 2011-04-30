@@ -39,19 +39,14 @@ class RecipientsController < ApplicationNupsController
     render :new
   end
 
-  # PUT /recipients/1
-  # PUT /recipients/1.xml
   def update
     @recipient = @account.recipients.find(params[:id])
+    @recipient.update_attributes(params[:recipient])
 
-    respond_to do |format|
-      if @recipient.update_attributes(params[:recipient])
-        format.html { redirect_to( account_recipients_path(@account), :notice => '@account.recipients was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @recipient.errors, :status => :unprocessable_entity }
-      end
+    if request.xhr?
+      render :partial => "recipient"
+    else
+      redirect_to( account_recipients_url(@account) )
     end
   end
 
@@ -73,20 +68,20 @@ class RecipientsController < ApplicationNupsController
     end
   end
 
-  # DELETE /recipients/1
-  # DELETE /recipients/1.xml
   def destroy
     @recipient = @account.recipients.find(params[:id])
     @recipient.destroy
 
-    respond_to do |format|
-      format.html { redirect_to( account_recipients_url(@account) ) }
-      format.xml  { head :ok }
+    if request.xhr?
+      render :js => "$('#recipient_#{@recipient.id}').hide()"
+    else
+      redirect_to( account_recipients_url(@account) )
     end
   end
 
   private
   def load_account
+    current_user = User.first
     klass = current_user.admin? ? Account : current_user.accounts
     @account = klass.find_by_id(params[:account_id])
     render_404 unless @account

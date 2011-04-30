@@ -2,8 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout :layout_by_resource
 
-#  before_filter :authenticate_user!, :unless => proc { |c| c.devise_controller? } #TODO remove this hack!!
-
   before_filter :set_user_language
 
   def render_403

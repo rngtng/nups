@@ -63,6 +63,7 @@ de:
     see_all: "zeige alle"
     user: User
     users: Users
+
   newsletters:
     account: Newsletter
     action: Aktion
@@ -88,7 +89,10 @@ de:
     new: "Neuer Newsletter"
     title: Newsletter
     uploading: Uploading
+
   recipients:
+    confirm:
+      delete: Empfänger löschen?
     edit:
       title: "Empfänger editieren"
     new:

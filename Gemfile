@@ -3,6 +3,8 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.7'
 gem 'mysql2', '0.2.7'
 
+gem 'jquery-rails', '>= 0.2.6'
+
 #Authorization
 gem 'devise', '~> 1.1.2'
 

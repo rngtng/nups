@@ -1,5 +1,4 @@
 Nups::Application.routes.draw do
-
   # first created -> highest priority.
   root :to => "frame#index"
 

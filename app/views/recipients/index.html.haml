@@ -1,5 +1,5 @@
 #recipients.index
-  %table{:width => "100%", :cellpadding => "0", :cellspacing => "0"}
+  %table.header{:cellpadding => "0", :cellspacing => "0"}
     %tr
       %td
         %h2= t 'recipients.title', :account_name =>  @account.name
@@ -17,11 +17,11 @@
         &bull;
         = link_to t('recipients.menu.export_xls'), account_recipients_path(@account, :format => :xls)
 
-  %table.content{:cellpadding => "0"}
-    %thead
-      %tr
-        %td
-          %table
+  %table.content{:cellpadding => "0", :cellspacing => "0"}
+    %tr
+      %th
+        %table
+          %thead
             %tr
               %th.gender= Recipient.human_attribute_name(:gender)
               %th.first_name= Recipient.human_attribute_name(:first_name)
@@ -29,11 +29,25 @@
               %th.email= Recipient.human_attribute_name(:email)
               %th.menu= t('newsletters.menu')
 
-      %tbody
-        %tr.paginate
-          %td{:align => "center"}= will_paginate @recipients
+    %tr.paginate
+      %td{:align => "center"}= will_paginate @recipients
 
-        = render @recipients
+    = render @recipients
 
-        %tr.paginate
-          %td{:align => "center"}= will_paginate @recipients
+    %tr.paginate
+      %td{:align => "center"}= will_paginate @recipients
+
+  :javascript
+    $('tr.recipient tr.show td:not(:menu)').live('click', function(event) {
+      $(event.target).closest('table').attr('class', 'edit');
+    });
+    $('tr.recipient tr.edit input').keyup( function(event) {
+      if(event.which == 13) {
+        $(event.target).closest('form').submit();
+        return false;
+      }
+      if(event.which == 27) {
+        $(event.target).closest('table').attr('class', 'show')
+        return false;
+      }
+    });

@@ -1,15 +1,22 @@
+#recipients .header {
+  width: 100%;
+  margin-bottom: 5px; }
 #recipients .content table {
   border: 0;
   width: 100%; }
+#recipients .email {
+  font-weight: bold; }
 #recipients .gender {
-  width: 10%; }
+  width: 8%; }
 #recipients .first_name {
   width: 25%; }
 #recipients .last_name {
   width: 25%; }
 #recipients .menu {
-  width: 110px; }
+  width: 75px; }
 #recipients tr.recipient table.edit tr.show {
   display: none; }
 #recipients tr.recipient table.show tr.edit {
   display: none; }
+#recipients tr.recipient table td {
+  padding: 0 5px; }
