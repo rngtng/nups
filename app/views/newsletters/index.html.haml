@@ -1,0 +1,38 @@
+#newsletter.index
+  %h2= "#{@account.name + ' - ' if @account}#{t('newsletters.title')}"
+
+  - if @user.accounts.count > 1
+    = form_tag(newsletters_path, :id => 'account_list') do
+      - opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id))
+      %label= t('newsletters.account')
+      = select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()"
+
+  - if @account
+    = link_to( t( 'newsletters.new', :account_name => @account.name), new_account_newsletter_path(@account))
+
+  %table.content
+    %thead
+      %tr
+        %th
+        %th= Newsletter.human_attribute_name(:progress)
+        %th= Newsletter.human_attribute_name(:recipients_count)
+        %th= t('newsletters.action')
+        %th= t('newsletters.menu')
+
+    %tbody
+      - @newsletters.each do |newsletter|
+        =  render newsletter
+
+  :javascript
+    request = function () {
+      $('.newsletter.sending').each( function (newsletter) {
+        var accountId = 1,
+            newsletterId = 8;
+        jQuery.ajax({
+          url: '/accounts/' + accountId + /newsletters/' + newsletterId,
+          type: 'get',
+        });
+      });
+    }
+    //window.setTimeout(request, 2000);
+

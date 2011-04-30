@@ -15,10 +15,8 @@ class NewslettersController < ApplicationNupsController
   def show
     @newsletter = @account.newsletters.find(params[:id])
 
-    respond_with @newsletter do |format|
-      format.html {
-        #render @newsletter
-      }
+    if request.xhr?
+      render :js => "$('#newsletter_#{@newsletter.id} .progress').css('width', '#{@newsletter.progress_percent}%');"
     end
   end
 
@@ -108,13 +106,22 @@ class NewslettersController < ApplicationNupsController
       @newsletter.send_test!
     end
 
-    redirect_to account_newsletters_path(@account)
+    if request.xhr?
+      render :js => "$('#newsletter_#{@newsletter.id}').attr('class', 'newsletter #{@newsletter.state}');"
+    else
+      redirect_to account_newsletters_path(@account)
+    end
   end
 
   def stop
     @newsletter = @account.newsletters.find(params[:id])
     @newsletter.stop!
-    redirect_to account_newsletters_path(@account)
+
+    if request.xhr?
+      render :js => "$('#newsletter_#{@newsletter.id}').attr('class', 'newsletter #{@newsletter.state}');"
+    else
+      redirect_to account_newsletters_path(@account)
+    end
   end
 
   ########################################################

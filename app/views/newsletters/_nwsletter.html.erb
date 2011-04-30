@@ -1,4 +1,4 @@
-<tr id="status_<%= newsletter.id %>" class="<%= cycle('bgdark', 'bglight') %>">
+<tr id="status_<%= newsletter.id %>">
   <td>
     <% if newsletter.created? %>
       <%= link_to t('newsletters.ctrl.send_test'), start_account_newsletter_path(*newsletter.route) %>

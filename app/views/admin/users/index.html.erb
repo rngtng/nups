@@ -15,7 +15,7 @@
     </tr>
   
     <% @users.each do |user| %>
-      <tr class="<%= cycle('bgdark', 'bglight') %>">
+      <tr>
         <td><%= user.username %></td>
         <td><%= user.email %></td>
         <td><%= user.admin %></td>

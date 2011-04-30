@@ -1,0 +1,70 @@
+/* generic reset */
+html, body
+  margin: 0
+  padding: 0
+  border: 0
+  height: 100%
+  width: 100%
+  overflow: auto
+  font-family: Helvetica
+  font-size: 13px
+  font-weight: normal
+
+#application
+  min-width: 700px
+  background-color: #FFF
+
+  .index
+    padding: 5px
+
+  h2
+    font-size: 17px
+    font-weight: bold
+    display: inline
+
+  table
+    &.content
+      width: 100%
+      border: 2px solid #ccc
+
+    thead tr
+      background-color: #669966
+      th
+        font-weight: bold
+        font-size: 14px
+        padding: 2px
+
+    tbody tr
+      &:nth-child(odd)
+        background-color: #DDDDDD
+      &:nth-child(even)
+        background-color: #EEEEEE
+
+  // http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html
+  // .clear
+  //   overflow: hidden
+  //   width: 100%
+  a.button
+    height: 24px
+    margin: 2px
+    padding-right: 18px
+    background: transparent url('/images/buttons/bg_button_a.gif') no-repeat scroll top right
+    color: #444
+    text-align: center
+    font-size: 12px
+    font-weight: bold
+    text-decoration: none
+    &:active
+      background-position: bottom right
+      color: #000
+      outline: none
+    &:hover
+      color: #000
+    span
+      background: transparent url('/images/buttons/bg_button_span.gif') no-repeat
+      display: block
+      line-height: 14px
+      padding: 5px 0 5px 18px
+    &:active span
+      background-position: bottom left
+      padding: 6px 0 4px 18px

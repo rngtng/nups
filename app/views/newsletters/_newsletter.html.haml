@@ -1,32 +1,28 @@
-- if newsletter.state?(:sending)
-  =# delayed_remote_function( :url => account_newsletter_path(*newsletter.route), :method => :get, :delay => 2000, :replace => "#status_#{newsletter.id}" )
-
-%tr{ :id => "status_#{newsletter.id}", :class => "newsletter #{cycle('bgdark', 'bglight')} #{newsletter.state}" }
+%tr{ :id => "newsletter_#{newsletter.id}", :class => "newsletter #{newsletter.state}" }
   %td.icon
     %a.preview{ :href => account_newsletters_path(*newsletter.route) }
       %span= newsletter.state
 
   %td.progress
-    %strong
-      #{l(newsletter.updated_at, :format => :nl)}:
+    %strong= l(newsletter.updated_at, :format => :nl) + ':'
     = link_to truncate(newsletter.subject, :length => 80), account_newsletter_path(*newsletter.route)
 
     .progress-bar
       - title = "#{l Time.at(newsletter.sending_time), :format => :time} - #{"%.1f" % newsletter.sendings_per_second}/sec."
-      .progress{:title => title, :style => "background-color: #{newsletter.fails > 0 ? 'red' : 'green'}; width: #{newsletter.progress_percent}%;"}
+      .progress{ :title => title, :style => "background-color: #{newsletter.fails > 0 ? 'red' : 'green'}; width: #{newsletter.progress_percent}%;" }
         %label= newsletter.progress_percent.to_s + '%'
 
   %td.recipients
-    0 #{Newsletter.human_attribute_name(:recipients_count)}
+    0
 
   %td.actions
-    %a.button.send_test{ :href => start_account_newsletter_path(*newsletter.route) }
+    %a.button.send_test{ :href => start_account_newsletter_path(*newsletter.route), 'data-remote' => 'true' }
       %span=t('newsletters.ctrl.send_test')
-    %a.button.send_live{ :href => start_account_newsletter_path(*newsletter.route, :mode => 'live'), 'data-confirm' => t('newsletters.confirm.send_live') }
+    %a.button.send_live{ :href => start_account_newsletter_path(*newsletter.route, :mode => 'live'), 'data-remote' => 'true', 'data-confirm' => t('newsletters.confirm.send_live') }
       %span=t('newsletters.ctrl.send_live')
-    %a.button.resume{ :href => start_account_newsletter_path(*newsletter.route, :mode => 'live'), 'data-confirm' => t('newsletters.confirm.resume') }
+    %a.button.resume{ :href => start_account_newsletter_path(*newsletter.route, :mode => 'live'), 'data-remote' => 'true', 'data-confirm' => t('newsletters.confirm.resume') }
       %span=t('newsletters.ctrl.resume')
-    %a.button.stop{ :href => stop_account_newsletter_path(*newsletter.route), 'data-confirm' => t('newsletters.confirm.stop') }
+    %a.button.stop{ :href => stop_account_newsletter_path(*newsletter.route), 'data-remote' => 'true', 'data-confirm' => t('newsletters.confirm.stop') }
       %span=t('newsletters.ctrl.stop')
     %a.button.clone{ :href => clone_account_newsletter_path(*newsletter.route) }
       %span=t('newsletters.ctrl.clone')

@@ -1,0 +1,58 @@
+!!!
+%html
+  %head
+    %title= t('application.title')
+
+    = stylesheet_link_tag 'frame'
+    = javascript_include_tag "jquery.js", "jquery.rails.js"
+    = csrf_meta_tag
+
+    %base{:target => "application"}
+
+    :javascript
+      var selected_user_id = 0;
+
+      function show_menu(user_id) {
+          if(selected_user_id > 0) $('#user_menu_' + selected_user_id).hide();
+          $('#user_menu_' + user_id).show();
+          selected_user_id = user_id;
+      }
+
+      $(document).ready(function () {
+        show_menu(#{@user.id})
+      });
+
+  %body{:class => current_user.admin? ? 'admin' : 'user'}
+    %table{:cellspacing => "0", :cellpadding => "0"}
+      %tr#top
+        %td#menu{:rowspan => 2, :valign => "top"}
+          = image_tag 'logo.jpg', :id => 'logo'
+
+          #admin.hidden
+            = link_to t('menu.accounts'),  admin_accounts_path
+            &bull;
+            = link_to t('menu.users'),  admin_users_path
+            - opts = options_from_collection_for_select(@users, :id, :username)
+            %br
+            %label= t('menu.user')
+            = select_tag 'user_menu', opts, :onChange => "show_menu(this.options[this.selectedIndex].value)"
+
+          - @users.each do |user|
+            .item.hidden{:id => "user_menu_#{user.id}"}
+              %strong= link_to t('menu.newsletters'), newsletters_path(:user_id => user)
+              %ul
+                - user.accounts.each do |account|
+                  %li
+                    = link_to account.name, account_newsletters_path(account)
+                    %ul
+                      %li= link_to t('menu.new'), new_account_newsletter_path(account)
+                      %li= link_to t('menu.recipients'), account_recipients_path(account)
+
+        %td
+          - with_options :target => "_self" do |target|
+            = target.link_to image_tag("status/#{resque_status}.gif", :border => 0), root_path, :id => 'status'
+            = target.link_to image_tag('buttons/logout.gif'), destroy_user_session_path, :id => 'logout'
+
+      %tr
+        %td{:bgcolor => "#ddd", :height => "100%"}
+          = yield

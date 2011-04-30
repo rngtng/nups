@@ -33,25 +33,6 @@ JAVASCRIPT
        delay = options[:delay] || 3000
        fnc_name = 'request12' #options[:replace]
        code = <<-JAVASCRIPT 
-request = function() {
-     jQuery.ajax({
-       url: '#{options[:url]}',
-       type: '#{options[:method].to_s.upcase}',
-       beforeSend: function (xhr) {
-           //el.trigger('ajax:loading', xhr);
-       },
-       success: function (data, status, xhr) {
-           $('#{options[:replace]}').replaceWith(data);
-       },
-       complete: function (xhr) {
-           //el.trigger('ajax:complete', xhr);
-       },
-       error: function (xhr, status, error) {
-           //el.trigger('ajax:failure', [xhr, status, error]);
-       }
-   });
-}
-window.setTimeout(request, #{delay});
   JAVASCRIPT
        javascript_tag(code)
     end  
