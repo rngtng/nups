@@ -49,24 +49,6 @@ class RecipientsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create recipient" do
-    assert_difference('@account.recipients.count') do
-      post :create, :account_id => @account.to_param, :recipient => @recipient.attributes.merge(:email => 'new@email.com')
-    end
-
-    assert_redirected_to account_recipients_path(@account)
-  end
-
-  test "should show recipient" do
-    get :show, :account_id => @account.to_param, :id => @recipient.to_param
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, :account_id => @account.to_param,:id => @recipient.to_param
-    assert_response :success
-  end
-
   test "should update recipient" do
     put :update, :account_id => @account.to_param, :id => @recipient.to_param, :recipient => @recipient.attributes
     assert_redirected_to account_recipients_path(@account)
@@ -80,14 +62,10 @@ class RecipientsControllerTest < ActionController::TestCase
     assert_redirected_to account_recipients_path(@account)
   end
 
-  test "should show import" do
-    get :import, :account_id => @account.to_param
-    assert_response :success
-  end
 
   test "should show valid/invalid adresses" do
     assert_difference('@account.recipients.count') do
-      post :import, :account_id => @account.to_param, :emails => "valid@email1.de,invalid"
+      post :create, :account_id => @account.to_param, :emails => "valid@email1.de,invalid"
     end
 
     assert_equal 1, assigns(:valid_recipients).count

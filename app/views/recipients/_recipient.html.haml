@@ -1,12 +1,12 @@
 %tr.recipient{:id => "recipient_#{recipient.id}"}
-  %td{:bgcolor => '#aaa'}
+  %td
     = form_for [@account, recipient] do |f|
-      %table.show{:width => "100%", :cellpadding => 0, :bgcolor => '#1a45dd'}
-        %tr.show{:bgcolor => '#11a66a'}
-          %td.email= recipient.email
+      %table.show{:width => "100%", :cellpadding => 0}
+        %tr.show
           %td.gender= recipient.gender
           %td.first_name= recipient.first_name
           %td.last_name= recipient.last_name
+          %td.email= recipient.email
           %td.menu
             %a.icon.edit{:href => '#', :onclick => "$(this).closest('table').attr('class', 'edit')"}
               %span= t('ctrl.edit')
@@ -14,10 +14,10 @@
             %a.icon.delete{:href => url, 'data-method' => 'delete', 'data-confirm' => t('recipient.confirm.delete')}
               %span= t('ctrl.delete')
         %tr.edit
-          %td.email= f.text_field :email
-          %td.gender= f.text_field :gender
+          %td.gender= f.select :gender, ['', 'Herr', 'Frau']
           %td.first_name= f.text_field :first_name
           %td.last_name= f.text_field :last_name
+          %td.email= f.text_field :email
           %td.menu
             %a.save{:href => edit_account_recipient_path(@account, recipient)}
               %span= t('ctrl.save')

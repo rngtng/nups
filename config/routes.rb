@@ -32,9 +32,6 @@ Nups::Application.routes.draw do
 
     resources :recipients do
       collection do
-        get :import
-        post :import
-
         get :multiple_delete
         post :multiple_delete
       end

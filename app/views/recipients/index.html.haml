@@ -11,23 +11,22 @@
           = submit_tag t('ctrl.search')
 
       %td{:align => "right"}
-        =# link_to t('ctrl.new'), new_account_recipient_path(@account)
-        = link_to t('recipients.menu.import'), import_account_recipients_path(@account)
+        = link_to t('recipients.menu.import'), new_account_recipient_path(@account)
         &bull;
         = link_to t('recipients.menu.multiple_delete'), multiple_delete_account_recipients_path(@account)
         &bull;
         = link_to t('recipients.menu.export_xls'), account_recipients_path(@account, :format => :xls)
 
-  %table.content
+  %table.content{:cellpadding => "0"}
     %thead
       %tr
         %td
           %table
             %tr
-              %th.email= Recipient.human_attribute_name(:email)
               %th.gender= Recipient.human_attribute_name(:gender)
               %th.first_name= Recipient.human_attribute_name(:first_name)
               %th.last_name= Recipient.human_attribute_name(:last_name)
+              %th.email= Recipient.human_attribute_name(:email)
               %th.menu= t('newsletters.menu')
 
       %tbody

@@ -1,0 +1,27 @@
+%h1= t('.title')
+
+%table
+  %tr
+    - if @valid_recipients.any?
+      %td{:valign => "top", :style =>"color:green"}
+        %strong= t('.valid_recipients', :size => @valid_recipients.size) + ':'
+        %ul
+          - @valid_recipients.each do |recipient|
+            %li= recipient.email
+
+    - if @invalid_recipients.any?
+      %td{:valign => "top", :style => "color:red"}
+        %strong= t('.invalid_recipients', :size => @invalid_recipients.size) + ':'
+        %ul
+          - @invalid_recipients.each do |recipient|
+            %li= recipient.email + " (#{recipient.errors.full_messages.join(', ')})"
+
+= form_tag account_recipients_path(@account), :method => :post do
+  = t('.explanation')
+  %br
+  .field
+    = text_area_tag :emails, params[:emails], {:cols => 80, :rows => 40}
+
+  .actions
+    = link_to t('ctrl.back'), account_recipients_path(@account)
+    = submit_tag t('.ctrl.valid_import')

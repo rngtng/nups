@@ -15,13 +15,7 @@
 
   tr.recipient
     table
-      &.edit
-        tr.show
-          display: none
-        tr.edit
-          display: block
-      &.show
-        tr.show
-          display: block
-        tr.edit
-          display: none
+      &.edit tr.show
+        display: none
+      &.show tr.edit
+        display: none

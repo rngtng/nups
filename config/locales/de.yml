@@ -91,7 +91,7 @@ de:
   recipients:
     edit:
       title: "Empfänger editieren"
-    import:
+    new:
       ctrl:
         check: "Emailadresse(n) überprüfen"
         valid_import: "Valide Empfänger importieren"
@@ -113,6 +113,4 @@ de:
       invalid_recipients: "Folgende Empfänger wurden nicht gefunden"
       title: "Mehrere Empfänger löschen"
       valid_recipients: "Folgende Empfänger werden gelöscht"
-    new:
-      title: "Empfänger erstellen"
     title: "%{account_name} - Empfänger"

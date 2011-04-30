@@ -18,26 +18,39 @@ class RecipientsController < ApplicationNupsController
   end
 
   def new
-    @recipient = @account.recipients.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @recipient }
-    end
+    @valid_recipients   ||= []
+    @invalid_recipients ||= []
   end
 
-  def import
-    @valid_recipients  = []
-    @invalid_recipients  = []
+  def create
+    @valid_recipients   ||= []
+    @invalid_recipients ||= []
 
-    return if params[:emails].blank?
+    if params[:emails]
+      split_emails(params[:emails]).each do |email|
+        recipient = @account.recipients.new(:email => email)
+        if recipient.save
+          @valid_recipients << recipient
+        else
+          @invalid_recipients << recipient
+        end
+      end
+    end
+    render :new
+  end
 
-    split_emails(params[:emails]).each do |email|
-      recipient = @account.recipients.new(:email => email)
-      if recipient.save
-        @valid_recipients << recipient
+  # PUT /recipients/1
+  # PUT /recipients/1.xml
+  def update
+    @recipient = @account.recipients.find(params[:id])
+
+    respond_to do |format|
+      if @recipient.update_attributes(params[:recipient])
+        format.html { redirect_to( account_recipients_path(@account), :notice => '@account.recipients was successfully updated.') }
+        format.xml  { head :ok }
       else
-        @invalid_recipients << recipient
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @recipient.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -56,44 +69,6 @@ class RecipientsController < ApplicationNupsController
         @valid_recipients << recipient
       else
         @invalid_recipients << recipient
-      end
-    end
-
-  end
-
-  # GET /recipients/1/edit
-  def edit
-    @recipient = @account.recipients.find(params[:id])
-  end
-
-  # POST /recipients
-  # POST /recipients.xml
-  def create
-    @recipient = @account.recipients.new(params[:recipient])
-
-    respond_to do |format|
-      if @recipient.save
-        format.html { redirect_to( account_recipients_path(@account), :notice => '@account.recipients was successfully created.') }
-        format.xml  { render :xml => @recipient, :status => :created, :location => @recipient }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @recipient.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /recipients/1
-  # PUT /recipients/1.xml
-  def update
-    @recipient = @account.recipients.find(params[:id])
-
-    respond_to do |format|
-      if @recipient.update_attributes(params[:recipient])
-        format.html { redirect_to( account_recipients_path(@account), :notice => '@account.recipients was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @recipient.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -117,7 +92,7 @@ class RecipientsController < ApplicationNupsController
     render_404 unless @account
   end
 
-  def split_emails( emails )  #split by \n or , or ;
+  def split_emails(emails)  #split by \n or , or ;
     emails.delete("\"' ").split(/[\n,;]/).delete_if(&:blank?).map(&:strip)
   end
 end

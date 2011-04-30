@@ -11,9 +11,5 @@
   width: 110px; }
 #recipients tr.recipient table.edit tr.show {
   display: none; }
-#recipients tr.recipient table.edit tr.edit {
-  display: block; }
-#recipients tr.recipient table.show tr.show {
-  display: block; }
 #recipients tr.recipient table.show tr.edit {
   display: none; }
