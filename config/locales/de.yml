@@ -7,6 +7,19 @@ de:
   menu:
     users: Users
     user: User
+
+  ctrl:
+    back: zurück
+    cancel: abbrechen
+    confirm: Sicher?
+    delete: löschen
+    edit: ändern
+    new: neu
+    preview: vorschau
+    search: suchen
+    show: details
+    save: speichern
+  menu:
     accounts: Accounts
     newsletters: Newsletter
     new: Neuer Newsletter
@@ -14,16 +27,6 @@ de:
     see_all: zeige alle
     domains: Domain Verwaltung
     ftp: FTP
-
-  ctrl:
-    show: details
-    new: neu
-    preview: vorschau
-    edit: ändern
-    delete: löschen
-    back: zurück
-    cancel: abbrechen
-    confirm: Sicher?
 
   recipients:
     title: %{account_name} - Empfänger
@@ -57,14 +60,18 @@ de:
   newsletters:
     title: Newsletter
     new: Neuer Newsletter
+    see_all: "zeige alle"
+    user: User
+    users: Users
+  newsletters:
     account: Newsletter
     action: Aktion
-    confirm: 
+    confirm:
       delete: "Newsletter löschen?"
       resume: "Versand forführen?"
       send_live: "Versand starten?"
       stop: "Versand stoppen?"
-    ctrl: 
+    ctrl:
       add_files: "Datei(en) hinzufügen"
       clone: Duplizieren
       format_view: "Formatierungs Ansicht"
@@ -73,7 +80,7 @@ de:
       send_live: "Live senden"
       send_test: "Test senden"
       stop: stop
-    form: 
+    form:
       add_attachment: "Anhang hinzufügen"
       current_time: "aktuelle Zeit"
       title: "Newsletter erstellen"
@@ -81,24 +88,24 @@ de:
     new: "Neuer Newsletter"
     title: Newsletter
     uploading: Uploading
-  recipients: 
-    edit: 
+  recipients:
+    edit:
       title: "Empfänger editieren"
-    import: 
-      ctrl: 
+    import:
+      ctrl:
         check: "Emailadresse(n) überprüfen"
         valid_import: "Valide Empfänger importieren"
       explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
       invalid_recipients: "Folgende Empfänger sind ungültig"
       title: "Empfänger importieren"
       valid_recipients: "Folgende valide Empfänger wurden hinzugefügt"
-    menu: 
-      export_xls: "export Exceldatei"
-      import: import
-      multiple_delete: löschen
+    menu:
+      export_xls: "Export Exceldatei"
+      import: Eintragen
+      multiple_delete: Austragen
       title: Empfänger
-    multiple_delete: 
-      ctrl: 
+    multiple_delete:
+      ctrl:
         check: "Emailadresse(n) überprüfen"
         confirm_delete: Sicher?
         valid_delete: "Empfänger löschen"
@@ -106,6 +113,6 @@ de:
       invalid_recipients: "Folgende Empfänger wurden nicht gefunden"
       title: "Mehrere Empfänger löschen"
       valid_recipients: "Folgende Empfänger werden gelöscht"
-    new: 
+    new:
       title: "Empfänger erstellen"
     title: "%{account_name} - Empfänger"

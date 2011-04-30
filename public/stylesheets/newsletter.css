@@ -1,67 +1,47 @@
-tr.newsletter .icon {
+#newsletters tr.newsletter td.icon {
   width: 60px; }
-  tr.newsletter .icon a {
+  #newsletters tr.newsletter td.icon a {
     float: left;
     display: block;
     width: 48px;
     height: 48px;
     margin: 2px;
     border: 0; }
-    tr.newsletter .icon a span {
+    #newsletters tr.newsletter td.icon a span {
       display: none; }
-tr.newsletter.new .icon a {
+#newsletters tr.newsletter.new .icon a {
   background: transparent url("/images/icon/new.png") no-repeat; }
-tr.newsletter.testing .icon a, tr.newsletter.tested .icon a {
+#newsletters tr.newsletter.testing .icon a, #newsletters tr.newsletter.tested .icon a {
   background: transparent url("/images/icon/tested.png") no-repeat; }
-tr.newsletter.sending .icon a {
+#newsletters tr.newsletter.sending .icon a {
   background: transparent url("/images/icon/sending.png") no-repeat; }
-tr.newsletter.stopping .icon a, tr.newsletter.stopped .icon a {
+#newsletters tr.newsletter.stopping .icon a, #newsletters tr.newsletter.stopped .icon a {
   background: transparent url("/images/icon/stopped.png") no-repeat; }
-tr.newsletter.finished .icon a {
+#newsletters tr.newsletter.finished .icon a {
   background: transparent url("/images/icon/finished.png") no-repeat; }
-tr.newsletter .progress {
-  vertical-align: middle; }
-tr.newsletter .recipients {
+#newsletters tr.newsletter td.recipients {
   width: 120px;
   text-align: center;
   font-weight: bold; }
-tr.newsletter .actions {
+#newsletters tr.newsletter td.actions {
   width: 120px; }
-  tr.newsletter .actions a {
+  #newsletters tr.newsletter td.actions a {
     display: none; }
-tr.newsletter.new .send_test, tr.newsletter.tested .send_test, tr.newsletter.stopped .send_test {
+#newsletters tr.newsletter.new .send_test, #newsletters tr.newsletter.tested .send_test, #newsletters tr.newsletter.stopped .send_test {
   display: block; }
-tr.newsletter.tested .send_live {
+#newsletters tr.newsletter.tested .send_live {
   display: block; }
-tr.newsletter.stopped .resume {
+#newsletters tr.newsletter.stopped .resume {
   display: block; }
-tr.newsletter.testing .stop, tr.newsletter.sending .stop {
+#newsletters tr.newsletter.testing .stop, #newsletters tr.newsletter.sending .stop {
   display: block; }
-tr.newsletter.finished .clone {
+#newsletters tr.newsletter.finished .clone {
   display: block; }
-tr.newsletter .menu {
-  width: 120px;
-  padding-left: 15px; }
-  tr.newsletter .menu a {
-    float: left;
-    display: block;
-    width: 32px;
-    height: 32px;
-    margin: 2px;
-    border: 0; }
-    tr.newsletter .menu a span {
-      display: none; }
-tr.newsletter .preview {
-  background: transparent url("/images/menu/preview.png") no-repeat; }
-tr.newsletter .edit {
-  background: transparent url("/images/menu/edit.png") no-repeat; }
-tr.newsletter .delete {
-  background: transparent url("/images/menu/delete.png") no-repeat; }
-tr.newsletter.testing .edit, tr.newsletter.sending .edit, tr.newsletter.stopping .edit, tr.newsletter.finished .edit {
+#newsletters tr.newsletter.testing .edit, #newsletters tr.newsletter.sending .edit, #newsletters tr.newsletter.stopping .edit, #newsletters tr.newsletter.finished .edit {
   background: transparent url("/images/menu/disabled/edit.png") no-repeat;
   pointer-events: none;
   cursor: default; }
-tr.newsletter.testing .delete, tr.newsletter.sending .delete, tr.newsletter.stopping .delete, tr.newsletter.finished .delete {
+#newsletters tr.newsletter.testing .delete, #newsletters tr.newsletter.sending .delete, #newsletters tr.newsletter.stopping .delete, #newsletters tr.newsletter.finished .delete {
   background: transparent url("/images/menu/disabled/delete.png") no-repeat;
   pointer-events: none;
   cursor: default; }

@@ -1,5 +1,5 @@
 $(function() {
-  $("a[rel]").overlay({
+  $("a[rel=#overlay]").overlay({
     mask: '#333',
     effect: 'apple',
     top: '0%',

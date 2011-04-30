@@ -3,7 +3,7 @@
     %a.preview{ :href => account_newsletters_path(*newsletter.route) }
       %span= newsletter.state
 
-  %td.progress
+  %td.info
     %strong= l(newsletter.updated_at, :format => :nl) + ':'
     = link_to truncate(newsletter.subject, :length => 80), account_newsletter_path(*newsletter.route)
 
@@ -28,10 +28,10 @@
       %span=t('newsletters.ctrl.clone')
 
   %td.menu
-    %a.preview{ :href => preview_account_newsletter_path(*newsletter.route), :rel => "#overlay" }
+    %a.icon.preview{ :href => preview_account_newsletter_path(*newsletter.route), :rel => "#overlay" }
       %span=t('ctrl.preview')
-    %a.edit{ :href => edit_account_newsletter_path(*newsletter.route) }
+    %a.icon.edit{ :href => edit_account_newsletter_path(*newsletter.route) }
       %span=t('ctrl.edit')
-    %a.delete{ :href => newsletter.route, 'data-method' => 'delete', 'data-confirm' => t('newsletters.confirm.delete') }
+    %a.icon.delete{ :href => account_newsletter_path(*newsletter.route), 'data-method' => 'delete', 'data-confirm' => t('newsletters.confirm.delete') }
       %span=t('ctrl.delete')
 

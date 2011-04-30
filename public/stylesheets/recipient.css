@@ -1,0 +1,19 @@
+#recipients .content table {
+  border: 0;
+  width: 100%; }
+#recipients .gender {
+  width: 10%; }
+#recipients .first_name {
+  width: 25%; }
+#recipients .last_name {
+  width: 25%; }
+#recipients .menu {
+  width: 110px; }
+#recipients tr.recipient table.edit tr.show {
+  display: none; }
+#recipients tr.recipient table.edit tr.edit {
+  display: block; }
+#recipients tr.recipient table.show tr.show {
+  display: block; }
+#recipients tr.recipient table.show tr.edit {
+  display: none; }

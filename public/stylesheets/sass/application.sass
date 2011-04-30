@@ -22,10 +22,9 @@ html, body
     font-weight: bold
     display: inline
 
-  table
-    &.content
-      width: 100%
-      border: 2px solid #ccc
+  table.content
+    width: 100%
+    border: 2px solid #ccc
 
     thead tr
       background-color: #669966
@@ -68,3 +67,25 @@ html, body
     &:active span
       background-position: bottom left
       padding: 6px 0 4px 18px
+
+  .menu
+    width: 110px
+    padding-left: 10px
+    a.icon
+      float: left
+      display: block
+      width: 32px
+      height: 32px
+      margin: 2px
+      border: 0
+      span
+        display: none
+    .preview
+      background: transparent url('/images/menu/preview.png') no-repeat
+    .edit
+      background: transparent url('/images/menu/edit.png') no-repeat
+    .delete
+      background: transparent url('/images/menu/delete.png') no-repeat
+
+  .hidden
+    display: none

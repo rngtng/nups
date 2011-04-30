@@ -1,0 +1,27 @@
+#recipients
+  .content
+    table
+      border: 0
+      width: 100%
+  .email
+  .gender
+    width: 10%
+  .first_name
+    width: 25%
+  .last_name
+    width: 25%
+  .menu
+    width: 110px
+
+  tr.recipient
+    table
+      &.edit
+        tr.show
+          display: none
+        tr.edit
+          display: block
+      &.show
+        tr.show
+          display: block
+        tr.edit
+          display: none

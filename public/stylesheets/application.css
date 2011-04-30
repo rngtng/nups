@@ -22,16 +22,16 @@ html, body {
   #application table.content {
     width: 100%;
     border: 2px solid #cccccc; }
-  #application table thead tr {
-    background-color: #669966; }
-    #application table thead tr th {
-      font-weight: bold;
-      font-size: 14px;
-      padding: 2px; }
-  #application table tbody tr:nth-child(odd) {
-    background-color: #dddddd; }
-  #application table tbody tr:nth-child(even) {
-    background-color: #eeeeee; }
+    #application table.content thead tr {
+      background-color: #669966; }
+      #application table.content thead tr th {
+        font-weight: bold;
+        font-size: 14px;
+        padding: 2px; }
+    #application table.content tbody tr:nth-child(odd) {
+      background-color: #dddddd; }
+    #application table.content tbody tr:nth-child(even) {
+      background-color: #eeeeee; }
   #application a.button {
     height: 24px;
     margin: 2px;
@@ -56,3 +56,23 @@ html, body {
     #application a.button:active span {
       background-position: bottom left;
       padding: 6px 0 4px 18px; }
+  #application .menu {
+    width: 110px;
+    padding-left: 10px; }
+    #application .menu a.icon {
+      float: left;
+      display: block;
+      width: 32px;
+      height: 32px;
+      margin: 2px;
+      border: 0; }
+      #application .menu a.icon span {
+        display: none; }
+    #application .menu .preview {
+      background: transparent url("/images/menu/preview.png") no-repeat; }
+    #application .menu .edit {
+      background: transparent url("/images/menu/edit.png") no-repeat; }
+    #application .menu .delete {
+      background: transparent url("/images/menu/delete.png") no-repeat; }
+  #application .hidden {
+    display: none; }

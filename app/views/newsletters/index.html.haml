@@ -1,4 +1,4 @@
-#newsletter.index
+#newsletters.index
   %h2= "#{@account.name + ' - ' if @account}#{t('newsletters.title')}"
 
   - if @user.accounts.count > 1
@@ -20,18 +20,15 @@
         %th= t('newsletters.menu')
 
     %tbody
-      - @newsletters.each do |newsletter|
-        =  render newsletter
+      =  render @newsletters
 
   :javascript
     request = function () {
-      $('.newsletter.sending').each( function (newsletter) {
-        var accountId = 1,
-            newsletterId = 8;
-        jQuery.ajax({
-          url: '/accounts/' + accountId + /newsletters/' + newsletterId,
-          type: 'get',
-        });
+      var ids = $('.newsletter.sending').map(function() {
+        return this.id.replace('newsletter_', '');
+      })
+      jQuery.ajax({
+        url: '#{newsletters_path}'
       });
     }
     //window.setTimeout(request, 2000);
