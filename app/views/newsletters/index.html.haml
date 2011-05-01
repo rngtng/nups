@@ -23,13 +23,42 @@
       =  render @newsletters
 
   :javascript
-    request = function () {
-      var ids = $('.newsletter.sending').map(function() {
+    var newsletterPath = '#{newsletters_path}',
+    scheduled = false,
+    request = function() {
+      var ids = $('.newsletter').map(function() {
         return this.id.replace('newsletter_', '');
-      })
-      jQuery.ajax({
-        url: '#{newsletters_path}'
       });
-    }
-    //window.setTimeout(request, 2000);
+      jQuery.ajax({
+        url: newsletterPath,
+        data: ids,
+        dataType: 'script'
+      });
+      scheduled = false;
+    },
+    schedule = function() {
+      if( !scheduled ) {
+        $('.newsletter:first').each(function(){
+          scheduled = true;
+          window.setTimeout(request, 2000);
+        })
+      }
+    },
+    update = function(id, state, progressPercent) {
+      $('#newsletter_' + id)
+      .attr('class', 'newsletter ' + state)
+      .filter('.sending,.testing').each( function(){
+        $(this).find('.progress')
+          .width(progressPercent)
+          .show()
+          .find('label')
+          .text(progressPercent)
+          .end();
+          schedule();
+      });
+    };
+
+    $(document).ready(function () {
+      schedule();
+    });
 

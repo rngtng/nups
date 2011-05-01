@@ -1,9 +1,9 @@
 <div id="newsletter">
   <table border="0" id="formular" width="700">
-    <thead>    
+    <thead>
       <tr><td colspan="2" align="center"><h2><%= t 'newsletters.form.title' %></h2> - ID: <%= @newsletter.id %><br>
         <%= t 'newsletters.form.current_time' %>: <%= l Time.now, :format => :nl %>
-      </td></tr>      
+      </td></tr>
     </thead>
     <tbody>
       <tr><th><%= Newsletter.human_attribute_name(:from) %>:</th><td><%=  @newsletter.from  %></td></tr>
@@ -18,7 +18,7 @@
             </div>
           </td>
         </tr>
-      <% end %>      
+      <% end %>
       <tr><th><%= Newsletter.human_attribute_name(:status) %>:</th><td><%#= @newsletter.status %> <%#= @newsletter.type %></td></tr>
       <tr><td colspan="2" align="center">
           <%= link_to t('ctrl.edit'), edit_account_newsletter_path(*@newsletter.route) %> &bull;
@@ -36,6 +36,6 @@
       <tr><td colspan="2" align="center">
         <%= link_to t('ctrl.back'), newsletters_path %> |
         <%= link_to t('ctrl.edit'), edit_account_newsletter_path(*@newsletter.route) %>
-       </td></tr>        
+       </td></tr>
   </table>
 </div>

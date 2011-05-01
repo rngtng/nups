@@ -38,9 +38,9 @@
       %td{:align => "center"}= will_paginate @recipients
 
   :javascript
-    $('tr.recipient tr.show td:not(:menu)').live('click', function(event) {
-      $(event.target).closest('table').attr('class', 'edit');
-    });
+    //$('tr.recipient tr.show td:not(.menu)').live('click', function(event) {
+    //  $(event.target).closest('table').attr('class', 'edit');
+    //});
     $('tr.recipient tr.edit input').keyup( function(event) {
       if(event.which == 13) {
         $(event.target).closest('form').submit();

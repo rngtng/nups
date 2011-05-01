@@ -12,7 +12,7 @@ class NewslettersController < ApplicationNupsController
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
     if request.xhr?
-      render :js => "$('#newsletter_#{@newsletter.id} .progress').css('width', '#{@newsletter.progress_percent}%');"
+      render @newsletters
     end
   end
 
@@ -107,7 +107,7 @@ class NewslettersController < ApplicationNupsController
     end
 
     if request.xhr?
-      render :js => "$('#newsletter_#{@newsletter.id}').attr('class', 'newsletter #{@newsletter.state}');"
+      render @newsletter
     else
       redirect_to account_newsletters_path(@account)
     end
@@ -118,7 +118,7 @@ class NewslettersController < ApplicationNupsController
     @newsletter.stop!
 
     if request.xhr?
-      render :js => "$('#newsletter_#{@newsletter.id}').attr('class', 'newsletter #{@newsletter.state}');"
+      render @newsletter
     else
       redirect_to account_newsletters_path(@account)
     end

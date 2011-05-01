@@ -37,6 +37,8 @@
   display: block; }
 #newsletters tr.newsletter.finished .clone {
   display: block; }
+#newsletters tr.newsletter.sending .progress-bar, #newsletters tr.newsletter.stopping .progress-bar, #newsletters tr.newsletter.stopped .progress-bar, #newsletters tr.newsletter.finished .progress-bar {
+  display: block; }
 #newsletters tr.newsletter.testing .edit, #newsletters tr.newsletter.sending .edit, #newsletters tr.newsletter.stopping .edit, #newsletters tr.newsletter.finished .edit {
   background: transparent url("/images/menu/disabled/edit.png") no-repeat;
   pointer-events: none;

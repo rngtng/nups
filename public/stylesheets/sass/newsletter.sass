@@ -52,6 +52,10 @@
       .clone
         display: block
 
+    &.sending, &.stopping, &.stopped, &.finished
+      .progress-bar
+        display: block
+
     // disable urls: http://css-tricks.com/pointer-events-current-nav
     &.testing, &.sending, &.stopping, &.finished
       .edit

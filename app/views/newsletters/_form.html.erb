@@ -11,7 +11,7 @@
 
 <%= form_for [@newsletter.account, @newsletter]  do |f| %>
   <table border="0" id="formular" width="700">
-    <thead>    
+    <thead>
       <tr><td colspan="2" align="center"><h2><%= t 'newsletters.form.title' %></h2> - ID: <%= @newsletter.id %><br>
         <em><%= t 'newsletters.form.current_time' %>: <%= l Time.now, :format => :nl %></em>
       </td></tr>
@@ -32,7 +32,7 @@
       <tr><th><%= Newsletter.human_attribute_name(:from) %>:</th><td><%= @newsletter.from  %></td></tr>
       <% if @account.has_scheduling %>
         <tr><th><%= Newsletter.human_attribute_name(:deliver_at) %>:</th>
-            <td><%= f.datetime_select :deliver_at, 
+            <td><%= f.datetime_select :deliver_at,
           :order => [:day, :month, :year],
           :start_year => Date.current.year, :end_year => Date.current.year + 3 %>
             </td>
@@ -45,7 +45,7 @@
           <td>
            <input type="hidden" name="newsletter[attachment_ids][]">
            <%= render 'plupload' %>
-           
+
            <div id="upcontainer">
                <input type="button" id="pickfiles" disabled value="<%= t('newsletters.ctrl.add_files') %>">
                <div id="filelist">
@@ -57,7 +57,7 @@
           </td>
         </tr>
       <% end %>
-      
+
       <tr><td colspan="2" align="center">
         <%= link_to  t('ctrl.back'), account_newsletters_path(@account) %>
         <%= f.submit t('ctrl.preview'), :name => :preview %>
@@ -75,8 +75,8 @@
       </td></tr>
       <tr><td colspan="2" align="center">
         <%= f.submit t('ctrl.preview'), :name => :preview %>
-       </td></tr>        
-  </table>  
-<% end %> 
+       </td></tr>
+  </table>
+<% end %>
 <br>
-<br>   
+<br>
