@@ -32,6 +32,7 @@
   height: 20px;
   margin: 3px;
   display: none;
+  overflow: hidden;
   /* Pad right so we don't cover the borders when fully progressed */
   padding-right: 2px;
   /* For browser that don't support gradients, we'll set a blanket background colour */

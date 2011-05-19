@@ -19,6 +19,8 @@
   background: transparent url("/images/icon/stopped.png") no-repeat; }
 #newsletters tr.newsletter.finished .icon a {
   background: transparent url("/images/icon/finished.png") no-repeat; }
+#newsletters tr.newsletter td.info {
+  padding: 0 5px; }
 #newsletters tr.newsletter td.recipients {
   width: 120px;
   text-align: center;
@@ -47,3 +49,11 @@
   background: transparent url("/images/menu/disabled/delete.png") no-repeat;
   pointer-events: none;
   cursor: default; }
+#newsletters .form input[type=text] {
+  border: 1px solid #999999;
+  padding: 2px;
+  outline: none; }
+#newsletters .form input[type=button] {
+  margin-bottom: 5px; }
+#newsletters .text {
+  padding: 5px; }

@@ -1,0 +1,13 @@
+!!!
+%html
+  %head
+    %title
+    = stylesheet_link_tag "public"
+    = javascript_include_tag "jquery.js", "rails.js"
+    = csrf_meta_tag
+
+%body
+  .notice= notice
+  .alert= alert
+
+  = yield

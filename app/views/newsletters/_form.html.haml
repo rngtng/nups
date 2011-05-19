@@ -1,0 +1,38 @@
+- if @newsletter.errors.any?
+  %tr
+    %td{:colspan => 2, :align => 'center'}
+      #errorExplanation
+        #{pluralize(@newsletter.errors.count, "error")} prohibited this newsletter from being saved:
+      %ul
+        - @newsletter.errors.full_messages.each do |msg|
+          %li= msg
+
+
+%tr
+  %th= Newsletter.human_attribute_name(:from) + ':'
+  %td= @newsletter.from
+
+
+%tr
+  %th= Newsletter.human_attribute_name(:subject) + ':'
+  %td= form.text_field :subject, :size => 60
+
+
+- if @account.has_scheduling
+  %tr
+    %th= Newsletter.human_attribute_name(:deliver_at) + ':'
+    %td= form.datetime_select :deliver_at, :order => [:day, :month, :year], :start_year => Date.current.year, :end_year => Date.current.year + 3
+
+
+- if @account.has_attachments
+  %tr
+    %th{:valign => "top"}= Newsletter.human_attribute_name(:attachments) + ':'
+    %td
+      %input{:type => "hidden", :name => "newsletter[attachment_ids][]"}
+      = render 'plupload'
+
+      #upcontainer
+        %input#pickfiles{:type => "button", :disabled => true, :value => t('newsletters.ctrl.add_files')}
+        #filelist
+          = render @newsletter.attachments
+        #uploadlist

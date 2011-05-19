@@ -1,16 +1,21 @@
 #newsletters.index
-  %h2= "#{@account.name + ' - ' if @account}#{t('newsletters.title')}"
+  %table.header{:cellpadding => "0", :cellspacing => "0"}
+    %tr
+      %td
+        %h2= "#{@account.name + ' - ' if @account}#{t('newsletters.title')}"
 
-  - if @user.accounts.count > 1
-    = form_tag(newsletters_path, :id => 'account_list') do
-      - opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id))
-      %label= t('newsletters.account')
-      = select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()"
+      %td
+        - if @user.accounts.count > 1
+          = form_tag(newsletters_path, :id => 'account_list') do
+            - opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id))
+            %label= t('newsletters.account')
+            = select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()"
 
-  - if @account
-    = link_to( t( 'newsletters.new', :account_name => @account.name), new_account_newsletter_path(@account))
+      %td{:align => "right"}
+        - if @account
+          = link_to( t( 'newsletters.new', :account_name => @account.name), new_account_newsletter_path(@account))
 
-  %table.content
+  %table.content.zebra
     %thead
       %tr
         %th
@@ -19,25 +24,25 @@
         %th= t('newsletters.action')
         %th= t('newsletters.menu')
 
-    %tbody.zebra
+    %tbody
       =  render @newsletters
 
   :javascript
     var newsletterPath = '#{newsletters_path}',
     scheduled = false,
     request = function() {
-      var ids = $('.newsletter').map(function() {
-        return this.id.replace('newsletter_', '');
+      var ids = $.map($('.newsletter'), function(elem) {
+        return elem.id.replace('newsletter_', '');
       });
       jQuery.ajax({
         url: newsletterPath,
-        data: ids,
+        data: { ids: ids },
         dataType: 'script'
       });
-      scheduled = false;
+      //scheduled = false;
     },
     schedule = function() {
-      if( !scheduled ) {
+      if(!scheduled) {
         $('.newsletter:first').each(function(){
           scheduled = true;
           window.setTimeout(request, 2000);

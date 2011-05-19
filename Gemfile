@@ -15,9 +15,6 @@ gem 'resque'
 #For handling File uploads
 gem 'paperclip'
 
-#for HTML textfield
-gem 'tiny_mce'
-
 #For proper pagination
 gem 'will_paginate', '~> 3.0.pre2'
 
@@ -28,6 +25,9 @@ gem 'ekuseru'
 gem 'rngtng-bounce-email', '0.1.0'
 
 gem 'state_machine'
+
+gem 'nokogiri'
+gem 'premailer'
 
 gem 'haml'
 gem 'sass'

@@ -101,6 +101,7 @@ class Sending < ActiveRecord::Base
   end
 
   def send_to!(recipient)
+    #inject custom subject here???
     NewsletterMailer.issue(self, recipient).deliver
   end
 

@@ -8,8 +8,8 @@
     = link_to truncate(newsletter.subject, :length => 80), account_newsletter_path(*newsletter.route)
 
     .progress-bar
-      - title = "#{l Time.at(newsletter.sending_time), :format => :time} - #{"%.1f" % newsletter.sendings_per_second}/sec."
-      .progress{ :title => title, :style => "background-color: #{newsletter.fails > 0 ? 'red' : 'green'}; width: #{newsletter.progress_percent}%;" }
+      - title = "#{newsletter.progress_percent}% - #{l Time.at(newsletter.sending_time), :format => :time} - #{"%.1f" % newsletter.sendings_per_second}/sec."
+      .progress{ :title => title, :style => "width: #{newsletter.progress_percent}%;" }
         %label= newsletter.progress_percent.to_s + '%'
 
   %td.recipients

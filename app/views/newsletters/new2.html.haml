@@ -1,0 +1,57 @@
+=# @newsletter.id
+=# t 'newsletters.form.current_time'
+=# l Time.now, :format => :nl
+
+#newsletters.form
+  = form_for [@newsletter.account, @newsletter]  do |f|
+    %table.content{:cellpadding => "0", :cellspacing => "0", :style => "width: 700px"}
+      %tr
+        %th{:colspan => 2, :align => 'center'}
+          %h2= t 'newsletters.form.title'
+
+      %tbody
+        - if @newsletter.errors.any?
+          %tr
+            %td{:colspan => 2, :align => 'center'}
+              #errorExplanation
+                #{pluralize(@newsletter.errors.count, "error")} prohibited this newsletter from being saved:
+              %ul
+                - @newsletter.errors.full_messages.each do |msg|
+                  %li= msg
+
+        %tr
+          %td= Newsletter.human_attribute_name(:from) + ':'
+          %td= @newsletter.from
+
+        %tr
+          %td= Newsletter.human_attribute_name(:subject) + ':'
+          %td= f.text_field :subject, :size => 60
+
+        - if @account.has_scheduling
+          %tr
+            %td= Newsletter.human_attribute_name(:deliver_at) + ':'
+            %td= f.datetime_select :deliver_at, :order => [:day, :month, :year], :start_year => Date.current.year, :end_year => Date.current.year + 3
+
+        - if @account.has_attachments
+          %tr
+            %td{:valign => "top"}= Newsletter.human_attribute_name(:attachments) + ':'
+            %td
+              %input{:type => "hidden", :name => "newsletter[attachment_ids][]"}
+              = render 'plupload'
+
+              #upcontainer
+                %input#pickfiles{:type => "button", :disabled => true, :value => t('newsletters.ctrl.add_files')}
+                #filelist
+                  = render @newsletter.attachments
+                #uploadlist
+
+        %tr
+          %td{:colspan => 2, :align => 'center'}
+            = f.text_area :content, :class => "cleditor", :required => "required"
+
+        %tr
+          %td{:colspan => 2, :align => 'center'}
+            = f.submit t('ctrl.preview'), :name => :preview
+
+
+

@@ -6,7 +6,7 @@ html, body
   height: 100%
   width: 100%
   overflow: auto
-  font-family: Helvetica
+  font-family: Arial, Verdana, Helvetica
   font-size: 13px
   font-weight: normal
 
@@ -14,7 +14,7 @@ html, body
   min-width: 700px
   background-color: #FFF
 
-  .index
+  div.index, div.form
     padding: 5px
 
   h2
@@ -22,22 +22,31 @@ html, body
     font-weight: bold
     display: inline
 
+  table.header
+    width: 100%
+    margin-bottom: 5px
+
   table.content
     width: 100%
     border: 2px solid #ccc
 
-    thead tr
-      background-color: #669966
-      th
-        font-weight: bold
-        font-size: 14px
-        padding: 2px
+    tr
+      background-color: #EEEEEE
+    &.zebra tr:nth-child(even)
+      background-color: #DDDDDD
 
-    tbody.zebra tr
-      &:nth-child(odd)
-        background-color: #DDDDDD
-      &:nth-child(even)
-        background-color: #EEEEEE
+    tbody th
+      text-align: left
+
+    thead th
+      background-color: #669966
+      font-weight: bold
+      font-size: 14px
+      padding: 2px
+
+    .form
+      th, td
+        padding: 4px
 
   // http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html
   // .clear

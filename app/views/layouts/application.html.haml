@@ -3,11 +3,15 @@
   %head
     %title= t('application.title')
     = stylesheet_link_tag 'application', 'newsletter', 'progress', 'overlay', 'recipient'
+    <link rel="stylesheet" type="text/css" href="/javascripts/cleditor/jquery.cleditor.css" />
     = javascript_include_tag "jquery.js", "rails.js", "jquery.tools.min.js"
     = javascript_include_tag "jquery.progress.js"
     = javascript_include_tag "plupload/jquery.plupload.queue.min.js", "plupload/plupload.full.min.js"
+    = javascript_include_tag "cleditor/jquery.cleditor.min.js"
+    = javascript_include_tag "jquery.autogrowtextarea.js"
     = javascript_include_tag "behaviors/overlay.js"
-    = include_tiny_mce_if_needed
+    = javascript_include_tag "behaviors/cleditor.js"
+
     = csrf_meta_tag
 
   %body#application

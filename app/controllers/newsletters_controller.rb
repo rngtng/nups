@@ -3,8 +3,6 @@ class NewslettersController < ApplicationNupsController
 
   respond_to :html
 
-  uses_tiny_mce
-
   def index
     @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
     @user      ||= (@account) ? @account.user : current_user
@@ -87,13 +85,9 @@ class NewslettersController < ApplicationNupsController
 
     recipient = @newsletter.recipients.first || Recipient.new(:email => current_user.email)
     @newsletter_issue = NewsletterMailer.issue(@newsletter.test_sendings.new, recipient)
-
-    required_content_type = params[:text] ? "text/plain" : "text/html"
-
-    part = @newsletter_issue.parts.select do |part|
-      part.content_type.include?(required_content_type)
-    end.first
-
+    
+    part = @newsletter_issue.parts.last
+    part = part.parts.last if part.multipart?
     render :text => part.body.decoded, :layout => false
   end
 

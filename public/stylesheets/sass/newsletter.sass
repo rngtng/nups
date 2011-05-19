@@ -27,6 +27,9 @@
       .icon a
         background: transparent url('/images/icon/finished.png') no-repeat
 
+    td.info
+      padding: 0 5px
+
     td.recipients
       width: 120px
       text-align: center
@@ -68,40 +71,14 @@
         pointer-events: none
         cursor: default
 
-//  #formular
-//    border: solid 2px #CCCCCC
-//
-//    TBODY TR
-//      background-color: #EEEEEE
-//
-//    TBODY TR.red
-//      background-color: #EECECE
-//
-//    TBODY TH
-//      text-align: left
-//
-//    TBODY .small
-//      font-size: 8pt
-//      font-weight: normal
-//
-//    #filelist
-//      margin: 3px
-//
-//    .upload
-//      margin: 3px
-//      background-color: #CCC
-//      padding: 5px
-//
-//    .error
-//      font-family: Arial, Helvetica, sans-serif
-//      font-size: 10pt
-//      color: red
-//      text-decoration: none
-//      font-weight: bold
-//
-//  #preview
-//    border: solid 1px #CCCCCC
-// http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html
-// .clear
-//   overflow: hidden
-//   width: 100%
+  .form
+    input[type=text]
+      border: 1px solid #999
+      //margin: 0
+      padding: 2px
+      outline: none
+    input[type=button]
+      margin-bottom: 5px
+
+  .text
+    padding: 5px

@@ -1,27 +1,33 @@
-%h1= t('.title')
+#recipients.form
+  %table.header{:cellpadding => "0", :cellspacing => "0"}
+    %tr
+      %td
+        %h2= t('.title')
 
-%table
-  %tr
-    - if @valid_recipients.any?
-      %td{:valign => "top", :style =>"color:green"}
-        %strong= t('.valid_recipients', :size => @valid_recipients.size) + ':'
-        %ul
-          - @valid_recipients.each do |recipient|
-            %li= recipient.email
+      %td{:align => "right"}
+        = link_to t('ctrl.back'), account_recipients_path(@account)
 
-    - if @invalid_recipients.any?
-      %td{:valign => "top", :style => "color:red"}
-        %strong= t('.invalid_recipients', :size => @invalid_recipients.size) + ':'
-        %ul
-          - @invalid_recipients.each do |recipient|
-            %li= recipient.email + " (#{recipient.errors.full_messages.join(', ')})"
+  %table
+    %tr
+      - if @valid_recipients.any?
+        %td{:valign => "top", :style =>"color:green"}
+          %strong= t('.valid_recipients', :size => @valid_recipients.size) + ':'
+          %ul
+            - @valid_recipients.each do |recipient|
+              %li= recipient.email
 
-= form_tag account_recipients_path(@account), :method => :post do
-  = t('.explanation')
-  %br
-  .field
-    = text_area_tag :emails, params[:emails], {:cols => 80, :rows => 40}
+      - if @invalid_recipients.any?
+        %td{:valign => "top", :style => "color:red"}
+          %strong= t('.invalid_recipients', :size => @invalid_recipients.size) + ':'
+          %ul
+            - @invalid_recipients.each do |recipient|
+              %li= recipient.email + " (#{recipient.errors.full_messages.join(', ')})"
 
-  .actions
-    = link_to t('ctrl.back'), account_recipients_path(@account)
-    = submit_tag t('.ctrl.valid_import')
+  = form_tag account_recipients_path(@account), :method => :post do
+    = t('.explanation')
+    %br
+    .field
+      = text_area_tag :emails, params[:emails], {:cols => 80, :rows => 40}
+
+    .actions
+      = submit_tag t('.ctrl.valid_import')

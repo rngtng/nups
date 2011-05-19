@@ -6,32 +6,38 @@ html, body {
   height: 100%;
   width: 100%;
   overflow: auto;
-  font-family: Helvetica;
+  font-family: Arial, Verdana, Helvetica;
   font-size: 13px;
   font-weight: normal; }
 
 #application {
   min-width: 700px;
   background-color: white; }
-  #application .index {
+  #application div.index, #application div.form {
     padding: 5px; }
   #application h2 {
     font-size: 17px;
     font-weight: bold;
     display: inline; }
+  #application table.header {
+    width: 100%;
+    margin-bottom: 5px; }
   #application table.content {
     width: 100%;
     border: 2px solid #cccccc; }
-    #application table.content thead tr {
-      background-color: #669966; }
-      #application table.content thead tr th {
-        font-weight: bold;
-        font-size: 14px;
-        padding: 2px; }
-    #application table.content tbody.zebra tr:nth-child(odd) {
-      background-color: #dddddd; }
-    #application table.content tbody.zebra tr:nth-child(even) {
+    #application table.content tr {
       background-color: #eeeeee; }
+    #application table.content.zebra tr:nth-child(even) {
+      background-color: #dddddd; }
+    #application table.content tbody th {
+      text-align: left; }
+    #application table.content thead th {
+      background-color: #669966;
+      font-weight: bold;
+      font-size: 14px;
+      padding: 2px; }
+    #application table.content .form th, #application table.content .form td {
+      padding: 4px; }
   #application a.button {
     height: 24px;
     margin: 2px;
