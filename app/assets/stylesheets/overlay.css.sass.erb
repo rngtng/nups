@@ -1,7 +1,7 @@
 #overlay 
   &.apple
     display: none
-    background-image: url(/images/overlay/white.png)
+    background-image: url(<%= asset_path('overlay/white.png') %>)
     -webkit-background-size: cover
     -moz-background-size: cover
     -o-background-size: cover
@@ -12,7 +12,7 @@
     position: fixed
     z-index: auto
     .close 
-      background-image: url(/images/overlay/close.png)
+      background-image: url(<%= asset_path('overlay/close.png') %>)
       position: absolute
       right: 5px 
       top: 5px

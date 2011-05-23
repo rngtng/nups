@@ -1,4 +1,15 @@
-/* generic reset */
+//
+// This is a manifest file that'll automatically include all the stylesheets available in this directory
+// and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+// the top of the compiled file, but it's generally better to create a new file per style scope.
+//= require_self
+//= require newsletter
+//= require progress
+//= require overlay
+//= require recipient
+//= require cleditor/jquery.cleditor
+
+
 html, body
   margin: 0
   padding: 0
@@ -56,7 +67,7 @@ html, body
     height: 24px
     margin: 2px
     padding-right: 18px
-    background: transparent url('/images/buttons/bg_button_a.gif') no-repeat scroll top right
+    background: transparent url('<%= asset_path('buttons/bg_button_a.gif') %>') no-repeat scroll top right
     color: #444
     text-align: center
     font-size: 12px
@@ -69,7 +80,7 @@ html, body
     &:hover
       color: #000
     span
-      background: transparent url('/images/buttons/bg_button_span.gif') no-repeat
+      background: transparent url('<%= asset_path('buttons/bg_button_span.gif') %>') no-repeat
       display: block
       line-height: 14px
       padding: 5px 0 5px 18px
@@ -90,15 +101,15 @@ html, body
       span
         display: none
     .preview
-      background: transparent url('/images/menu/preview.png') no-repeat
+      background: transparent url('<%= asset_path('menu/preview.png') %>') no-repeat
     .edit
-      background: transparent url('/images/menu/edit.png') no-repeat
+      background: transparent url('<%= asset_path('menu/edit.png') %>') no-repeat
     .delete
-      background: transparent url('/images/menu/delete.png') no-repeat
+      background: transparent url('<%= asset_path('menu/delete.png') %>') no-repeat
     .save
-      background: transparent url('/images/menu/save.png') no-repeat
+      background: transparent url('<%= asset_path('menu/save.png') %>') no-repeat
     .cancel
-      background: transparent url('/images/menu/cancel.png') no-repeat
+      background: transparent url('<%= asset_path('menu/cancel.png') %>') no-repeat
 
   .hidden
     display: none
