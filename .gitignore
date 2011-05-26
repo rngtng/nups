@@ -17,3 +17,6 @@ public/javascripts/rails.js
 tmp/routes_cache
 Newsletter_state.png
 Sending_state.png
+tmp/restart.txt
+.tmtags
+config/setup_load_paths.rb
