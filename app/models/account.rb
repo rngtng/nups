@@ -60,7 +60,7 @@ class Account < ActiveRecord::Base
           dummy, account_id, newsletter_id, recipient_id = mail_id.split('-')
           if r = Recipient.find_by_account_id_and_id(account_id, recipient_id)
             out << " - found"
-            rec = mail.final_recipient.split(";")[1].strip
+            rec = mail.final_recipient.split(";")[1].try(:strip)
             unless r.bounces.to_s.include?(mail_id)
               r.bounces_count += 1
               r.bounces = "#{mail.date.strftime("%Y-%m-%d")} #{mail_id} <#{rec}>: #{mail.error_status} #{mail.diagnostic_code}\n#{r.bounces}"
@@ -77,7 +77,6 @@ class Account < ActiveRecord::Base
     end
     imap.expunge
     imap.close
-    imap.logout
   end
 end
 
