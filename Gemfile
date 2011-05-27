@@ -20,10 +20,10 @@ gem 'tiny_mce'
 gem 'will_paginate', '~> 3.0.pre2'
 
 # For excel export
-gem "ekuseru"
+gem 'ekuseru'
 
 # parsing bounce emails
-gem "rngtng-bounce-email"
+gem 'rngtng-bounce-email', '0.1.0'
 
 
 group :development do

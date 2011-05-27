@@ -1,4 +1,5 @@
 require 'net/imap'
+require 'bounce_email'
 
 class Account < ActiveRecord::Base
 
@@ -53,22 +54,21 @@ class Account < ActiveRecord::Base
     imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
       out = "BOUNCE #{id}"
       begin
-        mail = Mail.new imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']
-        if mail.bounced?
-          mail_id = mail.body.match(/X-MA-Id:? ?([^\r\n ]+)/)[1]
+        mail = BounceEmail::Mail.new imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']
+        if mail.bounced? && (mail_id = Array(mail.body.match(/X-MA-Id:? ?([^\r\n ]+)/))[1])
           out << " - bounced id: #{mail_id}"
           dummy, account_id, newsletter_id, recipient_id = mail_id.split('-')
           if r = Recipient.find_by_account_id_and_id(account_id, recipient_id)
             out << " - found"
-            rec = mail.final_recipient.split(";")[1].try(:strip)
+            rec = Array(mail.final_recipient).split(";")[1].try(:strip)
             unless r.bounces.to_s.include?(mail_id)
               r.bounces_count += 1
               r.bounces = "#{mail.date.strftime("%Y-%m-%d")} #{mail_id} <#{rec}>: #{mail.error_status} #{mail.diagnostic_code}\n#{r.bounces}"
               r.save!
               out << " - saved"
             end
-            imap.uid_store(id, "+FLAGS", [:Deleted])
           end
+          imap.uid_store(id, "+FLAGS", [:Deleted])
         end
       rescue => e
         logger.warn " -------> error on #{id} #{e.message}"

@@ -93,7 +93,7 @@ GEM
       redis-namespace (>= 0.10.0)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
-    rngtng-bounce-email (0.0.3)
+    rngtng-bounce-email (0.1.0)
       mail
     ruby-ole (1.2.11.1)
     sinatra (1.1.2)
@@ -125,6 +125,6 @@ DEPENDENCIES
   paperclip
   rails (= 3.0.5)
   resque
-  rngtng-bounce-email
+  rngtng-bounce-email (= 0.1.0)
   tiny_mce
   will_paginate (~> 3.0.pre2)
