@@ -50,12 +50,12 @@ class Account < ActiveRecord::Base
     imap.select('INBOX') #use examaine fpr read only
 
     # all msgs
-    sources = {}
+    unkown = []
     imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
       out = "BOUNCE #{id}"
       begin
         mail = BounceEmail::Mail.new imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']
-        if mail.bounced? && (mail_id = Array(mail.body.match(/X-MA-Id:? ?([^\r\n ]+)/))[1])
+        if mail.bounced? && (mail_id = Array(mail.body.to_s.match(/X-MA-Id:? ?([^\r\n ]+)/))[1])
           out << " - bounced id: #{mail_id}"
           dummy, account_id, newsletter_id, recipient_id = mail_id.split('-')
           if r = Recipient.find_by_account_id_and_id(account_id, recipient_id)
@@ -70,13 +70,14 @@ class Account < ActiveRecord::Base
           end
           imap.uid_store(id, "+FLAGS", [:Deleted])
         end
+        logger.info out
       rescue => e
         logger.warn " -------> error on #{id} #{e.message}"
       end
-      logger.info out
     end
     imap.expunge
     imap.close
+    unkown
   end
 end
 
