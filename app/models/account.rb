@@ -12,7 +12,7 @@ class Account < ActiveRecord::Base
 
   validates :user_id, :presence => true
 
-  scope :with_mail_config, :condtions => "mail_config_raw != ''"
+  scope :with_mail_config, :conditions => "mail_config_raw != ''"
 
   def test_recipients(additional_emails = nil)
     (test_recipient_emails_array + Array(additional_emails)).uniq.map do |email|
@@ -56,7 +56,7 @@ class Account < ActiveRecord::Base
     imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
       puts "#{id}"
       self.bounces.create!(:raw => imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']) rescue nil
-      #imap.uid_store(mail_id, "+FLAGS", [:Deleted])
+      imap.uid_store(mail_id, "+FLAGS", [:Deleted])
     end
     imap.expunge
     imap.close
