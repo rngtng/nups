@@ -12,6 +12,8 @@ class Account < ActiveRecord::Base
 
   validates :user_id, :presence => true
 
+  scope :with_mail_config, :condtions => "mail_config_raw != ''"
+
   def test_recipients(additional_emails = nil)
     (test_recipient_emails_array + Array(additional_emails)).uniq.map do |email|
       dummy_user = recipients.new(:email => email)
@@ -44,7 +46,7 @@ class Account < ActiveRecord::Base
   end
 
   def process_bounces
-    mail_settings = Account.first.mail_config['smtp_settings']
+    mail_settings = mail_config['smtp_settings']
 
     imap = Net::IMAP.new(mail_settings[:address].gsub('smtp', 'imap'))
     imap.authenticate('LOGIN', mail_settings[:user_name], mail_settings[:password])
