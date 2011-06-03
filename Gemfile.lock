@@ -180,12 +180,11 @@ DEPENDENCIES
   mysql2
   nokogiri
   paperclip
-  rngtng-bounce-email (= 0.1.0)
   premailer
   rails (= 3.1.0.rc1)
   resque
   resque_spec
-  rngtng-bounce-email
+  rngtng-bounce-email (= 0.1.0)
   rspec-rails (~> 2.6.1.beta1)
   ruby-graphviz
   sass

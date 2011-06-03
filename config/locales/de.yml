@@ -7,6 +7,13 @@ de:
   menu:
     users: Users
     user: User
+    accounts: Accounts
+    newsletters: Newsletter
+    new: Neuer Newsletter
+    recipients: Empfänger
+    see_all: zeige alle
+    domains: Domain Verwaltung
+    ftp: FTP
 
   ctrl:
     back: zurück
@@ -19,43 +26,6 @@ de:
     search: suchen
     show: details
     save: speichern
-  menu:
-    accounts: Accounts
-    newsletters: Newsletter
-    new: Neuer Newsletter
-    recipients: Empfänger
-    see_all: zeige alle
-    domains: Domain Verwaltung
-    ftp: FTP
-
-  recipients:
-    title: %{account_name} - Empfänger
-    menu:
-      title: Empfänger
-      import: import
-      export_xls: export Exceldatei
-      multiple_delete: löschen
-    new:
-      title: Empfänger erstellen
-    edit:
-      title: Empfänger editieren
-    import:
-        title: Empfänger importieren
-        explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
-        valid_recipients: Folgende valide Empfänger werden hinzugefügt
-        invalid_recipients: Folgende Empfänger sind invalid
-        ctrl:
-          valid_import: Valide Empfänger importieren
-          check: Emailadresse(n) überprüfen
-    multiple_delete:
-        title: Mehrere Empfänger löschen
-        explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
-        valid_recipients: Folgende Empfänger werden gelöscht
-        invalid_recipients: Folgende Empfänger wurde nicht gefunden
-        ctrl:
-          valid_delete: Empfänger löschen
-          confirm_delete: Sicher?
-          check: Emailadresse(n) überprüfen
 
   newsletters:
     title: Newsletter
@@ -63,8 +33,6 @@ de:
     see_all: "zeige alle"
     user: User
     users: Users
-
-  newsletters:
     account: Newsletter
     action: Aktion
     confirm:

@@ -1,5 +1,4 @@
 require 'net/imap'
-require 'bounce_email'
 
 class Account < ActiveRecord::Base
 
