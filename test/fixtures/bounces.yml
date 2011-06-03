@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  account_id: 1
+  from: MyString
+  subject: MyString
+  raw: MyText
+  header: MyText
+  body: MyText
+
+two:
+  account_id: 1
+  from: MyString
+  subject: MyString
+  raw: MyText
+  header: MyText
+  body: MyText

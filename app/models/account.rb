@@ -8,8 +8,9 @@ class Account < ActiveRecord::Base
   has_many :assets
   has_many :newsletters
   has_many :recipients
+  has_many :bounces
 
-  validates_presence_of :user_id
+  validates :user_id, :presence => true
 
   def test_recipients(additional_emails = nil)
     (test_recipient_emails_array + Array(additional_emails)).uniq.map do |email|
@@ -43,41 +44,20 @@ class Account < ActiveRecord::Base
   end
 
   def process_bounces
-    mail_settings = mail_config['smtp_settings']
+    mail_settings = Account.first.mail_config['smtp_settings']
 
     imap = Net::IMAP.new(mail_settings[:address].gsub('smtp', 'imap'))
     imap.authenticate('LOGIN', mail_settings[:user_name], mail_settings[:password])
     imap.select('INBOX') #use examaine fpr read only
 
     # all msgs
-    unkown = []
     imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
-      out = "BOUNCE #{id}"
-      begin
-        mail = BounceEmail::Mail.new imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']
-        if mail.bounced? && (mail_id = Array(mail.body.to_s.match(/X-MA-Id:? ?([^\r\n ]+)/))[1])
-          out << " - bounced id: #{mail_id}"
-          dummy, account_id, newsletter_id, recipient_id = mail_id.split('-')
-          if r = Recipient.find_by_account_id_and_id(account_id, recipient_id)
-            out << " - found"
-            rec = Array(mail.final_recipient).split(";")[1].try(:strip)
-            unless r.bounces.to_s.include?(mail_id)
-              r.bounces_count += 1
-              r.bounces = "#{mail.date.strftime("%Y-%m-%d")} #{mail_id} <#{rec}>: #{mail.error_status} #{mail.diagnostic_code}\n#{r.bounces}"
-              r.save!
-              out << " - saved"
-            end
-          end
-          imap.uid_store(id, "+FLAGS", [:Deleted])
-        end
-        logger.info out
-      rescue => e
-        logger.warn " -------> error on #{id} #{e.message}"
-      end
+      puts "#{id}"
+      self.bounces.create!(:raw => imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']) rescue nil
+      #imap.uid_store(mail_id, "+FLAGS", [:Deleted])
     end
     imap.expunge
     imap.close
-    unkown
   end
 end
 

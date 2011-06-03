@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110418210039) do
+ActiveRecord::Schema.define(:version => 20110603085449) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -41,11 +41,34 @@ ActiveRecord::Schema.define(:version => 20110418210039) do
     t.datetime "updated_at"
   end
 
+  create_table "bounces", :force => true do |t|
+    t.integer  "account_id"
+    t.integer  "user_id"
+    t.string   "from"
+    t.string   "subject"
+    t.datetime "send_at"
+    t.text     "header"
+    t.text     "body"
+    t.text     "raw"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "deliveries", :force => true do |t|
+    t.string   "type"
+    t.integer  "sending_id"
+    t.integer  "recipient_id"
+    t.string   "code"
+    t.text     "message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "domains", :force => true do |t|
     t.integer  "user_id"
-    t.string   "domain"
+    t.string   "name"
     t.string   "number"
-    t.string   "user"
+    t.string   "username"
     t.string   "password"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -54,18 +77,10 @@ ActiveRecord::Schema.define(:version => 20110418210039) do
   create_table "newsletters", :force => true do |t|
     t.string   "subject"
     t.text     "content"
-    t.integer  "mode",                :default => 0, :null => false
-    t.integer  "status",              :default => 0, :null => false
-    t.integer  "last_sent_id"
-    t.integer  "recipients_count",    :default => 0, :null => false
-    t.integer  "deliveries_count",    :default => 0, :null => false
-    t.integer  "errors_count",        :default => 0, :null => false
-    t.datetime "deliver_at"
-    t.datetime "delivery_started_at"
-    t.datetime "delivery_ended_at"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state"
   end
 
   add_index "newsletters", ["account_id"], :name => "index_newsletters_on_account_id"
@@ -75,16 +90,32 @@ ActiveRecord::Schema.define(:version => 20110418210039) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.integer  "deliveries_count", :default => 0, :null => false
-    t.integer  "bounces_count",    :default => 0, :null => false
-    t.text     "bounces"
+    t.integer  "deliveries_count",         :default => 0, :null => false
+    t.integer  "bounced_deliveries_count", :default => 0, :null => false
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "failed_deliveries_count",  :default => 0, :null => false
   end
 
   add_index "recipients", ["email"], :name => "index_recipients_on_email"
   add_index "recipients", ["id", "account_id"], :name => "index_recipients_on_id_and_account_id", :unique => true
+
+  create_table "sendings", :force => true do |t|
+    t.integer  "newsletter_id"
+    t.string   "type"
+    t.string   "state"
+    t.integer  "recipients_count"
+    t.datetime "start_at"
+    t.integer  "last_id",          :default => 0, :null => false
+    t.integer  "oks",              :default => 0, :null => false
+    t.integer  "fails",            :default => 0, :null => false
+    t.datetime "finished_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sendings", ["id", "type", "state"], :name => "index_sendings_on_id_and_type_and_state"
 
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false
