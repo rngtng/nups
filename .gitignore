@@ -3,15 +3,14 @@
 db/*.sqlite3
 db/schema.rb
 log/*.log
-tmp/**/*
+tmp/
 .DS_Store
 config/database.yml
 config/mail.yml
 public/system
 dump.rdb
-tmp/routes_cache
 Newsletter_state.png
 Sending_state.png
-tmp/restart.txt
 .tmtags
 config/setup_load_paths.rb
+.sass-cache
