@@ -5,7 +5,7 @@
 
 
 if Rails.env.production?
-  rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
+  rails_root = Rails.root.to_s || File.dirname(__FILE__) + '/../..'
 
   mail_config = YAML.load_file(rails_root + '/config/mail.yml')
 

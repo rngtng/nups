@@ -54,15 +54,15 @@ class Newsletter < ActiveRecord::Base
     end
 
     after_transition all => :testing do |me|
-      me.async_shedule_test!
+      Resque.enqueue(me.class, me.id, "shedule_test!")
     end
 
     after_transition all => :sending do |me|
-      me.async_shedule_live!
+      Resque.enqueue(me.class, me.id, "shedule_live!")
     end
 
     after_transition all => :stopping do |me|
-      me.async_stop!
+      Resque.enqueue(me.class, me.id, "stop!")
     end
   end
 
@@ -73,32 +73,20 @@ class Newsletter < ActiveRecord::Base
   end
 
   def self.perform(id, action)
-    Newsletter.find(id).send(action)
-  end
-
-  def async_shedule_test
-    Resque.enqueue(Newsletter, self.id, "shedule_test!")
-  end
-
-  def async_shedule_live!
-    Resque.enqueue(Newsletter, self.id, "shedule_live!")
-  end
-
-  def async_stop!
-    Resque.enqueue(Newsletter, self.id, "stop!")
+    self.find(id).send(action)
   end
 
  #-------------------------------------------------------------------------------------------------------------------------
 
   def shedule_test!
     self.test_recipients.each do |test_recipient|
-      self.live_send_outs.create!(test_recipient)
+      self.test_send_outs.create!(:params => test_recipient)
     end
   end
 
   def shedule_live!
     self.test_recipients.each do |live_recipient|
-      self.live_send_outs.create!(live_recipient)
+      self.live_send_outs.create!(:recipient => live_recipient)
     end
   end
 
@@ -122,6 +110,7 @@ class Newsletter < ActiveRecord::Base
   end
 
   ########################################################################################################################
+
   def template_html
     account.template_html || "<%= content %>"
   end
@@ -129,34 +118,6 @@ class Newsletter < ActiveRecord::Base
   def template_text
     account.template_text || "<%= content %>"
   end
-  ########################################################################################################################
-
-  #%w(recipients_count oks fails start_at finished_at).each do |method|
-  # def start_at
-  #   self.live_sendings.last.try(:start_at)
-  # end
-  #
-  # def finished_at
-  #   self.live_sendings.first.finished_at
-  # end
-  #
-  # def oks
-  #   self.live_sendings.map(&:oks).sum
-  # end
-  #
-  # def fails
-  #   self.live_sendings.map(&:fails).sum
-  # end
-  #
-  # def recipients_count
-  #   self.live_sendings.first.try(:recipients_count) || 0
-  # end
-
-  ########################################################################################################################
-
-#  def last_id
- #   self.live_sendings.first.try(:last_id) || 0
-#  end
 
 end
 
@@ -164,9 +125,10 @@ end
 #
 # Table name: newsletters
 #
-#  id                  :integer(4)      not null, primary key
-#  account_id          :integer(4)
-#  content             :text
-#  subject             :string(255)
-#  created_at          :datetime
-#  updated_at          :datetime
+#  id         :integer(4)      not null, primary key
+#  account_id :integer(4)
+#  content    :text
+#  state      :string(255)
+#  subject    :string(255)
+#  created_at :datetime
+#  updated_at :datetime

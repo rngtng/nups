@@ -1,5 +1,7 @@
 require Rails.root.join("config","environment")
 
+RAILS_ROOT = Rails.root.to_s
+
 MODEL_DIR         = File.join(RAILS_ROOT, "app/models" )
 UNIT_TEST_DIR     = File.join(RAILS_ROOT, "test/unit"  )
 SPEC_MODEL_DIR    = File.join(RAILS_ROOT, "spec/models")

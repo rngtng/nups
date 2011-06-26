@@ -1,8 +1,8 @@
 require 'yaml'
 require 'resque'
 
-rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
-rails_env  = ENV['RAILS_ENV'] || 'development'
+rails_root = Rails.root.to_s || File.dirname(__FILE__) + '/../..'
+rails_env  = Rails.env || 'development'
 
 resque_config = YAML.load_file(rails_root + '/config/resque.yml')
 
