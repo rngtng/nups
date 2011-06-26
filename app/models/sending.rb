@@ -4,113 +4,60 @@ class Sending < ActiveRecord::Base
   QUEUE = :nups_sending
 
   belongs_to :newsletter
+  belongs_to :recipient
 
   with_options(:presence => true) do |present|
     present.validates :newsletter_id
-    present.validates :recipients_count
-    present.validates :start_at
+    present.validates :recipient_id
+    #present.validates :start_at
   end
 
-  #validation, there can be only one sending with STATUS_NEW - no_paralell_sendings
-  validate do |me|
-    unless (newsletter.sendings.scheduled_or_running - Array(me)).empty?
-      errors.add(:base, "Another sending already exists with state '#{sending.state}'")
-    end
-  end
+  after_create :async_start!
 
   def self.queue
     QUEUE
   end
 
-  ########################################################################################################################
-
-  state_machine :initial => :scheduled do
-    event :start do
-      transition :scheduled => :running
-    end
-
-    event :stop do
-      transition :running => :stopped
-      transition :scheduled => :stopped
-    end
-
-    event :finish do
-      transition :running => :finished
-    end
-
-    ####
-
-    before_transition :scheduled => :running do |me|
-      me.start_at = Time.now
-    end
-
-    before_transition :running => [:stopped, :finished] do |me|
-      me.finished_at = Time.now
-      me.newsletter.finish!
-    end
-
-    after_transition :scheduled => :running do |me, transition|
-       me.send :after_start, :reload_after => 100
-    end
+  def self.perform(id)
+    Sending.find(id, :include => [:newsletter, :recipient]).start!
   end
-
-  ########################################################################################################################
-
-  before_validation :set_recipients_count, :set_start_at
-  after_create  :async_start!
-
-  scope :scheduled_or_running, :conditions => { :state => [:scheduled, :running] }
-  scope :stopped_or_finished,  :conditions => { :state => [:stopped, :finished] }, :order => "updated_at DESC"
-  scope :finished, :conditions => { :state => [:finished] }
-
-  def self.perform(id, args = {})
-    if sending = Sending.find(id)
-      sending.start!
-    end
-  end
-
-  ########################################################################################################################
-
-  def recipients
-    []
-  end
-
-  ########################################################################################################################
 
   private
   def async_start!
-    Resque.enqueue(Sending, self.id) #, args
+    Resque.enqueue(Sending, self.id)
   end
-
-  def after_start(opts = {})
-    reload_after = opts.delete(:reload_after) || 100
-
-    self.recipients.find_each do |recipient|
-      send_to!(recipient)
-      break if (self.count % reload_after) == 0 && self.reload.stopped?
-    end
-    self.finish!
-  end
-
-  def set_recipients_count
-    self.recipients_count = recipients.count
-  end
-
-  def set_start_at
-    self.start_at ||= Time.now
-  end
-
-  def send_to!(recipient)
-    #inject custom subject here???
-    NewsletterMailer.issue(self, recipient).deliver
-  end
-
-  # def update_only(todo_attributes = {})
-  #   self.attributes = todo_attributes
-  #   Newsletter.update_all(todo_attributes, :id => self.id)
-  # end
 end
 
+class LiveSending < ActiveRecord::Base
+
+  validates :recipient_id, :scope => [:newsletter_id, :type]
+
+  def start!
+    issue                   = NewsletterMailer.issue(self.newsletter, self.recipient)
+    issue.header["X-MA-Id"] = ["ma", self.id, self.recipient_id].join('-')
+    issue.deliver
+
+    self.update_attributes(:type => "FinishedSending", :updated_at => Time.now)
+
+  rescue => e
+    self.update_attributes(:type => "FailedSending", :message => e.message, :updated_at => Time.now)
+  end
+end
+
+class TestSending < ActiveRecord::Base
+  def start!
+    recipient               = Recipient.new(:email => "test@c-art-web.de")
+    issue                   = NewsletterMailer.issue(self.newsletter, recipient)
+    issue.header["X-MA-Id"] = ["ma", self.id, "test"].join('-')
+    issue.subject           = "TEST: #{issue.subject}"
+
+    issue.deliver
+    self.update_attributes(:updated_at => Time.now)
+
+  rescue => e
+    self.update_attributes(:message => e.message, :updated_at => Time.now)
+  end
+end
 
 # == Schema Info
 #

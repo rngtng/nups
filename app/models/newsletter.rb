@@ -1,14 +1,16 @@
 class Newsletter < ActiveRecord::Base
   include Stats
 
+  QUEUE = :nups_newsletter
+
   belongs_to :account
 
   has_many :recipients,  :through => :account
   has_many :attachments, :class_name => 'Asset'
 
-  has_many :sendings,      :order => "updated_at DESC", :dependent => :destroy
-  has_many :live_sendings, :order => "updated_at DESC"
-  has_many :test_sendings, :order => "updated_at DESC"
+  has_many :send_outs,   :dependent => :destroy
+  has_many :live_send_outs
+  has_many :test_send_outs
 
   #scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
@@ -52,20 +54,56 @@ class Newsletter < ActiveRecord::Base
     end
 
     after_transition all => :testing do |me|
-      me.test_sendings.create!
+      me.async_shedule_test!
     end
 
     after_transition all => :sending do |me|
-      me.live_sendings.create!( :last_id => me.last_id )
+      me.async_shedule_live!
     end
 
     after_transition all => :stopping do |me|
-      me.sendings.first.stop!
+      me.async_stop!
     end
+  end
 
-    after_transition :testing => :new do |me|
-      me.test_sendings.map &:destroy
+  ########################################################################################################################
+
+  def self.queue
+    QUEUE
+  end
+
+  def self.perform(id, action)
+    Newsletter.find(id).send(action)
+  end
+
+  def async_shedule_test
+    Resque.enqueue(Newsletter, self.id, "shedule_test!")
+  end
+
+  def async_shedule_live!
+    Resque.enqueue(Newsletter, self.id, "shedule_live!")
+  end
+
+  def async_stop!
+    Resque.enqueue(Newsletter, self.id, "stop!")
+  end
+
+ #-------------------------------------------------------------------------------------------------------------------------
+
+  def shedule_test!
+    self.test_recipients.each do |test_recipient|
+      self.live_send_outs.create!(test_recipient)
     end
+  end
+
+  def shedule_live!
+    self.test_recipients.each do |live_recipient|
+      self.live_send_outs.create!(live_recipient)
+    end
+  end
+
+  def stop!
+    self.live_send_outs.map(&:stop!) #TODO use magice mysql here
   end
 
   ########################################################################################################################
@@ -94,49 +132,31 @@ class Newsletter < ActiveRecord::Base
   ########################################################################################################################
 
   #%w(recipients_count oks fails start_at finished_at).each do |method|
-  def start_at
-    self.live_sendings.last.try(:start_at)
-  end
-
-  def finished_at
-    self.live_sendings.first.finished_at
-  end
-
-  def oks
-    self.live_sendings.map(&:oks).sum
-  end
-
-  def fails
-    self.live_sendings.map(&:fails).sum
-  end
-
-  def recipients_count
-    self.live_sendings.first.try(:recipients_count) || 0
-  end
+  # def start_at
+  #   self.live_sendings.last.try(:start_at)
+  # end
+  #
+  # def finished_at
+  #   self.live_sendings.first.finished_at
+  # end
+  #
+  # def oks
+  #   self.live_sendings.map(&:oks).sum
+  # end
+  #
+  # def fails
+  #   self.live_sendings.map(&:fails).sum
+  # end
+  #
+  # def recipients_count
+  #   self.live_sendings.first.try(:recipients_count) || 0
+  # end
 
   ########################################################################################################################
-  #
-  # def test_ok?
-  #   self.test_sendings.finished.any?
-  # end
-  #
-  # def running?
-  #   self.sendings.scheduled_or_running.any?
-  # end
-  #
-  # def finished?
-  #   self.live_sendings.finished.any?
-  # end
-  #
-  # def stopped?
-  #   !finished? && self.live_sendings.stopped.any?
-  # end
-  #
-  ########################################################################################################################
 
-  def last_id
-    self.live_sendings.first.try(:last_id) || 0
-  end
+#  def last_id
+ #   self.live_sendings.first.try(:last_id) || 0
+#  end
 
 end
 

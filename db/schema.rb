@@ -10,19 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20110603085449) do
-=======
-ActiveRecord::Schema.define(:version => 20110226100650) do
->>>>>>> moved and restructured send logic to delivery model
-=======
-ActiveRecord::Schema.define(:version => 20110303180059) do
->>>>>>> added delivery/sending, updated & fixed tests
-=======
-ActiveRecord::Schema.define(:version => 20110309145947) do
->>>>>>> added state machine to newsletter, model cleanup
+ActiveRecord::Schema.define(:version => 20110626134843) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -53,7 +41,6 @@ ActiveRecord::Schema.define(:version => 20110309145947) do
     t.datetime "updated_at"
   end
 
-<<<<<<< HEAD
   create_table "bounces", :force => true do |t|
     t.integer  "account_id"
     t.integer  "user_id"
@@ -67,41 +54,12 @@ ActiveRecord::Schema.define(:version => 20110309145947) do
     t.datetime "updated_at"
   end
 
-  create_table "deliveries", :force => true do |t|
-    t.string   "type"
-    t.integer  "sending_id"
-    t.integer  "recipient_id"
-    t.string   "code"
-    t.text     "message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "domains", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
     t.string   "number"
     t.string   "username"
     t.string   "password"
-=======
-  create_table "deliveries", :force => true do |t|
-    t.string   "type"
-<<<<<<< HEAD
-    t.string   "state"
-    t.integer  "recipients_count"
-    t.datetime "start_at"
-    t.integer  "last_id",          :default => 0, :null => false
-    t.integer  "oks",              :default => 0, :null => false
-    t.integer  "fails",            :default => 0, :null => false
-    t.integer  "bounces",          :default => 0, :null => false
-    t.datetime "finished_at"
->>>>>>> moved and restructured send logic to delivery model
-=======
-    t.integer  "sending_id"
-    t.integer  "recipient_id"
-    t.string   "code"
-    t.text     "message"
->>>>>>> added delivery/sending, updated & fixed tests
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -122,41 +80,29 @@ ActiveRecord::Schema.define(:version => 20110309145947) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-<<<<<<< HEAD
-<<<<<<< HEAD
-    t.integer  "deliveries_count",         :default => 0, :null => false
-    t.integer  "bounced_deliveries_count", :default => 0, :null => false
-    t.integer  "account_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-<<<<<<< HEAD
-    t.integer  "failed_deliveries_count",  :default => 0, :null => false
-=======
-    t.string   "fails_count"
-    t.text     "fails"
->>>>>>> moved and restructured send logic to delivery model
-=======
-    t.integer  "deliveries_count", :default => 0, :null => false
-    t.integer  "bounces_count",    :default => 0, :null => false
-    t.text     "bounces",                         :null => false
-    t.integer  "account_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "fails_count",      :default => 0, :null => false
-    t.text     "fails",                           :null => false
->>>>>>> renamed delivery to sending and added new delivery to keep track of fails and bounces
-=======
     t.integer  "deliveries_count",         :default => 0, :null => false
     t.integer  "bounced_deliveries_count", :default => 0, :null => false
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "failed_deliveries_count",  :default => 0, :null => false
->>>>>>> added delivery/sending, updated & fixed tests
   end
 
   add_index "recipients", ["email"], :name => "index_recipients_on_email"
   add_index "recipients", ["id", "account_id"], :name => "index_recipients_on_id_and_account_id", :unique => true
+
+  create_table "send_outs", :force => true do |t|
+    t.integer  "recipient_id"
+    t.integer  "newsletter_id"
+    t.string   "type"
+    t.string   "params"
+    t.string   "error_code"
+    t.text     "error_message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "send_outs", ["newsletter_id", "type"], :name => "index_send_outs_on_newsletter_id_and_type"
 
   create_table "sendings", :force => true do |t|
     t.integer  "newsletter_id"
