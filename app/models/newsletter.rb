@@ -19,7 +19,7 @@ class Newsletter < ActiveRecord::Base
   validates :subject,    :presence => true
 
   with_options(:to => :account) do |account|
-    %w(from host sender reply_to recipients test_recipients color has_html? has_text?).each do |attr|
+    %w(from host sender reply_to recipients test_recipient_emails_array color has_html? has_text?).each do |attr|
       account.delegate attr
     end
   end
@@ -38,6 +38,10 @@ class Newsletter < ActiveRecord::Base
       transition :stopped => :sending
     end
 
+    event :resume_live do
+      transition :stopped => :sending
+    end
+
     event :stop do
       transition :sending => :stopping
       transition :testing => :new
@@ -49,20 +53,24 @@ class Newsletter < ActiveRecord::Base
       transition :stopping => :stopped
     end
 
-    event :clone do
+    event :duplicate do
       transition :finished => :finished
     end
 
     after_transition all => :testing do |me|
-      Resque.enqueue(me.class, me.id, "shedule_test!")
+      Resque.enqueue(me.class, me.id, "_send_test!")
     end
 
-    after_transition all => :sending do |me|
-      Resque.enqueue(me.class, me.id, "shedule_live!")
+    after_transition :tested => :sending do |me|
+      Resque.enqueue(me.class, me.id, "_send_live!")
+    end
+
+    after_transition :stopped => :sending do |me|
+      Resque.enqueue(me.class, me.id, "_resume_live!")
     end
 
     after_transition all => :stopping do |me|
-      Resque.enqueue(me.class, me.id, "stop!")
+      Resque.enqueue(me.class, me.id, "_stop!")
     end
   end
 
@@ -74,24 +82,6 @@ class Newsletter < ActiveRecord::Base
 
   def self.perform(id, action)
     self.find(id).send(action)
-  end
-
- #-------------------------------------------------------------------------------------------------------------------------
-
-  def shedule_test!
-    self.test_recipients.each do |test_recipient|
-      self.test_send_outs.create!(:params => test_recipient)
-    end
-  end
-
-  def shedule_live!
-    self.test_recipients.each do |live_recipient|
-      self.live_send_outs.create!(:recipient => live_recipient)
-    end
-  end
-
-  def stop!
-    self.live_send_outs.map(&:stop!) #TODO use magice mysql here
   end
 
   ########################################################################################################################
@@ -111,14 +101,31 @@ class Newsletter < ActiveRecord::Base
 
   ########################################################################################################################
 
-  def template_html
+  def template
     account.template_html || "<%= content %>"
   end
 
-  def template_text
-    account.template_text || "<%= content %>"
-  end
+  #-------------------------------------------------------------------------------------------------------------------------
+   private
+   def _send_test!
+     self.test_recipient_emails_array.each do |test_recipient_email|
+       self.test_send_outs.create!(:email => test_recipient_email)
+     end
+   end
 
+   def _send_live!
+     self.recipients.each do |live_recipient|
+       self.live_send_outs.create!(:recipient => live_recipient)
+     end
+   end
+
+   def _resume_live!
+     self.live_send_outs.with_state(:stopped).map(&:resume!)
+   end
+
+   def _stop!
+     self.live_send_outs.with_state(:sheduled).map(&:stop!) #TODO use magice mysql here
+   end
 end
 
 # == Schema Info

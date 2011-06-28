@@ -1,5 +1,5 @@
 class CreateDeliveries < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :deliveries do |t|
       t.string :type
 
@@ -13,7 +13,4 @@ class CreateDeliveries < ActiveRecord::Migration
     end
   end
 
-  def self.down
-    drop_table :deliveries
-  end
 end

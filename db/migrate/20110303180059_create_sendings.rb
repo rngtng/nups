@@ -1,5 +1,5 @@
 class CreateSendings < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :sendings do |t|
       t.belongs_to :newsletter
 
@@ -21,7 +21,4 @@ class CreateSendings < ActiveRecord::Migration
     add_index :sendings, [:id, :type, :state]
   end
 
-  def self.down
-    drop_table :sendings
-  end
 end

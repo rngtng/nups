@@ -1,5 +1,5 @@
 class CreateBounces < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :bounces do |t|
       t.integer :account_id
       t.integer :user_id
@@ -15,7 +15,4 @@ class CreateBounces < ActiveRecord::Migration
     end
   end
 
-  def self.down
-    drop_table :bounces
-  end
 end

@@ -1,5 +1,5 @@
 class CreateDomains < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :domains do |t|
       t.belongs_to :user
       
@@ -12,7 +12,4 @@ class CreateDomains < ActiveRecord::Migration
     end
   end
 
-  def self.down
-    drop_table :domains
-  end
 end

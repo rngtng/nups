@@ -5,68 +5,105 @@ class SendOut < ActiveRecord::Base
   belongs_to :recipient
 
   validates :newsletter_id, :presence => true
+  validates :email, :presence => true
+
+  after_save :async_deliver!
+
+  state_machine :initial => :sheduled do
+    event :deliver do
+      transition :sheduled => :delivering
+    end
+
+    event :resume do
+      transition :stopped => :sheduled
+    end
+
+    event :stop do
+      transition :sheduled => :stopped
+    end
+
+    event :finish do
+      transition :delivering => :finished
+    end
+
+    event :failure do
+      transition :delivering => :failed
+    end
+
+    event :bounce do
+      transition :finished  => :bounced
+    end
+
+    after_transition :sheduled => :delivering do |me|
+      begin
+        me.issue.deliver
+        me.finish!
+      rescue Exception => e
+        me.error_message = e.message
+        me.failure! #(e.message)
+      end
+    end
+
+  end
+
+  ########################################################################################################################
 
   def self.queue
     QUEUE
   end
 
   def self.perform(id)
-    self.find(id, :include => [:newsletter, :recipient]).start!
+    a = find(id, :include => [:newsletter, :recipient])
+    a.deliver!
   end
 
-  def start!
+  def issue
+    @issue ||= NewsletterMailer.issue(self.newsletter, self.recipient).tap do |issue|
+      issue.header["X-MA-Id"] = issue_id
+    end
   end
 
   private
-  def async_start!
-    Resque.enqueue(self.class, self.id)
+  def async_deliver!
+    if sheduled?
+      Resque.enqueue(self.class, self.id)
+    end
   end
 end
 
 class LiveSendOut < SendOut
 
-  after_create :async_start!
-
   validates :recipient_id, :presence => true, :uniqueness => {:scope => [:newsletter_id, :type]}
 
-  def start!
-    issue                   = NewsletterMailer.issue(self.newsletter, self.recipient)
-    issue.header["X-MA-Id"] = ["ma", self.id, self.recipient_id].join('-')
-    issue.deliver
+  before_validation :set_email
 
-    self.update_attributes(:type => "FinishedSendOut", :updated_at => Time.now)
+  def issue_id
+    ["ma", self.id, self.recipient_id].join('-')
+  end
 
-  rescue => e
-    self.update_attributes(:type => "FailedSendOut", :error_message => e.message, :updated_at => Time.now)
+  private
+  def set_email
+    self.email = recipient.email
   end
 end
 
 class TestSendOut < SendOut
 
-  after_create :async_start!
+  def recipient
+    @recipient ||= Recipient.new(:email => email)
+  end
 
-  def start!
-    recipient               = Recipient.new(:email => "test@c-art-web.de")
-    issue                   = NewsletterMailer.issue(self.newsletter, recipient)
-    issue.header["X-MA-Id"] = ["ma", self.id, "test"].join('-')
-    issue.subject           = "TEST: #{issue.subject}"
+  def issue_id
+    ["ma", self.id, "test"].join('-')
+  end
 
-    issue.deliver
-    self.update_attributes(:updated_at => Time.now)
-
-  rescue => e
-    self.update_attributes(:message => e.message, :updated_at => Time.now)
+  def issue
+    super.tap do |issue|
+      issue.subject = "TEST: #{issue.subject}"
+    end
   end
 end
 
-class FinishedSendOut < SendOut
-end
-
-class FailedSendOut < SendOut
-end
-
-class BouncedSendOut < SendOut
-end
 
 # == Schema Info
 #

@@ -28,8 +28,8 @@ class NewsletterMailer < ActionMailer::Base
     end
 
     data    = { :subject => newsletter.subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }
-    content = render(:inline => newsletter.template_html, :locals => data)
-    content = Premailer.new( content, :with_html_string => true )
+    content = render(:inline => newsletter.template, :locals => data)
+    content = Premailer.new(content, :with_html_string => true)
 
     mail(head) do |format|
       format.text { content.to_plain_text }
