@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110626134843) do
+ActiveRecord::Schema.define(:version => 20110706212556) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -70,7 +70,16 @@ ActiveRecord::Schema.define(:version => 20110626134843) do
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state"
+    t.integer  "last_sent_id"
+    t.integer  "deliveries_count"
+    t.integer  "errors_count"
+    t.string   "mode"
+    t.integer  "recipients_count"
+    t.string   "status"
+    t.datetime "deliver_at"
+    t.datetime "delivery_ended_at"
+    t.datetime "delivery_started_at"
+    t.string   "state",               :default => "finished"
   end
 
   add_index "newsletters", ["account_id"], :name => "index_newsletters_on_account_id"
@@ -80,12 +89,13 @@ ActiveRecord::Schema.define(:version => 20110626134843) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.integer  "deliveries_count",         :default => 0, :null => false
-    t.integer  "bounced_deliveries_count", :default => 0, :null => false
+    t.integer  "deliveries_count", :default => 0, :null => false
+    t.integer  "bounces_count",    :default => 0, :null => false
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "failed_deliveries_count",  :default => 0, :null => false
+    t.text     "bounces",                         :null => false
+    t.integer  "failed_count",     :default => 0, :null => false
   end
 
   add_index "recipients", ["email"], :name => "index_recipients_on_email"
@@ -104,22 +114,6 @@ ActiveRecord::Schema.define(:version => 20110626134843) do
   end
 
   add_index "send_outs", ["newsletter_id", "type"], :name => "index_send_outs_on_newsletter_id_and_type"
-
-  create_table "sendings", :force => true do |t|
-    t.integer  "newsletter_id"
-    t.string   "type"
-    t.string   "state"
-    t.integer  "recipients_count"
-    t.datetime "start_at"
-    t.integer  "last_id",          :default => 0, :null => false
-    t.integer  "oks",              :default => 0, :null => false
-    t.integer  "fails",            :default => 0, :null => false
-    t.datetime "finished_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "sendings", ["id", "type", "state"], :name => "index_sendings_on_id_and_type_and_state"
 
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false

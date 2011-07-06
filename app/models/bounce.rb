@@ -1,3 +1,5 @@
+require 'bounce_email'
+
 class Bounce < ActiveRecord::Base
 
   belongs_to :account
@@ -9,7 +11,7 @@ class Bounce < ActiveRecord::Base
   before_validation :process, :set_meta
 
   def mail
-    @mail ||= BounceEmail::Mail.new(self.raw)
+    @mail ||= ::BounceEmail::Mail.new(self.raw)
   end
 
   def mail_id
