@@ -1,5 +1,4 @@
 class Newsletter < ActiveRecord::Base
-  include Stats
 
   QUEUE = :nups_newsletter
 
@@ -105,6 +104,39 @@ class Newsletter < ActiveRecord::Base
     account.template_html || "<%= content %>"
   end
 
+  def progress_percent
+    return 0 if self.recipients_count.to_i < 1
+    (100 * count / self.recipients_count).round
+  end
+
+  #How long did it take to send newsletter
+  def sending_time
+    return 0 unless self.delivery_started_at
+    ((self.delivery_ended_at || Time.now) - self.delivery_started_at).to_f
+  end
+
+  def count
+    self.delivery_count + self.errors_count
+  end
+
+  def sendings_per_second
+    return 0 if sending_time < 1
+    return count.to_f / sending_time
+  end
+
+  def update_stats
+    return if finished!
+    send_outs = live_send_outs.with_states(:finished, :failed).scoped(:select => "updated_at")
+    self.recipients_count    = live_send_outs.count
+    self.delivery_ended_at   = send_outs.first(:order => "updated_at DESC").updated_at
+    self.delivery_count      = live_send_outs.with_states(:finished).count
+    self.errors_count        = live_send_outs.with_states(:failed).count
+    self.save!
+    if live_send_outs.without_states(:finished, :failed, :bounced).count == 0
+      finish!
+    end
+  end
+
   #-------------------------------------------------------------------------------------------------------------------------
    private
    def _send_test!
@@ -114,17 +146,20 @@ class Newsletter < ActiveRecord::Base
    end
 
    def _send_live!
+     self.update_attributes(:delivery_started_at => Time.now)
      self.recipients.each do |live_recipient|
        self.live_send_outs.create!(:recipient => live_recipient)
      end
    end
 
    def _resume_live!
+     #self.update_attributes(:delivery_started_at => Time.now)
      self.live_send_outs.with_state(:stopped).map(&:resume!)
    end
 
    def _stop!
-     self.live_send_outs.with_state(:sheduled).map(&:stop!) #TODO use magice mysql here
+     self.live_send_outs.with_state(:sheduled).update_all(:state => 'stopped')
+     #self.live_send_outs.with_state(:sheduled).map(&:stop!) #TODO use magice mysql here
    end
 end
 
