@@ -15,6 +15,14 @@ en:
     domains: Domain Management
     ftp: FTP
 
+  views:
+    pagination:
+      previous: "&laquo; Prev"
+      next: "Next &raquo;"
+      truncate: "..."
+      last: "|&laquo;"
+      first: "&raquo;|"
+
   ctrl:
     show: show
     new: new

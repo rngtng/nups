@@ -22,7 +22,7 @@ gem 'resque'
 gem 'paperclip'
 
 #For proper pagination
-# gem 'will_paginate', '~> 3.0.pre2'
+gem 'kaminari'
 
 # For excel export
 gem 'ekuseru'

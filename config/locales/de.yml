@@ -15,6 +15,14 @@ de:
     domains: Domain Verwaltung
     ftp: FTP
 
+  views:
+    pagination:
+      previous: "&laquo; Zurück"
+      next: "Vor &raquo;"
+      truncate: "..."
+      last: "&raquo;|"
+      first: "|&laquo;"
+
   ctrl:
     back: zurück
     cancel: abbrechen

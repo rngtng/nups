@@ -3,7 +3,7 @@
     %tr
       %td
         %h2= t 'recipients.title', :account_name =>  @account.name
-        (#{@recipients.offset+1} - #{@recipients.offset+@recipients.per_page} / #{@recipients.total_entries})
+        -# (#{@recipients.offset+1} - #{@recipients.offset+@recipients.per_page} / #{@recipients.total_entries})
 
       %td{:align => "center"}
         = form_tag account_recipients_path(@account), :method => :get do
@@ -30,12 +30,12 @@
               %th.menu= t('newsletters.menu')
 
     %tr.paginate
-      %td{:align => "center"}= will_paginate @recipients
+      %td{:align => "center"}= paginate @recipients
 
     = render @recipients
 
     %tr.paginate
-      %td{:align => "center"}= will_paginate @recipients
+      %td{:align => "center"}= paginate @recipients
 
   :javascript
     //$('tr.recipient tr.show td:not(.menu)').live('click', function(event) {

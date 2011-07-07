@@ -7,7 +7,7 @@ class RecipientsController < ApplicationNupsController
     @recipients = @account.recipients.search(params[:search])
 
     unless params[:format] == 'xls'
-      @recipients = @recipients.paginate(:page => params[:page], :per_page => 100)
+      @recipients = @recipients.page(params[:page]).per(100)
     end
 
     respond_with @recipients
