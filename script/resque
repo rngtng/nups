@@ -1,0 +1,4 @@
+#!/bin/bash
+
+redis-server
+COUNT=1 QUEUE=* rake resque:workers
