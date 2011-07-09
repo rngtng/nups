@@ -38,6 +38,7 @@ gem 'premailer'
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'
+  gem 'mailcatcher'
   gem 'ruby-graphviz', :require => 'graphviz'
   gem "rspec-rails", "~> 2.6.1.beta1"
 end
