@@ -3,7 +3,6 @@
 #http://apidock.com/rails/ActionMailer/Base
 #http://blog.scopeport.org/ruby-on-rails/rails-smtp-configuration-parameters-database/
 
-
 if Rails.env.production?
   rails_root = Rails.root.to_s || File.dirname(__FILE__) + '/../..'
 
@@ -11,11 +10,4 @@ if Rails.env.production?
 
   ActionMailer::Base.delivery_method = mail_config['method'].to_sym
   ActionMailer::Base.smtp_settings   = mail_config['smtp_settings']
-
-  ActionController::Base.asset_host  = "www2.multiadmin.de:8080"
-
-  #Mail.register_interceptor(DevelopmentMailInterceptor)
-
-elsif Rails.env.development?
-  # Mail.register_interceptor(DevelopmentMailInterceptor)
 end

@@ -39,7 +39,7 @@
         data: { ids: ids },
         dataType: 'script'
       });
-      //scheduled = false;
+      scheduled = false;
     },
     schedule = function() {
       if(!scheduled) {
@@ -52,7 +52,7 @@
     update = function(id, state, progressPercent) {
       $('#newsletter_' + id)
       .attr('class', 'newsletter ' + state)
-      .filter('.sending,.testing').each( function(){
+      .filter('.sending,.testing,.stopping').each( function(){
         $(this).find('.progress')
           .width(progressPercent)
           .show()

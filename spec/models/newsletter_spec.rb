@@ -5,6 +5,13 @@ describe Newsletter do
 
   let(:newsletter) { newsletters(:biff_newsletter) }
 
+  describe "#recipients_count" do
+    it "should be set on create" do
+      new_newsletter = newsletter.account.newsletters.create!(:subject => "Test")
+      new_newsletter.recipients_count.should == new_newsletter.live_send_outs.count
+    end
+  end
+
   describe "#with_account" do
     it "should find right newsletter" do
       Newsletter.with_account(newsletter.account).first.should == newsletter

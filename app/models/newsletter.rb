@@ -11,7 +11,6 @@ class Newsletter < ActiveRecord::Base
   has_many :live_send_outs
   has_many :test_send_outs
 
-  #scope :live, :conditions => { :mode => Newsletter::LIVE_MODE }
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
 
   validates :account_id, :presence => true
@@ -22,6 +21,8 @@ class Newsletter < ActiveRecord::Base
       account.delegate attr
     end
   end
+
+  before_create :set_recipients_count
 
   ########################################################################################################################
 
@@ -116,7 +117,7 @@ class Newsletter < ActiveRecord::Base
   end
 
   def count
-    self.delivery_count + self.errors_count
+    self.deliveries_count.to_i + self.errors_count.to_i
   end
 
   def sendings_per_second
@@ -125,31 +126,35 @@ class Newsletter < ActiveRecord::Base
   end
 
   def update_stats
-    return if finished!
-    send_outs = live_send_outs.with_states(:finished, :failed).scoped(:select => "updated_at")
-    self.recipients_count    = live_send_outs.count
-    self.delivery_ended_at   = send_outs.first(:order => "updated_at DESC").updated_at
-    self.delivery_count      = live_send_outs.with_states(:finished).count
-    self.errors_count        = live_send_outs.with_states(:failed).count
-    self.save!
-    if live_send_outs.without_states(:finished, :failed, :bounced).count == 0
-      finish!
+    if sending?
+      self.deliveries_count = live_send_outs.with_states(:finished).count
+      self.errors_count     = live_send_outs.with_states(:failed).count
+      if live_send_outs.without_states(:finished, :failed, :bounced).count == 0
+        self.delivery_ended_at = live_send_outs.first(:order => "updated_at DESC").try(:updated_at)
+        self.finish! #(end_time)
+      end
+      self.save!
     end
   end
 
   #-------------------------------------------------------------------------------------------------------------------------
    private
+   def set_recipients_count
+    self.recipients_count = recipients.count
+   end
+
    def _send_test!
      self.test_recipient_emails_array.each do |test_recipient_email|
        self.test_send_outs.create!(:email => test_recipient_email)
      end
+     self.finish!
    end
 
    def _send_live!
-     self.update_attributes(:delivery_started_at => Time.now)
      self.recipients.each do |live_recipient|
        self.live_send_outs.create!(:recipient => live_recipient)
      end
+     self.update_attributes(:delivery_started_at => Time.now, :recipients_count => self.recipients.count)
    end
 
    def _resume_live!
@@ -159,6 +164,7 @@ class Newsletter < ActiveRecord::Base
 
    def _stop!
      self.live_send_outs.with_state(:sheduled).update_all(:state => 'stopped')
+     self.finish!
      #self.live_send_outs.with_state(:sheduled).map(&:stop!) #TODO use magice mysql here
    end
 end

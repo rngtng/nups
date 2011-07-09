@@ -45,18 +45,18 @@ de:
     action: Aktion
     confirm:
       delete: "Newsletter löschen?"
-      resume: "Versand forführen?"
+      resume: "Versand fortführen?"
       send_live: "Versand starten?"
       stop: "Versand stoppen?"
     ctrl:
       add_files: "Datei(en) hinzufügen"
-      clone: Duplizieren
+      clone: duplizieren
       format_view: "Formatierungs Ansicht"
       html_view: "HTML Ansicht"
-      resume: start
-      send_live: "Live senden"
-      send_test: "Test senden"
-      stop: stop
+      resume: versenden
+      send_live: versenden
+      send_test: testen
+      stop: stoppen
     form:
       add_attachment: "Anhang hinzufügen"
       current_time: "aktuelle Zeit"

@@ -53,8 +53,7 @@ class SendOut < ActiveRecord::Base
   end
 
   def self.perform(id)
-    a = find(id, :include => [:newsletter, :recipient])
-    a.deliver!
+    with_state(:sheduled).find_by_id(id, :joins => [:newsletter, :recipient]).try(:deliver!)
   end
 
   def issue
@@ -70,40 +69,6 @@ class SendOut < ActiveRecord::Base
     end
   end
 end
-
-class LiveSendOut < SendOut
-
-  validates :recipient_id, :presence => true, :uniqueness => {:scope => [:newsletter_id, :type]}
-
-  before_validation :set_email
-
-  def issue_id
-    ["ma", self.id, self.recipient_id].join('-')
-  end
-
-  private
-  def set_email
-    self.email = recipient.email
-  end
-end
-
-class TestSendOut < SendOut
-
-  def recipient
-    @recipient ||= Recipient.new(:email => email)
-  end
-
-  def issue_id
-    ["ma", self.id, "test"].join('-')
-  end
-
-  def issue
-    super.tap do |issue|
-      issue.subject = "TEST: #{issue.subject}"
-    end
-  end
-end
-
 
 # == Schema Info
 #

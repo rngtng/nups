@@ -8,11 +8,17 @@ describe SendOut do
   let(:test_send_out) { TestSendOut.create!(:newsletter => newsletter, :email => "test@test.de") }
 
   context "#create" do
-    it "should not allow multiple instances of LiveSendOut" do
-      live_send_out
-      lambda do
-        LiveSendOut.create!(:newsletter => newsletter, :recipient => newsletter.recipients.first)
-      end.should raise_error
+    describe LiveSendOut do
+      it "should set email" do
+        live_send_out.email.should == newsletter.recipients.first.email
+      end
+
+      it "should not allow multiple instances" do
+        live_send_out
+        lambda do
+          LiveSendOut.create!(:newsletter => newsletter, :recipient => live_send_out.recipient)
+        end.should raise_error
+      end
     end
 
     it "should allow multiple instances of TestSendOut" do

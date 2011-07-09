@@ -23,19 +23,27 @@ class NewsletterMailer < ActionMailer::Base
        next unless File.exists?(attachment.path)
        attachments[attachment.name] = {
          :mime_type => attachment.content_type,
-         :content => File.read(attachment.path)
+         :content   => File.read(attachment.path)
        }
     end
 
     data    = { :subject => newsletter.subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }
     content = render(:inline => newsletter.template, :locals => data)
-    content = Premailer.new(content, :with_html_string => true)
 
-    mail(head) do |format|
-      format.text { content.to_plain_text }
-      format.html { content.to_inline_css }
+    if @premailer
+      content = Premailer.new(content, :with_html_string => true)
+      mail(head) do |format|
+        format.text { content.to_plain_text }
+        format.html { content.to_inline_css }
+      end
+    else
+      mail(head) do |format|
+        format.text { "" }
+        format.html { content }
+      end
     end
-
   end
+
+
 
 end

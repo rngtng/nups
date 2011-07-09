@@ -6,12 +6,15 @@ class NewslettersController < ApplicationNupsController
   def index
     @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
     @user      ||= (@account) ? @account.user : current_user
-    @newsletters = @user.newsletters.with_account(@account).all( :order => 'updated_at DESC', :limit => 20 )
+    @newsletters = @user.newsletters.with_account(@account)
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
     if request.xhr?
-      render @newsletters
+      @newsletters.all.map(&:update_stats)
+      render @newsletters  #without_states(:new, :tested, :stopped, :finished).all
     end
+
+    @newsletters.scoped(:order => 'updated_at DESC', :limit => 20).all
   end
 
   def show
@@ -83,9 +86,9 @@ class NewslettersController < ApplicationNupsController
   def preview
     @newsletter = @account.newsletters.find(params[:id])
 
-    recipient = @newsletter.recipients.first || Recipient.new(:email => current_user.email)
+    recipient = Recipient.new(:email => current_user.email)
     @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
-    
+
     part = @newsletter_issue.parts.last
     part = part.parts.last if part.multipart?
     render :text => part.body.decoded, :layout => false
