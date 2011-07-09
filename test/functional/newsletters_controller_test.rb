@@ -104,19 +104,19 @@ class NewslettersControllerTest < ActionController::TestCase
   end
 
   test "should schedule test newsletter" do
-    assert_difference('@newsletter.test_sendings.count') do
+    assert_difference('@newsletter.test_send_outs.count') do
       get :start, :account_id => @account.to_param, :id => @newsletter.to_param
     end
-    assert TestSending.last.scheduled?
+    assert TestSendOut.last.scheduled?
 
     assert_redirected_to account_newsletters_path(@account)
   end
 
   test "should schedule live newsletter" do
-    assert_difference('@newsletter.live_sendings.count') do
+    assert_difference('@newsletter.live_send_outs.count') do
       get :start, :account_id => @account.to_param, :id => @newsletter.to_param, :mode => 'live'
     end
-    assert LiveSending.last.scheduled?
+    assert LiveSendOut.last.scheduled?
 
     assert_redirected_to account_newsletters_path(@account)
   end

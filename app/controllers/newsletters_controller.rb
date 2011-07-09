@@ -84,7 +84,7 @@ class NewslettersController < ApplicationNupsController
     @newsletter = @account.newsletters.find(params[:id])
 
     recipient = @newsletter.recipients.first || Recipient.new(:email => current_user.email)
-    @newsletter_issue = NewsletterMailer.issue(@newsletter.test_sendings.new, recipient)
+    @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
     
     part = @newsletter_issue.parts.last
     part = part.parts.last if part.multipart?

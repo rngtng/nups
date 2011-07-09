@@ -83,6 +83,30 @@ describe Newsletter do
     end
   end
 
+  describe "#attachments" do
+    before do
+      @newsletter = newsletters(:biff_newsletter)
+      @newsletter.attachment_ids = [assets(:two), assets(:three)].map(&:id)
+      @newsletter.save!
+      @newsletter.reload
+    end
+
+    it "should update attachments :one" do
+      assets(:one).reload.newsletter_id.should be_nil
+    end
+
+    it "should update attachments :two" do
+      assets(:two).reload.newsletter_id.should == @newsletter.id
+    end
+
+    it "should update attachments :two" do
+      assets(:three).reload.newsletter_id.should == @newsletter.id
+    end
+
+    it "should update attachments" do
+      @newsletter.attachments.size.should == 2
+    end
+  end
 end
 
 # == Schema Info

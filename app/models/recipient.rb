@@ -5,8 +5,7 @@ class Recipient < ActiveRecord::Base
   belongs_to :account
 
   has_many :newsletters, :through => :account
-
-  has_many :sendings, :dependent => :destroy
+  has_many :send_outs, :dependent => :destroy
 
   scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }
   scope :search, lambda { |search| search.blank? ? {} : {:conditions => SEARCH_COLUMNS.map { |column| "#{column} LIKE '%#{search}%'" }.join(' OR ') } }

@@ -81,7 +81,6 @@ class RecipientsController < ApplicationNupsController
 
   private
   def load_account
-    current_user = User.first
     klass = current_user.admin? ? Account : current_user.accounts
     @account = klass.find_by_id(params[:account_id])
     render_404 unless @account

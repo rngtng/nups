@@ -14,7 +14,9 @@ class Account < ActiveRecord::Base
   scope :with_mail_config, :conditions => "mail_config_raw != ''"
 
   def test_recipient_emails_array
-    @test_recipient_emails_array = test_recipient_emails.to_s.split(/,|;|\n|\t/).map(&:strip)
+    @test_recipient_emails_array = test_recipient_emails.to_s.split(/,| |\||;|\n|\t/).select do |email|
+      email.include?('@')
+    end.compact.uniq
   end
 
   def mail_config
