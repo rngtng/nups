@@ -44,7 +44,8 @@ group :development do
 end
 
 group :test do
-  gem "rspec-rails", "~> 2.6.1.beta1"
-  gem "resque_spec"
-  gem "delorean"
+  gem 'rspec-rails', "~> 2.6.1.beta1"
+  gem 'resque_spec'
+  gem 'delorean'
+  gem 'watchr'
 end
