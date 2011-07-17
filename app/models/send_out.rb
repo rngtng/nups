@@ -53,7 +53,7 @@ class SendOut < ActiveRecord::Base
   end
 
   def self.perform(id)
-    with_state(:sheduled).find_by_id(id, :joins => [:newsletter, :recipient]).try(:deliver!)
+    with_state(:sheduled).find_by_id(id, :include => [:newsletter, :recipient]).try(:deliver!)
   end
 
   def issue

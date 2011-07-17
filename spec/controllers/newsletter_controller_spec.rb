@@ -65,12 +65,28 @@ describe NewslettersController do
       end
     end
 
+    describe "preview" do
+      it "should show newsletter" do
+        get :preview, :account_id => account.to_param, :id => newsletter.to_param
+        response.status.should == 200 #:success
+      end
+    end
+
     describe "create" do
       it "should create newsletter" do
         expect do
-          post :create, :account_id => account.to_param, :newsletter => newsletter.attributes, :preview => true
+          post :create, :account_id => account.to_param, :newsletter => newsletter.attributes
         end.to change(Newsletter, :count)
-        response.should redirect_to(account_newsletter_path(account, newsletter))
+      end
+
+      it "should redirect to newsletters form account" do
+        post :create, :account_id => account.to_param, :newsletter => newsletter.attributes
+        response.should redirect_to(account_newsletters_path(account))
+      end
+
+      it "should preview" do
+        post :create, :account_id => account.to_param, :newsletter => newsletter.attributes, :preview => true
+        response.should redirect_to(account_newsletter_path(account, assigns(:newsletter)))
       end
     end
 
@@ -98,8 +114,11 @@ describe NewslettersController do
         expect do
           delete :destroy, :account_id => account.to_param, :id => newsletter.to_param
         end.to change(Newsletter, :count).by(-1)
+      end
 
-        response.should redirect_to(newsletters_path)
+      it "should redirect to newsletters from account" do
+        delete :destroy, :account_id => account.to_param, :id => newsletter.to_param
+        response.should redirect_to(account_newsletters_path(account))
       end
     end
 
@@ -109,28 +128,18 @@ describe NewslettersController do
         newsletter.reload.testing?.should be_true
       end
 
-      it "should create test newsletter sendout" do
-        expect do
-          with_resque do
-            get :start, :account_id => account.to_param, :id => newsletter.to_param
-          end
-        end.to change(TestSendOut, :count).by(2)
-        # puts newsletter.test_send_outs.all.map &:inspect
-
-        TestSendOut.last.sheduled?.should be_true
-
-        response.should redirect_to(account_newsletters_path(account))
+      it "should queue test newsletter" do
+        get :start, :account_id => account.to_param, :id => newsletter.to_param
+        Newsletter.should have_queued(newsletter.id, "_send_test!")
       end
 
-      it "should schedule live newsletter" do
-        expect do
-#          with_resque do
-            get :start, :account_id => account.to_param, :id => newsletter.to_param, :mode => 'live'
- #         end
-        end.to change(LiveSendOut, :count).by(newsletter.recipients.count)
+      it "should queue live newsletter" do
+        get :start, :account_id => account.to_param, :id => newsletter.to_param, :mode => 'live'
+        Newsletter.should have_queued(newsletter.id, "_send_live!")
+      end
 
-        LiveSendOut.last.sheduled?.should be_true
-
+      it "should redirect to newsletters from account" do
+        get :start, :account_id => account.to_param, :id => newsletter.to_param
         response.should redirect_to(account_newsletters_path(account))
       end
     end

@@ -8,7 +8,7 @@ describe Newsletter do
   describe "#recipients_count" do
     it "should be set on create" do
       new_newsletter = newsletter.account.newsletters.create!(:subject => "Test")
-      new_newsletter.recipients_count.should == new_newsletter.live_send_outs.count
+      new_newsletter.recipients_count.should == new_newsletter.recipients.count
     end
   end
 
@@ -18,50 +18,76 @@ describe Newsletter do
     end
   end
 
-  describe "#send without StateMachine" do
-    it "should create" do
-      expect do
+  context "without StateMachine" do
+    describe "#send" do
+      it "should create" do
+        expect do
+          newsletter.send("_send_live!")
+        end.to change(LiveSendOut, :count).by(2)
+      end
+
+      it "should update recipients count" do
+        newsletter.recipients_count = 0
+        expect do
+          newsletter.send("_send_live!")
+        end.to change(newsletter, :recipients_count).by(2)
+      end
+    end
+
+    describe "#stop/resume" do
+      before do
+        newsletter.stub('finish!').and_return(true)
         newsletter.send("_send_live!")
-      end.to change(LiveSendOut, :count).by(2)
-    end
+      end
 
-    it "should stop" do
-      newsletter.send("_send_live!")
-
-      expect do
+      it "should stop" do
         expect do
-          newsletter.send("_stop!")
-        end.to change(LiveSendOut.with_state(:sheduled), :count).by(-2)
-      end.to change(LiveSendOut.with_state(:stopped), :count).by(2)
-    end
+          expect do
+            newsletter.send("_stop!")
+          end.to change(LiveSendOut.with_state(:sheduled), :count).by(-2)
+        end.to change(LiveSendOut.with_state(:stopped), :count).by(2)
+      end
 
-    it "should resume" do
-      newsletter.send("_send_live!")
-      newsletter.send("_stop!")
+      it "should resume" do
+        newsletter.send("_stop!")
 
-      expect do
         expect do
-          newsletter.send("_resume_live!")
-        end.to change(LiveSendOut.with_state(:sheduled), :count).by(2)
-      end.to change(LiveSendOut.with_state(:stopped), :count).by(-2)
+          expect do
+            newsletter.send("_resume_live!")
+          end.to change(LiveSendOut.with_state(:sheduled), :count).by(2)
+        end.to change(LiveSendOut.with_state(:stopped), :count).by(-2)
+      end
     end
   end
 
   describe "#send" do
+    shared_examples_for "sending to recipients" do
+      let(:klass){ TestSendOut }
+      let(:method){ "send_test!" }
+
+      it "should send mail" do
+        expect do
+          with_resque do
+            newsletter.send(method)
+          end
+        end.to change(ActionMailer::Base.deliveries, :size).by(2)
+      end
+
+      it "should create sendouts" do
+        expect do
+          with_resque do
+            newsletter.send(method)
+          end
+        end.to change(klass.with_state(:finished), :count).by(2)
+      end
+    end
+
     context "test" do
       it "should have users" do
         newsletter.test_recipient_emails_array.count.should == 2
       end
 
-      it "should deliver to users" do
-        expect do
-          expect do
-            with_resque do
-              newsletter.send_test!
-            end
-          end.to change(TestSendOut.with_state(:finished), :count).by(2)
-        end.to change(ActionMailer::Base.deliveries, :size).by(2)
-      end
+      it_should_behave_like "sending to recipients"
     end
 
     context "live" do
@@ -69,14 +95,9 @@ describe Newsletter do
         newsletter.recipients.count.should == 2
       end
 
-      it "should deliver to users" do
-        expect do
-          expect do
-            with_resque do
-              newsletter.send_live!
-            end
-          end.to change(LiveSendOut.with_state(:finished), :count).by(2)
-        end.to change(ActionMailer::Base.deliveries, :size).by(2)
+      it_should_behave_like "sending to recipients" do
+        let(:klass){ LiveSendOut }
+        let(:method){ "send_live!" }
       end
     end
 

@@ -77,7 +77,7 @@ class NewslettersController < ApplicationNupsController
     @newsletter.destroy
 
     respond_to do |format|
-      format.html { redirect_to(newsletters_url) }
+      format.html { redirect_to account_newsletters_path(@account) }
       format.xml  { head :ok }
     end
   end

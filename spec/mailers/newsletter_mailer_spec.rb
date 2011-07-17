@@ -10,7 +10,7 @@ describe NewsletterMailer do
     asset.save!
   }
 
-  context "body" do
+  describe "body" do
     it "should include content" do
       newsletter.update_attribute(:content, "TEST")
 
@@ -22,24 +22,22 @@ describe NewsletterMailer do
     it "should include template AND content" do
       newsletter.update_attribute(:content, "TEST")
       newsletter.account.update_attribute(:template_html, "<html><body><%= content %></body></html>")
-      newsletter.account.update_attribute(:template_text, "HEADER <%= content %>")
 
       nl = NewsletterMailer.issue(newsletter, newsletter.recipients.first)
 
       html(nl).should == "<html><body>TEST</body></html>"
-      text(nl).should == "HEADER TEST"
+      text(nl).should == ""
     end
 
     it "should include recipient email" do
       newsletter.account.update_attribute(:template_html, "<%= recipient.email %>")
-      newsletter.account.update_attribute(:template_text, "<%= newsletter.subject %>")
 
       recipient = newsletter.recipients.first
 
       nl = NewsletterMailer.issue(newsletter, recipient)
 
       html(nl).should == recipient.email
-      text(nl).should == newsletter.subject
+      text(nl).should == ""
     end
 
     def html(nl)
