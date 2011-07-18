@@ -4,17 +4,18 @@ describe Newsletter do
   fixtures :all
 
   let(:newsletter) { newsletters(:biff_newsletter) }
+  let(:account) { newsletters(:biff_newsletter).account }
 
   describe "#recipients_count" do
     it "should be set on create" do
-      new_newsletter = newsletter.account.newsletters.create!(:subject => "Test")
+      new_newsletter = account.newsletters.create!(:subject => "Test")
       new_newsletter.recipients_count.should == new_newsletter.recipients.count
     end
   end
 
   describe "#with_account" do
     it "should find right newsletter" do
-      Newsletter.with_account(newsletter.account).first.should == newsletter
+      Newsletter.with_account(account).first.should == newsletter
     end
   end
 
@@ -108,6 +109,23 @@ describe Newsletter do
           newsletter.send_live!
         end.should raise_error
       end
+    end
+  end
+
+  describe "#template" do
+    it "returns account value" do
+      account.template_html = "test"
+      newsletter.template.should == account.template_html
+    end
+
+    it "returns default value when nil" do
+      account.template_html = nil
+      newsletter.template.should == "<%= content %>"
+    end
+
+    it "returns default value when empty" do
+      account.template_html = " "
+      newsletter.template.should == "<%= content %>"
     end
   end
 

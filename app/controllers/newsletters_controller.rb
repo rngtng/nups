@@ -89,9 +89,7 @@ class NewslettersController < ApplicationNupsController
     recipient = Recipient.new(:email => current_user.email)
     @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
 
-    part = @newsletter_issue.parts.last
-    part = part.parts.last if part.multipart?
-    render :text => part.body.decoded, :layout => false
+    render :text => @newsletter_issue.html_part.body.decoded, :layout => false
   end
 
   def start

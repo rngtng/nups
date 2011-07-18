@@ -102,7 +102,9 @@ class Newsletter < ActiveRecord::Base
   ########################################################################################################################
 
   def template
-    account.template_html || "<%= content %>"
+    account.template_html.tap do |t|
+      return "<%= content %>" if t.blank?
+    end
   end
 
   def progress_percent

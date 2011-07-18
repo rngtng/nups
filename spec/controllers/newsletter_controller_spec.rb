@@ -59,16 +59,28 @@ describe NewslettersController do
     end
 
     describe "show" do
-      it "should show newsletter" do
+      before do
         get :show, :account_id => account.to_param, :id => newsletter.to_param
+      end
+
+      it "assigns newsletter" do
+        assigns(:newsletter).id.should == newsletter.id
+      end
+
+      it "response valid" do
         response.status.should == 200 #:success
       end
     end
 
     describe "preview" do
-      it "should show newsletter" do
+      it "shows newsletter" do
         get :preview, :account_id => account.to_param, :id => newsletter.to_param
         response.status.should == 200 #:success
+      end
+
+      it "returns newletter hmtl content" do
+        get :preview, :account_id => account.to_param, :id => newsletter.to_param
+        puts response.body.should == newsletter.content
       end
     end
 

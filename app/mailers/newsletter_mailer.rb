@@ -38,7 +38,7 @@ class NewsletterMailer < ActionMailer::Base
       end
     else
       mail(head) do |format|
-        format.text { "" }
+        format.text { render :text => "" }
         format.html { content }
       end
     end

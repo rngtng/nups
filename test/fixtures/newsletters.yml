@@ -9,6 +9,7 @@ biff_newsletter:
   account: biff_account
   subject: First Newsletter
   state: tested
+  content: "Monthly Newsletter"
 #  deliver_at: <%= Time.now %>
 
 two:
