@@ -1,6 +1,6 @@
 class Newsletter < ActiveRecord::Base
 
-  QUEUE = :nups_newsletter
+  QUEUE = :nups2_newsletter
 
   belongs_to :account
 

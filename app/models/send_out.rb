@@ -1,5 +1,5 @@
 class SendOut < ActiveRecord::Base
-  QUEUE = :nups_send_outs
+  QUEUE = :nups2_send_outs
 
   belongs_to :newsletter
   belongs_to :recipient

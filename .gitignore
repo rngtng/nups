@@ -14,3 +14,5 @@ Sending_state.png
 .tmtags
 config/setup_load_paths.rb
 .sass-cache
+log/resque_err
+log/resque_stdout

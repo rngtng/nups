@@ -15,7 +15,7 @@ set :rvm_ruby_string, "ruby-1.9.2-p136@#{application}"
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
 # via the :deploy_to variable:
-set :deploy_to, "/kunden/warteschlange.de/produktiv/rails/#{application}"
+set :deploy_to, "/kunden/warteschlange.de/produktiv/rails/#{application}2"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
@@ -51,45 +51,23 @@ namespace :deploy do
   end
 end
 
-def remote_file_exists?(full_path)
-  'true' ==  capture("if [ -e #{full_path} ]; then echo 'true'; fi").strip
+##
+# Rake helper task.
+# http://pastie.org/255489
+# http://geminstallthat.wordpress.com/2008/01/27/rake-tasks-through-capistrano/
+# http://ananelson.com/said/on/2007/12/30/remote-rake-tasks-with-capistrano/
+def run_remote_rake(rake_cmd)
+  rake_args = ENV['RAKE_ARGS'].to_s.split(',')
+  cmd = "cd #{fetch(:latest_release)} && #{fetch(:rake, "rake")} RAILS_ENV=#{fetch(:rails_env, "production")} #{rake_cmd}"
+  cmd += "['#{rake_args.join("','")}']" unless rake_args.empty?
+  run cmd
+  set :rakefile, nil if exists?(:rakefile)
 end
 
-namespace :resque do
-  def resque_pid
-    File.join(current_release,"tmp/pids/resque_worker.pid")
-  end
-
-  def resque_log
-    "log/resque_worker.log"
-  end
-
-  desc "start all resque workers"
-  task :start, :roles => :job do
-    unless remote_file_exists?(resque_pid)
-      run "cd #{current_release}; RAILS_ENV=production QUEUE=#{Delivery::QUEUE} VERBOSE=1 nohup rake resque:work &> #{resque_log}& 2> /dev/null && echo $! > #{resque_pid}"
-    else
-      puts "PID File exits!!"
-    end
-  end
-
-  desc "stop all resque workers"
-  task :stop, :roles => :job do
-    if remote_file_exists?(resque_pid)
-      begin
-        run "kill -s QUIT `cat #{resque_pid}`"
-      rescue
-      end
-      run "rm -f #{resque_pid}"
-    else
-      puts "No PID File found"
-    end
-  end
-
-  desc "restart resque workers"
-  task :restart, :roles => :job do
-    resque.stop
-    resque.start
+namespace :deploy do
+  desc "Restart Resque Workers"
+  task :restart_workers, :roles => :db do
+    run_remote_rake "resque:restart_workers"
   end
 end
 
@@ -97,6 +75,6 @@ after "deploy:update_code" do
   deploy.link_configs
 end
 
-after "deploy:restart" do
-  resque.restart
-end
+#after "deploy:symlink", "deploy:restart_workers"
+
+
