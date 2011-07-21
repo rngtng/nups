@@ -1,3 +1,4 @@
+## TAKEN from: https://gist.github.com/797301
 require 'resque/tasks'
 #require 'resque_scheduler/tasks'
 
