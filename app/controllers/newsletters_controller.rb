@@ -35,6 +35,9 @@ class NewslettersController < ApplicationNupsController
   end
 
   def create
+    # fix to make attachment_id not break
+    params[:newsletter] = {:account => @account}.merge(params[:newsletter]) if params[:newsletter]
+
     @newsletter = @account.newsletters.new(params[:newsletter])
 
     respond_to do |format|

@@ -63,7 +63,7 @@ class Newsletter < ActiveRecord::Base
 
     after_transition :tested => :sending do |me|
       #Resque.enqueue_at(me.deliver_at, me.class, me.id, "_send_live!")
-      Resque.enqueue_at(me.deliver_at, me.class, me.id, "_send_live!")
+      Resque.enqueue(me.class, me.id, "_send_live!")
     end
 
     after_transition :stopped => :sending do |me|
@@ -92,9 +92,9 @@ class Newsletter < ActiveRecord::Base
   end
 
   def attachment_ids=(attachment_ids)
-    self.attachments = []
+    self.attachments.clear
     attachment_ids.each do |attachment_id|
-      if asset = account.assets.where(:id => attachment_id).first
+      if attachment_id.present? && (asset = account.assets.find_by_id(attachment_id)) #attachment_id.blank? && 
         self.attachments << asset
       end
     end

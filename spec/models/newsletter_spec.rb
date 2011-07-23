@@ -4,7 +4,7 @@ describe Newsletter do
   fixtures :all
 
   let(:newsletter) { newsletters(:biff_newsletter) }
-  let(:account) { newsletters(:biff_newsletter).account }
+  let(:account) { newsletter.account }
 
   describe "#recipients_count" do
     it "should be set on create" do
@@ -27,7 +27,7 @@ describe Newsletter do
         end.to change(LiveSendOut, :count).by(2)
       end
 
-      it "should update recipients count" do
+      it "updates recipients count" do
         newsletter.recipients_count = 0
         expect do
           newsletter.send("_send_live!")
@@ -137,20 +137,25 @@ describe Newsletter do
       @newsletter.reload
     end
 
-    it "should update attachments :one" do
+    it "updates attachments :one" do
       assets(:one).reload.newsletter_id.should be_nil
     end
 
-    it "should update attachments :two" do
+    it "updates attachments :two" do
       assets(:two).reload.newsletter_id.should == @newsletter.id
     end
 
-    it "should update attachments :two" do
+    it "updates attachments :two" do
       assets(:three).reload.newsletter_id.should == @newsletter.id
     end
 
-    it "should update attachments" do
+    it "updates attachments" do
       @newsletter.attachments.size.should == 2
+    end
+
+    it "doesn't assign empty blank ids" do
+      account.should_not_receive(:assets)
+      newsletter.update_attributes(:attachment_ids => [""])
     end
   end
 end

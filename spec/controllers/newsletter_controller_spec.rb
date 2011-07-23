@@ -80,30 +80,36 @@ describe NewslettersController do
 
       it "returns newletter hmtl content" do
         get :preview, :account_id => account.to_param, :id => newsletter.to_param
-        puts response.body.should == newsletter.content
+        response.body.should == newsletter.content
       end
     end
 
     describe "create" do
-      it "should create newsletter" do
+      it "creates newsletter" do
         expect do
           post :create, :account_id => account.to_param, :newsletter => newsletter.attributes
         end.to change(Newsletter, :count)
       end
 
-      it "should redirect to newsletters form account" do
+      it "creates newsletter with empty attachment_ids" do
+        expect do
+          post :create, :account_id => account.to_param, :newsletter => {:subject => "blabla", :attachment_ids => ["1"]}
+        end.to change(Newsletter, :count)
+      end
+
+      it "redirects to newsletters form account" do
         post :create, :account_id => account.to_param, :newsletter => newsletter.attributes
         response.should redirect_to(account_newsletters_path(account))
       end
 
-      it "should preview" do
+      it "does preview" do
         post :create, :account_id => account.to_param, :newsletter => newsletter.attributes, :preview => true
         response.should redirect_to(account_newsletter_path(account, assigns(:newsletter)))
       end
     end
 
     describe "edit" do
-      it "should get edit" do
+      it "does success" do
         get :edit, :account_id => account.to_param, :id => newsletter.to_param
         response.status.should == 200 #:success
       end
