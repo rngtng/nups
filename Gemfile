@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 
+#gem 'rails', :git => 'git://github.com/rails/rails.git', :branch => '3-1-stable'
 gem 'rails', '3.1.0.rc4'
 gem 'mysql2'
 
@@ -13,7 +14,7 @@ gem 'devise'
 
 # Use resque for async jobs
 gem 'resque'
-#gem 'resque-scheduler'
+gem 'resque-scheduler', '2.0.0.d'
 
 #For handling File uploads
 gem 'paperclip'
@@ -32,13 +33,9 @@ gem 'state_machine'
 gem 'nokogiri'
 gem 'premailer'
 
-group :production do
-  gem 'therubyracer'
-end
-
 group :development do
-  gem 'coffee-script'
-  gem 'uglifier'
+  # gem 'coffee-script'
+  # gem 'uglifier'
 
   # Deploy with Capistrano
   gem 'capistrano'
