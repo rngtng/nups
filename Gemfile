@@ -35,6 +35,7 @@ gem 'nokogiri'
 gem 'premailer'
 
 group :development do
+  # gem 'coffee-rails', '3.1.0.rc4'
   # gem 'coffee-script'
   # gem 'uglifier'
 
