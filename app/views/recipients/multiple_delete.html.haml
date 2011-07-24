@@ -1,5 +1,5 @@
 #recipients.form
-  = form_tag account_recipients_path(@account), :method => :post do
+  = form_tag multiple_delete_account_recipients_path(@account), :method => :post do
     %table.content{:style => "width: 700px"}
       %thead
         %tr
@@ -30,4 +30,6 @@
 
         %tr
           %td{:align => 'center'}
-            = submit_tag t('.ctrl.valid_import')
+            = submit_tag t('.ctrl.valid_delete'), :name => :delete, :confirm => t('.ctrl.confirm_delete'), :class => "confirm"
+
+            = submit_tag t('.ctrl.check'), :class => "check"

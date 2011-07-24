@@ -22,10 +22,19 @@ two:
 #
 # Table name: newsletters
 #
-#  id         :integer(4)      not null, primary key
-#  account_id :integer(4)
-#  content    :text
-#  state      :string(255)
-#  subject    :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id                  :integer(4)      not null, primary key
+#  account_id          :integer(4)
+#  last_sent_id        :integer(4)
+#  content             :text
+#  deliveries_count    :integer(4)
+#  errors_count        :integer(4)
+#  mode                :string(255)
+#  recipients_count    :integer(4)
+#  state               :string(255)     default("finished")
+#  status              :string(255)
+#  subject             :string(255)
+#  created_at          :datetime
+#  deliver_at          :datetime
+#  delivery_ended_at   :datetime
+#  delivery_started_at :datetime
+#  updated_at          :datetime

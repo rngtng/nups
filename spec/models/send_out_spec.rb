@@ -83,9 +83,10 @@ end
 #  id            :integer(4)      not null, primary key
 #  newsletter_id :integer(4)
 #  recipient_id  :integer(4)
+#  email         :string(255)
 #  error_code    :string(255)
 #  error_message :text
-#  params        :string(255)
+#  state         :string(255)
 #  type          :string(255)
 #  created_at    :datetime
 #  updated_at    :datetime

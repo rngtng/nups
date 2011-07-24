@@ -1,8 +1,8 @@
 %tr.recipient{:id => "recipient_#{recipient.id}"}
-  %td
+  %td{:colspan => 5}
     = form_for [@account, recipient], :remote => true do |f|
       %table.show
-        %tr.show{:bgcolor => cycle('#ddd', '#eee')}
+        %tr.show{:style =>"background-color:transparent"}
           %td.gender= recipient.gender
           %td.first_name= recipient.first_name
           %td.last_name= recipient.last_name

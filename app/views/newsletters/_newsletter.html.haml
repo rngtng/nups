@@ -1,11 +1,11 @@
 %tr{ :id => "newsletter_#{newsletter.id}", :class => "newsletter #{newsletter.state}" }
   %td.icon
-    %a.preview{ :href => account_newsletters_path(*newsletter.route) }
+    %a.preview{ :href => preview_account_newsletter_path(*newsletter.route), :rel => "#overlay" }
       %span= newsletter.state
 
   %td.info
     %strong= l(newsletter.updated_at, :format => :nl) + ':'
-    = link_to truncate(newsletter.subject, :length => 80), account_newsletter_path(*newsletter.route)
+    = link_to truncate(newsletter.subject, :length => 80), preview_account_newsletter_path(*newsletter.route), :rel => "#overlay"
 
     .progress-bar
       - title = "#{newsletter.progress_percent}% - #{l Time.at(newsletter.sending_time), :format => :time} - #{"%.1f" % newsletter.sendings_per_second}/sec."
@@ -13,7 +13,7 @@
         %label= newsletter.progress_percent.to_s + '%'
 
   %td.recipients
-    0
+    = newsletter.recipients_count
 
   %td.actions
     %a.button.send_test{ :href => start_account_newsletter_path(*newsletter.route), 'data-remote' => 'true' }

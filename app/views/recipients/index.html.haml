@@ -11,31 +11,28 @@
           = submit_tag t('ctrl.search')
 
       %td{:align => "right"}
-        = link_to t('recipients.menu.import'), new_account_recipient_path(@account)
+        = link_to t('recipients.menu.import'), new_account_recipient_path(@account), :rel => '#overlay'
         &bull;
-        = link_to t('recipients.menu.multiple_delete'), multiple_delete_account_recipients_path(@account)
+        = link_to t('recipients.menu.multiple_delete'), multiple_delete_account_recipients_path(@account), :rel => '#overlay'
         &bull;
         = link_to t('recipients.menu.export_xls'), account_recipients_path(@account, :format => :xls)
 
-  %table.content{:cellpadding => "0", :cellspacing => "0"}
-    %tr
-      %th
-        %table
-          %thead
-            %tr
-              %th.gender= Recipient.human_attribute_name(:gender)
-              %th.first_name= Recipient.human_attribute_name(:first_name)
-              %th.last_name= Recipient.human_attribute_name(:last_name)
-              %th.email= Recipient.human_attribute_name(:email)
-              %th.menu= t('newsletters.menu')
+  %table.content.zebra
+    %thead
+      %tr
+        %th.gender= Recipient.human_attribute_name(:gender)
+        %th.first_name= Recipient.human_attribute_name(:first_name)
+        %th.last_name= Recipient.human_attribute_name(:last_name)
+        %th.email= Recipient.human_attribute_name(:email)
+        %th.menu= t('newsletters.menu')
 
     %tr.paginate
-      %td{:align => "center"}= paginate @recipients
+      %td{:colspan => 5, :align => "center"}= paginate @recipients
 
     = render @recipients
 
     %tr.paginate
-      %td{:align => "center"}= paginate @recipients
+      %td{:colspan => 5, :align => "center"}= paginate @recipients
 
   :javascript
     //$('tr.recipient tr.show td:not(.menu)').live('click', function(event) {
