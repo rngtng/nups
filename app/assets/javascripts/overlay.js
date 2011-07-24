@@ -16,7 +16,7 @@ $(function() {
 var resizeTimer;
 $(window).resize(function() {
     clearTimeout(resizeTimer);
-    if( isOpened()) {
+    if( typeof(isOpened) != "undefined" && isOpened() ) {
       resizeTimer = setTimeout(doSomething, 100);
     }
 });

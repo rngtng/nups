@@ -23,7 +23,7 @@
 
 $wt: rgba(255,255,255,0.17)
 $wf: rgba(255,255,255,0)
-$height: 20px
+$height: 16px
 $padding: 2px
 
 @mixin border_radius($radius)
@@ -79,22 +79,10 @@ $padding: 2px
     @include border_radius($height)
     @include box_shadow(inset 0px 1px 0px 0px #dbf383, inset 0px -1px 1px #58c43a)
 
-    /* Set the background size so the stripes work correctly */
     -webkit-background-size: 44px 44px
-
-    /* For browser that don't support gradients, we'll set a blanket background colour */
     background-color: #74d04c
-
-    /* Webkit background stripes and gradient */
-    background: -webkit-gradient(linear, 0 0, 44 44, color-stop(0.00, $wt), color-stop(0.25, $wt), color-stop(0.26, $wf), color-stop(0.50, $wf), color-stop(0.51, $wt), color-stop(0.75, $wt), color-stop(0.76, $wf), color-stop(1.00, $wf)), -webkit-gradient(linear, left bottom, left top, color-stop(0, #74d04c), color-stop(1, #9bdd62))
-
-    /* Mozilla (Firefox etc) background stripes */
-    /* Note: Mozilla's support for gradients is more true to the original design, allowing gradients at 30 degrees, as apposed to 45 degress in webkit. */
-    background: -moz-repeating-linear-gradient(top left -30deg, $wt, $wt 15px, $wf 15px, $wf 30px), -moz-linear-gradient(#9bdd62 0%, #74d04c 100%)
-
-    /* Give it a higher contrast outline */
     border: 1px solid #4c8932
-    
+
     label
       font-size: 1.1em
       position: absolute
@@ -107,5 +95,10 @@ $padding: 2px
       font-weight: bold
 
 .sending .progress
-  /* Webkit magic */
+  /* Webkit background stripes and gradient */
+  background: -webkit-gradient(linear, 0 0, 44 44, color-stop(0.00, $wt), color-stop(0.25, $wt), color-stop(0.26, $wf), color-stop(0.50, $wf), color-stop(0.51, $wt), color-stop(0.75, $wt), color-stop(0.76, $wf), color-stop(1.00, $wf)), -webkit-gradient(linear, left bottom, left top, color-stop(0, #74d04c), color-stop(1, #9bdd62))
+
+  /* Mozilla (Firefox etc) background stripes */
+  /* Note: Mozilla's support for gradients is more true to the original design, allowing gradients at 30 degrees, as apposed to 45 degress in webkit. */
+  background: -moz-repeating-linear-gradient(top left -30deg, $wt, $wt 15px, $wf 15px, $wf 30px), -moz-linear-gradient(#9bdd62 0%, #74d04c 100%)
   -webkit-animation: animate-stripes 2s linear infinite

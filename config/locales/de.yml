@@ -50,13 +50,11 @@ de:
       stop: "Versand stoppen?"
     ctrl:
       add_files: "Datei(en) hinzufügen"
-      clone: duplizieren
-      format_view: "Formatierungs Ansicht"
-      html_view: "HTML Ansicht"
       resume: versenden
       send_live: versenden
       send_test: testen
       stop: stoppen
+      clone: duplizieren
     form:
       add_attachment: "Anhang hinzufügen"
       current_time: "aktuelle Zeit"
@@ -64,7 +62,7 @@ de:
     menu: Menu
     new: "Neuer Newsletter"
     title: Newsletter
-    uploading: Uploading
+    uploading: wird hochgeladen
 
   recipients:
     confirm:

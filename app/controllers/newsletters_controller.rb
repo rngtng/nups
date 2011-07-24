@@ -24,7 +24,9 @@ class NewslettersController < ApplicationNupsController
 
   def new
     redner404 && return unless @account
-    @newsletter = @account.newsletters.new
+
+    draft = @account.newsletters.find_by_id(params[:draft_id])
+    @newsletter = @account.newsletters.new(:draft => draft)
     @newsletter.subject ||= @account.subject
 
     respond_with @newsletter
@@ -44,7 +46,6 @@ class NewslettersController < ApplicationNupsController
     respond_to do |format|
       if @newsletter.save
         format.html {
-          redirect_to( account_newsletter_path(*@newsletter.route)) and return if params[:preview]
           redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully created.')
         }
         format.xml  { render :xml => @newsletter, :status => :created, :location => @newsletter }

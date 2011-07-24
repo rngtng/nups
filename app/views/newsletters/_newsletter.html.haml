@@ -4,7 +4,7 @@
       %span= newsletter.state
 
   %td.info
-    %strong= l(newsletter.updated_at, :format => :nl) + ':'
+    %strong= l(newsletter.deliver_at || newsletter.updated_at, :format => :nl) + ':'
     = link_to truncate(newsletter.subject, :length => 80), preview_account_newsletter_path(*newsletter.route), :rel => "#overlay"
 
     .progress-bar
@@ -24,7 +24,7 @@
       %span=t('newsletters.ctrl.resume')
     %a.button.stop{ :href => stop_account_newsletter_path(*newsletter.route), 'data-remote' => 'true', 'data-confirm' => t('newsletters.confirm.stop') }
       %span=t('newsletters.ctrl.stop')
-    %a.button.clone{ :href => clone_account_newsletter_path(*newsletter.route) }
+    %a.button.clone{ :href => new_account_newsletter_path(newsletter.account, :draft_id => newsletter.id) }
       %span=t('newsletters.ctrl.clone')
 
   %td.menu

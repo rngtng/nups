@@ -94,9 +94,16 @@ class Newsletter < ActiveRecord::Base
   def attachment_ids=(attachment_ids)
     self.attachments.clear
     attachment_ids.each do |attachment_id|
-      if attachment_id.present? && (asset = account.assets.find_by_id(attachment_id)) #attachment_id.blank? && 
+      if attachment_id.present? && (asset = account.assets.find_by_id(attachment_id)) #attachment_id.blank? &&
         self.attachments << asset
       end
+    end
+  end
+
+  def draft=(draft)
+    return unless draft
+    %w(subject content).each do |method|
+      self.send("#{method}=", draft.send(method))
     end
   end
 

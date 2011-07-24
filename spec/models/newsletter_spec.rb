@@ -6,6 +6,24 @@ describe Newsletter do
   let(:newsletter) { newsletters(:biff_newsletter) }
   let(:account) { newsletter.account }
 
+  describe "#with_account" do
+    it "should find right newsletter" do
+      Newsletter.with_account(account).first.should == newsletter
+    end
+  end
+
+  describe "#new" do
+    context "created from draft" do
+      subject { account.newsletters.create(:draft => newsletter) }
+
+      %w(subject content).each do |method|
+        it "copies #{method}" do
+          subject.send(method).should == newsletter.send(method)
+        end
+      end
+    end
+  end
+
   describe "#recipients_count" do
     it "should be set on create" do
       new_newsletter = account.newsletters.create!(:subject => "Test")
@@ -13,15 +31,9 @@ describe Newsletter do
     end
   end
 
-  describe "#with_account" do
-    it "should find right newsletter" do
-      Newsletter.with_account(account).first.should == newsletter
-    end
-  end
-
   context "without StateMachine" do
     describe "#send" do
-      it "should create" do
+      it "gets created" do
         expect do
           newsletter.send("_send_live!")
         end.to change(LiveSendOut, :count).by(2)

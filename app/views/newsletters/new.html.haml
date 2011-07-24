@@ -14,9 +14,9 @@
 
         %tr
           %td.text{:align => 'center'}
-            = form.text_area :content, :class => "cleditor", :required => "required"
+            = form.text_area :content, :class => "cleditor", :rows => 80 #, :required => "required"
 
         %tr
           %td{:align => 'center'}
-            = form.submit t('ctrl.save'), :name => :preview
+            = form.submit t('ctrl.save')
 
