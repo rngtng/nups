@@ -7,7 +7,7 @@
     </thead>
     <tbody>
       <tr><th><%= Newsletter.human_attribute_name(:from) %>:</th><td><%=  @newsletter.from  %></td></tr>
-      <tr><th><%= Newsletter.human_attribute_name(:deliver_at) %>:</th><td><%= l @newsletter.deliver_at, :format => :nl %></td></tr>
+      <tr><th><%= Newsletter.human_attribute_name(:deliver_at) %>:</th><td><%= l (@newsletter.deliver_at || @newsletter.updated_at), :format => :nl %></td></tr>
       <tr><th><%= Newsletter.human_attribute_name(:subject) %>:</th><td><%= @newsletter.subject %></td></tr>
       <% if @account.has_attachments %>
         <tr>

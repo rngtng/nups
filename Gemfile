@@ -1,10 +1,10 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.5'
-gem 'mysql2'
+gem 'mysql2', '~> 0.2.13'
 
 #Authorization
-gem 'devise', '~> 1.1.2'
+gem 'devise'
 
 # Use resque for async jobs
 gem 'resque'
@@ -17,7 +17,7 @@ gem 'paperclip'
 gem 'tiny_mce'
 
 #For proper pagination
-gem 'will_paginate', '~> 3.0.pre2'
+gem 'will_paginate'
 
 # For excel export
 gem 'ekuseru'

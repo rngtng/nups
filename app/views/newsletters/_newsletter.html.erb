@@ -15,7 +15,7 @@
   </td>
   <td><%= newsletter.human_status %> <%= newsletter.human_mode %></td>
   <td align="left"> <%# style="background-color:<%= newsletter.color % >"  %>
-    <strong><%= l newsletter.deliver_at, :format => :nl %></strong>:
+    <strong><%= l (newsletter.deliver_at || newsletter.updated_at), :format => :nl %></strong>:
     <%= link_to truncate(newsletter.subject, :length => 40), account_newsletter_path(*newsletter.route) %></td>
   </td>
   <td><%= newsletter.recipients_count %></td>

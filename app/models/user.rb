@@ -17,11 +17,11 @@ class User < ActiveRecord::Base
   has_many :domains
 
   #http://wiki.github.com/plataformatec/devise/log-in-using-login-or-mail
-  def self.find_for_database_authentication(conditions)
-     conditions = ["username = ? or email = ?", conditions[authentication_keys.first], conditions[authentication_keys.first]]
-     # raise StandardError, conditions.inspect
-     super
-   end
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    username = conditions.delete(:username)
+    where(conditions).where(["username = :value OR email = :value", { :value => username }]).first
+  end
 end
 
 # == Schema Info

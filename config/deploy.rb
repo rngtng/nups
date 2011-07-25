@@ -10,7 +10,9 @@ set :use_sudo, false
 set :user, 'ssh-21560'
 
 set :rvm_type, :user
-set :rvm_ruby_string, "ruby-1.9.2-p136@#{application}"
+set :rvm_ruby_string, "ruby-1.9.2-p290"
+
+set :keep_releases, 3
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
@@ -67,7 +69,7 @@ namespace :resque do
   desc "start all resque workers"
   task :start, :roles => :job do
     unless remote_file_exists?(resque_pid)
-      run "cd #{current_release}; RAILS_ENV=production QUEUE=nups_newsletter VERBOSE=1 nohup rake resque:work &> #{resque_log}& 2> /dev/null && echo $! > #{resque_pid}"
+      run "cd #{current_release}; RAILS_ENV=production QUEUE=nups_newsletter VERBOSE=1 nohup bundle exec rake resque:work &> #{resque_log}& 2> /dev/null && echo $! > #{resque_pid}"
     else
       puts "PID File exits!!"
     end
@@ -99,4 +101,7 @@ end
 
 after "deploy:restart" do
   resque.restart
+  deploy.cleanup
 end
+
+
