@@ -3,6 +3,8 @@ class NewslettersController < ApplicationNupsController
 
   respond_to :html
 
+  LIMIT = 20
+
   def index
     @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
     @user      ||= (@account) ? @account.user : current_user
@@ -15,11 +17,19 @@ class NewslettersController < ApplicationNupsController
       render @newsletters #without_states(:new, :tested, :stopped, :finished).all
     end
 
-    @newsletters = @newsletters.scoped(:order => 'updated_at DESC', :limit => 20).all
+    @newsletters = @newsletters.scoped(:order => 'updated_at DESC').page(params[:page]).per(100).all
   end
 
   def show
     @newsletter = @account.newsletters.find(params[:id])
+
+    if request.xhr?
+      recipient = Recipient.new(:email => current_user.email)
+      @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
+      render :text => @newsletter_issue.html_part.body.decoded, :layout => false
+    else
+      render :show
+    end
   end
 
   def new
@@ -43,59 +53,31 @@ class NewslettersController < ApplicationNupsController
 
     @newsletter = @account.newsletters.new(params[:newsletter])
 
-    respond_to do |format|
-      if @newsletter.save
-        format.html {
-          redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully created.')
-        }
-        format.xml  { render :xml => @newsletter, :status => :created, :location => @newsletter }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @newsletter.errors, :status => :unprocessable_entity }
-      end
+    if @newsletter.save
+      redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully created.')
+    else
+      render :action => "new"
     end
   end
 
-  # PUT /newsletters/1
-  # PUT /newsletters/1.xml
   def update
     @newsletter = @account.newsletters.find(params[:id])
 
-    respond_to do |format|
-      if @newsletter.update_attributes(params[:newsletter])
-        format.html {
-          redirect_to( account_newsletter_path(*@newsletter.route)) and return if params[:preview]
-          redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully updated.')
-        }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @newsletter.errors, :status => :unprocessable_entity }
-      end
+    if @newsletter.update_attributes(params[:newsletter])
+      redirect_to( account_newsletters_path(@account), :notice => 'Newsletter was successfully updated.')
+    else
+      render :action => "edit"
     end
   end
 
-  # DELETE /newsletters/1
-  # DELETE /newsletters/1.xml
   def destroy
     @newsletter = @account.newsletters.find(params[:id])
     @newsletter.destroy
 
-    respond_to do |format|
-      format.html { redirect_to account_newsletters_path(@account) }
-      format.xml  { head :ok }
-    end
+    redirect_to account_newsletters_path(@account)
   end
 
   ########################################################
-  def preview
-    @newsletter = @account.newsletters.find(params[:id])
-
-    recipient = Recipient.new(:email => current_user.email)
-    @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
-
-    render :text => @newsletter_issue.html_part.body.decoded, :layout => false
-  end
 
   def start
     @newsletter = @account.newsletters.find(params[:id])

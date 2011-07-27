@@ -36,7 +36,12 @@ class RecipientsController < ApplicationNupsController
         end
       end
     end
-    render :new
+
+    if request.xhr?
+      render :partial => "result"
+    else
+      render :new
+    end
   end
 
   def update
@@ -65,6 +70,12 @@ class RecipientsController < ApplicationNupsController
       else
         @invalid_recipients << recipient
       end
+    end
+
+    if request.xhr?
+      render :partial => "result"
+    else
+      render :new
     end
   end
 

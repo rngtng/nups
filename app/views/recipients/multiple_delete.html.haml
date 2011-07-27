@@ -7,20 +7,8 @@
             %h2= t('.title')
 
       %tbody
-        %tr
-          - if @valid_recipients.any?
-            %td{:valign => "top", :style =>"color:green"}
-              %strong= t('.valid_recipients', :size => @valid_recipients.size) + ':'
-              %ul
-                - @valid_recipients.each do |recipient|
-                  %li= recipient.email
+        = render(:partial => 'result') if @valid_recipients.any? || @invalid_recipients.any?
 
-          - if @invalid_recipients.any?
-            %td{:valign => "top", :style => "color:red"}
-              %strong= t('.invalid_recipients', :size => @invalid_recipients.size) + ':'
-              %ul
-                - @invalid_recipients.each do |recipient|
-                  %li= recipient.email + " (#{recipient.errors.full_messages.join(', ')})"
         %tr
           %td= t('.explanation')
 
@@ -33,3 +21,6 @@
             = submit_tag t('.ctrl.valid_delete'), :name => :delete, :confirm => t('.ctrl.confirm_delete'), :class => "confirm"
 
             = submit_tag t('.ctrl.check'), :class => "check"
+
+
+

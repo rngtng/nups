@@ -1,0 +1,14 @@
+%tr
+  - if @valid_recipients.any?
+    %td{:valign => "top", :style =>"color:green"}
+      %strong= t('.valid_recipients', :size => @valid_recipients.size) + ':'
+      %ul
+        - @valid_recipients.each do |recipient|
+          %li= recipient.email
+
+  - if @invalid_recipients.any?
+    %td{:valign => "top", :style => "color:red"}
+      %strong= t('.invalid_recipients', :size => @invalid_recipients.size) + ':'
+      %ul
+        - @invalid_recipients.each do |recipient|
+          %li= recipient.email + " (#{recipient.errors.full_messages.join(', ')})"

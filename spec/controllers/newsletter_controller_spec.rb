@@ -59,27 +59,22 @@ describe NewslettersController do
     end
 
     describe "show" do
-      before do
-        get :show, :account_id => account.to_param, :id => newsletter.to_param
-      end
+      context "html" do
+        before do
+          xhr :get, :show, :account_id => account.to_param, :id => newsletter.to_param
+        end
 
-      it "assigns newsletter" do
-        assigns(:newsletter).id.should == newsletter.id
-      end
+        it "assigns newsletter" do
+          assigns(:newsletter).id.should == newsletter.id
+        end
 
-      it "response valid" do
-        response.status.should == 200 #:success
-      end
-    end
-
-    describe "preview" do
-      it "shows newsletter" do
-        get :preview, :account_id => account.to_param, :id => newsletter.to_param
-        response.status.should == 200 #:success
+        it "response valid" do
+          response.status.should == 200 #:success
+        end
       end
 
       it "returns newletter hmtl content" do
-        get :preview, :account_id => account.to_param, :id => newsletter.to_param
+        xhr :get, :show, :account_id => account.to_param, :id => newsletter.to_param
         response.body.should == newsletter.content
       end
     end
@@ -101,11 +96,6 @@ describe NewslettersController do
         post :create, :account_id => account.to_param, :newsletter => newsletter.attributes
         response.should redirect_to(account_newsletters_path(account))
       end
-
-      it "does preview" do
-        post :create, :account_id => account.to_param, :newsletter => newsletter.attributes, :preview => true
-        response.should redirect_to(account_newsletter_path(account, assigns(:newsletter)))
-      end
     end
 
     describe "edit" do
@@ -119,11 +109,6 @@ describe NewslettersController do
       it "should update newsletter" do
         put :update, :account_id => account.to_param, :id => newsletter.to_param, :newsletter => newsletter.attributes
         response.should redirect_to(account_newsletters_path(account))
-      end
-
-      it "should update newsletter and preview" do
-        put :update, :account_id => account.to_param, :id => newsletter.to_param, :newsletter => newsletter.attributes, :preview => true
-        response.should redirect_to(account_newsletter_path(*newsletter.route))
       end
     end
 

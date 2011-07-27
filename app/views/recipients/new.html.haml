@@ -1,5 +1,5 @@
 #recipients.form
-  = form_tag account_recipients_path(@account), :method => :post do
+  = form_tag account_recipients_path(@account), :method => :post, :remote => true, :class => "new" do
     %table.content{:style => "width: 700px"}
       %thead
         %tr
@@ -7,20 +7,8 @@
             %h2= t('.title')
 
       %tbody
-        %tr
-          - if @valid_recipients.any?
-            %td{:valign => "top", :style =>"color:green"}
-              %strong= t('.valid_recipients', :size => @valid_recipients.size) + ':'
-              %ul
-                - @valid_recipients.each do |recipient|
-                  %li= recipient.email
+        = render(:partial => 'result') if @valid_recipients.any? || @invalid_recipients.any?
 
-          - if @invalid_recipients.any?
-            %td{:valign => "top", :style => "color:red"}
-              %strong= t('.invalid_recipients', :size => @invalid_recipients.size) + ':'
-              %ul
-                - @invalid_recipients.each do |recipient|
-                  %li= recipient.email + " (#{recipient.errors.full_messages.join(', ')})"
         %tr
           %td= t('.explanation')
 
@@ -31,3 +19,8 @@
         %tr
           %td{:align => 'center'}
             = submit_tag t('.ctrl.valid_import')
+
+  :javascript
+     $('#recipients form.new').bind('ajax:success', function(){
+       alert("Success!");
+     });

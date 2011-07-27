@@ -1,11 +1,11 @@
 %tr{ :id => "newsletter_#{newsletter.id}", :class => "newsletter #{newsletter.state}" }
   %td.icon
-    %a.preview{ :href => preview_account_newsletter_path(*newsletter.route), :rel => "#overlay" }
+    %a.preview{ :href => account_newsletter_path(*newsletter.route), :rel => "#overlay" }
       %span= newsletter.state
 
   %td.info
     %strong= l(newsletter.deliver_at || newsletter.updated_at, :format => :nl) + ':'
-    = link_to truncate(newsletter.subject, :length => 80), preview_account_newsletter_path(*newsletter.route), :rel => "#overlay"
+    = link_to truncate(newsletter.subject, :length => 80), account_newsletter_path(*newsletter.route), :rel => "#overlay"
 
     .progress-bar
       - title = "#{newsletter.progress_percent}% - #{l Time.at(newsletter.sending_time), :format => :time} - #{"%.1f" % newsletter.sendings_per_second}/sec."
@@ -28,7 +28,7 @@
       %span=t('newsletters.ctrl.clone')
 
   %td.menu
-    %a.icon.preview{ :href => preview_account_newsletter_path(*newsletter.route), :rel => "#overlay" }
+    %a.icon.preview{ :href => account_newsletter_path(*newsletter.route), :rel => "#overlay" }
       %span=t('ctrl.preview')
     %a.icon.edit{ :href => edit_account_newsletter_path(*newsletter.route) }
       %span=t('ctrl.edit')
