@@ -1,5 +1,5 @@
 #recipients.form
-  = form_tag account_recipients_path(@account), :method => :post, :remote => true, :class => "new" do
+  = form_tag multiple_destroy_account_recipients_path(@account), :method => :post, :remote => true, :class => "destroy" do
     %table.content{:style => "width: 700px, height: 100%"}
       %thead
         %tr
@@ -24,4 +24,7 @@
 
             = text_area_tag :emails, params[:emails], {:cols => 90, :rows => 5}
 
-            = submit_tag t('.ctrl.valid_import')
+            = submit_tag t('.ctrl.valid_delete'), :name => :delete, :confirm => t('.ctrl.confirm_delete'), :class => "confirm"
+
+            = submit_tag t('.ctrl.check'), :class => "check"
+

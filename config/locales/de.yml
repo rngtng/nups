@@ -80,9 +80,9 @@ de:
     menu:
       export_xls: "Export Exceldatei"
       import: Eintragen
-      multiple_delete: Austragen
+      delete: Austragen
       title: Empfänger
-    multiple_delete:
+    delete:
       ctrl:
         check: "Emailadresse(n) überprüfen"
         confirm_delete: Sicher?

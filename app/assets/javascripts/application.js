@@ -12,4 +12,5 @@
 //= require cleditor/jquery.cleditor.min
 //= require overlay
 //= require cleditor
+//= require recipients
 

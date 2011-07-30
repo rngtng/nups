@@ -13,7 +13,7 @@
       %td{:align => "right"}
         = link_to t('recipients.menu.import'), new_account_recipient_path(@account), :rel => '#overlay'
         &bull;
-        = link_to t('recipients.menu.multiple_delete'), multiple_delete_account_recipients_path(@account), :rel => '#overlay'
+        = link_to t('recipients.menu.delete'), delete_account_recipients_path(@account), :rel => '#overlay'
         &bull;
         = link_to t('recipients.menu.export_xls'), account_recipients_path(@account, :format => :xls)
 
@@ -34,17 +34,3 @@
     %tr.paginate
       %td{:colspan => 5, :align => "center"}= paginate @recipients
 
-  :javascript
-    //$('tr.recipient tr.show td:not(.menu)').live('click', function(event) {
-    //  $(event.target).closest('table').attr('class', 'edit');
-    //});
-    $('tr.recipient tr.edit input').keyup( function(event) {
-      if(event.which == 13) {
-        $(event.target).closest('form').submit();
-        return false;
-      }
-      if(event.which == 27) {
-        $(event.target).closest('table').attr('class', 'show')
-        return false;
-      }
-    });

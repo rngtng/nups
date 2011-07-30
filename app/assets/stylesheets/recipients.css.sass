@@ -1,0 +1,57 @@
+#recipients
+  .content
+    table
+      border: 0
+      width: 100%
+  .gender
+    width: 8%
+  .first_name
+    width: 20%
+  .last_name
+    width: 20%
+  .email
+    font-weight: bold
+  .menu
+    width: 75px
+
+  tr.recipient
+    table
+      &.edit tr.show
+        display: none
+      &.show tr.edit
+        display: none
+      td
+        padding: 0 5px
+
+  &.form
+    height: 99%
+
+    form, .content
+      height: 99%
+    
+    td
+      vertical-align: top
+      height: 100%
+    
+    ul.result
+      list-style-type: none
+      margin: 0
+      padding: 0
+
+      li.valid, li.invalid
+        float: left
+        width: 50%
+        display: none
+      li.valid
+        color: green
+      li.invalid
+        color: red
+
+    input, textarea
+      display: block
+      width: 95%
+      margin: 5px auto
+
+    textarea
+      height: 100%
+
