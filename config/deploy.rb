@@ -82,7 +82,7 @@ end
 
 after "deploy:update_code" do
   deploy.link_configs
-  #deploy.precompile_assets
+  deploy.precompile_assets
 end
 
 #after "deploy:symlink", "deploy:restart_workers"
