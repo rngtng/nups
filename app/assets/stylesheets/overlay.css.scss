@@ -1,0 +1,27 @@
+#overlay {
+  &.apple {
+    background-image: none;
+    display: none;
+    width: 730px;
+    position: fixed;
+    z-index: auto;
+    margin: 20px auto;
+    background-color: #dddddd;
+    border: 0;
+    padding: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    .close {
+      background-image: image-url("overlay/close.png");
+      position: absolute;
+      right: -17px;
+      top: -17px;
+      cursor: pointer;
+      height: 35px;
+      width: 35px; }
+    .body {
+      background-color: white;
+      width: 710px;
+      height: 100%;
+      overflow: auto;
+      padding: 10px; } } }

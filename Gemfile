@@ -44,12 +44,12 @@ end
 # http://metaskills.net/2011/07/29/use-compass-sass-framework-files-with-the-rails-3.1.0.rc5-asset-pipeline/
 # Gems used only for assets and not required
 # in production environments by default.
-# group :assets do
-#   gem 'sass-rails', "~> 3.1.0.rc"
-#   gem 'coffee-rails', "~> 3.1.0.rc"
-#   gem 'uglifier'
-#   # gem 'compass', :git => 'git://github.com/chriseppstein/compass.git', :branch => 'rails31'
-# end
+group :assets do
+  gem 'sass-rails', "~> 3.1.0.rc"
+  gem 'coffee-rails', "~> 3.1.0.rc"
+  gem 'uglifier'
+  # gem 'compass', :git => 'git://github.com/chriseppstein/compass.git', :branch => 'rails31'
+end
 
 group :test do
   gem 'rspec-rails', '~> 2.6.1.beta1'

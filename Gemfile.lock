@@ -41,6 +41,15 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     chronic (0.6.2)
     cocaine (0.1.0)
+    coffee-rails (3.1.0.rc.5)
+      actionpack (~> 3.1.0.rc1)
+      coffee-script (>= 2.2.0)
+      railties (~> 3.1.0.rc1)
+      sprockets (>= 2.0.0.beta.9)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.1.1)
     css_parser (1.1.9)
     daemons (1.1.4)
     delorean (1.1.0)
@@ -54,6 +63,8 @@ GEM
       spreadsheet (>= 0.6)
     erubis (2.7.0)
     eventmachine (0.12.10)
+    execjs (1.2.1)
+      multi_json (~> 1.0)
     haml (3.1.2)
     highline (1.6.2)
     hike (1.2.0)
@@ -159,6 +170,12 @@ GEM
     ruby-ole (1.2.11.1)
     rufus-scheduler (2.0.10)
       tzinfo (>= 0.3.23)
+    sass (3.1.5)
+    sass-rails (3.1.0.rc.5)
+      actionpack (~> 3.1.0.rc1)
+      railties (~> 3.1.0.rc1)
+      sass (>= 3.1.4)
+      sprockets (>= 2.0.0.beta.9)
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
@@ -183,6 +200,9 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.29)
+    uglifier (1.0.0)
+      execjs (>= 0.3.0)
+      multi_json (>= 1.0.2)
     vegas (0.1.8)
       rack (>= 1.0.0)
     warden (1.0.5)
@@ -194,6 +214,7 @@ PLATFORMS
 
 DEPENDENCIES
   capistrano
+  coffee-rails (~> 3.1.0.rc)
   delorean
   devise
   ekuseru
@@ -212,5 +233,7 @@ DEPENDENCIES
   rngtng-bounce-email (= 0.1.0)
   rspec-rails (~> 2.6.1.beta1)
   ruby-graphviz
+  sass-rails (~> 3.1.0.rc)
   state_machine
+  uglifier
   watchr

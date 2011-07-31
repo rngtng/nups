@@ -1,0 +1,116 @@
+#newsletters {
+  &.index h2 {
+    float: left;
+    margin: 0 20px 0 0;
+    padding: 2px 0 0 0; }
+  tr.newsletter {
+    td.icon {
+      width: 60px;
+      a {
+        float: left;
+        display: block;
+        width: 48px;
+        height: 48px;
+        margin: 2px;
+        border: 0;
+        span {
+          display: none; } } }
+    &.new {
+      .icon a {
+        background: transparent image-url("icon/new.png") no-repeat; } }
+    &.testing, &.tested {
+      .icon a {
+        background: transparent image-url("icon/tested.png") no-repeat; } }
+    &.sending {
+      .icon a {
+        background: transparent image-url("icon/sending.png") no-repeat; } }
+    &.stopping, &.stopped {
+      .icon a {
+        background: transparent image-url("icon/stopped.png") no-repeat; } }
+    &.finished {
+      .icon a {
+        background: transparent image-url("icon/finished.png") no-repeat; } }
+    td.info {
+      padding: 0 5px; }
+    td.recipients {
+      width: 120px;
+      text-align: center;
+      font-weight: bold; }
+    td.actions {
+      width: 120px;
+      a {
+        display: none; } }
+    &.new, &.tested, &.stopped {
+      .send_test {
+        display: block; } }
+    &.tested {
+      .send_live {
+        display: block; } }
+    &.stopped {
+      .resume {
+        display: block; } }
+    &.testing, &.sending {
+      .stop {
+        display: block; } }
+    &.finished {
+      .clone {
+        display: block; } }
+    &.sending, &.stopping, &.stopped, &.finished {
+      .progress-bar {
+        display: block; } }
+    // disable urls: http://tricks.com/pointer-events-current-nav
+    &.testing, &.sending, &.stopping, &.finished {
+      .edit {
+        background: transparent image-url("menu/disabled/edit.png") no-repeat;
+        pointer-events: none;
+        cursor: default; }
+      .delete {
+        background: transparent image-url("menu/disabled/delete.png") no-repeat;
+        pointer-events: none;
+        cursor: default; } } }
+  .form {
+    input[type=text] {
+      border: 1px solid #999999;
+      //margin: 0
+      padding: 2px;
+      outline: none; }
+    input[type=button] {
+      margin-bottom: 5px; } }
+  .text {
+    padding: 5px; }
+  ul.tabs {
+    margin: 0 !important;
+    padding: 0;
+    height: 18px;
+    border: 0;
+    li {
+      float: left;
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+      a {
+        float: left;
+        font-size: 12px;
+        display: block;
+        padding: 5px 30px;
+        text-decoration: none;
+        border: 0;
+        height: 12px;
+        background-color: #eeeeee;
+        color: #777777;
+        margin-right: 2px;
+        position: relative;
+        top: 1px;
+        outline: 0;
+        border-radius: 4px 4px 0 0;
+        -moz-border-radius: 4px 4px 0 0;
+        -webkit-border-radius: 4px 4px 0 0;
+        &:hover {
+          background-color: #f7f7f7;
+          color: #333333; }
+        &.current {
+          font-weight: bold;
+          background-color: #cccccc;
+          border-bottom: 1px solid #cccccc;
+          color: black;
+          cursor: default; } } } } }
