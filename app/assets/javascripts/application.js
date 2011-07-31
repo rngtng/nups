@@ -9,7 +9,7 @@
 //= require jquery.progress
 //= require plupload/jquery.plupload.queue.min
 //= require plupload/plupload.full.min
-//= require cleditor/jquery.cleditor.min
+//= require cleditor/jquery.cleditor
 //= require cleditor
 //= require newsletters
 //= require overlay
