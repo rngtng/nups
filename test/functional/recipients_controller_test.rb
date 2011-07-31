@@ -80,14 +80,14 @@ class RecipientsControllerTest < ActionController::TestCase
   end
 
   test "should show multiple delete" do
-    get :multiple_delete, :account_id => @account.to_param
+    get :delete, :account_id => @account.to_param
     assert_response :success
   end
 
   test "should show existing and valid adresses" do
     existing_email = @account.recipients.first.email
     assert_no_difference('@account.recipients.count') do
-      post :multiple_delete, :account_id => @account.to_param, :emails => "#{existing_email}\n\tvalid@email1.de,invalid"
+      post :multiple_destroy, :account_id => @account.to_param, :emails => "#{existing_email}\n\tvalid@email1.de,invalid"
     end
 
     assert_equal 1, assigns(:valid_recipients).count
@@ -106,7 +106,7 @@ class RecipientsControllerTest < ActionController::TestCase
   test "should delete existing valid adresses" do
     existing_email = @account.recipients.first.email
     assert_difference('@account.recipients.count', -1) do
-      post :multiple_delete, :account_id => @account.to_param, :emails => "#{existing_email}\nvalid@email1.de;invalid", :delete => true
+      post :multiple_destroy, :account_id => @account.to_param, :emails => "#{existing_email}\nvalid@email1.de;invalid", :delete => true
     end
 
     assert_equal 1, assigns(:valid_recipients).count
