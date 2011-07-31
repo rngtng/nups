@@ -10,7 +10,8 @@
 //= require plupload/jquery.plupload.queue.min
 //= require plupload/plupload.full.min
 //= require cleditor/jquery.cleditor.min
-//= require overlay
 //= require cleditor
+//= require newsletters
+//= require overlay
 //= require recipients
 

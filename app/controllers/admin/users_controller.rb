@@ -42,6 +42,7 @@ class Admin::UsersController < Admin::AdminController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
+    @user.password = @user.password_confirmation = params[:user][:password]
 
     respond_to do |format|
       if @user.save

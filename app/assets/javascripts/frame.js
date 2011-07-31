@@ -5,3 +5,11 @@
 // the compiled file.
 //= require jquery
 //= require jquery_ujs
+
+var selected_user_id = 0;
+
+function show_menu(user_id) {
+    if(selected_user_id > 0) $('#user_menu_' + selected_user_id).hide();
+    $('#user_menu_' + user_id).show();
+    selected_user_id = user_id;
+}

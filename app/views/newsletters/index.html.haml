@@ -1,19 +1,14 @@
 #newsletters.index
-  %table.header{:cellpadding => "0", :cellspacing => "0"}
-    %tr
-      %td
-        %h2= "#{@account.name + ' - ' if @account}#{t('newsletters.title')}"
+  %h2= t('newsletters.title')
 
-      %td
-        - if @user.accounts.count > 1
-          = form_tag(newsletters_path, :id => 'account_list') do
-            - opts = options_from_collection_for_select(@accounts, :id, :name, @account.try(:id))
-            %label= t('newsletters.account')
-            = select_tag 'account_id', opts, :include_blank => true, :onChange => "this.form.submit()"
-
-      %td{:align => "right"}
-        - if @account
-          = link_to( t( 'newsletters.new', :account_name => @account.name), new_account_newsletter_path(@account))
+  %ul.tabs
+    %li
+      = link_to("All", newsletters_path)
+    - @accounts.each do |account|
+      %li
+        = link_to(account.name, account_newsletters_path(account))
+    %li
+      -# link_to( t('newsletters.new'), new_account_newsletter_path(@account))
 
   %table.content.zebra
     %thead
@@ -26,44 +21,4 @@
 
     %tbody
       =  render @newsletters
-
-  :javascript
-    var newsletterPath = '#{newsletters_path}',
-    scheduled = false,
-    request = function() {
-      var ids = $.map($('.newsletter'), function(elem) {
-        return elem.id.replace('newsletter_', '');
-      });
-      jQuery.ajax({
-        url: newsletterPath,
-        data: { ids: ids },
-        dataType: 'script'
-      });
-      scheduled = false;
-    },
-    schedule = function() {
-      if(!scheduled) {
-        $('.newsletter:first').each(function(){
-          scheduled = true;
-          window.setTimeout(request, 2000);
-        })
-      }
-    },
-    update = function(id, state, progressPercent) {
-      $('#newsletter_' + id)
-      .attr('class', 'newsletter ' + state)
-      .filter('.sending,.testing,.stopping').each( function(){
-        $(this).find('.progress')
-          .width(progressPercent)
-          .show()
-          .find('label')
-          .text(progressPercent)
-          .end();
-          schedule();
-      });
-    };
-
-    $(document).ready(function () {
-      schedule();
-    });
 

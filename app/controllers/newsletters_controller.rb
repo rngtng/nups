@@ -11,13 +11,13 @@ class NewslettersController < ApplicationNupsController
     @newsletters = @user.newsletters.with_account(@account)
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
+    @newsletters = @newsletters.scoped(:order => 'updated_at DESC').page(params[:page]).per(100)
+
     if request.xhr?
       #TODO only update those who need update
       @newsletters.all.map(&:update_stats)
       render @newsletters #without_states(:new, :tested, :stopped, :finished).all
     end
-
-    @newsletters = @newsletters.scoped(:order => 'updated_at DESC').page(params[:page]).per(100).all
   end
 
   def show

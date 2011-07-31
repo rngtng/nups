@@ -1,4 +1,9 @@
 #newsletters
+  &.index h2
+    float: left
+    margin: 0 20px 0 0
+    padding: 2px 0 0 0
+
   tr.newsletter
     td.icon
       width: 60px
@@ -59,7 +64,7 @@
       .progress-bar
         display: block
 
-    // disable urls: http://css-tricks.com/pointer-events-current-nav
+    // disable urls: http://tricks.com/pointer-events-current-nav
     &.testing, &.sending, &.stopping, &.finished
       .edit
         background: transparent url('<%= asset_path('menu/disabled/edit.png') %>') no-repeat
@@ -82,3 +87,46 @@
 
   .text
     padding: 5px
+
+
+  ul.tabs
+    margin: 0 !important
+    padding: 0
+    height: 18px
+    border: 0
+
+    li
+      float: left
+      padding: 0
+      margin: 0
+      list-style-type: none
+
+      a
+        float: left
+        font-size: 12px
+        display: block
+        padding: 5px 30px
+        text-decoration: none
+        border: 0
+        height: 12px
+        background-color: #eeeeee
+        color: #777
+        margin-right: 2px
+        position: relative
+        top: 1px
+        outline: 0
+        border-radius: 4px 4px 0 0
+        -moz-border-radius: 4px 4px 0 0
+        -webkit-border-radius: 4px 4px 0 0
+
+        &:hover
+          background-color: #F7F7F7
+          color: #333
+
+        &.current
+          font-weight: bold
+          background-color: #ccc
+          border-bottom: 1px solid #ccc
+          color: #000
+          cursor: default
+
