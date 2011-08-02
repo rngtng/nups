@@ -31,13 +31,18 @@
       .icon a {
         background: transparent image-url("icon/finished.png") no-repeat; } }
     td.info {
-      padding: 0 5px; }
+      padding: 0 5px;
+      a {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; } }
     td.recipients {
       width: 120px;
       text-align: center;
       font-weight: bold; }
     td.actions {
       width: 120px;
+      white-space: nowrap;
       a {
         display: none; } }
     &.new, &.tested, &.stopped {
@@ -81,8 +86,9 @@
   ul.tabs {
     margin: 0 !important;
     padding: 0;
-    height: 18px;
     border: 0;
+    height: 22px;
+    overflow: hidden;
     li {
       float: left;
       padding: 0;
@@ -95,7 +101,6 @@
         padding: 5px 30px;
         text-decoration: none;
         border: 0;
-        height: 12px;
         background-color: #eeeeee;
         color: #777777;
         margin-right: 2px;

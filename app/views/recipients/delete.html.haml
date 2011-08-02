@@ -1,5 +1,5 @@
 #recipients.form
-  = form_tag multiple_destroy_account_recipients_path(@account), :method => :post, :remote => true, :class => "destroy" do
+  = form_tag multiple_destroy_account_recipients_path(@account), :method => :delete, :remote => true, :class => "destroy" do
     %table.content{:style => "width: 700px, height: 100%"}
       %thead
         %tr

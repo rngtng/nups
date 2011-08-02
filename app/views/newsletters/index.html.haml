@@ -3,10 +3,12 @@
 
   %ul.tabs
     %li
-      = link_to("All", newsletters_path)
+      - klass = (@account.nil?) ? 'current' : nil
+      = link_to("All", newsletters_path, :class => klass)
     - @accounts.each do |account|
       %li
-        = link_to(account.name, account_newsletters_path(account))
+        - klass = (@account == account) ? 'current' : nil
+        = link_to(account.name, account_newsletters_path(account), :class => klass)
     %li
       -# link_to( t('newsletters.new'), new_account_newsletter_path(@account))
 

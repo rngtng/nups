@@ -13,14 +13,13 @@ request = function(newsletterPath) {
 schedule = function() {
   if(!scheduled) {
     $('.newsletter:first').each(function(){
-      var newsletterPath = this.data('newsletter-path');
-      console.log(newsletterPath);
+      var newsletterPath = $(this).data('newsletter-path');
       scheduled = true;
-      window.setTimeout(request(newsletterPath), 2000);
+      window.setTimeout( function() { request(newsletterPath) }, 2000);
     })
   }
 },
-update = function(id, state, progressPercent) {
+update_newsletter = function(id, state, progressPercent) {
   $('#newsletter_' + id)
   .attr('class', 'newsletter ' + state)
   .filter('.sending,.testing,.stopping').each( function(){
@@ -34,7 +33,13 @@ update = function(id, state, progressPercent) {
   });
 };
 
+
 $(document).ready(function () {
-  $("ul.tabs").tabs("table > tbody", {effect: 'ajax'});
+  $("ul.tabs").tabs("table > tbody", {
+      effect: 'ajaxOverlay',
+      initialIndex: -1,
+      history: true
+  });
   schedule();
+  attachOverlay();
 });

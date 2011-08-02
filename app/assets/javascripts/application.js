@@ -12,6 +12,6 @@
 //= require cleditor/jquery.cleditor
 //= require cleditor
 //= require newsletters
-//= require overlay
 //= require recipients
+//= require tools
 

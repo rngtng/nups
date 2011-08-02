@@ -16,7 +16,7 @@
     outline: none; } }
 
 .cleditorToolbar {
-  background: image-path("cleditor/images/toolbar.gif") repeat; }
+  background: image-url("cleditor/images/toolbar.gif") repeat; }
 
 .cleditorGroup {
   float: left;
@@ -27,7 +27,7 @@
   width: 24px;
   height: 24px;
   margin: 1px 0 1px 0;
-  background: image-path("cleditor/images/buttons.gif"); }
+  background: image-url("cleditor/images/buttons.gif"); }
 
 .cleditorDisabled {
   opacity: 0.3;

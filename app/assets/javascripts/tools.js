@@ -1,4 +1,4 @@
-$(function() {
+var attachOverlay = function() {
   $("a[rel=#overlay]").overlay({
     mask: '#333',
     top: '0%',
@@ -11,12 +11,11 @@ $(function() {
       $("#overlay .body").css('height', h - 73)
     }
   });
-});
+};
 
-var resizeTimer;
-$(window).resize(function() {
-    clearTimeout(resizeTimer);
-    if( typeof(isOpened) != "undefined" && isOpened() ) {
-      resizeTimer = setTimeout(doSomething, 100);
-    }
+$.tools.tabs.addEffect("ajaxOverlay", function(tabIndex, done) {
+    this.getPanes().eq(0).html("").load(this.getTabs().eq(tabIndex).attr("href"), function() {
+      attachOverlay();
+    });
+    done.call();
 });

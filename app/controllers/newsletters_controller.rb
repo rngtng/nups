@@ -23,13 +23,13 @@ class NewslettersController < ApplicationNupsController
   def show
     @newsletter = @account.newsletters.find(params[:id])
 
-    if request.xhr?
+    #if request.xhr?
       recipient = Recipient.new(:email => current_user.email)
       @newsletter_issue = NewsletterMailer.issue(@newsletter, recipient)
       render :text => @newsletter_issue.html_part.body.decoded, :layout => false
-    else
-      render :show
-    end
+    #else
+      #render :show
+    #end
   end
 
   def new
