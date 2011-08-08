@@ -9,6 +9,8 @@
 //= require progress
 //= require recipients
 
+$headColor: #669966;
+
 html, body {
   margin: 0;
   padding: 0;
@@ -26,7 +28,7 @@ html, body {
   div.index, div.form {
     padding: 5px; }
   h2 {
-    font-size: 17px;
+    font-size: 20px;
     font-weight: bold;
     display: inline; }
   table.header {
@@ -42,7 +44,7 @@ html, body {
     tbody th {
       text-align: left; }
     thead th {
-      background-color: #669966;
+      background-color: $headColor;
       font-weight: bold;
       font-size: 14px;
       padding: 2px; }

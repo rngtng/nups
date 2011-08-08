@@ -11,6 +11,12 @@ var attachOverlay = function() {
       $("#overlay .body").css('height', h - 73)
     }
   });
+  if($("a[rel=#overlay]").size() <= 0) {
+    $("tfoot").show();
+  }
+  else {
+    $("tfoot").hide();
+  }
 };
 
 $.tools.tabs.addEffect("ajaxOverlay", function(tabIndex, done) {

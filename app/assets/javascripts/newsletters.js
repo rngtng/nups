@@ -37,8 +37,7 @@ update_newsletter = function(id, state, progressPercent) {
 $(document).ready(function () {
   $("ul.tabs").tabs("table > tbody", {
       effect: 'ajaxOverlay',
-      initialIndex: -1,
-      history: true
+      initialIndex: -1
   });
   schedule();
   attachOverlay();
