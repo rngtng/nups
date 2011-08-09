@@ -22,12 +22,8 @@
       td {
         padding: 0 5px; } } }
   &.form {
-    height: 99%;
-    form, .content {
-      height: 99%; }
     td {
-      vertical-align: top;
-      height: 100%; }
+      vertical-align: top; }
     ul.result {
       list-style-type: none;
       margin: 0;
@@ -35,7 +31,8 @@
       li.valid, li.invalid {
         float: left;
         width: 50%;
-        display: none; }
+        display: none;
+        margin-bottom: 14px; }
       li.valid {
         color: green; }
       li.invalid {
@@ -45,9 +42,4 @@
     input, textarea {
       display: block;
       width: 95%;
-      margin: 5px auto; }
-    textarea {
-      height: 100%; } 
-    input.confirm {
-        display: none; } } }
-    
+      margin: 5px auto; } } }

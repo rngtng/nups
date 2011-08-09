@@ -74,7 +74,7 @@ class RecipientsController < ApplicationNupsController
     if request.xhr?
       render :json => {:valid => @valid_recipients.map(&:email), :invalid => @invalid_recipients.map(&:email), :delete => params[:delete]}
     else
-      render :delete, :layout => !request.xhr?
+      redirect_to account_recipients_url(@account)
     end
   end
 
@@ -98,6 +98,6 @@ class RecipientsController < ApplicationNupsController
 
   def split_emails(emails)  #split by \n or , or ;
     return [] unless emails
-    emails.delete("\"' ").split(/[\n,;]/).delete_if(&:blank?).map(&:strip)
+    emails.delete("\"' ").split(/[\n,;]/).delete_if(&:blank?).map(&:strip).uniq
   end
 end

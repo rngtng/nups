@@ -14,6 +14,7 @@
               %ul
                 - Array(@valid_recipients).each do |recipient|
                   %li= recipient.email
+              = submit_tag t('.ctrl.valid_delete'), :name => :delete, :confirm => t('.ctrl.confirm_delete'), :class => "confirm"
             %li.invalid
               %strong= t('.invalid_recipients') + ':'
               %ul
@@ -22,9 +23,7 @@
           .input
             = t('.explanation')
 
-            = text_area_tag :emails, params[:emails], {:cols => 90, :rows => 5}
-
-            = submit_tag t('.ctrl.valid_delete'), :name => :delete, :confirm => t('.ctrl.confirm_delete'), :class => "confirm"
+            = text_area_tag :emails, params[:emails], {:cols => 90, :rows => 25}
 
             = submit_tag t('.ctrl.check'), :class => "check"
 

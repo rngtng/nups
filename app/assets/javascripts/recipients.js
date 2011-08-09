@@ -27,31 +27,32 @@ $('tr.recipient tr.edit input').live('keyup', function(event) {
 
 $("#recipients form.new")
   .live('ajax:success', function(data, xhr, status) {
-    $("#recipients .new .valid").show().find("ul").html("").hide();
+    $(".valid").hide().find("ul").html("");
     $.each(xhr.valid, function(key, email) {
-      $("#recipients .new .valid").show().find("ul").append('<li>' + email + '</li>');
+      $(".valid").show().find("ul").append('<li>' + email + '</li>');
     });
-    $("#recipients .new .invalid").show().find("ul").html("").hide();
+    $(".invalid").hide().find("ul").html("");
     $.each(xhr.invalid, function(key, email) {
-      $("#recipients .new .invalid").show().find("ul").append('<li>' + email + '</li>');
+      $(".invalid").show().find("ul").append('<li>' + email + '</li>');
     });
+    $(".input textarea").val("");
   })
   .live('ajax:failure', function(xhr, status, error) {
     alert("Please try again!");}
   );
-  
+
 $("#recipients form.destroy")
   .live('ajax:success', function(data, xhr, status) {
-    console.log(xhr);
-    $("#recipients .destroy .valid").show().find("ul").html("").hide();
+    $(".valid").hide().find("ul").html("");
     $.each(xhr.valid, function(key, email) {
-      $("#recipients .destroy .valid").show().find("ul").append('<li>' + email + '</li>');
+      $(".valid").show().find("ul").append('<li>' + email + '</li>');
+      $(".input").hide();
+      $("#recipients.form form").removeAttr("data-remote").removeData("remote");
     });
-    $("#recipients .destroy .invalid").show().find("ul").html("").hide();
+    $(".invalid").hide().find("ul").html("");
     $.each(xhr.invalid, function(key, email) {
-      $("#recipients .destroy .invalid").show().find("ul").append('<li>' + email + '</li>');
+      $(".invalid").show().find("ul").append('<li>' + email + '</li>');
     });
-    //$("#recipients .input").hide();
   })
   .live('ajax:failure', function(xhr, status, error) {
     alert("Please try again!");}
