@@ -36,6 +36,7 @@ html, body {
     margin-bottom: 5px; }
   table.content {
     width: 100%;
+    table-layout:fixed;
     border: 2px solid #cccccc;
     tr {
       background-color: #eeeeee; }

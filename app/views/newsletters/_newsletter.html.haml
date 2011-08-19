@@ -5,7 +5,7 @@
 
   %td.info
     %strong= l(newsletter.deliver_at || newsletter.updated_at, :format => :nl) + ':'
-    = link_to truncate(newsletter.subject, :length => 80), account_newsletter_path(*newsletter.route), :rel => "#overlay"
+    = link_to newsletter.subject, account_newsletter_path(*newsletter.route), :rel => "#overlay"
 
     .progress-bar
       - title = "#{newsletter.progress_percent}% - #{l Time.at(newsletter.sending_time), :format => :time} - #{"%.1f" % newsletter.sendings_per_second}/sec."

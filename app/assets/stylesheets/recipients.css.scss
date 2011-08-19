@@ -1,10 +1,11 @@
 #recipients {
   .content {
     table {
+      table-layout:fixed;
       border: 0;
       width: 100%; } }
   .gender {
-    width: 8%; }
+    width: 75px; }
   .first_name {
     width: 20%; }
   .last_name {
@@ -12,7 +13,9 @@
   .email {
     font-weight: bold; }
   .menu {
-    width: 75px; }
+    width: 80px;
+    a {
+      margin-left: 2px; } }
   tr.recipient {
     table {
       &.edit tr.show {

@@ -4,22 +4,22 @@
   %ul.tabs
     %li
       - klass = (@account.nil?) ? 'current' : nil
-      = link_to("All", newsletters_path, :class => klass)
+      = link_to "All", newsletters_path, :class => [klass, "tab"].join(' ')
     - @accounts.each do |account|
       %li
         - klass = (@account == account) ? 'current' : nil
-        = link_to(account.name, account_newsletters_path(account), :class => klass)
+        = link_to account.name, account_newsletters_path(account), :class => [klass, "tab"].join(' ')
+        = link_to t('newsletters.new'), new_account_newsletter_path(account), :class => [klass, "new"].join(' ')
     %li
-      -# link_to( t('newsletters.new'), new_account_newsletter_path(@account))
 
   %table.content.zebra
     %thead
       %tr
-        %th
-        %th= Newsletter.human_attribute_name(:progress)
-        %th= Newsletter.human_attribute_name(:recipients_count)
-        %th= t('newsletters.action')
-        %th= t('newsletters.menu')
+        %th{width:44}
+        %th{}= Newsletter.human_attribute_name(:progress)
+        %th{width:120}= Newsletter.human_attribute_name(:recipients_count)
+        %th{width:120}= t('newsletters.action')
+        %th{width:120}= t('newsletters.menu')
 
     %tbody
       =  render @newsletters
