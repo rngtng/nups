@@ -100,7 +100,7 @@
       &.stopped {
         .resume {
           display: block; } }
-      &.testing, &.sending {
+      &.sending {
         .stop {
           display: block; } }
       &.finished {
@@ -111,14 +111,15 @@
           display: block; } }
       // disable urls: http://tricks.com/pointer-events-current-nav
       &.testing, &.sending, &.stopping, &.finished {
-        .edit {
-          background: transparent image-url("menu/disabled/edit.png") no-repeat;
-          pointer-events: none;
-          cursor: default; }
-        .delete {
-          background: transparent image-url("menu/disabled/delete.png") no-repeat;
-          pointer-events: none;
-          cursor: default; } }
+        .default & {
+          .edit {
+            background: transparent image-url("menu/disabled/edit.png") no-repeat;
+            pointer-events: none;
+            cursor: default; }
+          .delete {
+            background: transparent image-url("menu/disabled/delete.png") no-repeat;
+            pointer-events: none;
+            cursor: default; } } }
       td.menu {
         a.icon {
           margin-right: 4px; } } }

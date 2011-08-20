@@ -131,15 +131,15 @@ class Newsletter < ActiveRecord::Base
   end
 
   def sendings_per_second
-    return 0 if sending_time < 1
-    return count.to_f / sending_time
+    (sending_time > 0) ? (count.to_f / sending_time) : 0
   end
 
   def update_stats
     if sending?
       self.deliveries_count = live_send_outs.with_states(:finished).count
       self.errors_count     = live_send_outs.with_states(:failed).count
-      if live_send_outs.without_states(:finished, :failed, :bounced).count == 0
+      if progress_percent >= 100
+        # TODO what if bounced??
         self.delivery_ended_at = live_send_outs.first(:order => "updated_at DESC").try(:updated_at)
         self.finish! #(end_time)
       end

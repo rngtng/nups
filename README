@@ -11,11 +11,11 @@ Welcome to NUPS
 # Test SMPT lockally
   http://mocksmtpapp.com/
 
-# spinners: 
+# spinners:
   http://www.andrewdavidson.com/articles/spinning-wait-icons/
   http://mentalized.net/activity-indicators/
 
-# reques test 
+# reques test
   http://github.com/justinweiss/resque_unit
 
 ------------------------------------------------------------
@@ -23,19 +23,24 @@ Welcome to NUPS
 # DONE:
  * search pagination, show total amount
  * attachment upload
-
+ * recipients
+   * in place editing
 ------------------------------------------------------------
 
-# TODO 
+# TODO
+ * reload after recp import
+ * progress bar update time
  * sheduling
+ * delete ajax
+ * new newsletter scroll
+ * translation
  * resque status: http://github.com/quirkey/resque-status
- * recipients 
+ * recipients
    * errors_count + erros messaage
-   * in place editing
    * filter valid/invalid
    * details -> when which newsletter was send
    * unsubscribe ->
-   
+
 # Resque Startup:
 1. redis-server
 

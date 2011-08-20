@@ -3,15 +3,13 @@ class NewslettersController < ApplicationNupsController
 
   respond_to :html
 
-  LIMIT = 20
-
   def index
     @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
     @user      ||= (@account) ? @account.user : current_user
     @newsletters = @user.newsletters.with_account(@account)
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
-    @newsletters = @newsletters.scoped(:order => 'updated_at DESC').page(params[:page]).per(100)
+    @newsletters = @newsletters.scoped(:order => 'updated_at DESC').page(params[:page]).per(25)
 
     if request.xhr?
       #TODO only update those who need update

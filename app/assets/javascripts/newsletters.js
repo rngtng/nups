@@ -22,7 +22,7 @@ schedule = function() {
 update_newsletter = function(id, state, progressPercent) {
   $('#newsletter_' + id)
   .attr('class', 'newsletter ' + state)
-  .filter('.sending,.testing,.stopping').each( function(){
+  .each( function(){
     $(this).find('.progress')
       .width(progressPercent)
       .show()
@@ -33,6 +33,11 @@ update_newsletter = function(id, state, progressPercent) {
   });
 };
 
+$(document).keypress(function(e) {
+  if( (e.keyCode || e.which) == 113 ) {
+    $("body").removeClass("default");
+  }
+})
 
 $(document).ready(function () {
   $("ul.tabs").tabs("table > tbody", {
