@@ -1,12 +1,10 @@
 require Rails.root.join("config","environment")
 
-RAILS_ROOT = Rails.root.to_s
-
-MODEL_DIR         = File.join(RAILS_ROOT, "app/models" )
-UNIT_TEST_DIR     = File.join(RAILS_ROOT, "test/unit"  )
-SPEC_MODEL_DIR    = File.join(RAILS_ROOT, "spec/models")
-FIXTURES_DIR      = File.join(RAILS_ROOT, "test/fixtures")
-SPEC_FIXTURES_DIR = File.join(RAILS_ROOT, "spec/fixtures")
+MODEL_DIR         = (Rails.root + "app/models").to_s
+UNIT_TEST_DIR     = (Rails.root + "test/unit").to_s
+SPEC_MODEL_DIR    = (Rails.root + "spec/models").to_s
+FIXTURES_DIR      = (Rails.root + "test/fixtures").to_s
+SPEC_FIXTURES_DIR = (Rails.root + "spec/fixtures").to_s
 SORT_COLUMNS      = ENV['SORT'] != 'no'
 
 module AnnotateModels
@@ -106,8 +104,8 @@ module AnnotateModels
       File.join(FIXTURES_DIR,       fixtures_name),           # fixture
       File.join(SPEC_MODEL_DIR,     "#{model_name}_spec.rb"), # spec
       File.join(SPEC_FIXTURES_DIR,  fixtures_name),           # spec fixture
-      File.join(RAILS_ROOT,         'test', 'factories.rb'),  # factories file
-      File.join(RAILS_ROOT,         'spec', 'factories.rb'),  # factories file
+      File.join(Rails.root.to_s,    'test', 'factories.rb'),  # factories file
+      File.join(Rails.root.to_s,    'spec', 'factories.rb'),  # factories file
     ].each { |file| annotate_one_file(file, info) }
   end
 
