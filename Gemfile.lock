@@ -181,10 +181,10 @@ GEM
       thin
     spreadsheet (0.6.5.7)
       ruby-ole (>= 1.0)
-    sprockets (2.0.0.beta.13)
+    sprockets (2.0.0.beta.14)
       hike (~> 1.2)
       rack (~> 1.0)
-      tilt (!= 1.3.0, ~> 1.1)
+      tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.4)
     state_machine (1.0.2)
     thin (1.2.11)

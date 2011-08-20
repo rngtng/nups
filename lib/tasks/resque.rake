@@ -55,7 +55,10 @@ namespace :resque do
   desc "Quit running workers"
   task :stop_workers => :environment do
     pids = Array.new
-    Resque.workers.each do |worker|
+    workers = Resque.workers.select do |worker|
+      worker.to_s.include?(Newsletter::QUEUE.to_s) || worker.to_s.include?(SendOut::QUEUE.to_s)
+    end
+    workers.each do |worker|
       pids.concat(worker.worker_pids)
     end
     if pids.empty?
