@@ -22,7 +22,7 @@ namespace :resque do
     require 'resque_scheduler'
     require 'resque/scheduler'
 
-    resque_config = YAML.load_file(rails_root + '/config/resque.yml')
+    resque_config = YAML.load_file(Rails.root + '/config/resque.yml')
     # you probably already have this somewhere
     Resque.redis = resque_config[rails_env]
 

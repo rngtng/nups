@@ -4,9 +4,7 @@
 #http://blog.scopeport.org/ruby-on-rails/rails-smtp-configuration-parameters-database/
 
 if Rails.env.production?
-  rails_root = Rails.root.to_s || File.dirname(__FILE__) + '/../..'
-
-  mail_config = YAML.load_file(rails_root + '/config/mail.yml')
+  mail_config = YAML.load_file(Rails.root + '/config/mail.yml')
 
   ActionMailer::Base.delivery_method = mail_config['method'].to_sym
   ActionMailer::Base.smtp_settings   = mail_config['smtp_settings']
