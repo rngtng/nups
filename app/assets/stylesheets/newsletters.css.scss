@@ -11,44 +11,41 @@
       border: 0;
       height: 22px;
       overflow: hidden;
+      float: left;
       li {
         float: left;
         padding: 0;
         margin: 0;
         list-style-type: none;
         a {
-          &.tab {
-            float: left;
-            font-size: 12px;
-            display: block;
-            padding: 4px 30px;
-            text-decoration: none;
-            border: 0;
-            background-color: #eeeeee;
-            color: #333;
-            margin-right: 2px;
-            position: relative;
-            top: 1px;
-            outline: 0;
-            border-radius: 4px 4px 0 0;
-            -moz-border-radius: 4px 4px 0 0;
-            -webkit-border-radius: 4px 4px 0 0;
-            &:hover {
-              background-color: #f7f7f7;
-              color: #222; }
-            &.current {
-              font-weight: bold;
-              background-color: #cccccc;
-              border-bottom: 1px solid #cccccc;
-              color: #000;
-              cursor: default; } }
-          &.new {
-            position: fixed;
-            top: 10px;
-            right: 30px;
-            display: none;
-            &.current {
-               display: block; } } } } }
+          float: left;
+          font-size: 12px;
+          display: block;
+          padding: 4px 30px;
+          text-decoration: none;
+          border: 0;
+          background-color: #eeeeee;
+          color: #333;
+          margin-right: 2px;
+          position: relative;
+          top: 1px;
+          outline: 0;
+          border-radius: 4px 4px 0 0;
+          -moz-border-radius: 4px 4px 0 0;
+          -webkit-border-radius: 4px 4px 0 0;
+          &:hover {
+            background-color: #f7f7f7;
+            color: #222; }
+          &.current {
+            font-weight: bold;
+            background-color: #cccccc;
+            border-bottom: 1px solid #cccccc;
+            color: #000;
+            cursor: default; } } } }
+    a.new {
+      float: right;
+      margin-top: 6px;
+      margin-right: 3px; }
     tr.newsletter {
       td.icon {
         a {

@@ -23,16 +23,17 @@ Welcome to NUPS
 # DONE:
  * search pagination, show total amount
  * attachment upload
+ * new newsletter scroll
+ * reload after recp import
+ * open new newsletter in window
  * recipients
    * in place editing
 ------------------------------------------------------------
 
 # TODO
- * reload after recp import
  * progress bar update time
  * sheduling
  * delete ajax
- * new newsletter scroll
  * translation
  * resque status: http://github.com/quirkey/resque-status
  * recipients

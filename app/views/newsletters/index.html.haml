@@ -3,14 +3,17 @@
 
   %ul.tabs
     %li
-      - klass = (@account.nil?) ? 'current' : nil
-      = link_to "All", newsletters_path, :class => [klass, "tab"].join(' ')
+      - klass = @account ? nil : 'current'
+      = link_to "All", newsletters_path, :class => klass
     - @accounts.each do |account|
       %li
         - klass = (@account == account) ? 'current' : nil
-        = link_to account.name, account_newsletters_path(account), :class => [klass, "tab"].join(' ')
-        = link_to t('newsletters.new'), new_account_newsletter_path(account), :class => [klass, "new"].join(' ')
-    %li
+        = link_to account.name, account_newsletters_path(account), :class => klass, :"data-new-url" => new_account_newsletter_path(account)
+
+  - if @account
+    = link_to t('newsletters.new'), new_account_newsletter_path(@account), :class => "new"
+  - else
+    = link_to t('newsletters.new'), "#{}", :class => "new", :style => "display: none;"
 
   %table.content.zebra
     %thead

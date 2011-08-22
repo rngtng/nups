@@ -57,3 +57,12 @@ $("#recipients form.destroy")
   .live('ajax:failure', function(xhr, status, error) {
     alert("Please try again!");}
   );
+
+$(document).ready(function () {
+  $("#recipients a[rel=#overlay]:first")
+   .each( function() {
+      $(this).overlay().onClose( function() {
+        window.location.reload();
+      });
+    });
+});

@@ -22,7 +22,13 @@ var attachOverlay = function() {
 $.tools.tabs.addEffect("ajaxOverlay", function(tabIndex, done) {
     this.getPanes().eq(0).html("").load(this.getTabs().eq(tabIndex).attr("href"), function() {
       attachOverlay();
-      $("a.tab.current").next().addClass("current")
+      if( (url = $("a.current").data("new-url")) ) {
+        $("a.new").show().attr("href", url );
+      }
+      else {
+        $("a.new").hide();
+      }
+
     });
     done.call();
 });
