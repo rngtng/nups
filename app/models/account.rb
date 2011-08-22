@@ -2,6 +2,8 @@ require 'net/imap'
 
 class Account < ActiveRecord::Base
 
+  QUEUE = :nups2_bounces
+
   belongs_to :user
 
   has_many :assets,      :dependent => :destroy
@@ -12,6 +14,20 @@ class Account < ActiveRecord::Base
   validates :user_id, :presence => true
 
   scope :with_mail_config, :conditions => "mail_config_raw != ''"
+
+  def self.queue
+    QUEUE
+  end
+
+  def self.perform(id = nil)
+    if id
+      self.find(id).process_bounces
+    else
+      Account.all.each do |account|
+        Resque.enqueue(Account, account.id)
+      end
+    end
+  end
 
   def test_recipient_emails_array
     @test_recipient_emails_array = test_recipient_emails.to_s.split(/,| |\||;|\n|\t/).select do |email|
@@ -38,7 +54,7 @@ class Account < ActiveRecord::Base
     @reply_to ||= (self.mail_config && self.mail_config['reply_to']) || self.from_email
   end
 
-  def process_bounces( mbox = 'INBOX')
+  def process_bounces(mbox = 'INBOX')
     mail_settings = mail_config['smtp_settings']
 
     imap = Net::IMAP.new(mail_settings[:address].gsub('smtp', 'imap'))
@@ -48,7 +64,7 @@ class Account < ActiveRecord::Base
     # all msgs
     if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
       imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
-        puts "#{id}"
+        # puts "#{id}"
         self.bounces.create!(:raw => imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']) rescue nil
         imap.uid_store(id, "+FLAGS", [:Deleted])
       end

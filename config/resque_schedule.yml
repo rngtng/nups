@@ -1,0 +1,4 @@
+daily:
+  cron:  "0 0 * * * "
+  queue: nups2_bounces
+  class: Account
