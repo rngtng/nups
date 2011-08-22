@@ -32,6 +32,5 @@
       %span=t('ctrl.preview')
     %a.icon.edit{ :href => edit_account_newsletter_path(*newsletter.route) }
       %span=t('ctrl.edit')
-    %a.icon.delete{ :href => account_newsletter_path(*newsletter.route), 'data-method' => 'delete', 'data-confirm' => t('newsletters.confirm.delete') }
+    %a.icon.delete{ :href => account_newsletter_path(*newsletter.route), 'data-method' => 'delete', 'data-confirm' => t('newsletters.confirm.delete'), 'data-remote' => 'true' }
       %span=t('ctrl.delete')
-

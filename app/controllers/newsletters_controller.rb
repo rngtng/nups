@@ -68,7 +68,11 @@ class NewslettersController < ApplicationNupsController
     @newsletter = @account.newsletters.find(params[:id])
     @newsletter.destroy
 
-    redirect_to account_newsletters_path(@account)
+    if request.xhr?
+      render :js => "$('#newsletter_#{@newsletter.id}').hide()"
+    else
+      redirect_to account_newsletters_path(@account)
+    end
   end
 
   ########################################################
