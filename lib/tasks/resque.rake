@@ -64,7 +64,7 @@ namespace :resque do
     if pids.empty?
       puts "No workers to kill"
     else
-      syscmd = "kill -s QUIT #{pids.join(' ')}"
+      syscmd = "kill -s QUIT #{pids.uniq.join(' ')}"
       puts "Running syscmd: #{syscmd}"
       system(syscmd)
     end

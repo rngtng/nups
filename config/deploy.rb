@@ -80,6 +80,10 @@ namespace :deploy do
   end
 end
 
+def remote_file_exists?(full_path)
+  'true' ==  capture("if [ -e #{full_path} ]; then echo 'true'; fi").strip
+end
+
 namespace :resque do
   namespace :scheduler do
     def scheduler_pid
