@@ -62,8 +62,11 @@ class Newsletter < ActiveRecord::Base
     end
 
     after_transition :tested => :sending do |me|
-      #Resque.enqueue_at(me.deliver_at, me.class, me.id, "_send_live!")
-      Resque.enqueue(me.class, me.id, "_send_live!")
+      if me.deliver_at
+        Resque.enqueue_at(me.deliver_at, me.class, me.id, "_send_live!")
+      else
+        Resque.enqueue(me.class, me.id, "_send_live!")
+      end
     end
 
     after_transition :stopped => :sending do |me|

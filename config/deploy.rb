@@ -68,8 +68,10 @@ namespace :deploy do
   end
 
   desc "Restart Resque Workers"
-  task :restart_workers, :roles => :db do
+  task :restart_workers, :roles => :job do
     run_remote_rake "resque:restart_workers"
+    resque.scheduler.stop
+    resque.scheduler.start
   end
 
   desc "precompile the assets"
@@ -78,6 +80,40 @@ namespace :deploy do
   end
 end
 
+namespace :resque do
+  namespace :scheduler do
+    def scheduler_pid
+      File.join(current_release, "tmp/pids/resque_scheduler.pid")
+    end
+
+    def scheduler_log
+      File.join(current_release, "log/resque_scheduler.log")
+    end
+
+    desc "start scheduler"
+    task :start, :roles => :job do
+      unless remote_file_exists?(scheduler_pid)
+        # INITIALIZER_PATH=#{current_release}/
+        run "cd #{current_release}; RAILS_ENV=production PIDFILE=#{scheduler_pid} nohup bundle exec rake resque:scheduler &> #{scheduler_log}& 2> /dev/null"
+      else
+        puts "PID File exits!!"
+      end
+    end
+
+    desc "stop scheduler"
+    task :stop, :roles => :job do
+      if remote_file_exists?(scheduler_pid)
+        begin
+          run "kill -s QUIT `cat #{scheduler_pid}`"
+        rescue
+        end
+        run "rm -f #{scheduler_pid}"
+      else
+        puts "No PID File found"
+      end
+    end
+  end
+end
 
 after "deploy:update_code" do
   deploy.link_configs
@@ -85,4 +121,3 @@ after "deploy:update_code" do
 end
 
 after "deploy:symlink", "deploy:restart_workers"
-
