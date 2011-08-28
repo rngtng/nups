@@ -1,6 +1,10 @@
 #newsletters.index
   %h2= t('newsletters.title')
 
+  - path = @account ? new_account_newsletter_path(@account) : "#"
+  - style = @account ? "" : "display: none;"
+  = link_to t('newsletters.new'), path, :class => "new", :style => style
+
   %ul.tabs
     %li
       - klass = @account ? nil : 'current'
@@ -9,11 +13,6 @@
       %li
         - klass = (@account == account) ? 'current' : nil
         = link_to account.name, account_newsletters_path(account), :class => klass, :"data-new-url" => new_account_newsletter_path(account)
-
-  - if @account
-    = link_to t('newsletters.new'), new_account_newsletter_path(@account), :class => "new"
-  - else
-    = link_to t('newsletters.new'), "#{}", :class => "new", :style => "display: none;"
 
   %table.content.zebra
     %thead
