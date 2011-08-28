@@ -1,4 +1,6 @@
 daily:
-  cron:  "0 0 * * * "
+  cron: "0 0 * * *"
   queue: nups2_bounces
   class: Account
+  args:
+  description: "Daily bounce processing"

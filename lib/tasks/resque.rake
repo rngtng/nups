@@ -43,7 +43,7 @@ namespace :resque do
     # When dynamic is set to true, the scheduler process looks for
     # schedule changes and applies them on the fly.
     # Note: This feature is only available in >=2.0.0.
-    #Resque::Scheduler.dynamic = true
+    Resque::Scheduler.dynamic = true
   end
 
   desc "Restart running workers"
@@ -72,6 +72,7 @@ namespace :resque do
 
   desc "Start workers"
   task :start_workers => :environment do
+    run_worker(Account::QUEUE, 1)
     run_worker(Newsletter::QUEUE, 1)
     run_worker(SendOut::QUEUE, 2)
   end
