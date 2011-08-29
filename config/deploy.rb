@@ -124,4 +124,4 @@ after "deploy:update_code" do
   deploy.precompile_assets
 end
 
-after "deploy:symlink", "deploy:restart_workers"
+#after "deploy:symlink", "deploy:restart_workers"

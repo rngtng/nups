@@ -45,14 +45,6 @@ class Bounce < ActiveRecord::Base
 end
 
 
-=begin
-logger.info out
-rescue => e
-  logger.warn " -------> error on #{id} #{e.message}"
-  end
-end
-=end
-
 # == Schema Info
 #
 # Table name: bounces

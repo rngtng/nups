@@ -19,11 +19,12 @@ schedule = function() {
     })
   }
 },
-update_newsletter = function(id, state, progressPercent) {
+update_newsletter = function(id, state, progressPercent, sendingTime, sendingsPerSecond) {
   $('#newsletter_' + id)
   .attr('class', 'newsletter ' + state)
   .each( function(){
     $(this).find('.progress')
+      .attr('title', progressPercent + ' - ' + sendingTime + ' - ' + sendingsPerSecond)
       .width(progressPercent)
       .show()
       .find('label')

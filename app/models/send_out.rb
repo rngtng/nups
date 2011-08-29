@@ -37,9 +37,11 @@ class SendOut < ActiveRecord::Base
     after_transition :sheduled => :delivering do |me|
       begin
         me.issue.deliver
+        # TODO update counter here?
         me.finish!
       rescue Exception => e
         me.error_message = e.message
+        # TODO update counter here?
         me.failure! #(e.message)
       end
     end

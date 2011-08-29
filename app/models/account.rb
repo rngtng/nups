@@ -64,7 +64,6 @@ class Account < ActiveRecord::Base
     # all msgs
     if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
       imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
-        # puts "#{id}"
         self.bounces.create!(:raw => imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']) rescue nil
         imap.uid_store(id, "+FLAGS", [:Deleted])
       end

@@ -24,6 +24,8 @@
         %th.first_name= Recipient.human_attribute_name(:first_name)
         %th.last_name= Recipient.human_attribute_name(:last_name)
         %th.email= Recipient.human_attribute_name(:email)
+        %th.email= Recipient.human_attribute_name(:deliveries_count)
+        %th.email= Recipient.human_attribute_name(:bounces_count)
         %th.menu= t('newsletters.menu')
 
     %tr.paginate
