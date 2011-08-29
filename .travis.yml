@@ -1,8 +1,9 @@
-rvm: 1.9.2
-before_script:  
+rvm:
+  - 1.9.2
+before_script:
   - "mysql -e 'create database nups_test;' >/dev/null"
 script: "bundle exec rake db:drop db:create db:migrate test spec"a
 branches:
   only:
     - master
-    - delivery 
+    - delivery
