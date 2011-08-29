@@ -55,21 +55,21 @@ class Account < ActiveRecord::Base
   end
 
   def process_bounces(mbox = 'INBOX')
-    mail_settings = mail_config['smtp_settings']
+    if mail_config && (mail_settings = mail_config['smtp_settings'])
+      imap = Net::IMAP.new(mail_settings[:address].gsub('smtp', 'imap'))
+      imap.authenticate('LOGIN', mail_settings[:user_name], mail_settings[:password])
+      imap.select(mbox) #use examaine fpr read only
 
-    imap = Net::IMAP.new(mail_settings[:address].gsub('smtp', 'imap'))
-    imap.authenticate('LOGIN', mail_settings[:user_name], mail_settings[:password])
-    imap.select(mbox) #use examaine fpr read only
-
-    # all msgs
-    if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
-      imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
-        self.bounces.create!(:raw => imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']) rescue nil
-        imap.uid_store(id, "+FLAGS", [:Deleted])
+      # all msgs
+      if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
+        imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
+          self.bounces.create!(:raw => imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']) rescue nil
+          imap.uid_store(id, "+FLAGS", [:Deleted])
+        end
       end
+      imap.expunge
+      imap.close
     end
-    imap.expunge
-    imap.close
   end
 end
 
