@@ -10,11 +10,12 @@ gem 'jquery-rails'
 gem 'haml'
 
 #Authorization
-gem 'devise'
+# gem "devise", "~> 1.4.2"
+gem 'devise',   git: 'https://github.com/plataformatec/devise.git', branch: 'master'
 
 # Use resque for async jobs
 gem 'resque'
-gem 'resque-scheduler', '2.0.0.d'
+gem 'resque-scheduler', '~> 2.0.0.d'
 
 #For handling File uploads
 gem 'paperclip'
