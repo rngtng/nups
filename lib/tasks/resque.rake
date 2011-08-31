@@ -72,7 +72,7 @@ namespace :resque do
 
   desc "Start workers"
   task :start_workers => :environment do
-    run_worker(Account::QUEUE, 1)
+    run_worker(Bounce::QUEUE, 1)
     run_worker(Newsletter::QUEUE, 1)
     run_worker(SendOut::QUEUE, 2)
   end

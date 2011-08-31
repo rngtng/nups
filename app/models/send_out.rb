@@ -60,8 +60,12 @@ class SendOut < ActiveRecord::Base
 
   def issue
     @issue ||= NewsletterMailer.issue(self.newsletter, self.recipient).tap do |issue|
-      issue.header["X-MA-Id"] = issue_id
+      issue.header[Newsletter::HEADER_ID] = issue_id
     end
+  end
+
+  def issue_id #likely overwritten by subclasses
+    ["ma", self.id].join('-')
   end
 
   private

@@ -53,7 +53,8 @@ ActiveRecord::Schema.define(:version => 20110829102806) do
     t.text     "raw"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "diagnostic_code"
+    t.string   "error_status"
+    t.integer  "send_out_id"
   end
 
   create_table "domains", :force => true do |t|

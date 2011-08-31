@@ -1,6 +1,7 @@
 class Newsletter < ActiveRecord::Base
 
   QUEUE = :nups2_newsletter
+  HEADER_ID = "X-MA-Id"
 
   belongs_to :account
 

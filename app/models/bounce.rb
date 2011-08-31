@@ -2,44 +2,54 @@ require 'bounce_email'
 
 class Bounce < ActiveRecord::Base
 
-  belongs_to :account
+  QUEUE = :nups2_bounces
+
+  belongs_to :account # deprecated
+  belongs_to :send_out
   belongs_to :recipient
 
-  validates :account_id, :presence => true
+  validates :account_id, :presence => true # deprecated
   validates :raw, :presence => true
 
-  before_validation :process, :set_meta
+  before_create :schedule_for_processing
+
+  def self.queue
+    Bounce::QUEUE
+  end
+
+  def self.perform(id)
+    self.find(id).process!
+  end
 
   def mail
     @mail ||= ::BounceEmail::Mail.new(self.raw)
   end
 
   def mail_id
-    @mail_id ||= Array(mail.body.to_s.match(/X-MA-Id:? ?([^\r\n ]+)/))[1]
+    @mail_id ||= Array(mail.body.to_s.match(/#{Newsletter::HEADER_ID}:? ?([^\r\n ]+)/))[1]
   end
 
-  def process
+  def process!
     if mail.bounced? && mail_id
-      dummy, account_id, newsletter_id, recipient_id = mail_id.split('-')
-      if r = Recipient.find_by_account_id_and_id(account_id, recipient_id)
-        rec = Array(mail.final_recipient).split(";")[1].try(:strip)
-        unless r.bounces.to_s.include?(mail_id)
-          r.bounces_count += 1
-          r.bounces = "#{mail.date.strftime("%Y-%m-%d")} #{mail_id} <#{rec}>: #{mail.error_status} #{mail.diagnostic_code}\n#{r.bounces}"
-          r.save!
-        end
-        self.raw = nil
+      mail_id_split = mail_id.split('-')
+      if mail_id_split.size == 3
+        dummy, self.send_out_id, self.recipient_id = *mail_id_split
+      else
+        dummy, self.account_id, newsletter_id, self.recipient_id = *mail_id_split
       end
+
+      self.send_at      = mail.date
+      self.subject      = mail.subject
+      self.from         = mail.from.join(';')
+      self.header       = mail.header.to_s
+      self.body         = mail.body.decoded
+      self.error_status = mail.error_status
+      self.save!
     end
   end
 
-  private
-  def set_meta
-    self.send_at = mail.date
-    self.subject = mail.subject
-    self.from    = mail.from.join(';')
-    self.header  = mail.header.to_s
-    self.body    = mail.body.decoded
+  def schedule_for_processing
+    Bounce.enqueue(Bounce, self.id)
   end
 
 end

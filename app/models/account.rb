@@ -2,8 +2,6 @@ require 'net/imap'
 
 class Account < ActiveRecord::Base
 
-  QUEUE = :nups2_bounces
-
   belongs_to :user
 
   has_many :assets,      :dependent => :destroy
@@ -16,7 +14,7 @@ class Account < ActiveRecord::Base
   scope :with_mail_config, :conditions => "mail_config_raw != ''"
 
   def self.queue
-    QUEUE
+    Bounce::QUEUE
   end
 
   def self.perform(id = nil)
@@ -54,17 +52,17 @@ class Account < ActiveRecord::Base
     @reply_to ||= (self.mail_config && self.mail_config['reply_to']) || self.from_email
   end
 
-  def process_bounces(mbox = 'INBOX')
+  def process_bounces(mbox = 'INBOX', encoding = 'RFC822')
     if mail_config && (mail_settings = mail_config['smtp_settings'])
       imap = Net::IMAP.new(mail_settings[:address].gsub('smtp', 'imap'))
       imap.authenticate('LOGIN', mail_settings[:user_name], mail_settings[:password])
-      imap.select(mbox) #use examaine fpr read only
+      imap.select(mbox) #use examaine for read only
 
       # all msgs
       if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
-        imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |id|
-          self.bounces.create!(:raw => imap.uid_fetch(id, ['RFC822']).first.attr['RFC822']) rescue nil
-          imap.uid_store(id, "+FLAGS", [:Deleted])
+        imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |uid|
+          self.bounces.create!(:account => self, :raw => imap.uid_fetch(uid, [encoding]).first.attr[encoding]) rescue nil
+          imap.uid_store(uid, "+FLAGS", [:Deleted])
         end
       end
       imap.expunge
