@@ -100,7 +100,7 @@ class RecipientsControllerTest < ActionController::TestCase
     assert assigns(:invalid_recipients).last.new_record?
     assert !assigns(:invalid_recipients).last.valid?
 
-    assert_response :success
+    assert_redirected_to account_recipients_url
   end
 
   test "should delete existing valid adresses" do
@@ -119,7 +119,7 @@ class RecipientsControllerTest < ActionController::TestCase
     assert assigns(:invalid_recipients).last.new_record?
     assert !assigns(:invalid_recipients).last.valid?
 
-    assert_response :success
+    assert_redirected_to account_recipients_url
   end
 
   test "should split email string" do
