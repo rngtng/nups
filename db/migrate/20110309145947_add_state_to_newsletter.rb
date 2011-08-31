@@ -4,5 +4,4 @@ class AddStateToNewsletter < ActiveRecord::Migration
       t.string :state, :default => 'finished'
     end
   end
-
 end

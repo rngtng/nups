@@ -1,5 +1,5 @@
 class CreateRecipients < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :recipients do |t|
       t.string :gender
       t.string :first_name
@@ -17,9 +17,5 @@ class CreateRecipients < ActiveRecord::Migration
     
     add_index :recipients, [:id, :account_id], :unique => true
     add_index :recipients, :email
-  end
-
-  def self.down
-    drop_table :recipients
   end
 end

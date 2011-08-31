@@ -1,5 +1,5 @@
 class CreateNewsletters < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :newsletters do |t|
       
       t.string :subject
@@ -24,9 +24,5 @@ class CreateNewsletters < ActiveRecord::Migration
     end
     
     add_index :newsletters, [:account_id]
-  end
-
-  def self.down
-    drop_table :newsletters
   end
 end
