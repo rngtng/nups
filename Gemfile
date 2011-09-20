@@ -55,4 +55,5 @@ group :test do
   gem 'resque_spec'
   gem 'delorean'
   gem 'watchr'
+  gem 'json' #needed for resque to run on travis-ci
 end

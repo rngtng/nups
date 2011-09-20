@@ -70,18 +70,18 @@ ActiveRecord::Schema.define(:version => 20110829102806) do
   create_table "newsletters", :force => true do |t|
     t.string   "subject"
     t.text     "content"
+    t.integer  "mode",                :default => 0,          :null => false
+    t.integer  "status",              :default => 0,          :null => false
+    t.integer  "last_sent_id"
+    t.integer  "recipients_count",    :default => 0,          :null => false
+    t.integer  "deliveries_count",    :default => 0,          :null => false
+    t.integer  "errors_count",        :default => 0,          :null => false
+    t.datetime "deliver_at"
+    t.datetime "delivery_started_at"
+    t.datetime "delivery_ended_at"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "last_sent_id"
-    t.integer  "deliveries_count"
-    t.integer  "errors_count"
-    t.string   "mode"
-    t.integer  "recipients_count"
-    t.string   "status"
-    t.datetime "deliver_at"
-    t.datetime "delivery_ended_at"
-    t.datetime "delivery_started_at"
     t.string   "state",               :default => "finished"
   end
 
@@ -94,10 +94,10 @@ ActiveRecord::Schema.define(:version => 20110829102806) do
     t.string   "email"
     t.integer  "deliveries_count", :default => 0, :null => false
     t.integer  "bounces_count",    :default => 0, :null => false
+    t.text     "bounces"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "bounces",                         :null => false
     t.integer  "failed_count",     :default => 0, :null => false
   end
 
@@ -121,7 +121,6 @@ ActiveRecord::Schema.define(:version => 20110829102806) do
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false
     t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
-    t.string   "password_salt",                       :default => "", :null => false
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"

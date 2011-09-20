@@ -1,9 +1,13 @@
 rvm:
   - 1.9.2
 before_script:
+  - "mv config/database.travis.yml config/database.yml"
   - "mysql -e 'create database nups_test;' >/dev/null"
-script: "bundle exec rake db:drop db:create db:migrate test spec"a
+script: "bundle exec rake db:migrate test spec"
 branches:
   only:
     - master
     - delivery
+notifications:
+  recipients:
+    - tobi@rngtng.com

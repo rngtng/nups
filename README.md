@@ -44,3 +44,6 @@
 
   1. redis-server
   2. COUNT=1 QUEUE=* rake resque:workers
+  
+## Builder
+[![Build Status](https://secure.travis-ci.org/rngtng/nups.png)](http://travis-ci.org/rngtng/nups)
