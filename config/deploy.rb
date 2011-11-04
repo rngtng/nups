@@ -11,7 +11,9 @@ set :use_sudo, false
 set :user, 'ssh-21560'
 
 set :rvm_type, :user
-set :rvm_ruby_string, "ruby-1.9.2-p136"
+set :rvm_ruby_string, "ruby-1.9.2-p290"
+
+set :keep_releases, 3
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
@@ -125,3 +127,4 @@ after "deploy:update_code" do
 end
 
 #after "deploy:symlink", "deploy:restart_workers"
+after "deploy:symlink", "deploy:cleanup"

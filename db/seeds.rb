@@ -23,7 +23,7 @@ newsletters[:stopping].update_attributes(deliveries_count:60, recipients_count:1
 newsletters[:stopped].update_attributes(deliveries_count:80, recipients_count:100)
 newsletters[:finished].update_attributes(deliveries_count:100, recipients_count:100)
 
-Recepient.delete_all
+Recipient.delete_all
 100.times do |index|
-  Recepient.create(email:"test-#{index}@localhost.de", account:account)
+  Recipient.create(email:"test-#{index}@localhost.de", account:account)
 end
