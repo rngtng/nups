@@ -23,6 +23,7 @@
   * errors_count + erros messaage
   * filter valid/invalid
   * details -> when which newsletter was send
+  * recipients: overflow for user name + email
   * unsubscribe ->
   * fix travis setup: http://about.travis-ci.org/docs/user/build-configuration/
 

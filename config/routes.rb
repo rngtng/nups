@@ -1,4 +1,7 @@
+
 Nups::Application.routes.draw do
+  mount Resque::Server.new => "/resque"
+
   # first created -> highest priority.
   root :to => "frame#index"
 

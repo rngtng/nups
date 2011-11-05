@@ -1,5 +1,6 @@
 require 'yaml'
 require 'resque'
+require 'resque/server'
 require 'resque_scheduler'
 
 resque_config = YAML.load_file (Rails.root + 'config/resque.yml').to_s
