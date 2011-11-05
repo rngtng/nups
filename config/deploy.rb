@@ -78,7 +78,7 @@ namespace :deploy do
 
   desc "precompile the assets"
   task :precompile_assets, :roles => :web, :except => { :no_release => true } do
-    run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
+    run_remote_rake "assets:precompile"
   end
 end
 
@@ -126,5 +126,5 @@ after "deploy:update_code" do
   deploy.precompile_assets
 end
 
-#after "deploy:symlink", "deploy:restart_workers"
+after "deploy:symlink", "deploy:restart_workers"
 after "deploy:symlink", "deploy:cleanup"
