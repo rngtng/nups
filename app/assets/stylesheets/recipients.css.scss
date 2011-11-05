@@ -7,11 +7,24 @@
   .gender {
     width: 75px; }
   .first_name {
+    input {
+      width: 90%;
+    }
     width: 18%; }
   .last_name {
+    input {
+      width: 90%;
+    }
     width: 18%; }
   .email {
+    input {
+      width: 90%;
+    }
     font-weight: bold; }
+  .deliveries_count {
+    width: 90px; }
+  .bounces_count {
+    width: 90px; }
   .menu {
     width: 80px;
     a {

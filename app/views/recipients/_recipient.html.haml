@@ -20,8 +20,8 @@
           %td.first_name= f.text_field :first_name
           %td.last_name= f.text_field :last_name
           %td.email= f.text_field :email
-          %td -
-          %td -
+          %td.deliveries_count -
+          %td.bounces_count -
           %td.menu
             %a.icon.save{:href => '#', :onclick => "$(this).closest('form').submit()"}
               %span= t('ctrl.save')
