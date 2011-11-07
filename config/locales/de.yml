@@ -8,10 +8,9 @@ de:
     users: Users
     user: User
     accounts: Accounts
-    newsletters: Newsletter
+    newsletters: Übersicht Newsletter
     new: Neuer Newsletter
     recipients: Empfänger
-    see_all: zeige alle
     domains: Domain Verwaltung
     ftp: FTP
 
@@ -38,7 +37,7 @@ de:
   newsletters:
     title: Newsletter
     new: Neuer Newsletter
-    see_all: "zeige alle"
+    all: "Übersicht"
     user: User
     users: Users
     account: Newsletter

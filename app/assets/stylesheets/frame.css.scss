@@ -49,12 +49,16 @@ a {
 
     .item ul {
       list-style-type: none;
-      padding: 0px 0px 0px 5px;
+      padding: 10px 3px 0px 0px;
       margin: 0px;
-      margin-bottom: 5px;
+      margin-bottom: 15px;
+      a {
+        font-weight: bold; }
       ul {
         list-style-type: disc;
-        padding-left: 17px; } } }
+        padding: 0px 0px 0px 20px;
+        a {
+          font-weight: normal; } } } }
 
   #status {
     float: left; }
