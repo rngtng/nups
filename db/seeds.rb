@@ -7,6 +7,12 @@ user.password = user.password_confirmation = 'admin'
 user.admin = true
 user.save!
 
+user2 = User.new(username:'test', email:'test@localhost.de')
+user2.password = user.password_confirmation = 'test'
+user2.save!
+
+user2.domains.create(name:"germanstockpromoters.de", number:1084641, username:"bschulze", password:"testets")
+
 Account.delete_all
 account = Account.new(name:"Test", from:"test@localhost.de", user:user, subject:"Test", has_html:true, has_text:true, has_attachments:true, has_scheduling:true)
 account.template_html = account.template_text = "<%= content >"

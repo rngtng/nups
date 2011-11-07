@@ -31,6 +31,12 @@
 
           - @users.each do |user|
             .item.hidden{:id => "user_menu_#{user.id}"}
+              - user.domains.each do |domain|
+                %strong= link_to t('menu.domains'), domain.main_url
+                %br
+                %br
+                -# %strong= link_to t('menu.ftp'), domain.ftp_url
+
               %strong= link_to t('menu.newsletters'), newsletters_path(:user_id => user)
               %ul
                 - user.accounts.each do |account|
