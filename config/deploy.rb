@@ -15,6 +15,10 @@ set :rvm_ruby_string, "ruby-1.9.2-p290"
 
 set :keep_releases, 3
 
+set :default_environment, {
+  'LANG' => 'en_US.UTF-8'
+}
+
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
 # via the :deploy_to variable:
