@@ -4,6 +4,7 @@
     %title= t('application.title')
     = stylesheet_link_tag 'application'
     = javascript_include_tag "application"
+    = airbrake_javascript_notifier
     = csrf_meta_tag
 
   %body#application.default

@@ -36,6 +36,8 @@ gem 'premailer'
 gem 'rpm_contrib'
 gem 'newrelic_rpm'
 
+gem "airbrake"
+
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'

@@ -128,3 +128,6 @@ end
 
 after "deploy:symlink", "deploy:restart_workers"
 after "deploy:symlink", "deploy:cleanup"
+#        require './config/boot'
+#        require 'airbrake/capistrano'
+
