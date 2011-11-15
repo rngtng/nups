@@ -138,7 +138,7 @@ common: &default_settings
 
     # Threshold for query execution time below which query plans will not
     # not be captured.  Relevant only when `explain_enabled` is true.
-    explain_threshold: 0.3
+    explain_threshold: 0.2
 
   # Error collector captures information about uncaught exceptions and
   # sends them to New Relic for viewing

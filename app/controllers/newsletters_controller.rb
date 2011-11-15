@@ -9,7 +9,7 @@ class NewslettersController < ApplicationNupsController
     @newsletters = @user.newsletters.with_account(@account)
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
-    @newsletters = @newsletters.scoped(:order => 'updated_at DESC').page(params[:page]).per(25)
+    @newsletters = @newsletters.scoped(:order => 'delivery_ended_at DESC').page(params[:page]).per(25)
 
     if request.xhr?
       #TODO only update those who need update

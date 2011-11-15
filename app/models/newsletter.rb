@@ -139,14 +139,16 @@ class Newsletter < ActiveRecord::Base
   end
 
   def update_stats!
-    self.deliveries_count = live_send_outs.with_states(:finished).count
-    self.errors_count     = live_send_outs.with_states(:failed).count
-    if sending? && progress_percent >= 100
-      # TODO what if bounced??
-      self.delivery_ended_at = live_send_outs.first(:order => "updated_at DESC").try(:updated_at)
-      self.finish! #(end_time)
+    if sending?
+      self.deliveries_count = live_send_outs.with_states(:finished).count
+      self.errors_count     = live_send_outs.with_states(:failed).count
+      if progress_percent >= 100
+        # TODO what if bounced??
+        self.delivery_ended_at = live_send_outs.first(:order => "updated_at DESC").try(:updated_at)
+        self.finish! #(end_time)
+      end
+      self.save!
     end
-    self.save!
   end
 
   #-------------------------------------------------------------------------------------------------------------------------
