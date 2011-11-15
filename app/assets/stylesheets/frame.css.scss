@@ -60,8 +60,13 @@ a {
         a {
           font-weight: normal; } } } }
 
-  #status {
-    float: left; }
+  #resque, #new-relic, #airbrake {
+    margin: 3px 4px 0 4px; }
+  #status, #resque, #new-relic, #airbrake {
+    float: left;
+    display: none;
+    .admin & {
+      display: inline ;}}
 
   #logout {
     float: right;
