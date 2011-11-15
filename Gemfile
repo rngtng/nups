@@ -33,6 +33,7 @@ gem 'state_machine'
 gem 'nokogiri'
 gem 'premailer'
 
+gem 'rpm_contrib'
 gem 'newrelic_rpm'
 
 group :development do

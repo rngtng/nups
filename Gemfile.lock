@@ -156,6 +156,9 @@ GEM
       rspec (>= 2.5.0)
     rngtng-bounce-email (0.1.1)
       mail
+    rpm_contrib (2.1.6)
+      newrelic_rpm (>= 3.1.1)
+      newrelic_rpm (>= 3.1.1)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -235,6 +238,7 @@ DEPENDENCIES
   resque-scheduler (~> 2.0.0.d)
   resque_spec
   rngtng-bounce-email (~> 0.1.0)
+  rpm_contrib
   rspec-rails (~> 2.6.1)
   ruby-graphviz
   sass-rails (~> 3.1.0)
