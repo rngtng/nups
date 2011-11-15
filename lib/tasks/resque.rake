@@ -74,6 +74,6 @@ namespace :resque do
   task :start_workers => :environment do
     run_worker(Bounce::QUEUE, 1)
     run_worker(Newsletter::QUEUE, 1)
-    run_worker(SendOut::QUEUE, 4, 0.1)
+    run_worker(SendOut::QUEUE, 10, 0.1)
   end
 end
