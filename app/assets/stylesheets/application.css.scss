@@ -60,7 +60,7 @@ html, body {
     height: 24px;
     margin: 2px;
     padding-right: 18px;
-    background: transparent image-url("buttons/bg_button_a.gif") no-repeat scroll top right;
+    background: transparent asset-url("buttons/bg_button_a.gif", image) no-repeat scroll top right;
     color: #444444;
     text-align: center;
     font-size: 12px;
@@ -73,7 +73,7 @@ html, body {
     &:hover {
       color: black; }
     span {
-      background: transparent image-url("buttons/bg_button_span.gif") no-repeat;
+      background: transparent asset-url("buttons/bg_button_span.gif", image) no-repeat;
       display: block;
       line-height: 14px;
       padding: 5px 0 5px 18px; }
@@ -92,14 +92,14 @@ html, body {
       span {
         display: none; } }
     .preview {
-      background: transparent image-url("menu/preview.png") no-repeat; }
+      background: transparent asset-url("menu/preview.png", image) no-repeat; }
     .edit {
-      background: transparent image-url("menu/edit.png") no-repeat; }
+      background: transparent asset-url("menu/edit.png", image) no-repeat; }
     .delete {
-      background: transparent image-url("menu/delete.png") no-repeat; }
+      background: transparent asset-url("menu/delete.png", image) no-repeat; }
     .save {
-      background: transparent image-url("menu/save.png") no-repeat; }
+      background: transparent asset-url("menu/save.png", image) no-repeat; }
     .cancel {
-      background: transparent image-url("menu/cancel.png") no-repeat; } }
+      background: transparent asset-url("menu/cancel.png", image) no-repeat; } }
   .hidden {
     display: none; } }

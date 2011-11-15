@@ -12,7 +12,7 @@
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     .close {
-      background-image: image-url("overlay/close.png");
+      background-image: asset-url("overlay/close.png", image);
       position: absolute;
       right: -17px;
       top: -17px;

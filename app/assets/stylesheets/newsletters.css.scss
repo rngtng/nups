@@ -58,19 +58,19 @@
             display: none; } } }
       &.new {
         .icon a {
-          background: transparent image-url("icon/new.png") no-repeat; } }
+          background: transparent asset-url("icon/new.png", image) no-repeat; } }
       &.testing, &.tested {
         .icon a {
-          background: transparent image-url("icon/tested.png") no-repeat; } }
+          background: transparent asset-url("icon/tested.png", image) no-repeat; } }
       &.sending {
         .icon a {
-          background: transparent image-url("icon/sending.png") no-repeat; } }
+          background: transparent asset-url("icon/sending.png", image) no-repeat; } }
       &.stopping, &.stopped {
         .icon a {
-          background: transparent image-url("icon/stopped.png") no-repeat; } }
+          background: transparent asset-url("icon/stopped.png", image) no-repeat; } }
       &.finished {
         .icon a {
-          background: transparent image-url("icon/finished.png") no-repeat; } }
+          background: transparent asset-url("icon/finished.png", image) no-repeat; } }
       td.info {
         padding: 5px;
         strong {
@@ -109,11 +109,11 @@
       &.testing, &.sending, &.stopping, &.finished {
         .default & {
           .edit {
-            background: transparent image-url("menu/disabled/edit.png") no-repeat;
+            background: transparent asset-url("menu/disabled/edit.png", image) no-repeat;
             pointer-events: none;
             cursor: default; }
           .delete {
-            background: transparent image-url("menu/disabled/delete.png") no-repeat;
+            background: transparent asset-url("menu/disabled/delete.png", image) no-repeat;
             pointer-events: none;
             cursor: default; } } }
       td.menu {
