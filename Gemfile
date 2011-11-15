@@ -33,6 +33,8 @@ gem 'state_machine'
 gem 'nokogiri'
 gem 'premailer'
 
+gem 'newrelic_rpm'
+
 group :development do
   # Deploy with Capistrano
   gem 'capistrano'
