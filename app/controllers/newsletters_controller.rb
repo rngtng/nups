@@ -13,7 +13,7 @@ class NewslettersController < ApplicationNupsController
 
     if request.xhr?
       #TODO only update those who need update
-      @newsletters.all.map(&:update_stats)
+      @newsletters.all.map(&:update_stats!)
       render @newsletters #without_states(:new, :tested, :stopped, :finished).all
     end
   end
