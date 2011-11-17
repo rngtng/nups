@@ -9,7 +9,7 @@ class SendOut < ActiveRecord::Base
 
   after_save :async_deliver!
 
-  state_machine :initial => :sheduled do
+  state_machine :initial => :sheduled, :use_transactions => false do
     event :deliver do
       transition :sheduled => :delivering
     end
