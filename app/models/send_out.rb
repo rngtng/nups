@@ -9,7 +9,7 @@ class SendOut < ActiveRecord::Base
 
   after_save :async_deliver!
 
-  state_machine :initial => :sheduled, :use_transactions => false do
+  state_machine :initial => :sheduled, :use_transactions => false, :action => :save_state do
     event :deliver do
       transition :sheduled => :delivering
     end
@@ -45,8 +45,8 @@ class SendOut < ActiveRecord::Base
         me.failure! #(e.message)
       end
     end
-
   end
+  alias_method :save_state, :save
 
   ########################################################################################################################
 

@@ -3,6 +3,7 @@ $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 
 require 'rvm/capistrano'
 require 'bundler/capistrano'
+require 'new_relic/recipes'
 
 set :application, "nups"
 set :host, "www2.warteschlange.de"
