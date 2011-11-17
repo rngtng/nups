@@ -3,11 +3,11 @@ require 'resque/tasks'
 require 'resque_scheduler/tasks'
 
 # Start a worker with proper env vars and output redirection
-def run_worker(queue, count = 1, interval = 5)
+def run_worker(queue, count = 1, jobs = 1, interval = 5)
   puts "Starting #{count} worker(s) with QUEUE: #{queue}"
   ops = {:pgroup => true, :err => [(Rails.root + "log/resque_err").to_s, "a"],
                           :out => [(Rails.root + "log/resque_stdout").to_s, "a"]}
-  env_vars = {"QUEUE" => queue.to_s, "INTERVAL" => interval.to_s}
+  env_vars = {"QUEUE" => queue.to_s, "JOBS_PER_FORK" => jobs.to_s, "INTERVAL" => interval.to_s}
   count.times {
     ## Using Kernel.spawn and Process.detach because regular system() call would
     ## cause the processes to quit when capistrano finishes
@@ -74,6 +74,6 @@ namespace :resque do
   task :start_workers => :environment do
     run_worker(Bounce::QUEUE, 1)
     run_worker(Newsletter::QUEUE, 1)
-    run_worker(SendOut::QUEUE, 10, 0.1)
+    run_worker(SendOut::QUEUE, 10, 100, 0.5)
   end
 end

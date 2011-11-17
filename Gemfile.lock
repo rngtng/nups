@@ -150,6 +150,8 @@ GEM
       redis-namespace (~> 1.0.2)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
+    resque-jobs-per-fork (1.15.1)
+      resque (~> 1.15)
     resque-scheduler (2.0.0.e)
       redis (>= 2.0.1)
       resque (>= 1.15.0)
@@ -238,6 +240,7 @@ DEPENDENCIES
   premailer
   rails (~> 3.1.2.rc2)
   resque
+  resque-jobs-per-fork
   resque-scheduler (~> 2.0.0.e)
   resque_spec
   rngtng-bounce-email (~> 0.1.0)

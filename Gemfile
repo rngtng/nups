@@ -15,6 +15,7 @@ gem "devise", "~> 1.4.3"
 # Use resque for async jobs
 gem 'resque'
 gem 'resque-scheduler', '~> 2.0.0.e'
+gem 'resque-jobs-per-fork'
 
 #For handling File uploads
 gem 'paperclip'
