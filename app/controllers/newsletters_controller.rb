@@ -6,16 +6,19 @@ class NewslettersController < ApplicationNupsController
   def index
     @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
     @user      ||= (@account) ? @account.user : current_user
-    @newsletters = @user.newsletters.with_account(@account)
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
-    @newsletters = @newsletters.scoped(:order => 'created_at DESC').page(params[:page]).per(25)
-
+    @newsletters = @user.newsletters.with_account(@account).scoped(:order => 'created_at DESC').page(params[:page]).per(25)
     if request.xhr?
-      #TODO only update those who need update
-      @newsletters.all.map(&:update_stats!)
-      render @newsletters #without_states(:new, :tested, :stopped, :finished).all
+      render :partial => 'newsletters'
     end
+  end
+
+  def stats
+    @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
+    @user      ||= (@account) ? @account.user : current_user
+    @newsletters = @user.newsletters.with_account(@account).find_all_by_id(params[:ids])
+    @newsletters.map(&:update_stats!)
   end
 
   def show

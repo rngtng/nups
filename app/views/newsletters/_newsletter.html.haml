@@ -1,4 +1,4 @@
-%tr{ :id => "newsletter_#{newsletter.id}", :class => "newsletter #{newsletter.state}", :"data-newsletter-path" => newsletters_path }
+%tr{ :id => "newsletter_#{newsletter.id}", :class => "newsletter #{newsletter.state}", :"data-newsletter-path" => newsletter_stats_path }
   %td.icon
     %a.preview{ :href => account_newsletter_path(*newsletter.route), :rel => "#overlay" }
       %span= newsletter.state

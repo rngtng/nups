@@ -38,6 +38,24 @@ describe NewslettersController do
       assigns(:newsletters).should_not be_nil
     end
 
+    context "as admin" do
+      before do
+        sign_out user
+        sign_in admin
+      end
+
+      it "sees all newsletter for other user" do
+        get :index, :user_id => user.id
+        assigns(:newsletters).size.should == 2
+      end
+    end
+
+    it "should get stats" do
+      get :stats, :account_id => account.to_param, :format => :js
+      response.status.should == 200 #:success
+      assigns(:newsletters).should_not be_nil
+    end
+
     describe "new" do
       it "should get new" do
         get :index, :account_id => account.to_param
@@ -150,29 +168,7 @@ describe NewslettersController do
   end
 
 =begin
-
-    it "admin should see newsletter for other user" do
-      sign_out @user
-      sign_in @admin
-
-      post :index, :account_id => account.to_param
-
-      assert_equal 2, assigns(:newsletters).size
-    end
-
-    it "admin should see all newsletter for other user" do
-      sign_out @user
-      sign_in @admin
-
-      post :index, :user_id => @user.id
-
-      assert_equal 2, assigns(:newsletters).size
-    end
-
     it "admin should be able to create newsletter for other user" do
-      sign_out @user
-      sign_in @admin
-
       expect do
         post :create, :account_id => account.to_param, :newsletter => newsletter.attributes, :preview => true
       end.to change(Newsletter, :count)

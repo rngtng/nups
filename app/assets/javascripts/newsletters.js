@@ -12,7 +12,7 @@ request = function(newsletterPath) {
 },
 schedule = function() {
   if(!scheduled) {
-    $('.newsletter:first').each(function(){
+    $('.newsletter:first').not(':.finished').each(function(){
       var newsletterPath = $(this).data('newsletter-path');
       scheduled = true;
       window.setTimeout( function() { request(newsletterPath) }, 2000);

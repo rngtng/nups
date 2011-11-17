@@ -8,6 +8,7 @@ Nups::Application.routes.draw do
   devise_for :users
 
   match 'newsletters' => 'newsletters#index', :as => :newsletters
+  match 'newsletters/stats' => 'newsletters#stats', :as => :newsletter_stats
 
   match 'unsubscribe/:account_id/:id' => 'public/recipients#show',    :via => 'get',    :as => :unsubscribe
   match 'unsubscribe/:account_id/:id' => 'public/recipients#destroy', :via => 'delete'
