@@ -15,9 +15,7 @@ class NewslettersController < ApplicationNupsController
   end
 
   def stats
-    @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
-    @user      ||= (@account) ? @account.user : current_user
-    @newsletters = @user.newsletters.with_account(@account).find_all_by_id(params[:ids])
+    @newsletters = Newsletter.find_all_by_id(params[:ids])
     @newsletters.map(&:update_stats!)
   end
 
