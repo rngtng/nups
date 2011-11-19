@@ -9,7 +9,7 @@
 //= require progress
 //= require recipients
 
-$headColor: #669966;
+$headColor: #9CF;
 
 html, body {
   margin: 0;
@@ -66,6 +66,7 @@ html, body {
     font-size: 12px;
     font-weight: bold;
     text-decoration: none;
+    display: block;
     &:active {
       background-position: bottom right;
       color: black;

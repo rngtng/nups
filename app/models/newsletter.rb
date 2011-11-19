@@ -140,8 +140,12 @@ class Newsletter < ActiveRecord::Base
 
   def update_stats!
     if sending?
-      self.deliveries_count = live_send_outs.with_states(:finished).count
-      self.errors_count     = live_send_outs.with_states(:failed).count
+      unless self.delivery_started_at
+        self.delivery_started_at = live_send_outs.with_states(:finished, :failed).first(:order => "updated_at ASC").try(:updated_at)
+        self.recipients_count    = live_send_outs.count
+      end
+      self.deliveries_count    = live_send_outs.with_state(:finished).count
+      self.errors_count        = live_send_outs.with_state(:failed).count
       if progress_percent >= 100
         # TODO what if bounced??
         self.delivery_ended_at = live_send_outs.first(:order => "updated_at DESC").try(:updated_at)
@@ -168,7 +172,6 @@ class Newsletter < ActiveRecord::Base
      self.recipients.each do |live_recipient|
        self.live_send_outs.create!(:recipient => live_recipient)
      end
-     self.update_attributes(:delivery_started_at => Time.now, :recipients_count => self.recipients.count)
    end
 
    def _resume_live!

@@ -3,7 +3,8 @@
 
   - path = @account ? new_account_newsletter_path(@account) : "#"
   - style = @account ? "" : "display: none;"
-  = link_to t('newsletters.new'), path, :class => "new", :style => style
+  %a.button.new{href:path, style:style}
+    %span= t('newsletters.new')
 
   %ul.tabs
     %li

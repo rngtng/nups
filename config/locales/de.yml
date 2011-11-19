@@ -90,4 +90,4 @@ de:
       invalid_recipients: "Folgende Empfänger wurden nicht gefunden"
       title: "Mehrere Empfänger löschen"
       valid_recipients: "Folgende Empfänger werden gelöscht"
-    title: "%{account_name} - Empfänger"
+    title: "%{account_name} - Empfänger (%{count})"
