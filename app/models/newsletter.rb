@@ -126,8 +126,7 @@ class Newsletter < ActiveRecord::Base
 
   #How long did it take to send newsletter
   def sending_time
-    return 0 unless self.delivery_started_at
-    ((self.delivery_ended_at || Time.now) - self.delivery_started_at).to_f
+    ((self.delivery_ended_at || Time.now) - (self.delivery_started_at || Time.now)).to_f
   end
 
   def count

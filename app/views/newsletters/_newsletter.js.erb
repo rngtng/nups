@@ -1,2 +1,5 @@
-update_newsletter('<%= newsletter.id %>', '<%= newsletter.state %>', '<%= newsletter.progress_percent %>%',
-'<%= l Time.at(newsletter.sending_time), :format => :time %>',  '<%= "%.1f" % newsletter.sendings_per_second %>/sec.');
+update_newsletter('<%= newsletter.id %>',
+'<%= newsletter.state %>',
+'<%= newsletter.progress_percent %>%',
+'<%= distance_of_time(newsletter.delivery_started_at || Time.now, newsletter.delivery_ended_at || Time.now, true) %>',
+'<%= "%.1f" % newsletter.sendings_per_second %>/sec.');

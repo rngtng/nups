@@ -8,7 +8,7 @@ class NewslettersController < ApplicationNupsController
     @user      ||= (@account) ? @account.user : current_user
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
-    @newsletters = @user.newsletters.with_account(@account).scoped(:order => 'created_at DESC').page(params[:page]).per(25)
+    @newsletters = @user.newsletters.with_account(@account).scoped(:order => 'created_at DESC').page(params[:page]).per(15)
     if request.xhr?
       render :partial => 'newsletters'
     end

@@ -15,7 +15,7 @@
      -> only counter bounces younger than last update time -> bounces_count_updated_at
      -> resque task?
      -> on bounce create? if user available?
-  * pretty time span
+  * change update_newesletter to json
   * update deliver counters:
     -> after send?
   * translation
@@ -28,6 +28,7 @@
 
 
 ## DONE
+  * pretty time span
   * add user total count on top
   * update deliverd_startet_at_ from youngest sendout
   * scheduling
