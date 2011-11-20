@@ -41,4 +41,5 @@ Nups::Application.routes.draw do
     resources :assets #TODO just create route!
   end
 
+  match ':recipient_id/:send_out_id' => 'public/newsletters#show', :via => 'get', :as => :public_newsletter
 end

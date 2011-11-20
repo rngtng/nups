@@ -33,6 +33,11 @@ class SendOut < ActiveRecord::Base
       transition :delivering => :failed
     end
 
+    event :read do
+      transition :finished  => :read
+      transition :read  => :read
+    end
+
     event :bounce do
       transition :finished  => :bounced
     end

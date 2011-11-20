@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110829102806) do
+ActiveRecord::Schema.define(:version => 20111120140253) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -99,6 +99,8 @@ ActiveRecord::Schema.define(:version => 20110829102806) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "failed_count",     :default => 0, :null => false
+    t.string   "state",            :default => "pending"
+    t.integer  "reads_count", :default => 0, :null => false
   end
 
   add_index "recipients", ["email"], :name => "index_recipients_on_email"

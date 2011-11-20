@@ -39,6 +39,7 @@ de:
         last_name: Nachname
         email: Email
         deliveries_count: Versand
+        reads_count: Gelesen
         bounces_count: Bounces
         # created_at: Created at
         # updated_at: Updated at

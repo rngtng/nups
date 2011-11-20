@@ -1,5 +1,5 @@
 #recipients.index
-  %h2= t 'recipients.title', :account_name =>  @account.name, :count => @recipients.count
+  %h2= t 'recipients.title', :account_name =>  @account.name, :count => @recipients.total_count
 
   = form_tag account_recipients_path(@account), :method => :get, :class => 'center' do
     = text_field_tag :search, params[:search], :size => 40
@@ -10,25 +10,36 @@
       %span= t('recipients.menu.import')
     %a.button{href:delete_account_recipients_path(@account), rel:'#overlay'}
       %span= t('recipients.menu.delete')
-    %a.button{href:account_recipients_path(@account, :format => :xls), style:"width:120px"}  
+    %a.button{href:account_recipients_path(@account, :format => :xls), style:"width:120px"}
       %span= t('recipients.menu.export_xls')
 
   %table.content.zebra
     %thead
       %tr
-        %th.gender= Recipient.human_attribute_name(:gender)
-        %th.first_name= Recipient.human_attribute_name(:first_name)
-        %th.last_name= Recipient.human_attribute_name(:last_name)
-        %th.email= Recipient.human_attribute_name(:email)
-        %th.deliveries_count= Recipient.human_attribute_name(:deliveries_count)
-        %th.bounces_count= Recipient.human_attribute_name(:bounces_count)
+        %th.gender
+          %a{href:account_recipients_path(@account, :order => :state)}
+            = Recipient.human_attribute_name(:state)
+        %th.gender
+          %a{href:account_recipients_path(@account, :order => :gender)}
+            = Recipient.human_attribute_name(:gender)
+        %th.first_name
+          %a{href:account_recipients_path(@account, :order => :first_name)}
+            = Recipient.human_attribute_name(:first_name)
+        %th.last_name
+          %a{href:account_recipients_path(@account, :order => :last_name)}
+            = Recipient.human_attribute_name(:last_name)
+        %th.email
+          %a{href:account_recipients_path(@account, :order => :email)}
+            = Recipient.human_attribute_name(:email)
+        %th.deliveries_count
+          %a{href:account_recipients_path(@account, :order => :deliveries_count)}
+            = Recipient.human_attribute_name(:deliveries_count)
+        %th.bounces_count
+          %a{href:account_recipients_path(@account, :order => :reads_count)}
+            = Recipient.human_attribute_name(:reads_count)
+        %th.bounces_count
+          %a{href:account_recipients_path(@account, :order => :bounces_count)}
+            = Recipient.human_attribute_name(:bounces_count)
         %th.menu= t('newsletters.menu')
 
-    %tr.paginate
-      %td{colspan:7, align:"center"}= paginate @recipients
-
-    = render @recipients
-
-    %tr.paginate
-      %td{colspan:7, align:"center"}= paginate @recipients
-
+    = render :partial => 'recipients'

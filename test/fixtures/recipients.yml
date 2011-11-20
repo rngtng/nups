@@ -5,17 +5,26 @@
 # below each fixture, per the syntax in the comments below
 #
 
-josh: 
+josh:
  account: biff_account
  email: josh@biff.com
  first_name: josh
  last_name: joshua
+ state: confirmed
 
-wonne: 
+wonne:
   account: biff_account
   email: wonne@biff.com
   first_name: wonne
-  last_name: sonne  
+  last_name: sonne
+  state: confirmed
+
+raziel:
+  account: biff_account
+  email: raziel@biff.com
+  first_name: raziel
+  last_name: razza
+  state: pending
 
 # == Schema Info
 #

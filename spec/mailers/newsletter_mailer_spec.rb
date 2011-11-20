@@ -16,7 +16,7 @@ describe NewsletterMailer do
 
       nl = NewsletterMailer.issue(newsletter, newsletter.recipients.first)
 
-      html(nl).should == "TEST"
+      nl.html_part.body.decoded.should == "TEST"
     end
 
     it "should include template AND content" do
@@ -25,8 +25,8 @@ describe NewsletterMailer do
 
       nl = NewsletterMailer.issue(newsletter, newsletter.recipients.first)
 
-      html(nl).should == "<html><body>TEST</body></html>"
-      text(nl).should == ""
+      nl.html_part.body.decoded.should == "<html><body>TEST</body></html>"
+      nl.text_part.body.decoded.should == ""
     end
 
     it "should include recipient email" do
@@ -36,16 +36,8 @@ describe NewsletterMailer do
 
       nl = NewsletterMailer.issue(newsletter, recipient)
 
-      html(nl).should == recipient.email
-      text(nl).should == ""
-    end
-
-    def html(nl)
-      nl.parts[1].body.decoded
-    end
-
-    def text(nl)
-      nl.parts[0].body.decoded
+      nl.html_part.body.decoded.should == recipient.email
+      nl.text_part.body.decoded.should == ""
     end
   end
 

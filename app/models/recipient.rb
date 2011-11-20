@@ -13,6 +13,29 @@ class Recipient < ActiveRecord::Base
   validates :account_id, :presence => true
   validates :email, :presence => true, :uniqueness => {:scope => :account_id}, :email_format => true
 
+  StateMachine::Machine.ignore_method_conflicts = true #to enable #delete
+  state_machine :initial => :pending do
+    event :confirm do
+      transition :pending => :confirmed
+    end
+
+    event :bounce do
+      transition any => :bounced
+    end
+
+    event :disable do
+      transition any => :disabled
+    end
+
+    event :delete do
+      transition any => :deleted
+    end
+  end
+
+  def destroy
+    self.delete!
+    self
+  end
 end
 
 # == Schema Info

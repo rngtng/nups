@@ -2,7 +2,7 @@ module NewslettersHelper
   def periodically_call_remote(options = {})
      frequency = options[:frequency] || 10 # every ten seconds by default
      repeat = options[:repeat] || 'true' # every ten seconds by default
-     code = <<-JAVASCRIPT 
+     code = <<-JAVASCRIPT
 jQuery.fjTimer({
   interval: #{frequency},
   repeat: #{repeat},
@@ -28,14 +28,14 @@ jQuery.fjTimer({
 JAVASCRIPT
      javascript_tag(code)
   end
-  
+
     def delayed_remote_function(options = {})
        delay = options[:delay] || 3000
        fnc_name = 'request12' #options[:replace]
-       code = <<-JAVASCRIPT 
+       code = <<-JAVASCRIPT
   JAVASCRIPT
        javascript_tag(code)
-    end  
+    end
 end
 
 

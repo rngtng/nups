@@ -1,0 +1,2 @@
+module Public::NewslettersHelper
+end

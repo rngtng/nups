@@ -27,7 +27,12 @@ class NewsletterMailer < ActionMailer::Base
        }
     end
 
-    data    = { :subject => newsletter.subject, :content => newsletter.content.to_s.html_safe, :newsletter => newsletter, :recipient => recipient }
+    data = {
+      :subject    => newsletter.subject,
+      :content    => newsletter.content.to_s.html_safe,
+      :newsletter => newsletter,
+      :recipient  => recipient
+    }
     content = render(:inline => newsletter.template, :locals => data)
 
     if @premailer
@@ -43,7 +48,5 @@ class NewsletterMailer < ActionMailer::Base
       end
     end
   end
-
-
 
 end

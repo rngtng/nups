@@ -1,6 +1,9 @@
-var update_recipient= function(id, gender, first_name, last_name, email) {
-  $('#recipient_' + id +' table')
-    .attr('class', 'show')
+var update_recipient= function(id, state, gender, first_name, last_name, email) {
+  $('#recipient_' + id)
+    .toggleClass('class', 'edit')
+    .find('.show .state')
+      .text(state)
+      .end()
     .find('.show .gender')
       .text(gender)
       .end()

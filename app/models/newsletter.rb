@@ -5,7 +5,7 @@ class Newsletter < ActiveRecord::Base
 
   belongs_to :account
 
-  has_many :recipients,  :through => :account
+  has_many :recipients,  :through => :account, :conditions => { 'recipients.state' => :confirmed }
   has_many :attachments, :class_name => 'Asset'
 
   has_many :send_outs,   :dependent => :destroy
@@ -18,7 +18,7 @@ class Newsletter < ActiveRecord::Base
   validates :subject,    :presence => true
 
   with_options(:to => :account) do |account|
-    %w(from host sender reply_to recipients test_recipient_emails_array color has_html? has_text?).each do |attr|
+    %w(from host sender reply_to test_recipient_emails_array color has_html? has_text?).each do |attr|
       account.delegate attr
     end
   end
@@ -140,7 +140,7 @@ class Newsletter < ActiveRecord::Base
   def update_stats!
     if sending?
       unless self.delivery_started_at
-        self.delivery_started_at = live_send_outs.with_states(:finished, :failed).first(:order => "updated_at ASC").try(:updated_at)
+        self.delivery_started_at = live_send_outs.first(:order => "created_at ASC").try(:created_at)
         self.recipients_count    = live_send_outs.count
       end
       self.deliveries_count    = live_send_outs.with_state(:finished).count

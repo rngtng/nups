@@ -5,50 +5,51 @@
     padding: 2px 0 0 0; }
   .center {
     padding: 5px 0 0 30px;
-    float: left;
-  }
+    float: left; }
   .right {
     a {
       float: right;
-      width: 80px; } }
-  .content {
-    table {
-      table-layout:fixed;
-      border: 0;
-      width: 100%; } }
-  .gender {
-    width: 75px; }
-  .first_name {
-    input {
-      width: 90%;
-    }
-    width: 18%; }
-  .last_name {
-    input {
-      width: 90%;
-    }
-    width: 18%; }
-  .email {
-    input {
-      width: 90%;
-    }
-    font-weight: bold; }
-  .deliveries_count {
-    width: 90px; }
-  .bounces_count {
-    width: 90px; }
-  .menu {
-    width: 80px;
+      width: 75px; } }
+
+  thead {
     a {
-      margin-left: 2px; } }
+      text-decoration: none;
+      color: #000;
+      &:hover {
+        text-decoration: underline; } }
+    .gender {
+      width: 75px; }
+    .first_name, .last_name {
+      input {
+        width: 90%;
+      }
+      width: 18%; }
+    .email {
+      input {
+        width: 90%;
+      }
+      font-weight: bold; }
+    .deliveries_count, .bounces_count, .reads_count {
+      width: 90px; }
+    .menu {
+      width: 80px;
+      a {
+        margin-left: 2px; } } }
+
   tr.recipient {
-    table {
-      &.edit tr.show {
+    td {
+      padding: 0 5px;
+      &.show {
+        display: table-cell; }
+      &.edit {
+        display: none; } }
+    &.edit td {
+      &.show {
         display: none; }
-      &.show tr.edit {
-        display: none; }
-      td {
-        padding: 0 5px; } } }
+      &.edit {
+        display: table-cell; } } }
+
+/* for in/export */
   &.form {
     td {
       vertical-align: top; }
@@ -66,8 +67,9 @@
       li.invalid {
         color: red; } }
     .input {
+      padding: 3px;
       clear: both; }
     input, textarea {
       display: block;
       width: 95%;
-      margin: 5px auto; } } }
+        margin: 5px auto; } } }

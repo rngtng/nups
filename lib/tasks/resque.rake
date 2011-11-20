@@ -2,20 +2,6 @@
 require 'resque/tasks'
 require 'resque_scheduler/tasks'
 
-# Start a worker with proper env vars and output redirection
-def run_worker(queue, count = 1, jobs = 1, interval = 5)
-  puts "Starting #{count} worker(s) with QUEUE: #{queue}"
-  ops = {:pgroup => true, :err => [(Rails.root + "log/resque_err").to_s, "a"],
-                          :out => [(Rails.root + "log/resque_stdout").to_s, "a"]}
-  env_vars = {"QUEUE" => queue.to_s, "JOBS_PER_FORK" => jobs.to_s, "INTERVAL" => interval.to_s}
-  count.times {
-    ## Using Kernel.spawn and Process.detach because regular system() call would
-    ## cause the processes to quit when capistrano finishes
-    pid = spawn(env_vars, "rake resque:work", ops)
-    Process.detach(pid)
-  }
-end
-
 namespace :resque do
   task :setup => :environment do
     require 'resque'
@@ -54,26 +40,42 @@ namespace :resque do
 
   desc "Quit running workers"
   task :stop_workers => :environment do
-    pids = Array.new
-    workers = Resque.workers.select do |worker|
-      worker.to_s.include?(Newsletter::QUEUE.to_s) || worker.to_s.include?(SendOut::QUEUE.to_s)
-    end
-    workers.each do |worker|
-      pids.concat(worker.worker_pids)
-    end
-    if pids.empty?
-      puts "No workers to kill"
-    else
-      syscmd = "kill -s QUIT #{pids.uniq.join(' ')}"
+    pids = Resque.workers.select do |worker|
+      worker.to_s.include?('nups2_')
+    end.map(&:worker_pids).flatten.uniq
+
+    if pids.any?
+      syscmd = "kill -s QUIT #{pids.join(' ')}"
       puts "Running syscmd: #{syscmd}"
       system(syscmd)
+    else
+      puts "No workers to kill"
     end
   end
 
+  # http://stackoverflow.com/questions/2532427/why-is-rake-not-able-to-invoke-multiple-tasks-consecutively
   desc "Start workers"
   task :start_workers => :environment do
-    run_worker(Bounce::QUEUE, 1)
-    run_worker(Newsletter::QUEUE, 1)
-    run_worker(SendOut::QUEUE, 10, 100, 0.5)
+    Rake::Task['resque:start_worker'].execute(:queue => Bounce)
+    Rake::Task['resque:start_worker'].execute(:queue => Newsletter)
+    Rake::Task['resque:start_worker'].execute(:queue => SendOut, :count => 1, :jobs => 100)
+  end
+
+  # http://nhw.pl/wp/2008/10/11/rake-and-arguments-for-tasks
+  desc "Start a worker with proper env vars and output redirection"
+  task :start_worker, [:queue, :count, :jobs] => :environment do |t, args|
+    args = args.to_hash.reverse_merge(:count => 1, :jobs => 1)
+    queue = args[:queue].to_s.underscore.classify.constantize::QUEUE
+
+    puts "Starting #{args[:count]} worker(s) with #{args[:jobs]} Jobs for QUEUE: #{queue}"
+    ops = {:pgroup => true, :err => [(Rails.root + "log/resque_err").to_s, "a"],
+                            :out => [(Rails.root + "log/resque_stdout").to_s, "a"]}
+    env_vars = {"QUEUE" => queue.to_s, "JOBS_PER_FORK" => args[:jobs].to_s}
+    args[:count].times {
+      ## Using Kernel.spawn and Process.detach because regular system() call would
+      ## cause the processes to quit when capistrano finishes
+      pid = spawn(env_vars, "rake resque:work", ops)
+      Process.detach(pid)
+    }
   end
 end
