@@ -103,4 +103,18 @@ html, body {
     .cancel {
       background: transparent asset-url("menu/cancel.png", image) no-repeat; } }
   .hidden {
-    display: none; } }
+    display: none; }
+  .pagination {
+    margin: 5px;
+    a {
+      padding: 2px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #000;
+      &:hover {
+        text-decoration: underline; } }
+    .current {
+      font-size: 14px;
+      font-weight: bold; }
+    }
+}

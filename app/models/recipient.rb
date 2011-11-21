@@ -9,6 +9,7 @@ class Recipient < ActiveRecord::Base
 
   scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }
   scope :search, lambda { |search| search.blank? ? {} : {:conditions => SEARCH_COLUMNS.map { |column| "#{column} LIKE '%#{search}%'" }.join(' OR ') } }
+  scope :confirmed, :conditions => { :state => :confirmed}
 
   validates :account_id, :presence => true
   validates :email, :presence => true, :uniqueness => {:scope => :account_id}, :email_format => true

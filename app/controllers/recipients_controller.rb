@@ -7,13 +7,13 @@ class RecipientsController < ApplicationNupsController
     @recipients = @account.recipients.search(params[:search])
 
     unless params[:format] == 'xls'
-      @recipients = @recipients.order(params[:order] || :id).page(params[:page]).per(10)
+      @recipients = @recipients.with_states(:confirmed).order(params[:order] || :id).page(params[:page]).per(10)
     end
     if request.xhr?
       render :partial => 'recipients'
+    else
+      respond_with @recipients
     end
-
-    respond_with @recipients
   end
 
   def show
@@ -30,7 +30,7 @@ class RecipientsController < ApplicationNupsController
 
     split_emails(params[:emails]).each do |email|
       recipient = @account.recipients.new(:email => email)
-      if recipient.save
+      if recipient.save && recipient.confirm!
         @valid_recipients << recipient
       else
         @invalid_recipients << recipient

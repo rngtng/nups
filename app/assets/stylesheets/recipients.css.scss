@@ -3,20 +3,24 @@
     float: left;
     margin: 3px 20px 3px 0;
     padding: 2px 0 0 0; }
-  .center {
+  .search {
     padding: 5px 0 0 30px;
     float: left; }
   .right {
     a {
       float: right;
-      width: 75px; } }
+      width: 70px; } }
 
   thead {
+    th.order a {
+      color: red; }
     a {
       text-decoration: none;
       color: #000;
       &:hover {
         text-decoration: underline; } }
+    .state {
+      width: 75px; }
     .gender {
       width: 75px; }
     .first_name, .last_name {
@@ -51,6 +55,7 @@
 
 /* for in/export */
   &.form {
+    padding: 0;
     td {
       vertical-align: top; }
     ul.result {

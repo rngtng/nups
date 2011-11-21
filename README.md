@@ -12,13 +12,12 @@
 
 ## TODO
   * fix receiver edit
-  * receiver paginate ajax
-  * sort receiver column *test*
   * recipients: overflow for user name + email
   * heighlight reciever with bounce count, set option to disable
-  * hide deleted receiver
 
   * hidden image to register if nl was read
+   -> http://stackoverflow.com/questions/5228238/rails-how-to-send-an-image-from-a-controller
+  
   * read NL on website *test*
 
   * read count to recipient *update when read* *test*
@@ -38,6 +37,9 @@
   * unsubscribe ->
 
 ## DONE
+  * hide deleted receiver
+  * sort receiver column, indicate sorting *test*
+  * receiver paginate ajax
   * pretty time span
   * add user total count on top
   * update deliverd_startet_at_ from youngest sendout

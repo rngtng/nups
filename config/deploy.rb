@@ -133,6 +133,7 @@ end
 
 after "deploy:symlink", "deploy:restart_workers"
 after "deploy:symlink", "deploy:cleanup"
+after "deploy:update", "newrelic:notice_deployment"
 #        require './config/boot'
 #        require 'airbrake/capistrano'
 

@@ -55,7 +55,7 @@ class RecipientsControllerTest < ActionController::TestCase
   end
 
   test "should destroy recipient" do
-    assert_difference('@account.recipients.count', -1) do
+    assert_difference('@account.recipients.confirmed.count', -1) do
       delete :destroy, :account_id => @account.to_param, :id => @recipient.to_param
     end
 
@@ -86,7 +86,7 @@ class RecipientsControllerTest < ActionController::TestCase
 
   test "should show existing and valid adresses" do
     existing_email = @account.recipients.first.email
-    assert_no_difference('@account.recipients.count') do
+    assert_no_difference('@account.recipients.confirmed.count') do
       post :multiple_destroy, :account_id => @account.to_param, :emails => "#{existing_email}\n\tvalid@email1.de,invalid"
     end
 
@@ -123,8 +123,8 @@ class RecipientsControllerTest < ActionController::TestCase
   end
 
   test "should split email string" do
-   string = "1\n2\n,,3,'4';\"5\""
-   assert_equal Array(1..5), @controller.send(:split_emails, string).map(&:to_i) #string <-> integer
+    string = "1\n2\n,,3,'4';\"5\""
+    assert_equal Array(1..5), @controller.send(:split_emails, string).map(&:to_i) #string <-> integer
   end
 
 end

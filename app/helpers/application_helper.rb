@@ -7,6 +7,7 @@ module ApplicationHelper
       :no_server
   end
 
+  # http://stackoverflow.com/questions/2430249/rails-distance-of-time-not-in-words
   def distance_of_time(from_time, to_time, include_seconds = false, options = {})
     diff = (to_time - from_time).abs
     s = Struct.new(:weeks, :days, :hours, :minutes, :seconds).new
