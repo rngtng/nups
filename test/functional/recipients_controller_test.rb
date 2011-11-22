@@ -24,7 +24,7 @@ class RecipientsControllerTest < ActionController::TestCase
   test "should get index and find by given search token" do
     assert @account.recipients.size > 1
 
-    get :index, :account_id => @account.to_param, :search => @account.recipients.first.email
+    get :index, :account_id => @account.to_param, :search => @account.recipients.confirmed.first.email
     assert_response :success
     assert_equal 1, assigns(:recipients).size
   end
@@ -104,8 +104,8 @@ class RecipientsControllerTest < ActionController::TestCase
   end
 
   test "should delete existing valid adresses" do
-    existing_email = @account.recipients.first.email
-    assert_difference('@account.recipients.count', -1) do
+    existing_email = @account.recipients.confirmed.first.email
+    assert_difference('@account.recipients.confirmed.count', -1) do
       post :multiple_destroy, :account_id => @account.to_param, :emails => "#{existing_email}\nvalid@email1.de;invalid", :delete => true
     end
 

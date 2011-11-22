@@ -66,7 +66,7 @@ class SendOut < ActiveRecord::Base
   end
 
   def issue
-    @issue ||= NewsletterMailer.issue(self.newsletter, self.recipient).tap do |issue|
+    @issue ||= NewsletterMailer.issue(self.newsletter, self.recipient, self.id).tap do |issue|
       issue.header[Newsletter::HEADER_ID] = issue_id
     end
   end

@@ -39,7 +39,7 @@ gem 'newrelic_rpm'
 gem 'airbrake'
 
 group :development do
-  # Deploy with Capistrano
+  gem 'rspec-rails' #for rake tasks
   gem 'capistrano'
   gem 'mailcatcher'
   gem 'ruby-graphviz', :require => 'graphviz'

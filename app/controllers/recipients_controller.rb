@@ -64,13 +64,11 @@ class RecipientsController < ApplicationNupsController
     @invalid_recipients  = []
 
     split_emails(params[:emails]).each do |email|
-      recipient = @account.recipients.where(:email => email).first || @account.recipients.new(:email => email)
-      recipient.destroy unless params[:delete].blank? #TODO what happens with log etc !?
-
-      unless recipient.new_record?
+      if recipient = @account.recipients.where(:email => email).first
+        recipient.destroy unless params[:delete].blank?
         @valid_recipients << recipient
       else
-        @invalid_recipients << recipient
+        @invalid_recipients << @account.recipients.new(:email => email)
       end
     end
 
@@ -85,7 +83,7 @@ class RecipientsController < ApplicationNupsController
     @recipient = @account.recipients.find(params[:id])
     @recipient.destroy
 
-    if request.xhr?
+    if request.xhr? #TODO render recipient with new state
       render :js => "$('#recipient_#{@recipient.id}').hide()"
     else
       redirect_to account_recipients_url(@account)

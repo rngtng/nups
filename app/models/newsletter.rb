@@ -119,6 +119,12 @@ class Newsletter < ActiveRecord::Base
     end
   end
 
+  def template_text
+    account.template_text.tap do |t|
+      return "" if t.blank?
+    end
+  end
+
   def progress_percent
     return 0 if self.recipients_count.to_i < 1
     (100 * count / self.recipients_count).round
