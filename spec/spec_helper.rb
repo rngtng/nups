@@ -3,8 +3,12 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
+# https://github.com/jnicklas/capybara
+# http://jumpstartlab.com/resources/testing-ruby/integration-testing-with-rspec-capybara-and-selenium/
 # http://opinionatedprogrammer.com/2011/02/capybara-and-selenium-with-rspec-and-rails-3/
 # http://railscasts.com/episodes/257-request-specs-and-capybara?view=asciicast
+# http://jfire.posterous.com/selenium-on-ruby
+# http://seleniumhq.wordpress.com/
 # Load Capybara integration
 require 'capybara/rspec'
 require 'capybara/rails'

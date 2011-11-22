@@ -23,9 +23,7 @@ describe 'recipients page' do
 
   it 'click edit', :js => true do
     visit account_recipients_path(account)
-    #within("#recipient_#{recipient.id}") do
-    find("#recipient_#{recipient.id} a.edit").click   #_on '<span>ändern</span>'
-    #end
+    find("#recipient_#{recipient.id} a.edit").click
     page.should have_selector("#recipient_#{recipient.id}.edit")
   end
 

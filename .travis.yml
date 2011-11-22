@@ -1,9 +1,11 @@
+# http://about.travis-ci.org/docs/user/selenium-setup/
 rvm:
   - 1.9.2
 before_script:
   - "mv config/database.travis.yml config/database.yml"
   - "mysql -e 'create database nups_test;' >/dev/null"
-script: "bundle exec rake db:migrate test spec"
+  - sh -e /etc/init.d/xvfb start
+script: "bundle exec rake travis"
 branches:
   only:
     - delivery
