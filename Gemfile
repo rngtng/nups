@@ -60,4 +60,5 @@ group :test do
   gem 'delorean'
   gem 'watchr'
   gem 'json' #needed for resque to run on travis-ci
+  gem 'capybara' #selenium
 end

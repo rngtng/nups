@@ -12,7 +12,9 @@
 
 ## TODO
   * fix receiver edit
+  
   * recipients: overflow for user name + email
+  * recipients overlay with list of sendouts
   * heighlight reciever with bounce count, set option to disable
 
   * hidden image to register if nl was read

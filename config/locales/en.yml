@@ -4,6 +4,10 @@
 en:
   application:
     title: MultiAdmin - Nups
+    login:
+      forgot: "Forgot your password?"
+      signin: "Sign in"
+      send_password: "Send me reset password instructions"
   menu:
     users: Users
     user: User
