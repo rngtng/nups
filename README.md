@@ -28,7 +28,7 @@
   * change update_newsletter to json
   * update deliver counters:
     -> after send?
-  * translation
+  * translation (gender)
   * errors_count + errors message
   * unsubscribe ->
 

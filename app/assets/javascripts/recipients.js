@@ -28,6 +28,11 @@ $('tr.recipient tr.edit input').live('keyup', function(e) {
   }
 });
 
+$('tr.recipient a.save').live('click', function(e) {
+ //ajax put here
+ alert('put put');
+});
+
 $("#recipients table th a").live('click', function(e) {
   $(e.target).closest('tr').find('th').removeClass('order');
   $(e.target).closest('th').addClass('order');
