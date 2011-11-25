@@ -1,5 +1,5 @@
 <% no_checkbox ||= false %>
-<div id="file_<%= asset.id %>">
+<div id="file-<%= asset.id %>">
     <% unless no_checkbox %>
       <input type="checkbox" name="newsletter[attachment_ids][]" checked value="<%= asset.id %>">
     <% end %>

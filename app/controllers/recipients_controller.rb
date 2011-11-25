@@ -84,7 +84,7 @@ class RecipientsController < ApplicationNupsController
     @recipient.destroy
 
     if request.xhr? #TODO render recipient with new state
-      render :js => "$('#recipient_#{@recipient.id}').hide()"
+      render :js => "$('#recipient-#{@recipient.id}').hide()"
     else
       redirect_to account_recipients_url(@account)
     end

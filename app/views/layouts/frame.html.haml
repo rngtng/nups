@@ -11,7 +11,8 @@
 
     :javascript
       $(document).ready(function() {
-        show_menu(#{@user.id})
+        showMenu(#{@user.id});
+        console.log('#frame loaded');
       });
 
   %body{:class => current_user.admin? ? 'admin' : 'user'}
@@ -27,10 +28,10 @@
             - opts = options_from_collection_for_select(@users, :id, :username)
             %br
             %label= t('menu.user')
-            = select_tag 'user_menu', opts, :onChange => "show_menu(this.options[this.selectedIndex].value)"
+            = select_tag 'user_menu', opts, :onChange => "showMenu(this.options[this.selectedIndex].value)"
 
           - @users.each do |user|
-            .item.hidden{:id => "user_menu_#{user.id}"}
+            .item.hidden{:id => "user-menu-#{user.id}"}
               - user.domains.each do |domain|
                 %strong= link_to t('menu.domains'), domain.main_url
                 %br

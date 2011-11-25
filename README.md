@@ -4,22 +4,19 @@
 
   * Overview of best plugins: http://ruby-toolbox.com/
   * [Devise](http://github.com/plataformatec/devise) -> `rails generate devise_install`
-  * Test SMPT lockally: http://mocksmtpapp.com/
-  *  spinners:
-  http://www.andrewdavidson.com/articles/spinning-wait-icons/
-  http://mentalized.net/activity-indicators/
-  * reques test: http://github.com/justinweiss/resque_unit
+  * Test SMTP lockally: http://mocksmtpapp.com/
+  * Spinners:
+      http://www.andrewdavidson.com/articles/spinning-wait-icons/
+      http://mentalized.net/activity-indicators/
 
 ## TODO
   * fix receiver edit
-  
+
   * recipients: overflow for user name + email
-  * recipients overlay with list of sendouts
   * heighlight reciever with bounce count, set option to disable
 
-  * hidden image to register if nl was read
+  * hidden image to register if nl was read *test*
    -> http://stackoverflow.com/questions/5228238/rails-how-to-send-an-image-from-a-controller
-  
   * read NL on website *test*
 
   * read count to recipient *update when read* *test*
@@ -33,12 +30,15 @@
     -> after send?
   * translation
   * errors_count + errors message
-  * filter valid/invalid ??????
-  * details -> when which newsletter was send
-  * resque status: http://github.com/quirkey/resque-status
   * unsubscribe ->
 
+  * test coffeescript
+  * add better migration
+  * filter valid/invalid ??????
+  * resque status: http://github.com/quirkey/resque-status
+
 ## DONE
+  * recipients overlay with list of sendouts (details -> when which newsletter was send)
   * hide deleted receiver
   * sort receiver column, indicate sorting *test*
   * receiver paginate ajax

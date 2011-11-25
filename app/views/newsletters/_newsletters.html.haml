@@ -1,5 +1,5 @@
-= render @newsletters
-%tr.paginate
-  %td{colspan:5, align:"center"}
-    = paginate @newsletters
-  
+- if @newsletters.count > 0
+  = render @newsletters
+  %tr.paginate
+    %td{colspan:5, align:"center"}
+      = paginate @newsletters, :remote => true

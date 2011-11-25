@@ -10,9 +10,6 @@ Nups::Application.routes.draw do
   match 'newsletters' => 'newsletters#index', :as => :newsletters
   match 'newsletters/stats' => 'newsletters#stats', :as => :newsletter_stats
 
-  match 'unsubscribe/:account_id/:id' => 'public/recipients#show',    :via => 'get',    :as => :unsubscribe
-  match 'unsubscribe/:account_id/:id' => 'public/recipients#destroy', :via => 'delete'
-
   namespace :admin do
     resources :users
     resources :accounts
@@ -36,10 +33,15 @@ Nups::Application.routes.draw do
         get :delete
         delete :multiple_destroy
       end
+
+      resources :send_outs
     end
 
     resources :assets #TODO just create route!
   end
+
+  match 'unsubscribe/:account_id/:id' => 'public/recipients#show',    :via => 'get',    :as => :unsubscribe
+  match 'unsubscribe/:account_id/:id' => 'public/recipients#destroy', :via => 'delete'
 
   match ':recipient_id/:send_out_id' => 'public/newsletters#show', :via => 'get', :as => :public_newsletter
 end

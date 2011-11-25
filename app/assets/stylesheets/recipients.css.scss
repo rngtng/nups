@@ -23,26 +23,25 @@
       width: 75px; }
     .gender {
       width: 75px; }
-    .first_name, .last_name {
-      input {
-        width: 90%;
-      }
-      width: 18%; }
     .email {
-      input {
-        width: 90%;
-      }
       font-weight: bold; }
-    .deliveries_count, .bounces_count, .reads_count {
+    .deliveries-count, .bounces-count, .reads-count {
       width: 90px; }
     .menu {
-      width: 80px;
+      width: 90px;
       a {
         margin-left: 2px; } } }
 
   tr.recipient {
     td {
       padding: 0 5px;
+      &.menu {
+        padding: 0 0 0 4px;
+        margin: 0;
+        a {
+          width: 28px;
+          height: 28px;
+          background-size: 90%; } }
       &.show {
         display: table-cell; }
       &.edit {
@@ -52,6 +51,11 @@
         display: none; }
       &.edit {
         display: table-cell; } } }
+
+  tfoot {
+    display: none;
+    text-align: center;
+    font-style: italic; }
 
 /* for in/export */
   &.form {

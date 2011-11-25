@@ -23,6 +23,6 @@ $(document).ready(function() {
         }
       }
     });
+    console.log('cleditor loaded');
   });
-
 });

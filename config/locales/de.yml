@@ -66,6 +66,7 @@ de:
     new: "Neuer Newsletter"
     title: Newsletter
     uploading: wird hochgeladen
+    nothing: Keine Einträge vorhanden
 
   recipients:
     confirm:
@@ -95,3 +96,4 @@ de:
       title: "Mehrere Empfänger löschen"
       valid_recipients: "Folgende Empfänger werden gelöscht"
     title: "%{account_name} - Empfänger (%{count})"
+    nothing: Keine Einträge vorhanden

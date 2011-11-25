@@ -65,6 +65,7 @@ en:
           valid_delete: Delete valid Recipients
           confirm_delete: Are you sure?
           check: Check given Emails-Address(es)
+    nothing: Nothing found
 
   newsletters:
     title: Newsletter
@@ -89,3 +90,4 @@ en:
       send_live: Start sending newsletter?
       resume: Resume sending newsletter?
       delete: Really delete newsletter?
+    nothing: Nothing found

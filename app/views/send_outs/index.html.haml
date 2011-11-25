@@ -1,0 +1,18 @@
+#send-outs.index
+  -# %h2= t 'send_outs.title', :account_name =>  @account.name, :recipient_email => @recipient.email
+
+  %table.content.zebra
+    %thead
+      %tr
+        %th.date
+          -# %a{:href => account_recipients_path(@account, :order => :state), 'data-remote' => true}
+          = SendOut.human_attribute_name(:created_at)
+        %th.newsletter
+          -# %a{:href => account_recipients_path(@account, :order => :gender), 'data-remote' => true}
+          = Newsletter.human_attribute_name(:title)
+        %th.status
+          -# %a{:href => account_recipients_path(@account, :order => :first_name), 'data-remote' => true}
+          = SendOut.human_attribute_name(:state)
+
+    %tbody
+      = render :partial => 'send_out', :collection => @send_outs

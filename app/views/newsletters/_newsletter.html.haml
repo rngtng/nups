@@ -1,4 +1,4 @@
-%tr{ :id => "newsletter_#{newsletter.id}", :class => "newsletter #{newsletter.state}", :"data-newsletter-path" => newsletter_stats_path }
+%tr{ :id => "newsletter-#{newsletter.id}", :class => "newsletter #{newsletter.state}", :"data-newsletter-path" => newsletter_stats_path }
   %td.icon
     %a.preview{ :href => account_newsletter_path(*newsletter.route), :rel => "#overlay" }
       %span= newsletter.state
@@ -16,9 +16,9 @@
     = newsletter.recipients_count
 
   %td.actions
-    %a.button.send_test{ :href => start_account_newsletter_path(*newsletter.route), 'data-remote' => 'true' }
+    %a.button.send-test{ :href => start_account_newsletter_path(*newsletter.route), 'data-remote' => 'true' }
       %span=t('newsletters.ctrl.send_test')
-    %a.button.send_live{ :href => start_account_newsletter_path(*newsletter.route, :mode => 'live'), 'data-remote' => 'true', 'data-confirm' => t('newsletters.confirm.send_live') }
+    %a.button.send-live{ :href => start_account_newsletter_path(*newsletter.route, :mode => 'live'), 'data-remote' => 'true', 'data-confirm' => t('newsletters.confirm.send_live') }
       %span=t('newsletters.ctrl.send_live')
     %a.button.resume{ :href => start_account_newsletter_path(*newsletter.route, :mode => 'live'), 'data-remote' => 'true', 'data-confirm' => t('newsletters.confirm.resume') }
       %span=t('newsletters.ctrl.resume')

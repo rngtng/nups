@@ -87,10 +87,10 @@
         a {
           display: none; } }
       &.new, &.tested, &.stopped {
-        .send_test {
+        .send-test {
           display: block; } }
       &.tested {
-        .send_live {
+        .send-live {
           display: block; } }
       &.stopped {
         .resume {

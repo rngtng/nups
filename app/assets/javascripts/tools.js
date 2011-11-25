@@ -1,34 +1,27 @@
-var attachOverlay = function() {
-  $("a[rel=#overlay]").overlay({
-    mask: '#333',
-    top: '0%',
-    onBeforeLoad: function() {
-      this.getOverlay().find(".body").html("").load(this.getTrigger().attr("href"));
-    },
-    onLoad: function() {
-      var h = $(window).height();
-      $("#overlay").css('height', h - 55)
-      $("#overlay .body").css('height', h - 73)
-    }
-  });
-  if($("a[rel=#overlay]").size() <= 0) {
-    $("tfoot").show();
-  }
-  else {
-    $("tfoot").hide();
-  }
-};
-
-$.tools.tabs.addEffect("ajaxOverlay", function(tabIndex, done) {
-    this.getPanes().eq(0).html("").load(this.getTabs().eq(tabIndex).attr("href"), function() {
-      attachOverlay();
-      if( (url = $("a.current").data("new-url")) ) {
-        $("a.new").show().attr("href", url );
+(function($) {
+  $.fn.attachOverlay = function(options) {
+    options = $.extend(true, {
+      mask: '#333',
+      top: '0%',
+      onBeforeLoad: function() {
+        this.getOverlay().find(".body").html("").load(this.getTrigger().attr("href"));
+      },
+      onLoad: function() {
+        var h = $(window).height();
+        $("#overlay").css('height', h - 55);
+        $("#overlay .body").css('height', h - 73);
       }
-      else {
-        $("a.new").hide();
-      }
+    }, options);
 
+   this.overlay(options);
+   console.log("Overlays attached: " + this.size());
+  };
+
+  $.fn.showNothingFound = function() {
+    var $footer = this.find("tfoot")
+    $footer.show();
+    this.find("tbody tr:first").each(function(){
+      $footer.hide();
     });
-    done.call();
-});
+  };
+})(jQuery);

@@ -2,11 +2,11 @@
   %h2= t 'recipients.title', :account_name =>  @account.name, :count => @recipients.total_count
 
   = form_tag account_recipients_path(@account), :method => :get, :remote => true, :class => 'search' do
-    = text_field_tag :search, params[:search], :size => 40
+    = text_field_tag :search, params[:search], :size => 40, :type => 'search', :placeholder => 'Suche'
     = submit_tag t('ctrl.search')
 
   .right
-    %a.button{href:new_account_recipient_path(@account), rel:'#overlay'}
+    %a.new.button{href:new_account_recipient_path(@account), rel:'#overlay'}
       %span= t('recipients.menu.import')
     %a.button{href:delete_account_recipients_path(@account), rel:'#overlay'}
       %span= t('recipients.menu.delete')
@@ -44,3 +44,8 @@
 
     %tbody
       = render 'recipients'
+
+    %tfoot
+      %tr
+        %td{colspan:9}
+          = t('recipients.nothing')

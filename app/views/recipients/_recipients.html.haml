@@ -1,7 +1,8 @@
-%tr.paginate
-  %td{colspan:9, align:"center"}= paginate @recipients, :remote => true
+- if @recipients.count > 0
+  %tr.paginate
+    %td{colspan:9, align:"center"}= paginate @recipients, :remote => true
 
-= render @recipients
+  = render @recipients
 
-%tr.paginate
-  %td{colspan:9, align:"center"}= paginate @recipients, :remote => true
+  %tr.paginate
+    %td{colspan:9, align:"center"}= paginate @recipients, :remote => true

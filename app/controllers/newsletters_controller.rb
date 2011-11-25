@@ -8,7 +8,7 @@ class NewslettersController < ApplicationNupsController
     @user      ||= (@account) ? @account.user : current_user
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
-    @newsletters = @user.newsletters.with_account(@account).scoped(:order => 'created_at DESC').page(params[:page]).per(15)
+    @newsletters = @user.newsletters.with_account(@account).scoped(:order => 'created_at DESC').page(params[:page]).per(5)
     if request.xhr?
       render :partial => 'newsletters'
     end
@@ -71,7 +71,7 @@ class NewslettersController < ApplicationNupsController
     @newsletter.destroy
 
     if request.xhr?
-      render :js => "$('#newsletter_#{@newsletter.id}').hide()"
+      render :js => "$('#newsletter-#{@newsletter.id}').hide()"
     else
       redirect_to account_newsletters_path(@account)
     end
