@@ -1,4 +1,4 @@
-%tr.recipient{:id => "recipient-#{recipient.id}", :class => "#{recipient.state}", :"data-recipient-path" => account_recipient_path(recipient.account, recipient)}
+%tr{:id => "recipient-#{recipient.id}", :class => recipient.state, :"data-recipient-path" => account_recipient_path(recipient.account, recipient)}
   %td.state= recipient.state
 
   %td.show.gender= recipient.gender
@@ -23,7 +23,7 @@
     %a.icon.edit{:href => '#', :onclick => "$(this).closest('tr').toggleClass('edit');"}
       %span= t('ctrl.edit')
     - url = account_recipient_path(recipient.account, recipient)
-    %a.icon.delete{:href => url, 'data-method' => 'delete', 'data-confirm' => t('recipients.confirm.delete'), 'data-remote' => 'true'}
+    %a.icon.delete{:href => url, 'data-method' => 'delete', 'data-confirm' => t('recipients.confirm.delete'), 'data-remote' => 'true', 'data-type' => 'json'}
       %span= t('ctrl.delete')
   %td.edit.menu
     %a.icon.save{:href => '#'}

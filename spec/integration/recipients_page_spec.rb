@@ -7,6 +7,7 @@ describe 'recipients page' do
   let(:user) { users(:biff) }
   let(:account) { accounts(:biff_account) }
   let(:recipient) { recipients(:josh) }
+  let(:recipient2) { recipients(:wonne) }
 
   before do
     visit '/'
@@ -26,15 +27,15 @@ describe 'recipients page' do
     end
   end
 
-  it 'clicks edit, cancels and delete', :js => true do
+  it 'clicks edit, cancels and edits', :js => true do
     visit account_recipients_path(account)
+
+    page.should have_no_selector("#recipient-#{recipient.id}.edit")
 
     within("#recipient-#{recipient.id}") do
       find("a.edit").click
       find("td.show").should_not be_visible
       find("td.edit").should be_visible
-
-      #page.should_not have_selector("#recipient-#{recipient.id}.edit")
 
       find("a.cancel").click
       find("td.show").should be_visible
@@ -45,22 +46,23 @@ describe 'recipients page' do
       find(".edit.last-name input").set('last-name')
       find(".edit.email input").set('email@localhost.de')
       find("a.save").click
+      sleep 1 #wait for request to finish
+      Recipient.find_by_first_name_and_last_name_and_email('first-name', 'last-name', 'email@localhost.de').should_not be_nil
     end
+  end
 
-    sleep 2 #wait for request to finish
-    puts Recipient.all.map(&:inspect)
+  it 'clicks delete', :js => true do
+    visit account_recipients_path(account)
 
-    Recipient.find_by_first_name_and_last_name_and_email('first-name', 'last-name', 'email@localhost.de').should_not be_nil
+    page.should have_selector("#recipient-#{recipient.id}")
+    page.should have_selector("#recipient-#{recipient2.id}")
 
-      #find("a.delete").click
+    find("#recipient-#{recipient.id} a.delete").click
+    # http://stackoverflow.com/questions/2458632/how-to-test-a-confirm-dialog-with-cucumber
+    page.driver.browser.switch_to.alert.accept
 
-      # http://stackoverflow.com/questions/2458632/how-to-test-a-confirm-dialog-with-cucumber
-      #page.driver.browser.switch_to.alert.accept
-
-    # wait_until(10) do
-    #   #page.should have_no_selector("#recipient-#{recipient.id}")
-    #   page.find("#recipient-#{recipient.id}").should_not be_visible
-    # end
-
+    sleep 1
+    page.should have_no_selector("#recipient-#{recipient.id}")
+    page.should have_selector("#recipient-#{recipient2.id}")
   end
 end

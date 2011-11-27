@@ -63,6 +63,7 @@ GEM
     css_parser (1.2.5)
       addressable
     daemons (1.1.4)
+    database_cleaner (0.7.0)
     delorean (1.1.1)
       chronic
     devise (1.5.0)
@@ -246,6 +247,7 @@ DEPENDENCIES
   capistrano
   capybara
   coffee-rails
+  database_cleaner
   delorean
   devise (~> 1.5.0)
   ekuseru

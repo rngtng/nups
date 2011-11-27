@@ -1,24 +1,31 @@
-var updateRecipient= function(recipient) {
+var updateRecipient = function(recipient) {
   console.log(recipient);
+  r = recipient;
   $('#recipient-' + recipient.id)
-    .toggleClass('edit')
-    .find('.show.state')
+    .removeClass()
+    .addClass(recipient.state)
+    .find('.state')
       .text(recipient.state)
       .end()
     .find('.show.gender')
-      .text(recipient.gender)
+      .text(recipient.gender || "")
       .end()
     .find('.show.first-name')
-      .text(recipient.first_name)
+      .text(recipient.first_name || "")
       .end()
     .find('.show.last-name')
-      .text(recipient.last_name)
+      .text(recipient.last_name || "")
       .end()
     .find('.show.email')
       .text(recipient.email);
 };
 
-$('tr.recipient tr.edit input').live('keyup', function(e) {
+$("#recipients table th a").live('click', function(e) {
+  $(e.target).closest('tr').find('th').removeClass('order');
+  $(e.target).closest('th').addClass('order');
+});
+
+$('#recipients td.edit input').live('keyup', function(e) {
   if(e.which == 13) {
     $(e.target).closest('form').submit();
     return false;
@@ -29,7 +36,7 @@ $('tr.recipient tr.edit input').live('keyup', function(e) {
   }
 });
 
-$('tr.recipient a.save').live('click', function(e) {
+$('#recipients a.save').live('click', function(e) {
   var $recipient = $(this).closest('tr');
   if( (recipientPath = $recipient.data('recipient-path')) ) {
     $.ajax({
@@ -51,16 +58,16 @@ $('tr.recipient a.save').live('click', function(e) {
   }
 });
 
-$("#recipients table th a").live('click', function(e) {
-  $(e.target).closest('tr').find('th').removeClass('order');
-  $(e.target).closest('th').addClass('order');
+$('#recipients a.delete').live('ajax:success', function(e, data, status, xhr) {
+  $('#recipient-' + data.id).remove();
 });
 
-var recipientsNavElements = "#recipients table th a, #recipients table .paginate a, form.search, form.recipients"
+var recipientsNavElements = "#recipients .paginate a, #recipients form.search"
 
 $(recipientsNavElements)
   .live('ajax:success', function(e, data, status, xhr) {
     $("#recipients table tbody").html(data);
+
     $(recipientsNavElements).attr('data-type', 'html');
     $("a.show[rel=#overlay]").attachOverlay();
     $("table.content").showNothingFound();
@@ -71,7 +78,6 @@ $(recipientsNavElements)
 
 $("#recipients form.new")
   .live('ajax:success', function(e, data, status, xhr) {
-    console.log(e);
     $(".valid").hide().find("ul").html("");
     $.each(data.valid, function(key, email) {
       $(".valid").show().find("ul").append('<li>' + email + '</li>');
@@ -107,15 +113,13 @@ $(document).ready(function() {
   $("#recipients").each(function() {
     $(recipientsNavElements).attr('data-type', 'html');
 
-    $("table.content").showNothingFound();
-
     //// new overlay shoud relaod. TODO: only on changes!! Same for delete??
     $("a[rel=#overlay]").attachOverlay();
+    $("table.content").showNothingFound();
     $("a.new[rel=#overlay]").each(function() {
       $(this).overlay().onClose(function() {
         window.location.reload();
       });
     });
-    console.log('#recipients loaded');
   });
 });

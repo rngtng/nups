@@ -61,4 +61,5 @@ group :test do
   gem 'watchr'
   gem 'json' #needed for resque to run on travis-ci
   gem 'capybara' #selenium
+  gem 'database_cleaner'
 end

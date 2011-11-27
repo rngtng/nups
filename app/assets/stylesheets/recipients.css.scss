@@ -28,11 +28,11 @@
     .deliveries-count, .bounces-count, .reads-count {
       width: 90px; }
     .menu {
-      width: 90px;
+      width: 100px;
       a {
         margin-left: 2px; } } }
 
-  tr.recipient {
+  tbody tr {
     td {
       padding: 0 5px;
       &.menu {
@@ -50,7 +50,9 @@
       &.show {
         display: none; }
       &.edit {
-        display: table-cell; } } }
+        display: table-cell; } }
+    &.deleted {
+      display: none; } }
 
   tfoot {
     display: none;
