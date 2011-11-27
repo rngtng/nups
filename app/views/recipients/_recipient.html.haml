@@ -1,28 +1,28 @@
-%tr.recipient{id:"recipient-#{recipient.id}", class:"#{recipient.state}"}
+%tr.recipient{:id => "recipient-#{recipient.id}", :class => "#{recipient.state}", :"data-recipient-path" => account_recipient_path(recipient.account, recipient)}
   %td.state= recipient.state
 
   %td.show.gender= recipient.gender
-  %td.edit.gender= select_tag :gender, options_for_select(['', 'Herr', 'Frau'], recipient.gender)
+  %td.edit.gender= select_tag "recipient[#{recipient.id}][gender]", options_for_select(['', 'Herr', 'Frau'], recipient.gender)
 
   %td.show.first-name= recipient.first_name
-  %td.edit.first-name= text_field_tag :first_name, recipient.first_name
+  %td.edit.first-name= text_field_tag "recipient[#{recipient.id}][first_name]", recipient.first_name
 
   %td.show.last-name= recipient.last_name
-  %td.edit.last-name= text_field_tag :last_name, recipient.last_name
+  %td.edit.last-name= text_field_tag "recipient[#{recipient.id}][last_name]", recipient.last_name
 
   %td.show.email= recipient.email
-  %td.edit.email= text_field_tag :email, recipient.email
+  %td.edit.email= text_field_tag "recipient[#{recipient.id}][email]", recipient.email
 
   %td.deliveries-count= recipient.deliveries_count
   %td.reads-count= recipient.bounces_count
   %td.bounces-count= recipient.bounces_count
 
   %td.show.menu
-    %a.icon.show{:href => account_recipient_send_outs_path(@account, recipient), :rel => "#overlay"}
+    %a.icon.show{:href => account_recipient_send_outs_path(recipient.account, recipient), :rel => "#overlay"}
       %span=t('ctrl.show')
     %a.icon.edit{:href => '#', :onclick => "$(this).closest('tr').toggleClass('edit');"}
       %span= t('ctrl.edit')
-    - url = account_recipient_path(@account, recipient)
+    - url = account_recipient_path(recipient.account, recipient)
     %a.icon.delete{:href => url, 'data-method' => 'delete', 'data-confirm' => t('recipients.confirm.delete'), 'data-remote' => 'true'}
       %span= t('ctrl.delete')
   %td.edit.menu

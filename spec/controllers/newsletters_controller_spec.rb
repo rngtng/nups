@@ -65,7 +65,7 @@ describe NewslettersController do
       it "should not get new if wrong account" do
         account = accounts(:admin_account)
         get :new, :account_id => account.to_param
-        response.status.should == 403 #:success
+        response.status.should == 404
       end
 
       it "should get new if wrong account but admin" do

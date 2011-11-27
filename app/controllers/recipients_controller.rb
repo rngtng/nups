@@ -40,7 +40,7 @@ class RecipientsController < ApplicationNupsController
     if request.xhr?
       render :json => {:valid => @valid_recipients.map(&:email), :invalid => @invalid_recipients.map(&:email)}
     else
-      render :new, :layout => !request.xhr?
+      render :new, :layout => false
     end
   end
 
@@ -49,7 +49,7 @@ class RecipientsController < ApplicationNupsController
     @recipient.update_attributes(params[:recipient])
 
     if request.xhr?
-      render :partial => "recipient"
+      render :json => @recipient
     else
       redirect_to account_recipients_url(@account)
     end
@@ -91,12 +91,6 @@ class RecipientsController < ApplicationNupsController
   end
 
   private
-  def load_account
-    klass = current_user.admin? ? Account : current_user.accounts
-    @account = klass.find_by_id(params[:account_id])
-    render_404 unless @account
-  end
-
   def split_emails(emails)  #split by \n or , or ;
     return [] unless emails
     emails.delete("\"' ").split(/[\n,;]/).delete_if(&:blank?).map(&:strip).uniq

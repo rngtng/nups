@@ -37,6 +37,7 @@ html, body {
   table.content {
     width: 100%;
     table-layout:fixed;
+    clear: both;
     border: 2px solid #cccccc;
     tr {
       background-color: #eeeeee; }

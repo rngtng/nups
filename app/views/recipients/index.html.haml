@@ -13,7 +13,7 @@
     %a.button{href:account_recipients_path(@account, :format => :xls), style:"width:120px"}
       %span= t('recipients.menu.export_xls')
 
-  = form_tag account_recipients_path(@account), :remote => true do |f|
+  = form_tag account_recipients_path(@account), :method => :put, :remote => true, :class => 'recipients' do
     %table.content.zebra
       %thead
         %tr
@@ -42,10 +42,10 @@
             %a{:href => account_recipients_path(@account, :order => :bounces_count), 'data-remote' => true}
               = Recipient.human_attribute_name(:bounces_count)
           %th.menu= t('newsletters.menu')
-    
+
       %tbody
         = render 'recipients'
-    
+
       %tfoot
         %tr
           %td{colspan:9}

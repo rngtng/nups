@@ -10,13 +10,10 @@
       http://mentalized.net/activity-indicators/
 
 ## TODO
-  * fix receiver edit
-
   * recipients: overflow for user name + email
   * heighlight reciever with bounce count, set option to disable
 
   * hidden image to register if nl was read *test*
-   -> http://stackoverflow.com/questions/5228238/rails-how-to-send-an-image-from-a-controller
   * read NL on website *test*
 
   * read count to recipient *update when read* *test*
@@ -38,6 +35,7 @@
   * resque status: http://github.com/quirkey/resque-status
 
 ## DONE
+  * fix receiver edit
   * recipients overlay with list of sendouts (details -> when which newsletter was send)
   * hide deleted receiver
   * sort receiver column, indicate sorting *test*

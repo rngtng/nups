@@ -12,6 +12,13 @@ class ApplicationController < ActionController::Base
     render :file => "public/404", :layout => false, :status => 404
   end
 
+  protected
+  def load_account
+    klass = current_user.admin? ? Account : current_user.accounts
+    @account = klass.find_by_id(params[:account_id])
+    render_404 unless @account
+  end
+
   private
   def layout_by_resource
     if devise_controller?

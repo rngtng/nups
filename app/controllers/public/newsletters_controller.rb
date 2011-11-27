@@ -9,6 +9,7 @@ class Public::NewslettersController < ApplicationController
 
       respond_with do |format|
         format.html
+        # http://stackoverflow.com/questions/5228238/rails-how-to-send-an-image-from-a-controller
         format.gif { send_file "public/pixel.gif" }
       end
     else

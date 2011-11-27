@@ -11,11 +11,4 @@ class AssetsController < ApplicationNupsController
     @user = current_user
     @user = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
   end
-
-  def load_account
-    return if params[:account_id].blank?
-    klass = current_user.admin? ? Account : current_user.accounts
-    @account = klass.find_by_id(params[:account_id])
-    render_403 unless @account
-  end
 end

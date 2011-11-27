@@ -70,10 +70,4 @@ class Public::RecipientsController < ApplicationController
     end
   end
 
-  private
-  def load_account
-    @account = Account.find_by_id(params[:account_id])
-    render_404 unless @account
-  end
-
 end

@@ -3,7 +3,7 @@ request = function(newsletterPath) {
   var ids = $.map($('.newsletter'), function(elem) {
     return elem.id.replace('newsletter-', '');
   });
-  jQuery.ajax({
+  $.ajax({
     url: newsletterPath,
     data: { ids: ids },
     dataType: 'script'
@@ -26,8 +26,8 @@ updateNewsletter = function(id, state, progressPercent, sendingTime, sendingsPer
   .attr('class', 'newsletter ' + state)
   .each(function() {
     $(this).find('.progress')
-      .attr('title', progressPercent + ' - ' + sendingTime + ' - ' + sendingsPerSecond)
-      .width(progressPercent)
+      .attr('title', progressPercent + '% - ' + sendingTime + ' - ' + sendingsPerSecond + '/sec.')
+      .width(progressPercent + '%')
       .show()
       .find('label')
       .text(progressPercent)

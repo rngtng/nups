@@ -1,5 +1,5 @@
 class NewslettersController < ApplicationNupsController
-  before_filter :load_account
+  before_filter :load_account, :if => lambda { params[:account_id] }
 
   respond_to :html
 
@@ -104,16 +104,6 @@ class NewslettersController < ApplicationNupsController
     else
       redirect_to account_newsletters_path(@account)
     end
-  end
-
-  ########################################################
-
-  private
-  def load_account
-    return if params[:account_id].blank?
-    klass = current_user.admin? ? Account : current_user.accounts
-    @account = klass.find_by_id(params[:account_id])
-    render_403 unless @account
   end
 
 end

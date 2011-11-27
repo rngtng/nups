@@ -7,12 +7,6 @@ class SendOutsController < ApplicationController
   end
 
   private
-  def load_account
-    klass = current_user.admin? ? Account : current_user.accounts
-    @account = klass.find_by_id(params[:account_id])
-    render_404 unless @account
-  end
-
   def load_recipient
     @recipient = @account.recipients.find_by_id(params[:recipient_id])
     render_404 unless @recipient

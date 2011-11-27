@@ -1,20 +1,21 @@
-var updateRecipient= function(id, state, gender, firstName, lastName, email) {
-  $('#recipient-' + id)
-    .toggleClass('class', 'edit')
-    .find('.show .state')
-      .text(state)
+var updateRecipient= function(recipient) {
+  console.log(recipient);
+  $('#recipient-' + recipient.id)
+    .toggleClass('edit')
+    .find('.show.state')
+      .text(recipient.state)
       .end()
-    .find('.show .gender')
-      .text(gender)
+    .find('.show.gender')
+      .text(recipient.gender)
       .end()
-    .find('.show .first-name')
-      .text(firstName)
+    .find('.show.first-name')
+      .text(recipient.first_name)
       .end()
-    .find('.show .last-name')
-      .text(lastName)
+    .find('.show.last-name')
+      .text(recipient.last_name)
       .end()
-    .find('.show .email')
-      .text(email);
+    .find('.show.email')
+      .text(recipient.email);
 };
 
 $('tr.recipient tr.edit input').live('keyup', function(e) {
@@ -29,8 +30,25 @@ $('tr.recipient tr.edit input').live('keyup', function(e) {
 });
 
 $('tr.recipient a.save').live('click', function(e) {
- //ajax put here
- alert('put put');
+  var $recipient = $(this).closest('tr');
+  if( (recipientPath = $recipient.data('recipient-path')) ) {
+    $.ajax({
+      url: recipientPath,
+      type: 'put',
+      dataType: 'json',
+      data: {
+        recipient: {
+          gender: $recipient.find('.edit.gender option:selected').val(),
+          first_name: $recipient.find('.edit.first-name input').val(),
+          last_name: $recipient.find('.edit.last-name input').val(),
+          email: $recipient.find('.edit.email input').val() //VALIDATE!!
+        }
+      },
+      success: function (data, status, xhr) {
+        updateRecipient(data);
+      }
+    });
+  }
 });
 
 $("#recipients table th a").live('click', function(e) {
@@ -38,7 +56,7 @@ $("#recipients table th a").live('click', function(e) {
   $(e.target).closest('th').addClass('order');
 });
 
-var recipientsNavElements = "#recipients table th a, #recipients table .paginate a, form.search"
+var recipientsNavElements = "#recipients table th a, #recipients table .paginate a, form.search, form.recipients"
 
 $(recipientsNavElements)
   .live('ajax:success', function(e, data, status, xhr) {

@@ -31,24 +31,36 @@ describe 'recipients page' do
 
     within("#recipient-#{recipient.id}") do
       find("a.edit").click
-
       find("td.show").should_not be_visible
       find("td.edit").should be_visible
-      find("a.cancel").click
+
       #page.should_not have_selector("#recipient-#{recipient.id}.edit")
 
+      find("a.cancel").click
       find("td.show").should be_visible
       find("td.edit").should_not be_visible
-      find("a.delete").click
+
+      find("a.edit").click
+      find(".edit.first-name input").set('first-name')
+      find(".edit.last-name input").set('last-name')
+      find(".edit.email input").set('email@localhost.de')
+      find("a.save").click
+    end
+
+    sleep 2 #wait for request to finish
+    puts Recipient.all.map(&:inspect)
+
+    Recipient.find_by_first_name_and_last_name_and_email('first-name', 'last-name', 'email@localhost.de').should_not be_nil
+
+      #find("a.delete").click
 
       # http://stackoverflow.com/questions/2458632/how-to-test-a-confirm-dialog-with-cucumber
-      page.driver.browser.switch_to.alert.accept
-    end
+      #page.driver.browser.switch_to.alert.accept
 
-    wait_until(10) do
-      #page.should have_no_selector("#recipient-#{recipient.id}")
-      page.find("#recipient-#{recipient.id}").should_not be_visible
-    end
+    # wait_until(10) do
+    #   #page.should have_no_selector("#recipient-#{recipient.id}")
+    #   page.find("#recipient-#{recipient.id}").should_not be_visible
+    # end
 
   end
 end
