@@ -16,3 +16,4 @@ config/setup_load_paths.rb
 .sass-cache
 log/resque_err
 log/resque_stdout
+coverage

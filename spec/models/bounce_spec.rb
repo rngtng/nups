@@ -5,6 +5,13 @@ describe Bounce do
 
   let(:bounce) { bounces(:raw) }
 
+  context "create" do
+    it "gets enqueued" do
+      new_bounce = Bounce.create!(:account => Account.first, :raw => "example Email")
+      Bounce.should have_queued(new_bounce.id)
+    end
+  end
+
   context "old format" do
     let(:bounce) { bounces(:"raw-old") }
 

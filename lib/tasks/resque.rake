@@ -56,9 +56,9 @@ namespace :resque do
   # http://stackoverflow.com/questions/2532427/why-is-rake-not-able-to-invoke-multiple-tasks-consecutively
   desc "Start workers"
   task :start_workers => :environment do
-    Rake::Task['resque:start_worker'].execute(:queue => Bounce)
+    Rake::Task['resque:start_worker'].execute(:queue => Bounce, :count => 1, :jobs => 100)
     Rake::Task['resque:start_worker'].execute(:queue => Newsletter)
-    Rake::Task['resque:start_worker'].execute(:queue => SendOut, :count => 1, :jobs => 100)
+    Rake::Task['resque:start_worker'].execute(:queue => SendOut, :count => 10, :jobs => 100)
   end
 
   # http://nhw.pl/wp/2008/10/11/rake-and-arguments-for-tasks

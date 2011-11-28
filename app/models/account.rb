@@ -61,8 +61,16 @@ class Account < ActiveRecord::Base
       # all msgs
       if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
         imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |uid|
-          self.bounces.create!(:account => self, :raw => imap.uid_fetch(uid, [encoding]).first.attr[encoding]) rescue nil
-          imap.uid_store(uid, "+FLAGS", [:Deleted])
+          begin
+            self.bounces.create!(:account => self, :raw => imap.uid_fetch(uid, [encoding]).first.attr[encoding])
+            imap.uid_store(uid, "+FLAGS", [:Deleted])
+          rescue => e
+            Airbrake.notify(
+              :error_class   => "Bounce Error",
+              :error_message => "Bounce Error: #{e.message}",
+              :parameters    => {:account_id => self.id, :uid => uid}
+            )
+          end
         end
       end
       imap.expunge

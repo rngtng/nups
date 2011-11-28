@@ -11,7 +11,7 @@ class Bounce < ActiveRecord::Base
   validates :account_id, :presence => true # deprecated
   validates :raw, :presence => true
 
-  before_create :schedule_for_processing
+  after_create :schedule_for_processing
 
   def self.queue
     Bounce::QUEUE
@@ -33,9 +33,9 @@ class Bounce < ActiveRecord::Base
     if mail.bounced? && mail_id
       mail_id_split = mail_id.split('-')
       if mail_id_split.size == 3
-        dummy, self.send_out_id, self.recipient_id = *mail_id_split
+        _, self.send_out_id, self.recipient_id = *mail_id_split
       else
-        dummy, self.account_id, newsletter_id, self.recipient_id = *mail_id_split
+        _, self.account_id, newsletter_id, self.recipient_id = *mail_id_split
       end
 
       self.send_at      = mail.date
@@ -49,7 +49,7 @@ class Bounce < ActiveRecord::Base
   end
 
   def schedule_for_processing
-    Bounce.enqueue(Bounce, self.id)
+    Resque.enqueue(Bounce, self.id)
   end
 
 end
