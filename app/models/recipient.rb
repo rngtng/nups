@@ -6,6 +6,7 @@ class Recipient < ActiveRecord::Base
 
   has_many :newsletters, :through => :account
   has_many :send_outs, :dependent => :destroy
+  has_many :live_send_outs
 
   before_create :generate_confirm_code
 
@@ -40,9 +41,17 @@ class Recipient < ActiveRecord::Base
     self
   end
 
+  def update_stats!
+    self.deliveries_count = live_send_outs.with_states(:finished, :failed, :bounced, :read).count
+    self.bounces_count    = live_send_outs.with_state(:bounced).count
+    self.failed_count     = live_send_outs.with_state(:failed).count
+    self.reads_count      = live_send_outs.with_state(:read).count
+    self.save!
+  end
+
   private
   def generate_confirm_code
-    self.confirm_code = ActiveSupport::SecureRandom.hex(8)
+    self.confirm_code = SecureRandom.hex(8)
   end
 end
 

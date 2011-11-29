@@ -3,8 +3,9 @@ require 'spec_helper'
 describe SendOut do
   fixtures :all
 
+  let(:recipient) { newsletter.recipients.first }
   let(:newsletter) { newsletters(:biff_newsletter) }
-  let(:live_send_out) { LiveSendOut.create!(:newsletter => newsletter, :recipient => newsletter.recipients.first) }
+  let(:live_send_out) { LiveSendOut.create!(:newsletter => newsletter, :recipient => recipient) }
   let(:test_send_out) { TestSendOut.create!(:newsletter => newsletter, :email => "test@test.de") }
 
   context "#create" do
@@ -68,11 +69,24 @@ describe SendOut do
       end.to change { live_send_out.reload.state }.from('sheduled').to('finished')
     end
 
+    it "increases recipients deliveries_count" do
+      expect do
+        live_send_out.deliver!
+      end.to change { recipient.reload.deliveries_count }.by(1)
+    end
+
     it "should change state to failed on failure" do
       live_send_out.issue.stub(:deliver).and_raise
       expect do
         live_send_out.deliver!
       end.to change { live_send_out.reload.state }.from('sheduled').to('failed')
+    end
+
+    it "increases recipients failed_count" do
+      live_send_out.issue.stub(:deliver).and_raise
+      expect do
+        live_send_out.deliver!
+      end.to change { recipient.reload.failed_count }.by(1)
     end
   end
 
@@ -90,7 +104,38 @@ describe SendOut do
         live_send_out.read!
       end.to_not change { live_send_out.reload.state }.from('read')
     end
+
+    it "increases recipients reads_count" do
+      live_send_out.update_attributes(:state => 'finished')
+      expect do
+        live_send_out.read!
+      end.to change { recipient.reload.reads_count }.by(1)
+    end
   end
+
+  describe "#bounce!" do
+    it "changes from finished to read" do
+      live_send_out.update_attributes(:state => 'finished')
+      expect do
+        live_send_out.bounce!
+      end.to change { live_send_out.reload.state }.from('finished').to('bounced')
+    end
+
+    it "does not change from read to read" do
+      live_send_out.update_attributes(:state => 'bounced')
+      expect do
+        live_send_out.bounce!
+      end.to_not change { live_send_out.reload.state }.from('bounced')
+    end
+
+    it "increases recipients bounces_count" do
+      live_send_out.update_attributes(:state => 'finished')
+      expect do
+        live_send_out.bounce!
+      end.to change { recipient.reload.bounces_count }.by(1)
+    end
+  end
+
 
 end
 

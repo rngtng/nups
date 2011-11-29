@@ -35,23 +35,32 @@ class SendOut < ActiveRecord::Base
 
     event :read do
       transition :finished  => :read
-      transition :read  => :read
+      transition :read => :read
     end
 
     event :bounce do
       transition :finished  => :bounced
+      transition :bounced => :bounced
     end
 
     after_transition :sheduled => :delivering do |me|
       begin
         me.issue.deliver
-        # TODO update counter here?
+        me.recipient.update_attribute(:deliveries_count,  me.recipient.deliveries_count + 1)
         me.finish!
       rescue Exception => e
         me.error_message = e.message
-        # TODO update counter here?
+        me.recipient.update_attribute(:failed_count,  me.recipient.failed_count + 1)
         me.failure! #(e.message)
       end
+    end
+
+    after_transition :finished => :read do |me|
+      me.recipient.update_attribute(:reads_count,  me.recipient.reads_count + 1)
+    end
+
+    after_transition :finished => :bounced do |me|
+      me.recipient.update_attribute(:bounces_count,  me.recipient.bounces_count + 1)
     end
   end
 

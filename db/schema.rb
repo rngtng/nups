@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111120140253) do
+ActiveRecord::Schema.define(:version => 20111129215424) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -92,17 +92,19 @@ ActiveRecord::Schema.define(:version => 20111120140253) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.integer  "deliveries_count", :default => 0, :null => false
-    t.integer  "bounces_count",    :default => 0, :null => false
+    t.integer  "deliveries_count", :default => 0,         :null => false
+    t.integer  "bounces_count",    :default => 0,         :null => false
     t.text     "bounces"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "failed_count",     :default => 0, :null => false
+    t.integer  "failed_count",     :default => 0,         :null => false
+    t.string   "confirm_code"
     t.string   "state",            :default => "pending"
-    t.integer  "reads_count", :default => 0, :null => false
+    t.integer  "reads_count",      :default => 0,         :null => false
   end
 
+  add_index "recipients", ["account_id"], :name => "index_recipients_on_account_id"
   add_index "recipients", ["email"], :name => "index_recipients_on_email"
   add_index "recipients", ["id", "account_id"], :name => "index_recipients_on_id_and_account_id", :unique => true
 
