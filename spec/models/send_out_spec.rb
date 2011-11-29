@@ -63,14 +63,32 @@ describe SendOut do
     end
 
     it "should change state to finished on success" do
-      live_send_out.deliver!
-      live_send_out.state.should == 'finished'
+      expect do
+        live_send_out.deliver!
+      end.to change { live_send_out.reload.state }.from('sheduled').to('finished')
     end
 
     it "should change state to failed on failure" do
       live_send_out.issue.stub(:deliver).and_raise
-      live_send_out.deliver!
-      live_send_out.state.should == 'failed'
+      expect do
+        live_send_out.deliver!
+      end.to change { live_send_out.reload.state }.from('sheduled').to('failed')
+    end
+  end
+
+  describe "#read!" do
+    it "changes from finished to read" do
+      live_send_out.update_attributes(:state => 'finished')
+      expect do
+        live_send_out.read!
+      end.to change { live_send_out.reload.state }.from('finished').to('read')
+    end
+
+    it "does not change from read to read" do
+      live_send_out.update_attributes(:state => 'read')
+      expect do
+        live_send_out.read!
+      end.to_not change { live_send_out.reload.state }.from('read')
     end
   end
 
