@@ -3,6 +3,17 @@ require 'spec_helper'
 describe Recipient do
   fixtures :all
 
+  context "#create" do
+
+    it "generate random string for code" do
+      Recipient.create.confirm_code.should_not nil
+    end
+
+    it "inital state is pending" do
+      Recipient.create.state.should == 'pending'
+    end
+  end
+
   context "#uniq" do
     let(:recipient) { recipients(:josh) }
 

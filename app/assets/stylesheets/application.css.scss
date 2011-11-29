@@ -52,7 +52,11 @@ html, body {
       padding: 2px; }
     .form {
       th, td {
-        padding: 4px; } } }
+        padding: 4px; } }
+     tfoot {
+       display: none;
+       text-align: center;
+       font-style: italic; } }
   // http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html
   // .clear
   //   overflow: hidden

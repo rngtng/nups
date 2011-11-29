@@ -7,6 +7,8 @@ class Recipient < ActiveRecord::Base
   has_many :newsletters, :through => :account
   has_many :send_outs, :dependent => :destroy
 
+  before_create :generate_confirm_code
+
   scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }
   scope :search, lambda { |search| search.blank? ? {} : {:conditions => SEARCH_COLUMNS.map { |column| "#{column} LIKE '%#{search}%'" }.join(' OR ') } }
   scope :confirmed, :conditions => { :state => :confirmed}
@@ -36,6 +38,11 @@ class Recipient < ActiveRecord::Base
   def destroy
     self.delete!
     self
+  end
+
+  private
+  def generate_confirm_code
+    self.confirm_code = ActiveSupport::SecureRandom.hex(8)
   end
 end
 
