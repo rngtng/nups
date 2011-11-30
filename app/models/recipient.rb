@@ -43,7 +43,7 @@ class Recipient < ActiveRecord::Base
 
   def update_stats!
     self.deliveries_count = live_send_outs.with_states(:finished, :failed, :bounced, :read).count
-    self.bounces_count    = live_send_outs.with_state(:bounced).count
+    self.bounces_count    = live_send_outs.with_state(:bounced).count + self.bounces.to_s.split("\n").size
     self.failed_count     = live_send_outs.with_state(:failed).count
     self.reads_count      = live_send_outs.with_state(:read).count
     self.save!

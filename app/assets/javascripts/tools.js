@@ -18,10 +18,6 @@
   };
 
   $.fn.showNothingFound = function() {
-    var $footer = this.find("tfoot")
-    $footer.show();
-    this.find("tbody tr:first").each(function(){
-      $footer.hide();
-    });
+    this.find("tfoot").toggle(this.find("tbody tr:first").size() < 1);
   };
 })(jQuery);

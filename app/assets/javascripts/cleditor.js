@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  editors = $(".cleditor").cleditor({
+  $(".cleditor").cleditor({
     width:        600, // width not including margins, borders or padding
     height:       500, // height not including margins, borders or padding
     controls:     // controls to add to the toolbar
@@ -7,9 +7,7 @@ $(document).ready(function() {
                   "style | color highlight removeformat | bullets numbering | outdent " +
                   "indent | alignleft center alignright justify | " +
                   "rule image link unlink | source"
-  });
-
-  editors.each(function() {
+  }).each(function() {
     var editor = this;
     $(editor.doc).keypress(function(e) {
       if ((e.keyCode || e.which) == 13) {

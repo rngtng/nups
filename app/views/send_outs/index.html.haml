@@ -17,7 +17,8 @@
     %tbody
       = render :partial => 'send_out', :collection => @send_outs
 
-    %tfoot
-      %tr
-        %td{colspan:3}
-          = t('send_outs.nothing')
+    - unless @send_outs.any?
+      %tfoot
+        %tr
+          %td{colspan:3}
+            = t('send_outs.nothing')

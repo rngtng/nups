@@ -12,29 +12,25 @@
 ## TODO
   * recipients: overflow for user name + email
   * heighlight reciever with bounce count, set option to disable
-
-  * hidden image to register if nl was read *test*
-  * read NL on website *test*
-
-  * read count to recipient *update when read* *test*
-
-  * update bounce counters:
-     -> only counter bounces younger than last update time -> bounces_count_updated_at
-     -> resque task?
-     -> on bounce create? if user available?
   * change update_newsletter to json
-  * update deliver counters:
-    -> after send?
   * translation (gender)
   * errors_count + errors message
   * unsubscribe ->
-
   * test coffeescript
   * add better migration
   * filter valid/invalid ??????
   * resque status: http://github.com/quirkey/resque-status
 
 ## DONE
+  * hidden image to register if nl was read *test*
+  * read NL on website *test*
+  * read count to recipient *update when read* *test*
+  * update bounce counters:
+     -> only counter bounces younger than last update time -> bounces_count_updated_at
+     -> resque task?
+     -> on bounce create? if user available?
+  * update deliver counters:
+      -> after send?
   * fix receiver edit
   * recipients overlay with list of sendouts (details -> when which newsletter was send)
   * hide deleted receiver

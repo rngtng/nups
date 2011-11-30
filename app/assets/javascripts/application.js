@@ -13,5 +13,6 @@
 //= require cleditor
 //= require newsletters
 //= require recipients
+//= require send_outs
 //= require tools
 

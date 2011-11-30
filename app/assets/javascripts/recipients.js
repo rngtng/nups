@@ -113,7 +113,6 @@ $(document).ready(function() {
   $("#recipients").each(function() {
     $(recipientsNavElements).attr('data-type', 'html');
 
-    //// new overlay shoud relaod. TODO: only on changes!! Same for delete??
     $("a[rel=#overlay]").attachOverlay();
     $("table.content").showNothingFound();
     $("a.new[rel=#overlay]").each(function() {
