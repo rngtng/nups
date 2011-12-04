@@ -14,24 +14,6 @@ class LiveSendOut < SendOut
   end
 end
 
-
-=begin
-
-def move_to_recipient
-  if recipient
-    rec = Array(mail.final_recipient).split(";")[1].try(:strip)
-    unless recipient.bounces.to_s.include?(mail_id)
-      recipient.bounces_count += 1
-      recipient.bounces = "#{mail.date.strftime("%Y-%m-%d")} #{mail_id} <#{rec}>: #{mail.error_status} #{mail.diagnostic_code}\n#{recipient.bounces}"
-      recipient.save!
-    end
-    self.raw = nil
-  end
-end
-
-
-=end
-
 # == Schema Info
 #
 # Table name: send_outs

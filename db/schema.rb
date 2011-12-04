@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129215424) do
+ActiveRecord::Schema.define(:version => 20111203094126) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20111129215424) do
     t.text     "error_message"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "finished_at"
   end
 
   add_index "send_outs", ["newsletter_id", "type"], :name => "index_send_outs_on_newsletter_id_and_type"

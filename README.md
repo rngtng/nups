@@ -14,14 +14,16 @@
   * heighlight reciever with bounce count, set option to disable
   * change update_newsletter to json
   * translation (gender)
-  * errors_count + errors message
   * unsubscribe ->
-  * test coffeescript
+    header:  http://www.list-unsubscribe.com/
+    page: 
   * add better migration
   * filter valid/invalid ??????
   * resque status: http://github.com/quirkey/resque-status
+  * test coffeescript
 
 ## DONE
+  * errors_count + errors message
   * hidden image to register if nl was read *test*
   * read NL on website *test*
   * read count to recipient *update when read* *test*

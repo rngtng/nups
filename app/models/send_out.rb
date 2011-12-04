@@ -46,13 +46,21 @@ class SendOut < ActiveRecord::Base
     after_transition :sheduled => :delivering do |me|
       begin
         me.issue.deliver
-        me.recipient.update_attribute(:deliveries_count,  me.recipient.deliveries_count + 1)
         me.finish!
       rescue Exception => e
         me.error_message = e.message
-        me.recipient.update_attribute(:failed_count,  me.recipient.failed_count + 1)
         me.failure! #(e.message)
       end
+    end
+
+    after_transition :delivering => :finished do |me|
+      me.finished_at = Time.now
+      me.recipient.update_attribute(:deliveries_count,  me.recipient.deliveries_count + 1)
+    end
+
+    after_transition :delivering => :failed do |me|
+      me.finished_at = Time.now
+      me.recipient.update_attribute(:failed_count,  me.recipient.failed_count + 1)
     end
 
     after_transition :finished => :read do |me|

@@ -145,15 +145,11 @@ class Newsletter < ActiveRecord::Base
 
   def update_stats!
     if sending?
-      unless self.delivery_started_at
-        self.delivery_started_at = live_send_outs.first(:order => "created_at ASC").try(:created_at)
-        self.recipients_count    = live_send_outs.count
-      end
-      self.deliveries_count    = live_send_outs.with_state(:finished).count
-      self.errors_count        = live_send_outs.with_state(:failed).count
+      self.delivery_started_at ||= live_send_outs.first(:order => "created_at ASC").try(:created_at)
+      self.deliveries_count      = live_send_outs.with_state(:finished).count
+      self.errors_count          = live_send_outs.with_state(:failed).count
       if progress_percent >= 100
-        # TODO what if bounced??
-        self.delivery_ended_at = live_send_outs.first(:order => "updated_at DESC").try(:updated_at)
+        self.delivery_ended_at   = live_send_outs.first(:order => "finished_at DESC").try(:finished_at)
         self.finish! #(end_time)
       end
       self.save!
@@ -174,9 +170,11 @@ class Newsletter < ActiveRecord::Base
    end
 
    def _send_live!
+     #TODO uses batches?
      self.recipients.each do |live_recipient|
        self.live_send_outs.create!(:recipient => live_recipient)
      end
+    self.update_attribute(:recipients_count, self.live_send_outs.count) #TODO what if stopped??
    end
 
    def _resume_live!

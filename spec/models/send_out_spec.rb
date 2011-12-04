@@ -63,10 +63,16 @@ describe SendOut do
       end.to change(ActionMailer::Base.deliveries, :size).by(1)
     end
 
-    it "should change state to finished on success" do
+    it "changes state to finished on success" do
       expect do
         live_send_out.deliver!
       end.to change { live_send_out.reload.state }.from('sheduled').to('finished')
+    end
+
+    it "set finished_at" do
+      expect do
+        live_send_out.deliver!
+      end.to change { live_send_out.reload.finished_at }.from(nil)
     end
 
     it "increases recipients deliveries_count" do
