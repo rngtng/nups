@@ -4,14 +4,13 @@ class Bounce < ActiveRecord::Base
 
   QUEUE = :nups2_bounces
 
-  belongs_to :account # deprecated
   belongs_to :send_out
   belongs_to :recipient
 
-  validates :account_id, :presence => true # deprecated
   validates :raw, :presence => true
 
   after_create :schedule_for_processing
+  after_save :update_send_out
 
   def self.queue
     Bounce::QUEUE
@@ -31,12 +30,7 @@ class Bounce < ActiveRecord::Base
 
   def process!
     if mail.bounced? && mail_id
-      mail_id_split = mail_id.split('-')
-      if mail_id_split.size == 3
-        _, self.send_out_id, self.recipient_id = *mail_id_split
-      else
-        _, self.account_id, newsletter_id, self.recipient_id = *mail_id_split
-      end
+      _, self.send_out_id, self.recipient_id = mail_id.split('-')
 
       self.send_at      = mail.date
       self.subject      = mail.subject
@@ -50,6 +44,10 @@ class Bounce < ActiveRecord::Base
 
   def schedule_for_processing
     Resque.enqueue(Bounce, self.id)
+  end
+
+  def update_send_out
+    send_out.bounce! if send_out
   end
 
   private

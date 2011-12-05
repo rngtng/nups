@@ -26,7 +26,7 @@ gem 'kaminari'
 gem 'ekuseru'
 
 # parsing bounce emails
-gem 'rngtng-bounce-email', '~> 0.1.0'
+gem 'bounce_email'
 
 gem 'state_machine'
 

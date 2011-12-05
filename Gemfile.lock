@@ -35,6 +35,8 @@ GEM
       builder
     arel (2.2.1)
     bcrypt-ruby (3.0.1)
+    bounce_email (0.2.2)
+      mail
     builder (3.0.0)
     capistrano (2.9.0)
       highline
@@ -172,8 +174,6 @@ GEM
     resque_spec (0.8.0)
       resque (>= 1.19.0)
       rspec (>= 2.5.0)
-    rngtng-bounce-email (0.1.1)
-      mail
     rpm_contrib (2.1.6)
       newrelic_rpm (>= 3.1.1)
       newrelic_rpm (>= 3.1.1)
@@ -248,6 +248,7 @@ PLATFORMS
 
 DEPENDENCIES
   airbrake
+  bounce_email
   capistrano
   capybara
   coffee-rails
@@ -270,7 +271,6 @@ DEPENDENCIES
   resque-jobs-per-fork
   resque-scheduler (~> 2.0.0.e)
   resque_spec
-  rngtng-bounce-email (~> 0.1.0)
   rpm_contrib
   rspec-rails
   ruby-graphviz

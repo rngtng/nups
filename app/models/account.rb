@@ -7,7 +7,6 @@ class Account < ActiveRecord::Base
   has_many :assets,      :dependent => :destroy
   has_many :newsletters, :dependent => :destroy
   has_many :recipients,  :dependent => :destroy
-  has_many :bounces,  :dependent => :destroy
 
   validates :user_id, :presence => true
 
@@ -62,7 +61,7 @@ class Account < ActiveRecord::Base
       if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
         imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |uid|
           begin
-            self.bounces.create!(:account => self, :raw => imap.uid_fetch(uid, [encoding]).first.attr[encoding])
+            self.bounces.create!(:raw => imap.uid_fetch(uid, [encoding]).first.attr[encoding])
             imap.uid_store(uid, "+FLAGS", [:Deleted])
           rescue => e
             Airbrake.notify(
