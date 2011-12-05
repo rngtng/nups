@@ -10,6 +10,7 @@
       http://mentalized.net/activity-indicators/
 
 ## TODO
+  * add infos to newsletter to see total read/bounces
   * recipients: overflow for user name + email
   * heighlight reciever with bounce count, set option to disable
   * change update_newsletter to json

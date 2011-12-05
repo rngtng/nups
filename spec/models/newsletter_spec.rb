@@ -172,12 +172,13 @@ describe Newsletter do
     end
 
     context "sending" do
+      let(:created_at) { 5.days.ago }
+
       it "updates delivery_started_at" do
-        time = 5.days.ago
-        @send_out_first.update_attributes(:created_at => time)
+        @send_out_first.update_attributes(:created_at => created_at)
         expect do
           newsletter.update_stats!
-        end.to change { newsletter.delivery_started_at.to_i }.to(time.to_i)
+        end.to change { newsletter.delivery_started_at.to_i }.to(created_at.to_i)
       end
 
       it "doesn't change state" do
@@ -188,9 +189,11 @@ describe Newsletter do
     end
 
     context "finished" do
+      let(:finished_at) { 2.days.ago }
+
       before do
         @send_out_first.update_attributes(:state => 'finished', :finished_at => 3.days.ago)
-        @send_out_last.update_attributes(:state => 'failed', :finished_at => 2.days.ago)
+        @send_out_last.update_attributes(:state => 'failed', :finished_at => finished_at)
         newsletter.update_attribute(:recipients_count, newsletter.live_send_outs.count)
       end
 
@@ -210,19 +213,19 @@ describe Newsletter do
       it "updates delivery_ended_at" do
         expect do
           newsletter.update_stats!
-        end.to change { newsletter.delivery_ended_at.to_i }.to(2.days.ago.to_i)
+        end.to change { newsletter.delivery_ended_at.to_i }.to(finished_at.to_i)
       end
 
       it "updates errors_count" do
         expect do
           newsletter.update_stats!
-        end.to change { newsletter.errors_count }.to(1)
+        end.to change { newsletter.errors_count }.by(1)
       end
 
       it "updates deliveries_count" do
         expect do
           newsletter.update_stats!
-        end.to change { newsletter.deliveries_count }.to(1)
+        end.to change { newsletter.deliveries_count }.by(1)
       end
     end
 

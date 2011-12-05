@@ -53,21 +53,21 @@ class SendOut < ActiveRecord::Base
       end
     end
 
-    after_transition :delivering => :finished do |me|
+    before_transition :delivering => :finished do |me|
       me.finished_at = Time.now
       me.recipient.update_attribute(:deliveries_count,  me.recipient.deliveries_count + 1)
     end
 
-    after_transition :delivering => :failed do |me|
+    before_transition :delivering => :failed do |me|
       me.finished_at = Time.now
       me.recipient.update_attribute(:failed_count,  me.recipient.failed_count + 1)
     end
 
-    after_transition :finished => :read do |me|
+    before_transition :finished => :read do |me|
       me.recipient.update_attribute(:reads_count,  me.recipient.reads_count + 1)
     end
 
-    after_transition :finished => :bounced do |me|
+    before_transition :finished => :bounced do |me|
       me.recipient.update_attribute(:bounces_count,  me.recipient.bounces_count + 1)
     end
   end
