@@ -2,6 +2,7 @@ class Newsletter < ActiveRecord::Base
 
   QUEUE = :nups2_newsletter
   HEADER_ID = "X-MA-Id"
+  DEFAULT_CONTENT = "<%= content %>"
 
   belongs_to :account
 
@@ -115,7 +116,7 @@ class Newsletter < ActiveRecord::Base
 
   def template
     account.template_html.tap do |t|
-      return "<%= content %>" if t.blank?
+      return DEFAULT_CONTENT if t.blank?
     end
   end
 
@@ -140,7 +141,7 @@ class Newsletter < ActiveRecord::Base
   end
 
   def sendings_per_second
-    (sending_time > 0) ? (count.to_f / sending_time) : 0
+    (sending_time > 0) ? (count.to_f / sending_time).round(2) : 0
   end
 
   def update_stats!

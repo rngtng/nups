@@ -10,6 +10,10 @@
       http://mentalized.net/activity-indicators/
 
 ## TODO
+  * introduce foreign key for send_outs?
+  * remove error_code/message from send_out -> catch error within resque?
+  * remove  mode/status/last_send_id from newsletter
+  * order DESC
   * add infos to newsletter to see total read/bounces
   * recipients: overflow for user name + email
   * heighlight reciever with bounce count, set option to disable

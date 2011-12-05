@@ -8,7 +8,9 @@ class NewslettersController < ApplicationNupsController
     @user      ||= (@account) ? @account.user : current_user
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
-    @newsletters = @user.newsletters.with_account(@account).scoped(:order => 'created_at DESC').page(params[:page]).per(15)
+    @newsletters = @user.newsletters.with_account(@account).
+                         order('deliver_at DESC, newsletter.delivery_started_at DESC, newsletter.updated_at DESC').
+                         page(params[:page]).per(15)
     if request.xhr?
       render :partial => 'newsletters'
     end
@@ -29,7 +31,7 @@ class NewslettersController < ApplicationNupsController
   end
 
   def new
-    redner404 && return unless @account
+    render404 && return unless @account
 
     draft = @account.newsletters.find_by_id(params[:draft_id])
     @newsletter = @account.newsletters.new(:draft => draft)

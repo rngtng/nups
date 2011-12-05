@@ -4,7 +4,7 @@
       %span= newsletter.state
 
   %td.info
-    %strong= l(newsletter.deliver_at || newsletter.updated_at, :format => :nl) + ':'
+    %strong= l(newsletter.deliver_at || newsletter.delivery_started_at || newsletter.updated_at, :format => :nl) + ':'
     = link_to newsletter.subject, account_newsletter_path(*newsletter.route), :rel => "#overlay"
 
     .progress-bar

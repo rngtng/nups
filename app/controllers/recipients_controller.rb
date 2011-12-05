@@ -7,7 +7,7 @@ class RecipientsController < ApplicationNupsController
     @recipients = @account.recipients.search(params[:search])
 
     unless params[:format] == 'xls'
-      @recipients = @recipients.with_states(:confirmed).order(params[:order] || :id).page(params[:page]).per(10)
+      @recipients = @recipients.with_states(:confirmed).order(params[:order] || :id).page(params[:page]).per(50)
     end
     if request.xhr?
       render :partial => 'recipients'

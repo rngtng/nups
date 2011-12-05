@@ -62,7 +62,7 @@ $('#recipients a.delete').live('ajax:success', function(e, data, status, xhr) {
   $('#recipient-' + data.id).remove();
 });
 
-var recipientsNavElements = "#recipients .paginate a, #recipients form.search"
+var recipientsNavElements = "#recipients th a, #recipients .paginate a, #recipients form.search"
 
 $(recipientsNavElements)
   .live('ajax:success', function(e, data, status, xhr) {

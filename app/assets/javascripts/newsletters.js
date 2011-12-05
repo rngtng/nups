@@ -30,7 +30,7 @@ updateNewsletter = function(id, state, progressPercent, sendingTime, sendingsPer
       .width(progressPercent + '%')
       .show()
       .find('label')
-      .text(progressPercent)
+      .text(progressPercent + '%')
       .end();
       schedule();
   });

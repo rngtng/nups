@@ -53,7 +53,7 @@ class Bounce < ActiveRecord::Base
   private
   def save_to_recipient
     if recipient
-      recipient.bounces = "#{mail.date.strftime("%Y-%m-%d")} #{mail_id} <#{rec}>: #{mail.error_status} #{mail.diagnostic_code}\n#{recipient.bounces}"
+      recipient.bounces = "#{mail.date.strftime("%Y-%m-%d")} #{mail_id} <>: #{mail.error_status} #{mail.diagnostic_code}\n#{recipient.bounces}"
       recipient.save!
     end
   end
