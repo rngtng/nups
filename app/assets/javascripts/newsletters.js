@@ -83,7 +83,7 @@ $(document).ready(function () {
     $(newsletterNavElements).attr('data-type', 'html');
     $("a[rel=#overlay]").attachOverlay();
     $("table.content").showNothingFound();
-    console.log('#newsletters loaded');
+    //console.log('#newsletters loaded');
   });
 });
 

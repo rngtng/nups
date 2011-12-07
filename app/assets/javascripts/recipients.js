@@ -1,5 +1,5 @@
 var updateRecipient = function(recipient) {
-  console.log(recipient);
+  //console.log(recipient);
   r = recipient;
   $('#recipient-' + recipient.id)
     .removeClass()

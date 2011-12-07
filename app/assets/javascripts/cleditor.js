@@ -13,7 +13,7 @@ $(document).ready(function() {
       if ((e.keyCode || e.which) == 13) {
         var body   = editor.$frame.contents().find("body")[0];
         var height = body.scrollHeight + (body.offsetHeight - body.clientHeight) + 27 ;
-        console.log('' + editor.$frame.css('height') + ' - ' + height);
+        //console.log('' + editor.$frame.css('height') + ' - ' + height);
         if( parseInt(editor.$frame.css('height')) < height) {
           editor.$main.css('height', height + 27);
           editor.$area.css('height', height);
@@ -21,6 +21,6 @@ $(document).ready(function() {
         }
       }
     });
-    console.log('cleditor loaded');
+    //console.log('cleditor loaded');
   });
 });

@@ -12,7 +12,7 @@
     :javascript
       $(document).ready(function() {
         showMenu(#{@user.id});
-        console.log('#frame loaded');
+        //console.log('#frame loaded');
       });
 
   %body{:class => current_user.admin? ? 'admin' : 'user'}

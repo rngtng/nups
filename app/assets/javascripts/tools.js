@@ -14,7 +14,7 @@
     }, options);
 
    this.overlay(options);
-   console.log("Overlays attached: " + this.size());
+   //console.log("Overlays attached: " + this.size());
   };
 
   $.fn.showNothingFound = function() {
