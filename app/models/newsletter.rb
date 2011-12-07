@@ -147,8 +147,7 @@ class Newsletter < ActiveRecord::Base
   def update_stats!
     if sending?
       self.delivery_started_at ||= live_send_outs.first(:order => "created_at ASC").try(:created_at)
-      # TODO better:  count sendout_ with finished at??
-      self.deliveries_count      = live_send_outs.with_states(:read, :bounced, :finished).count
+      self.deliveries_count      = live_send_outs.where("finished_at IS NOT NULL").count
       self.errors_count          = live_send_outs.with_state(:failed).count
       if progress_percent >= 100
         self.delivery_ended_at   = live_send_outs.first(:order => "finished_at DESC").try(:finished_at)

@@ -11,7 +11,6 @@ class LiveSendOut < SendOut
     end
 
     before_transition :delivering => :failed do |me|
-      me.finished_at = Time.now
       me.recipient.update_attribute(:failed_count,  me.recipient.failed_count + 1)
     end
 

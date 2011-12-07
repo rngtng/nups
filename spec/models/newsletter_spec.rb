@@ -193,7 +193,8 @@ describe Newsletter do
 
       before do
         @send_out_first.update_attributes(:state => 'finished', :finished_at => 3.days.ago)
-        @send_out_last.update_attributes(:state => 'failed', :finished_at => finished_at)
+        @send_out_last.update_attributes(:state => 'read', :finished_at => finished_at)
+        @send_out_last.update_attributes(:state => 'failed', :updated_at => finished_at)
         newsletter.update_attribute(:recipients_count, newsletter.live_send_outs.count)
       end
 
@@ -225,7 +226,7 @@ describe Newsletter do
       it "updates deliveries_count" do
         expect do
           newsletter.update_stats!
-        end.to change { newsletter.deliveries_count }.by(1)
+        end.to change { newsletter.deliveries_count }.by(2)
       end
     end
 
