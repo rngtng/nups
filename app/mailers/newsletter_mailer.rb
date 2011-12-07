@@ -6,7 +6,7 @@ class NewsletterMailer < ActionMailer::Base
 
     if mail_config = newsletter.account.mail_config
       NewsletterMailer.delivery_method            = mail_config['method'].to_sym
-      NewsletterMailer.default_url_options[:host] = mail_config['host']
+      NewsletterMailer.default_url_options[:host] = mail_config['host'] if mail_config['host']
       NewsletterMailer.smtp_settings              = mail_config['smtp_settings']
     end
 
