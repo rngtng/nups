@@ -165,7 +165,7 @@ class Newsletter < ActiveRecord::Base
 
    def _send_test!
      self.test_recipient_emails_array.each do |test_recipient_email|
-       self.test_send_outs.create!(:email => test_recipient_email)
+       self.test_send_outs.create!(:email => test_recipient_email.strip)
      end
      self.finish!
    end

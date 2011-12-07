@@ -7,7 +7,7 @@ describe Account do
     {
       :by_comma => "test@test.de,test2@test.de,test3@test.de",
       :by_spec_char => "test@test.de;test2@test.de|test3@test.de",
-      :uniq => "test@test.de,test2@test.de,test3@test.de,test3@test.de",
+      :uniq => "test@test.de,test2@test.de\r,test3@test.de,test3@test.de",
       :remove_empty => "test@test.de,,test2@test.de,test3@test.de,",
       :and_strip => "test@test.de ;test2@test.de\n| test3@test.de   "
     }.each do |name, value|

@@ -27,7 +27,7 @@ class Account < ActiveRecord::Base
   end
 
   def test_recipient_emails_array
-    @test_recipient_emails_array = test_recipient_emails.to_s.split(/,| |\||;|\n|\t/).select do |email|
+    @test_recipient_emails_array = test_recipient_emails.to_s.split(/,| |\||;|\r|\n|\t/).select do |email|
       email.include?('@')
     end.compact.uniq
   end

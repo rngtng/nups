@@ -51,48 +51,58 @@ describe SendOut do
       ActionMailer::Base.deliveries.clear
     end
 
-    it "should send out test sending" do
-      expect do
-        test_send_out.deliver!
-      end.to change(ActionMailer::Base.deliveries, :size).by(1)
+    context "TestSendOut" do
+      it "should send out test sending" do
+        expect do
+          test_send_out.deliver!
+        end.to change(ActionMailer::Base.deliveries, :size).by(1)
+      end
+
+      it "changes state to finished on success" do
+        expect do
+          test_send_out.deliver!
+        end.not_to change { Recipient.count }
+      end
     end
 
-    it "should send out live sending" do
-      expect do
-        live_send_out.deliver!
-      end.to change(ActionMailer::Base.deliveries, :size).by(1)
-    end
+    context "LiveSendOut" do
+      it "should send out live sending" do
+        expect do
+          live_send_out.deliver!
+        end.to change(ActionMailer::Base.deliveries, :size).by(1)
+      end
 
-    it "changes state to finished on success" do
-      expect do
-        live_send_out.deliver!
-      end.to change { live_send_out.reload.state }.from('sheduled').to('finished')
-    end
+      it "changes state to finished on success" do
+        expect do
+          live_send_out.deliver!
+        end.to change { live_send_out.reload.state }.from('sheduled').to('finished')
+      end
 
-    it "set finished_at" do
-      expect do
-        live_send_out.deliver!
-      end.to change { live_send_out.reload.finished_at }.from(nil)
-    end
+      it "set finished_at" do
+        expect do
+          live_send_out.deliver!
+        end.to change { live_send_out.reload.finished_at }.from(nil)
+      end
 
-    it "increases recipients deliveries_count" do
-      expect do
-        live_send_out.deliver!
-      end.to change { recipient.reload.deliveries_count }.by(1)
-    end
+      it "increases recipients deliveries_count" do
+        expect do
+          live_send_out.deliver!
+        end.to change { recipient.reload.deliveries_count }.by(1)
+      end
 
-    it "should change state to failed on failure" do
-      live_send_out.issue.stub(:deliver).and_raise
-      expect do
-        live_send_out.deliver!
-      end.to change { live_send_out.reload.state }.from('sheduled').to('failed')
-    end
+      it "should change state to failed on failure" do
+        live_send_out.issue.stub(:deliver).and_raise
+        expect do
+          live_send_out.deliver!
+        end.to change { live_send_out.reload.state }.from('sheduled').to('failed')
+      end
 
-    it "increases recipients failed_count" do
-      live_send_out.issue.stub(:deliver).and_raise
-      expect do
-        live_send_out.deliver!
-      end.to change { recipient.reload.failed_count }.by(1)
+      it "increases recipients failed_count" do
+        live_send_out.issue.stub(:deliver).and_raise
+        expect do
+          live_send_out.deliver!
+        end.to change { recipient.reload.failed_count }.by(1)
+      end
     end
   end
 

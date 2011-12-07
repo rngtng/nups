@@ -36,6 +36,7 @@ class Recipient < ActiveRecord::Base
     end
   end
 
+  alias_method :force_destroy, :destroy
   def destroy
     self.delete!
     self
