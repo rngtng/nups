@@ -9,7 +9,7 @@ class NewslettersController < ApplicationNupsController
     @accounts    = current_user.admin? ? Account.all : @user.accounts
 
     @newsletters = @user.newsletters.with_account(@account).
-                         order('deliver_at DESC, delivery_started_at DESC, updated_at DESC').
+                         order('IFNULL(deliver_at,NOW()) DESC, IFNULL(delivery_started_at,NOW()) DESC, updated_at DESC').
                          page(params[:page]).per(15)
     if request.xhr?
       render :partial => 'newsletters'
