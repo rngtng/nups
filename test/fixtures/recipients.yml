@@ -26,6 +26,13 @@ raziel:
   last_name: razza
   state: pending
 
+admin:
+  account: admin_account
+  email: admin@biff.com
+  first_name: admin
+  last_name: admin
+  state: confirmed
+
 # == Schema Info
 #
 # Table name: recipients

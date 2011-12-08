@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   protected
   def load_account
     klass = current_user.admin? ? Account : current_user.accounts
-    @account = klass.find_by_id(params[:account_id]) || klass.find_by_permalink(params[:account_permalink])
+    @account = klass.find_by_id(params[:account_id])
     render_404 unless @account
   end
 

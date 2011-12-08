@@ -11,12 +11,11 @@ user2 = User.new(username:'test', email:'test@localhost.de')
 user2.password = user.password_confirmation = 'test'
 user2.save!
 
+Domain.delete_all
 user2.domains.create(name:"germanstockpromoters.de", number:1084641, username:"bschulze", password:"testets")
 
 Account.delete_all
-account = Account.new(name:"Test", from:"test@localhost.de", user:user, subject:"Test", has_html:true, has_text:true, has_attachments:true, has_scheduling:true)
-account.template_html = account.template_text = "<%= content %>"
-account.save!
+account = Account.create(name:"Test", from:"test@localhost.de", user:user, subject:"Test", has_html:true, has_text:true, has_attachments:true, has_scheduling:true)
 
 newsletters = {}
 Newsletter.delete_all
@@ -33,3 +32,4 @@ Recipient.delete_all
 100.times do |index|
   Recipient.create(email:"test-#{index}@localhost.de", account:account)
 end
+

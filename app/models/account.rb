@@ -59,27 +59,28 @@ class Account < ActiveRecord::Base
 
   def process_bounces(mbox = 'INBOX', encoding = 'RFC822')
     if mail_config && (mail_settings = mail_config['smtp_settings'])
-      imap = Net::IMAP.new(mail_settings[:address].gsub('smtp', 'imap'))
-      imap.authenticate('LOGIN', mail_settings[:user_name], mail_settings[:password])
-      imap.select(mbox) #use examaine for read only
+      Net::IMAP.new(mail_settings[:address].gsub('smtp', 'imap')).tap do |imap|
+        imap.authenticate('LOGIN', mail_settings[:user_name], mail_settings[:password])
+        imap.select(mbox) #use examaine for read only
 
-      # all msgs
-      if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
-        imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |uid|
-          begin
-            Bounce.create!(:raw => imap.uid_fetch(uid, [encoding]).first.attr[encoding])
-            imap.uid_store(uid, "+FLAGS", [:Deleted])
-          rescue => e
-            Airbrake.notify(
-              :error_class   => "Bounce Error",
-              :error_message => "Bounce Error: #{e.message}",
-              :parameters    => {:account_id => self.id, :uid => uid}
-            )
+        # all msgs
+        if imap.status(mbox, ["MESSAGES"])["MESSAGES"] > 0
+          imap.uid_search(["SINCE", "1-Jan-1969", "NOT", "DELETED"]).each do |uid|
+            begin
+              Bounce.create!(:raw => imap.uid_fetch(uid, [encoding]).first.attr[encoding])
+              imap.uid_store(uid, "+FLAGS", [:Deleted])
+            rescue => e
+              Airbrake.notify(
+                :error_class   => "Bounce Error",
+                :error_message => "Bounce Error: #{e.message}",
+                :parameters    => {:account_id => self.id, :uid => uid}
+              )
+            end
           end
         end
+        imap.expunge
+        imap.close
       end
-      imap.expunge
-      imap.close
     end
   end
 

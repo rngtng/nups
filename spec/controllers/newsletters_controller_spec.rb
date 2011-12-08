@@ -3,7 +3,7 @@ require 'spec_helper'
 describe NewslettersController do
   include Devise::TestHelpers
 
-  fixtures :all
+  fixtures :accounts, :users, :newsletters
 
   let(:admin) { users(:admin) }
   let(:user) { users(:biff) }

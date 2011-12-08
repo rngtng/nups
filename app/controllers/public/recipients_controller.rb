@@ -10,6 +10,8 @@ class Public::RecipientsController < ApplicationController
 
   def show
     @recipient = @account.recipients.find(params[:id])
+  rescue
+    render_404
   end
 
   def new
@@ -23,6 +25,8 @@ class Public::RecipientsController < ApplicationController
 
   def edit
     @recipient = @account.recipients.find(params[:id])
+  rescue
+    render_404
   end
 
   def create
@@ -51,6 +55,8 @@ class Public::RecipientsController < ApplicationController
         format.json  { render :json => @recipient.errors, :status => :unprocessable_entity }
       end
     end
+  rescue
+    render_404
   end
 
   def destroy
@@ -61,6 +67,14 @@ class Public::RecipientsController < ApplicationController
       format.html { redirect_to( public_recipients_url ) }
       format.json  { head :ok }
     end
+  rescue
+    render_404
   end
 
+  protected
+  def load_account
+    klass = Account
+    @account = klass.find_by_id(params[:account_id]) || klass.find_by_permalink(params[:account_permalink])
+    render_404 unless @account
+  end
 end

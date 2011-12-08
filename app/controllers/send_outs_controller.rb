@@ -1,4 +1,4 @@
-class SendOutsController < ApplicationController
+class SendOutsController < ApplicationNupsController
   before_filter :load_account, :load_recipient
 
   def index
