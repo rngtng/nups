@@ -2,7 +2,7 @@ require 'bounce_email'
 
 class Bounce < ActiveRecord::Base
 
-  QUEUE = :nups2_bounces
+  QUEUE = :nups_bounces
 
   belongs_to :send_out
   belongs_to :recipient

@@ -42,7 +42,7 @@ namespace :resque do
     desc "Quit running workers"
     task :stop => :environment do
       pids = Resque.workers.select do |worker|
-        worker.to_s.include?('nups2_')
+        worker.to_s.include?('nups_')
       end.map(&:worker_pids).flatten.uniq
 
       if pids.any?

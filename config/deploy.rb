@@ -6,7 +6,7 @@ require 'bundler/capistrano'
 require 'new_relic/recipes'
 
 set :application, "nups"
-set :host, "www2.warteschlange.de"
+set :host, "www2.multiadmin.de"
 
 set :use_sudo, false
 set :user, 'ssh-21560'
@@ -23,13 +23,13 @@ set :default_environment, {
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
 # via the :deploy_to variable:
-set :deploy_to, "/kunden/warteschlange.de/produktiv/rails/#{application}2"
+set :deploy_to, "/kunden/warteschlange.de/produktiv/rails/#{application}"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 set :scm, :git
 set :repository, "git://github.com/rngtng/#{application}.git"
-set :branch, "delivery"
+set :branch, "master"
 
 set :normalize_asset_timestamps, false
 

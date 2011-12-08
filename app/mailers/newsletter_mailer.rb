@@ -6,7 +6,7 @@ class NewsletterMailer < ActionMailer::Base
 
     if mail_config = newsletter.account.mail_config
       NewsletterMailer.delivery_method            = mail_config['method'].to_sym
-      NewsletterMailer.default_url_options[:host] = mail_config['host'] || 'beta.multiadmin.de:8080'
+      NewsletterMailer.default_url_options[:host] = mail_config['host'] || 'www2.multiadmin.de:8080'
       NewsletterMailer.smtp_settings              = mail_config['smtp_settings']
     end
 
@@ -19,7 +19,7 @@ class NewsletterMailer < ActionMailer::Base
 
     head[:subject]   = [newsletter.subject].compact.join(' ')
 
-    head["X-Sender"] = "MultiAdmin - Nups2"
+    head["X-Sender"] = "MultiAdmin - Nups"
 
     newsletter.attachments.each do |attachment|
        next unless File.exists?(attachment.path)

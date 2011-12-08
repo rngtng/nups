@@ -1,6 +1,6 @@
 class Newsletter < ActiveRecord::Base
 
-  QUEUE = :nups2_newsletter
+  QUEUE = :nups_newsletter
   HEADER_ID = "X-MA-Id"
   DEFAULT_CONTENT = "<%= content %>"
 
