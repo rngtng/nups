@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111207220624) do
+ActiveRecord::Schema.define(:version => 20111208161749) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20111207220624) do
     t.boolean  "has_attachments"
     t.boolean  "has_scheduling"
     t.text     "mail_config_raw"
+    t.string   "permalink"
   end
 
   create_table "assets", :force => true do |t|

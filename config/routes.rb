@@ -40,6 +40,8 @@ Nups::Application.routes.draw do
     resources :assets #TODO just create route!
   end
 
+  match 'subscribe/:account_permalink' => 'public/recipients#new',    :via => 'get',    :as => :subscribe
+  match 'subscribe/:account_permalink' => 'public/recipients#create', :via => 'post'
   match 'unsubscribe/:account_id/:id' => 'public/recipients#show',    :via => 'get',    :as => :unsubscribe
   match 'unsubscribe/:account_id/:id' => 'public/recipients#destroy', :via => 'delete'
 

@@ -8,7 +8,7 @@ class Recipient < ActiveRecord::Base
   has_many :send_outs, :dependent => :destroy
   has_many :live_send_outs
 
-  before_create :generate_confirm_code
+  before_validation :generate_confirm_code
 
   scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }
   scope :search, lambda { |search| search.blank? ? {} : {:conditions => SEARCH_COLUMNS.map { |column| "#{column} LIKE '%#{search}%'" }.join(' OR ') } }
@@ -16,6 +16,7 @@ class Recipient < ActiveRecord::Base
 
   validates :account_id, :presence => true
   validates :email, :presence => true, :uniqueness => {:scope => :account_id}, :email_format => true
+  validates :confirm_code, :presence => true, :uniqueness => true, :on => :create
 
   StateMachine::Machine.ignore_method_conflicts = true #to enable #delete
   state_machine :initial => :pending do

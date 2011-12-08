@@ -3,6 +3,15 @@ require 'spec_helper'
 describe Account do
   fixtures :all
 
+  describe "#validation" do
+    let(:user) { users(:biff) }
+
+    it "sets permalink" do
+      account = Account.create :user => user
+      account.permalink.should_not be_nil
+    end
+  end
+
   describe "#test_recipient_emails_array" do
     let(:account) { accounts(:admin_account) }
 
@@ -22,6 +31,7 @@ describe Account do
     it "includes default test_emails" do
       $mail_config['test_recipient_emails'] = "test@test.de"
       account.test_recipient_emails_array.should =~ %w(test@test.de)
+      $mail_config['test_recipient_emails'] = ""
     end
   end
 

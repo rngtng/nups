@@ -8,7 +8,10 @@ class Account < ActiveRecord::Base
   has_many :newsletters, :dependent => :destroy
   has_many :recipients,  :dependent => :destroy
 
+  before_validation :generate_confirm_code
+
   validates :user_id, :presence => true
+  validates :permalink, :presence => true, :uniqueness => true
 
   scope :with_mail_config, :conditions => "mail_config_raw != ''"
 
@@ -78,6 +81,11 @@ class Account < ActiveRecord::Base
       imap.expunge
       imap.close
     end
+  end
+
+  private
+  def generate_confirm_code
+    self.permalink ||= SecureRandom.hex(8)
   end
 end
 

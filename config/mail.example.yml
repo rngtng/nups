@@ -1,11 +1,11 @@
 ---
 method: smtp
-host: www2.multiadmin.de:8080
+host:
 smtp_settings:
   :port: 25
-  :domain: "c-art-web.de"
-  :user_name: "todo@c-art-web.de"
-  :password: ""
-  :address: "smtp.c-art-web.de"
+  :domain:
+  :user_name:
+  :password:
+  :address:
   :authentication: :plain
   :enable_starttls_auto: false

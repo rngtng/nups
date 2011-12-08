@@ -12,6 +12,7 @@ admin_account:
   from: admin@email.test
   has_html: true
   has_text: true
+  permalink: ffc62a2778b59be5
 
 biff_account:
   name: Second
@@ -20,6 +21,7 @@ biff_account:
   from: Biff <biff@email.test>
   has_html: true
   has_text: true
+  permalink: ffc62a2778b59be6
   test_recipient_emails: |-
     test@test.com
     test2@test.com
