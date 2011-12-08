@@ -1,6 +1,6 @@
 class NewsletterMailer < ActionMailer::Base
-  TRACK_IMG = %{<img src="<%= public_newsletter_url(recipient.id, send_out_id, :format => 'gif') %>" width="1" height="1">}
-  TRACK_URL = %{<%= public_newsletter_url(recipient.id, send_out_id) %>}
+  TRACK_IMG = %{<img src="<%= public_newsletter_url(recipient.id.to_i, send_out_id.to_i, :format => 'gif') %>" width="1" height="1">}
+  TRACK_URL = %{<%= public_newsletter_url(recipient.id.to_i, send_out_id.to_i) %>}
 
   def issue(newsletter, recipient, send_out_id = nil)
 
@@ -20,6 +20,7 @@ class NewsletterMailer < ActionMailer::Base
     head[:subject]   = [newsletter.subject].compact.join(' ')
 
     head["X-Sender"] = "MultiAdmin - Nups"
+    head["List-Unsubscribe"] = "<mailto:unsubscribe-#{recipient.id.to_i}@multiadmin.de>"
 
     newsletter.attachments.each do |attachment|
        next unless File.exists?(attachment.path)
@@ -30,15 +31,15 @@ class NewsletterMailer < ActionMailer::Base
     end
 
     data = {
-      :subject    => newsletter.subject,
-      :content    => newsletter.content.to_s.html_safe,
-      :newsletter => newsletter,
-      :recipient  => recipient,
+      :subject     => newsletter.subject,
+      :content     => newsletter.content.to_s.html_safe,
+      :newsletter  => newsletter,
+      :recipient   => recipient,
       :send_out_id => send_out_id
     }
 
-    template_text = "#{newsletter.template_text}#{TRACK_URL if recipient.id && send_out_id}"
-    template_html = "#{newsletter.template}#{TRACK_IMG if recipient.id && send_out_id}"
+    template_text = "#{newsletter.template_text}#{TRACK_URL}"
+    template_html = "#{newsletter.template}#{TRACK_IMG}"
 
     if @premailer
       html_content = render(:inline => template_html, :locals => data)
