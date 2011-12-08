@@ -41,8 +41,13 @@ class Admin::AccountsController < Admin::AdminController
   def destroy
     @account.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(admin_accounts_path) }
-    end
+    redirect_to(admin_accounts_path)
+  end
+
+  protected
+  def load_account
+    klass = current_user.admin? ? Account : current_user.accounts
+    @account = klass.find_by_id(params[:id])
+    render_404 unless @account
   end
 end
