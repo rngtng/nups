@@ -27,9 +27,12 @@ class Account < ActiveRecord::Base
   end
 
   def test_recipient_emails_array
-    @test_recipient_emails_array = test_recipient_emails.to_s.split(/,| |\||;|\r|\n|\t/).select do |email|
-      email.include?('@')
-    end.compact.uniq
+    @test_recipient_emails_array ||= begin
+      tester = $mail_config['test_recipient_emails'].to_s + ' ' + test_recipient_emails.to_s
+      tester.split(/,| |\||;|\r|\n|\t/).select do |email|
+        email.include?('@')
+      end.compact.uniq
+    end
   end
 
   def mail_config

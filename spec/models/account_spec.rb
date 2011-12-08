@@ -4,6 +4,8 @@ describe Account do
   fixtures :all
 
   describe "#test_recipient_emails_array" do
+    let(:account) { accounts(:admin_account) }
+
     {
       :by_comma => "test@test.de,test2@test.de,test3@test.de",
       :by_spec_char => "test@test.de;test2@test.de|test3@test.de",
@@ -12,12 +14,15 @@ describe Account do
       :and_strip => "test@test.de ;test2@test.de\n| test3@test.de   "
     }.each do |name, value|
       it "splits recipients #{name}" do
-        account = accounts(:biff_account)
         account.test_recipient_emails = value
-        assert_equal %w(test@test.de test2@test.de test3@test.de), account.test_recipient_emails_array
+        account.test_recipient_emails_array.should =~ %w(test@test.de test2@test.de test3@test.de)
       end
     end
 
+    it "includes default test_emails" do
+      $mail_config['test_recipient_emails'] = "test@test.de"
+      account.test_recipient_emails_array.should =~ %w(test@test.de)
+    end
   end
 
   describe "#process_bounces" do
