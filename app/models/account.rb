@@ -39,9 +39,9 @@ class Account < ActiveRecord::Base
   end
 
   def mail_config
-    @mail_config ||= YAML::load(self.mail_config_raw)
+    @mail_config ||= YAML::load(self.mail_config_raw) || $mail_config
   rescue
-    nil
+    $mail_config
   end
 
   def from_email

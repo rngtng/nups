@@ -4,11 +4,9 @@ class NewsletterMailer < ActionMailer::Base
 
   def issue(newsletter, recipient, send_out_id = nil)
 
-    if mail_config = newsletter.account.mail_config
-      NewsletterMailer.delivery_method            = mail_config['method'].to_sym
-      NewsletterMailer.default_url_options[:host] = mail_config['host'] || 'www2.multiadmin.de:8080'
-      NewsletterMailer.smtp_settings              = mail_config['smtp_settings']
-    end
+    NewsletterMailer.delivery_method            = newsletter.account.mail_config['method'].to_sym
+    NewsletterMailer.default_url_options[:host] = newsletter.account.mail_config['host'] || 'www2.multiadmin.de:8080'
+    NewsletterMailer.smtp_settings              = newsletter.account.mail_config['smtp_settings']
 
     head = {}
     head[:to]        = recipient.email
