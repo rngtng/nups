@@ -35,7 +35,6 @@ end
 #  email                :string(255)     not null, default("")
 #  encrypted_password   :string(128)     not null, default("")
 #  last_sign_in_ip      :string(255)
-#  password_salt        :string(255)     not null, default("")
 #  remember_token       :string(255)
 #  reset_password_token :string(255)
 #  sign_in_count        :integer(4)      default(0)

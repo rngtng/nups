@@ -198,12 +198,12 @@ end
 #  account_id          :integer(4)
 #  last_sent_id        :integer(4)
 #  content             :text
-#  deliveries_count    :integer(4)
-#  errors_count        :integer(4)
-#  mode                :string(255)
-#  recipients_count    :integer(4)
+#  deliveries_count    :integer(4)      not null, default(0)
+#  errors_count        :integer(4)      not null, default(0)
+#  mode                :integer(4)      not null, default(0)
+#  recipients_count    :integer(4)      not null, default(0)
 #  state               :string(255)     default("finished")
-#  status              :string(255)
+#  status              :integer(4)      not null, default(0)
 #  subject             :string(255)
 #  created_at          :datetime
 #  deliver_at          :datetime

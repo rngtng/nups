@@ -41,9 +41,9 @@ end
 #  newsletter_id :integer(4)
 #  recipient_id  :integer(4)
 #  email         :string(255)
-#  error_code    :string(255)
 #  error_message :text
 #  state         :string(255)
 #  type          :string(255)
 #  created_at    :datetime
+#  finished_at   :datetime
 #  updated_at    :datetime

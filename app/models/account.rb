@@ -104,6 +104,7 @@ end
 #  has_text              :boolean(1)      default(TRUE)
 #  mail_config_raw       :text
 #  name                  :string(255)
+#  permalink             :string(255)
 #  subject               :string(255)
 #  template_html         :text
 #  template_text         :text

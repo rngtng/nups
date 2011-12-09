@@ -63,13 +63,16 @@ end
 #
 #  id               :integer(4)      not null, primary key
 #  account_id       :integer(4)
-#  bounces          :text            not null, default("")
+#  bounces          :text
 #  bounces_count    :integer(4)      not null, default(0)
+#  confirm_code     :string(255)
 #  deliveries_count :integer(4)      not null, default(0)
 #  email            :string(255)
 #  failed_count     :integer(4)      not null, default(0)
 #  first_name       :string(255)
 #  gender           :string(255)
 #  last_name        :string(255)
+#  reads_count      :integer(4)      not null, default(0)
+#  state            :string(255)     default("pending")
 #  created_at       :datetime
 #  updated_at       :datetime
