@@ -71,7 +71,7 @@ describe Newsletter do
       let(:klass){ TestSendOut }
       let(:method){ "send_test!" }
 
-      it "should send mail" do
+      it "sends mail" do
         expect do
           with_resque do
             newsletter.send(method)
@@ -79,7 +79,7 @@ describe Newsletter do
         end.to change(ActionMailer::Base.deliveries, :size).by(2)
       end
 
-      it "should create sendouts" do
+      it "creates sendouts" do
         expect do
           with_resque do
             newsletter.send(method)

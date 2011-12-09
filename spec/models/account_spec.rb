@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Account do
   fixtures :all
 
+  let(:account) { accounts(:biff_account) }
+
   describe "#validation" do
     let(:user) { users(:biff) }
 
@@ -13,8 +15,6 @@ describe Account do
   end
 
   describe "#test_recipient_emails_array" do
-    let(:account) { accounts(:admin_account) }
-
     {
       :by_comma => "test@test.de,test2@test.de,test3@test.de",
       :by_spec_char => "test@test.de;test2@test.de|test3@test.de",
@@ -29,21 +29,34 @@ describe Account do
     end
 
     it "includes default test_emails" do
-      $mail_config['test_recipient_emails'] = "test@test.de"
-      account.test_recipient_emails_array.should =~ %w(test@test.de)
+      $mail_config['test_recipient_emails'] = "test3@test.de"
+      account.test_recipient_emails_array.should =~ %w(test@test.de test2@test.de test3@test.de)
       $mail_config['test_recipient_emails'] = ""
     end
   end
 
   describe "#process_bounces" do
-    let(:account) { accounts(:biff_account) }
-
     it "doesn't fail" do
       account.should_receive(:mail_config).and_return(nil)
       account.process_bounces.should be_nil
     end
   end
 
+  describe "#mail_config" do
+    it "fals back to global when empty" do
+      account.mail_config.should == $mail_config
+    end
+
+    it "fals back to global when not parsable" do
+      account.mail_config_raw = "["
+      account.mail_config.should == $mail_config
+    end
+
+    it "fals back to global when not parsable" do
+      account.mail_config_raw = "method: smtp"
+      account.mail_config.should == {"method"=>"smtp"}
+    end
+  end
 end
 
 # == Schema Info

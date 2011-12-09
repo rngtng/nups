@@ -3,9 +3,8 @@ class NewsletterMailer < ActionMailer::Base
   TRACK_URL = %{<%= public_newsletter_url(recipient.id.to_i, send_out_id.to_i) %>}
 
   def issue(newsletter, recipient, send_out_id = nil)
-
     NewsletterMailer.delivery_method            = newsletter.account.mail_config['method'].to_sym
-    NewsletterMailer.default_url_options[:host] = newsletter.account.mail_config['host'] || 'www2.multiadmin.de:8080'
+    NewsletterMailer.default_url_options[:host] = newsletter.account.mail_config['host']
     NewsletterMailer.smtp_settings              = newsletter.account.mail_config['smtp_settings']
 
     head = {}

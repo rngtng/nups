@@ -5,7 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 
-admin_account: 
+admin_account:
   name: First
   user: admin
   subject: example subject1
@@ -23,9 +23,8 @@ biff_account:
   has_text: true
   permalink: ffc62a2778b59be6
   test_recipient_emails: |-
-    test@test.com
-    test2@test.com
-  
+    test@test.de
+    test2@test.de
 
 # == Schema Info
 #

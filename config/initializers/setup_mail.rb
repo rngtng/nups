@@ -3,12 +3,14 @@
 #http://apidock.com/rails/ActionMailer/Base
 #http://blog.scopeport.org/ruby-on-rails/rails-smtp-configuration-parameters-database/
 
-if Rails.env.production?
-  $mail_config = YAML.load_file (Rails.root + 'config/mail.yml').to_s
-
-  ActionMailer::Base.delivery_method = $mail_config['method'].to_sym
-  ActionMailer::Base.smtp_settings   = $mail_config['smtp_settings']
+$mail_config = if Rails.env.production?
+  YAML.load_file (Rails.root + 'config/mail.yml').to_s
 else
-  $mail_config = {}
+  cfg = Nups::Application.config.action_mailer
+  {
+    "method"        => cfg.delivery_method,
+    "host"          => cfg.default_url_options[:host],
+    "smtp_settings" => cfg.smtp_settings
+  }
 end
 
