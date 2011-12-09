@@ -39,6 +39,11 @@ describe Public::NewslettersController do
           response.status.should == 200 #:success
         end
 
+        it "returns sendout by id and recipient id" do
+          get :show, :recipient_id => 0, :send_out_id => 0, :format => 'gif'
+          response.body.should include('GIF89a')
+        end
+
         it "body is image" do
           get :show, :recipient_id => live_send_out.recipient_id, :send_out_id => live_send_out.id, :format => 'gif'
           response.body.should include('GIF89a')
