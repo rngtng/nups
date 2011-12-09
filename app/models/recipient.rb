@@ -53,7 +53,7 @@ class Recipient < ActiveRecord::Base
 
   private
   def generate_confirm_code
-    self.confirm_code = SecureRandom.hex(8)
+    self.confirm_code ||= SecureRandom.hex(8)
   end
 end
 

@@ -29,7 +29,7 @@ describe Admin::AccountsController do
       #change user to NON admin
       sign_in users(:biff)
       get :index
-      response.status.should == 403
+      response.status.should == 403 #:forbidden
     end
   end
 

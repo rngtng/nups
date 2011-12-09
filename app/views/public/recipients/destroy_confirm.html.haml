@@ -1,0 +1,6 @@
+#recipients.destroy
+  M&ouml;chten Sie wirklich die Email
+  %b= @recipient.email
+  von #{@recipient.account.name} austragen?
+
+  = link_to 'Ja', unsubscribe_path(@recipient.confirm_code), :confirm => 'Sicher?', :method => :delete

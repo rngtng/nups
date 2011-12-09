@@ -1,80 +1,57 @@
 class Public::RecipientsController < ApplicationController
   layout 'public'
 
-  before_filter :load_account, :except => [:index]
+  before_filter :load_account, :only => [:create]
+  before_filter :load_recipient, :only => [:confirm, :destroy_confirm, :destroy]
 
   respond_to :html, :json
-
-  def index
-  end
-
-  def show
-    @recipient = @account.recipients.find(params[:id])
-  rescue
-    render_404
-  end
-
-  def new
-    @recipient = @account.recipients.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json  { render :json => @recipient }
-    end
-  end
-
-  def edit
-    @recipient = @account.recipients.find(params[:id])
-  rescue
-    render_404
-  end
 
   def create
     @recipient = @account.recipients.new(params[:recipient])
 
     respond_to do |format|
       if @recipient.save
-        format.html { redirect_to( account_recipients_path(@account), :notice => '@account.recipients was successfully created.') }
-        format.json  { render :json => @recipient, :status => :created, :location => @recipient }
+        format.html
+        format.json  { head :ok }
       else
-        format.html { render :action => "new" }
+        format.html
         format.json  { render :json => @recipient.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  def update
-    @recipient = @account.recipients.find(params[:id])
-
+  def confirm
     respond_to do |format|
-      if @recipient.update_attributes(params[:recipient])
-        format.html { redirect_to( account_recipients_path(@account), :notice => '@account.recipients was successfully updated.') }
+      if @recipient.confirm
+        format.html
         format.json  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html
         format.json  { render :json => @recipient.errors, :status => :unprocessable_entity }
       end
     end
-  rescue
-    render_404
+  end
+
+  def destroy_confirm
   end
 
   def destroy
-    @recipient = @account.recipients.find(params[:id])
     @recipient.destroy
 
     respond_to do |format|
-      format.html { redirect_to( public_recipients_url ) }
+      format.html {  }
       format.json  { head :ok }
     end
-  rescue
-    render_404
   end
 
   protected
   def load_account
-    klass = Account
-    @account = klass.find_by_id(params[:account_id]) || klass.find_by_permalink(params[:account_permalink])
+    @account = Account.find_by_permalink(params[:account_permalink])
     render_404 unless @account
+  end
+
+  def load_recipient
+    @recipient = Recipient.find_by_confirm_code(params[:recipient_confirm_code])
+    render_404 unless @recipient
   end
 end

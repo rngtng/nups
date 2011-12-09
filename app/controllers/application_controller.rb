@@ -5,11 +5,17 @@ class ApplicationController < ActionController::Base
   before_filter :set_user_language
 
   def render_403
-    render :file => "public/404", :layout => false, :status => 403
+    respond_to do |format|
+      format.html { render :file => "public/403", :layout => false, :status => :forbidden }
+      format.json  { head :forbidden }
+    end
   end
 
   def render_404
-    render :file => "public/404", :layout => false, :status => 404
+    respond_to do |format|
+      format.html { render :file => "public/404", :layout => false, :status => :not_found }
+      format.json  { head :not_found }
+    end
   end
 
   protected

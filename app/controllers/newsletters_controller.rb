@@ -31,7 +31,7 @@ class NewslettersController < ApplicationNupsController
   end
 
   def new
-    render404 && return unless @account
+    render_404 && return unless @account
 
     draft = @account.newsletters.find_by_id(params[:draft_id])
     @newsletter = @account.newsletters.new(:draft => draft)

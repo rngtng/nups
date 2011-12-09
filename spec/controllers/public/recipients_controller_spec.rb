@@ -3,59 +3,79 @@ require 'spec_helper'
 describe Public::RecipientsController do
   fixtures :all #:accounts, :recipients, :users, :newsletters
 
-  describe "#index" do
+  let(:account) { accounts(:biff_account) }
+  let(:recipient) { recipients(:wonne) }
+
+  describe "#create" do
+    before do
+      recipient.force_destroy
+    end
+
+    it "create recipient" do
+      expect do
+        post :create, :account_permalink => account.permalink, :recipient => recipient.attributes
+      end.to change { account.reload.recipients.count }
+    end
+
     it "is successful" do
-      get :index
+      post :create, :account_permalink => account.permalink, :recipient => recipient.attributes
       response.status.should == 200
+    end
+
+    it "is successful as :json" do
+      post :create, :account_permalink => account.permalink, :recipient => recipient.attributes, :format => :json
+      response.status.should == 200
+    end
+
+    it "wrong account" do
+      post :create, :account_permalink => 'unasd'
+      response.status.should == 404
     end
   end
 
-  describe "#show" do
-    let(:account) { accounts(:biff_account) }
-    let(:recipient) { account.recipients.first }
+  describe "#confirm" do
+    let(:recipient) { recipients(:raziel) } #pending
 
-    before do
-      get :show, :account_id => account.id, :id => recipient.id
+    it "confirms recipient" do
+      expect do
+        get :confirm, :recipient_confirm_code => recipient.confirm_code
+      end.to change { recipient.reload.state }.from('pending').to('confirmed')
     end
 
+    it "wrong recipient" do
+      get :confirm, :recipient_confirm_code => 'unasd'
+      response.status.should == 404
+    end
+  end
+
+  describe "#destroy_confirm" do
     it "is successful" do
+      get :destroy_confirm, :recipient_confirm_code => recipient.confirm_code
       response.status.should == 200
     end
 
-    it "is assign account" do
-      assigns(:account).should == account
-    end
-
-    it "is assign recipient" do
+    it "is successful" do
+      get :destroy_confirm, :recipient_confirm_code => recipient.confirm_code
       assigns(:recipient).should == recipient
     end
-
-    context "wrong recipient" do
-      let(:recipient) { recipients(:admin) }
-
-      it "is not successful" do
-        response.status.should == 404
-      end
-
-      it "does not assign recipient" do
-        assigns(:recipient).should == nil
-      end
-    end
   end
 
-  describe "#new" do
-    let(:account) { accounts(:biff_account) }
-
-    before do
-      get :new, :account_permalink => account.permalink
-    end
-
+  describe "#destroy" do
     it "is successful" do
+      delete :destroy, :recipient_confirm_code => recipient.confirm_code
       response.status.should == 200
     end
 
-    it "is assign account by permalink" do
-      assigns(:account).should == account
+    it "destroys recipient" do
+      expect do
+        delete :destroy, :recipient_confirm_code => recipient.confirm_code
+      end.to change { account.recipients.confirmed.count }.by(-1)
+    end
+
+    it "changes recipient state" do
+      expect do
+        delete :destroy, :recipient_confirm_code => recipient.confirm_code
+      end.to change { recipient.reload.state }.from('confirmed').to('deleted')
     end
   end
 end

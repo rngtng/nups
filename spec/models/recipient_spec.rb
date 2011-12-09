@@ -3,29 +3,34 @@ require 'spec_helper'
 describe Recipient do
   fixtures :all
 
-  context "#create" do
+  let(:recipient) { recipients(:josh) }
 
-    it "generate random string for code" do
+  context "#create" do
+    it "generates random string for code" do
       Recipient.create.confirm_code.should_not nil
     end
 
     it "inital state is pending" do
       Recipient.create.state.should == 'pending'
     end
+
+    it "inital state is pending" do
+      expect do
+        recipient.update_attributes( :first_name => 'wonne')
+      end.to_not change { recipient.reload.confirm_code }.from(recipient.confirm_code)
+    end
   end
 
   context "#uniq" do
-    let(:recipient) { recipients(:josh) }
-
-    it "should have unique email per account" do
+    it "has unique email per account" do
       recipient.account.recipients.new(:email => "unique@email.com").should be_valid
     end
 
-    it "should have unique email per account" do
+    it "has unique email per account" do
       recipient.account.recipients.new(:email => recipient.email).should_not be_valid
     end
 
-    it "should have unique email per account" do
+    it "has unique email per account" do
       accounts(:admin_account).recipients.new(:email => recipient.email).should be_valid
     end
   end
@@ -34,7 +39,7 @@ describe Recipient do
     let(:account) { accounts(:biff_account) }
     let(:recipient) { account.recipients.first }
 
-    it "should find exactly one" do
+    it "finds exactly one" do
       account.recipients.size.should > 1  #make sure we have more than one, otherwise rest of test is senseless ;-)
 
       Recipient::SEARCH_COLUMNS.each do |column|
@@ -47,8 +52,6 @@ describe Recipient do
   end
 
   context "#delete" do
-    let(:recipient) { recipients(:josh) }
-
     %w(delete destroy delete!).each do |method|
       it "#{method} doesn't remove entry from DB" do
         expect do
@@ -57,7 +60,6 @@ describe Recipient do
       end
     end
   end
-
 end
 
 # == Schema Info

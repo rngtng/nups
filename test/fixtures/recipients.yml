@@ -6,11 +6,12 @@
 #
 
 josh:
- account: biff_account
- email: josh@biff.com
- first_name: josh
- last_name: joshua
- state: confirmed
+  account: biff_account
+  email: josh@biff.com
+  first_name: josh
+  last_name: joshua
+  state: confirmed
+  confirm_code: josh
 
 wonne:
   account: biff_account
@@ -18,6 +19,7 @@ wonne:
   first_name: wonne
   last_name: sonne
   state: confirmed
+  confirm_code: wonne
 
 raziel:
   account: biff_account
@@ -25,6 +27,7 @@ raziel:
   first_name: raziel
   last_name: razza
   state: pending
+  confirm_code: raziel
 
 admin:
   account: admin_account
@@ -32,6 +35,7 @@ admin:
   first_name: admin
   last_name: admin
   state: confirmed
+  confirm_code: admin
 
 # == Schema Info
 #
