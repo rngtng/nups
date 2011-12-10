@@ -4,11 +4,12 @@ class Recipient < ActiveRecord::Base
 
   belongs_to :account
 
+  attr_accessible :gender, :first_name, :last_name, :email
+  attr_accessible :account, :state, :gender, :first_name, :last_name, :email, :as => :test
+
   has_many :newsletters, :through => :account
   has_many :send_outs, :dependent => :destroy
   has_many :live_send_outs
-
-  before_validation :generate_confirm_code
 
   scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }
   scope :search, lambda { |search| search.blank? ? {} : {:conditions => SEARCH_COLUMNS.map { |column| "#{column} LIKE '%#{search}%'" }.join(' OR ') } }
@@ -51,9 +52,15 @@ class Recipient < ActiveRecord::Base
     self.save!
   end
 
-  private
-  def generate_confirm_code
-    self.confirm_code ||= SecureRandom.hex(8)
+  protected
+  # in case we generate a duplicate confirm_code, reset code and regenerate a new one
+  def run_validations!
+    super.tap do
+      if errors[:confirm_code].present?
+        self.confirm_code = SecureRandom.hex(8)
+        return valid? #re-run validation
+      end
+    end
   end
 end
 

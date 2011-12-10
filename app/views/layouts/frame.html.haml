@@ -48,14 +48,13 @@
                       %li= link_to t('menu.recipients'), account_recipients_path(account)
 
         %td
-          - with_options :target => "_self" do |target|
-            = target.link_to image_tag("status/#{resque_status}.gif", :border => 0), root_path, :id => 'status'
-            = link_to "Resque", "/resque", :id => 'resque', :target => "_blank"
-            = link_to "New Relic", "https://rpm.newrelic.com/accounts/67031/applications/434489", :id => 'new-relic', :target => "_blank"
-            = link_to "Airbrake", "http://nups.airbrakeapp.com/projects/54041/errors", :id => 'airbrake', :target => "_blank"
-            = link_to "Travis", "http://travis-ci.org/#!/rngtng/nups", :id => 'travis', :target => "_blank"
+          - with_options :target => "_blank" do |target|
+            = target.link_to image_tag("status/#{resque_status}.gif", :border => 0), "/resque", :id => 'resque'
+            = target.link_to image_tag("https://secure.travis-ci.org/rngtng/nups.png", :border => 0), "http://travis-ci.org/#!/rngtng/nups", :id => 'travis'
+            = target.link_to "New Relic", "https://rpm.newrelic.com/accounts/67031/applications/434489", :id => 'new-relic'
+            = target.link_to "Airbrake", "http://nups.airbrakeapp.com/projects/54041/errors", :id => 'airbrake'
 
-            = target.link_to image_tag('buttons/logout.gif'), destroy_user_session_path, :id => 'logout'
+          = link_to image_tag('buttons/logout.gif'), destroy_user_session_path, :id => 'logout'
 
       %tr
         %td{:bgcolor => "#ddd", :height => "100%"}

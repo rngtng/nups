@@ -11,8 +11,9 @@ class Public::RecipientsController < ApplicationController
 
     respond_to do |format|
       if @recipient.save
+        @recipient.confirm! if params[:auto_confirm]
         format.html
-        format.json  { head :ok }
+        format.json  { render :json => { :confirm_path => confirm_path(@recipient.confirm_code) }, :status => :created }
       else
         format.html
         format.json  { render :json => @recipient.errors, :status => :unprocessable_entity }

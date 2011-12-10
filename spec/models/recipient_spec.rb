@@ -6,8 +6,35 @@ describe Recipient do
   let(:recipient) { recipients(:josh) }
 
   context "#create" do
-    it "generates random string for code" do
-      Recipient.create.confirm_code.should_not nil
+    context "state" do
+      it "inits state with pending" do
+        Recipient.create.state.should == 'pending'
+      end
+    end
+
+    context "confirm code" do
+      it "generates random string for code" do
+        Recipient.create.confirm_code.should_not nil
+      end
+
+      it "does not mass assign code" do
+        Recipient.create(:confirm_code => 'custom').confirm_code.should_not == 'custom'
+      end
+
+      it "does not overwirte manual set confirm_code" do
+        Recipient.new({:account => Account.first, :email => "test@test.com"}, :as => :test).tap do |recipient|
+          recipient.confirm_code = 'custom'
+          recipient.save!
+          recipient.confirm_code.should == 'custom'
+        end
+      end
+
+      it "generates uniqe one" do
+        Recipient.new({:account => Account.first, :email => "test@test.com"}, :as => :test).tap do |recipient|
+          recipient.confirm_code = Recipient.last.confirm_code
+          recipient.save!
+        end
+      end
     end
 
     it "inital state is pending" do

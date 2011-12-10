@@ -17,19 +17,41 @@ describe Public::RecipientsController do
       end.to change { account.reload.recipients.count }
     end
 
+    it "creates prending recipient" do
+      post :create, :account_permalink => account.permalink, :recipient => recipient.attributes
+      Recipient.find_by_email(recipient.email).state.should == 'pending'
+    end
+
+    it "creates confirmed recipient" do
+      post :create, :account_permalink => account.permalink, :recipient => recipient.attributes, :auto_confirm => true
+      Recipient.find_by_email(recipient.email).state.should == 'confirmed'
+    end
+
     it "is successful" do
       post :create, :account_permalink => account.permalink, :recipient => recipient.attributes
       response.status.should == 200
     end
 
-    it "is successful as :json" do
-      post :create, :account_permalink => account.permalink, :recipient => recipient.attributes, :format => :json
-      response.status.should == 200
+    it "returns confirm_code" do
+      post :create, :account_permalink => account.permalink, :recipient => { :email => recipient.email }, :format => :json
+      response.body.should include(assigns(:recipient).confirm_code)
     end
 
     it "wrong account" do
       post :create, :account_permalink => 'unasd'
       response.status.should == 404
+    end
+
+    context "json format" do
+      it "is successful" do
+        post :create, :account_permalink => account.permalink, :recipient => recipient.attributes, :format => :json
+        response.status.should == 201
+      end
+
+      it "returns confirm_code" do
+        post :create, :account_permalink => account.permalink, :recipient => { "email" => recipient.email }, :format => :json
+        response.body.should == %|{"confirm_path":"/confirm/#{assigns(:recipient).confirm_code}"}|
+      end
     end
   end
 

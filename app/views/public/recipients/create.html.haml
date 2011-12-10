@@ -1,2 +1,5 @@
 #recipients.create
- 
+  - if @recipient.errors.any?
+    = @recipient.errors.full_messages.join("<br>").html_safe
+  - else
+    = @recipient.confirm_code

@@ -60,9 +60,11 @@ a {
         a {
           font-weight: normal; } } } }
 
-  #resque, #new-relic, #airbrake, #travis {
+  #new-relic, #airbrake {
     margin: 3px 4px 0 4px; }
-  #status, #resque, #new-relic, #airbrake, #travis {
+  #travis{
+    margin: 4px 4px 0 4px; }
+  #resque, #travis, #new-relic, #airbrake {
     float: left;
     display: none;
     .admin & {

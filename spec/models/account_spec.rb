@@ -8,9 +8,31 @@ describe Account do
   describe "#validation" do
     let(:user) { users(:biff) }
 
-    it "sets permalink" do
-      account = Account.create :user => user
-      account.permalink.should_not be_nil
+    context "#create" do
+      context "permalink" do
+        it "generates random string for code" do
+          Account.create.permalink.should_not nil
+        end
+
+        it "does not mass assign code" do
+          Account.create(:permalink => 'custom').permalink.should_not == 'custom'
+        end
+
+        it "does not overwrite manual set permalink" do
+          Account.new(:user => user).tap do |account|
+            account.permalink = 'custom'
+            account.save!
+            account.permalink.should == 'custom'
+          end
+        end
+
+        it "generates uniqe one" do
+          Account.new(:user => user).tap do |account|
+            account.permalink = Account.last.permalink
+            account.save!
+          end
+        end
+      end
     end
   end
 

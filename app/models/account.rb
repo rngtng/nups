@@ -4,14 +4,14 @@ class Account < ActiveRecord::Base
 
   belongs_to :user
 
+  attr_protected :permalink
+
   has_many :assets,      :dependent => :destroy
   has_many :newsletters, :dependent => :destroy
   has_many :recipients,  :dependent => :destroy
 
-  before_validation :generate_confirm_code
-
   validates :user_id, :presence => true
-  validates :permalink, :presence => true, :uniqueness => true
+  validates :permalink, :presence => true, :uniqueness => true, :on => :create
 
   scope :with_mail_config, :conditions => "mail_config_raw != ''"
 
@@ -84,9 +84,15 @@ class Account < ActiveRecord::Base
     end
   end
 
-  private
-  def generate_confirm_code
-    self.permalink ||= SecureRandom.hex(8)
+  protected
+  # in case we generate a duplicate confirm_code, regenerate a new one
+  def run_validations!
+    super.tap do
+      if errors[:permalink].present?
+        self.permalink = SecureRandom.hex(8)
+        return valid? #re-run validation
+      end
+    end
   end
 end
 

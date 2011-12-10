@@ -26,6 +26,9 @@
   * filter valid/invalid ??????
   * resque status: http://github.com/quirkey/resque-status
   * test coffeescript
+  * animate sendout & test gif icons
+  * move to better fixutres: factory_girl, machinist??
+    http://fabricationgem.org/#!extras
 
 ## DONE
   * errors_count + errors message
