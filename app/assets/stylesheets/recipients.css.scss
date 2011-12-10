@@ -23,10 +23,8 @@
       width: 75px; }
     .gender {
       width: 75px; }
-    .email {
-      font-weight: bold; }
-    .deliveries-count, .bounces-count, .reads-count {
-      width: 90px; }
+    .stats {
+      width: 100px;}
     .menu {
       width: 100px;
       a {
@@ -35,6 +33,13 @@
   tbody tr {
     td {
       padding: 0 5px;
+      &.first-name, &.last-name, &.email {
+        overflow: hidden;
+        text-overflow: ellipsis; }
+      &.email {
+        font-weight: bold; }
+      &.stats {
+        text-align: center; }
       &.menu {
         padding: 0 0 0 4px;
         margin: 0;

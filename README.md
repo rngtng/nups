@@ -11,11 +11,10 @@
 
 ## TODO
   * introduce foreign key for send_outs?
-  * remove error_code/message from send_out -> catch error within resque?
+  * remove error_message from send_out -> catch error within resque?
   * remove  mode/status/last_send_id from newsletter
   * order DESC
   * add infos to newsletter to see total read/bounces
-  * recipients: overflow for user name + email
   * heighlight reciever with bounce count, set option to disable
   * change update_newsletter to json
   * translation (gender)
@@ -31,6 +30,8 @@
     http://fabricationgem.org/#!extras
 
 ## DONE
+  * recipients: overflow for user name + email
+  * remove error_code from send_out
   * errors_count + errors message
   * hidden image to register if nl was read *test*
   * read NL on website *test*

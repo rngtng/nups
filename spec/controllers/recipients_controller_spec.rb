@@ -15,6 +15,7 @@ describe RecipientsController do
   end
 
   describe "index" do
+    render_views
     it "does not get index with wrong account" do
       get :index, :account_id => accounts(:admin_account).to_param
       response.status.should ==  404
@@ -69,6 +70,7 @@ describe RecipientsController do
   end
 
   describe "new" do
+    render_views
     it "gets new" do
       get :new, :account_id => account.to_param
       response.status.should ==  200 #:success

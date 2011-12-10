@@ -12,12 +12,12 @@
             %li.valid
               %strong= t('.valid_recipients') + ':'
               %ul
-                - @valid_recipients.each do |recipient|
+                - Array(@valid_recipients).each do |recipient|
                   %li= recipient.email
             %li.invalid
               %strong= t('.invalid_recipients') + ':'
               %ul
-                - @invalid_recipients.each do |recipient|
+                - Array(@invalid_recipients).each do |recipient|
                   %li= recipient.email + " (#{recipient.errors.full_messages.join(', ')})"
           .input
             = t('.explanation')

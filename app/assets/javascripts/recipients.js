@@ -23,6 +23,7 @@ var updateRecipient = function(recipient) {
 $("#recipients table th a").live('click', function(e) {
   $(e.target).closest('tr').find('th').removeClass('order');
   $(e.target).closest('th').addClass('order');
+  //TODO add DESC / ASC
 });
 
 $('#recipients td.edit input').live('keyup', function(e) {

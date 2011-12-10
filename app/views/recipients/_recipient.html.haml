@@ -13,9 +13,12 @@
   %td.show.email= recipient.email
   %td.edit.email= text_field_tag "recipient[#{recipient.id}][email]", recipient.email
 
-  %td.deliveries-count= recipient.deliveries_count
-  %td.reads-count= recipient.reads_count
-  %td.bounces-count= recipient.bounces_count
+  %td.stats
+    = recipient.deliveries_count
+    \-
+    = recipient.reads_count
+    \-
+    = recipient.bounces_count
 
   %td.show.menu
     %a.icon.show{:href => account_recipient_send_outs_path(recipient.account, recipient), :rel => "#overlay"}

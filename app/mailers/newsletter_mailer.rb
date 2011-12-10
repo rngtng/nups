@@ -17,7 +17,7 @@ class NewsletterMailer < ActionMailer::Base
     head[:subject]   = [newsletter.subject].compact.join(' ')
 
     head["X-Sender"] = "MultiAdmin - Nups"
-    head["List-Unsubscribe"] = "<mailto:unsubscribe-#{recipient.id.to_i}@multiadmin.de>"
+    head["List-Unsubscribe"] = "<mailto:unsubscribe-#{recipient.confirm_code}@multiadmin.de>, <#{unsubscribe_url(recipient.confirm_code)}>"
 
     newsletter.attachments.each do |attachment|
        next unless File.exists?(attachment.path)

@@ -71,6 +71,8 @@ describe Public::RecipientsController do
   end
 
   describe "#destroy_confirm" do
+    render_views
+
     it "is successful" do
       get :destroy_confirm, :recipient_confirm_code => recipient.confirm_code
       response.status.should == 200

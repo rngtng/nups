@@ -18,29 +18,35 @@
       %thead
         %tr
           %th.state
-            %a{:href => account_recipients_path(@account, :order => :state), 'data-remote' => true}
+            %a{:href => account_recipients_path(@account, :order => :state), :data => {:remote => true}}
               = Recipient.human_attribute_name(:state)
           %th.gender
-            %a{:href => account_recipients_path(@account, :order => :gender), 'data-remote' => true}
+            %a{:href => account_recipients_path(@account, :order => :gender), :data => {:remote => true}}
               = Recipient.human_attribute_name(:gender)
           %th.first_name
-            %a{:href => account_recipients_path(@account, :order => :first_name), 'data-remote' => true}
+            %a{:href => account_recipients_path(@account, :order => :first_name), :data => {:remote => true}}
               = Recipient.human_attribute_name(:first_name)
           %th.last_name
-            %a{:href => account_recipients_path(@account, :order => :last_name), 'data-remote' => true}
+            %a{:href => account_recipients_path(@account, :order => :last_name), :data => {:remote => true}}
               = Recipient.human_attribute_name(:last_name)
           %th.email
-            %a{:href => account_recipients_path(@account, :order => :email), 'data-remote' => true}
+            %a{:href => account_recipients_path(@account, :order => :email), :data => {:remote => true}}
               = Recipient.human_attribute_name(:email)
-          %th.deliveries_count
-            %a{:href => account_recipients_path(@account, :order => :deliveries_count), 'data-remote' => true}
-              = Recipient.human_attribute_name(:deliveries_count)
-          %th.bounces_count
-            %a{:href => account_recipients_path(@account, :order => :reads_count), 'data-remote' => true}
-              = Recipient.human_attribute_name(:reads_count)
-          %th.bounces_count
-            %a{:href => account_recipients_path(@account, :order => :bounces_count), 'data-remote' => true}
-              = Recipient.human_attribute_name(:bounces_count)
+          %th.stats
+            %a{:href => account_recipients_path(@account, :order => :deliveries_count),
+               :title => Recipient.human_attribute_name(:deliveries_count),
+               :data => {:remote => true} }
+              V
+            \/
+            %a{:href => account_recipients_path(@account, :order => :reads_count),
+               :title => Recipient.human_attribute_name(:reads_count),
+               :data => {:remote => true}}
+              G
+            \/
+            %a{:href => account_recipients_path(@account, :order => :bounces_count),
+               :title => Recipient.human_attribute_name(:bounces_count),
+               :data => {:remote => true}}
+              B
           %th.menu= t('newsletters.menu')
 
       %tbody
@@ -48,5 +54,5 @@
 
       %tfoot
         %tr
-          %td{colspan:9}
+          %td{colspan:7}
             = t('recipients.nothing')

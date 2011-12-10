@@ -57,6 +57,7 @@ describe NewslettersController do
     end
 
     describe "new" do
+      render_views
       it "should get new" do
         get :index, :account_id => account.to_param
         response.status.should == 200 #:success
