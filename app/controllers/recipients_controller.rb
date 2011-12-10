@@ -25,17 +25,16 @@ class RecipientsController < ApplicationNupsController
   end
 
   def create
-    @valid_recipients   ||= []
-    @invalid_recipients ||= []
-
-    split_emails(params[:emails]).each do |email|
+    @valid_recipients = []
+    @invalid_recipients = split_emails(params[:emails]).map do |email|
       recipient = @account.recipients.new(:email => email)
       if recipient.save && recipient.confirm!
         @valid_recipients << recipient
+        nil
       else
-        @invalid_recipients << recipient
+        recipient
       end
-    end
+    end.compact
 
     if request.xhr?
       render :json => {:valid => @valid_recipients.map(&:email), :invalid => @invalid_recipients.map(&:email)}
@@ -60,22 +59,19 @@ class RecipientsController < ApplicationNupsController
   end
 
   def multiple_destroy
-    @valid_recipients  = []
-    @invalid_recipients  = []
-
-    split_emails(params[:emails]).each do |email|
-      if recipient = @account.recipients.where(:email => email).first
+    valids  = []
+    invalids = split_emails(params[:emails]).delete_if do |email|
+      if recipient = @account.recipients.find_by_email(email)
         recipient.destroy unless params[:delete].blank?
-        @valid_recipients << recipient
-      else
-        @invalid_recipients << @account.recipients.new(:email => email)
+        valids << email
+        true
       end
     end
 
     if request.xhr?
-      render :json => {:valid => @valid_recipients.map(&:email), :invalid => @invalid_recipients.map(&:email), :delete => params[:delete]}
+      render :json => {:valid => valids, :invalid => invalids, :delete => params[:delete]}
     else
-      redirect_to account_recipients_url(@account)
+      redirect_to account_recipients_path(@account)
     end
   end
 
@@ -86,7 +82,7 @@ class RecipientsController < ApplicationNupsController
     if request.xhr?
       render :json => @recipient
     else
-      redirect_to account_recipients_url(@account)
+      redirect_to account_recipients_path(@account)
     end
   end
 
