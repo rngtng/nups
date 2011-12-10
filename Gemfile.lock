@@ -173,6 +173,7 @@ GEM
     resque_spec (0.8.0)
       resque (>= 1.19.0)
       rspec (>= 2.5.0)
+    rinku (1.5.0)
     rpm_contrib (2.1.6)
       newrelic_rpm (>= 3.1.1)
       newrelic_rpm (>= 3.1.1)
@@ -270,6 +271,7 @@ DEPENDENCIES
   resque-jobs-per-fork
   resque-scheduler (~> 2.0.0.e)
   resque_spec
+  rinku
   rpm_contrib
   rspec-rails
   ruby-graphviz

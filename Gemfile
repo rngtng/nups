@@ -38,6 +38,9 @@ gem 'newrelic_rpm'
 
 gem 'airbrake'
 
+# auto_link replacement
+gem 'rinku'
+
 group :development do
   gem 'rspec-rails' #for rake tasks
   gem 'capistrano'

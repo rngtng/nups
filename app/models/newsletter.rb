@@ -1,8 +1,6 @@
 class Newsletter < ActiveRecord::Base
-
   QUEUE = :nups_newsletter
   HEADER_ID = "X-MA-Id"
-  DEFAULT_CONTENT = "<%= content %>"
 
   belongs_to :account
 
@@ -19,7 +17,7 @@ class Newsletter < ActiveRecord::Base
   validates :subject,    :presence => true
 
   with_options(:to => :account) do |account|
-    %w(from host sender reply_to test_recipient_emails_array color has_html? has_text?).each do |attr|
+    %w(from sender reply_to test_recipient_emails_array template_text template_html).each do |attr|
       account.delegate attr
     end
   end
@@ -99,7 +97,7 @@ class Newsletter < ActiveRecord::Base
   def attachment_ids=(attachment_ids)
     self.attachments.clear
     attachment_ids.each do |attachment_id|
-      if attachment_id.present? && (asset = account.assets.find_by_id(attachment_id)) #attachment_id.blank? &&
+      if attachment_id.present? && (asset = account.assets.find_by_id(attachment_id))
         self.attachments << asset
       end
     end
@@ -113,18 +111,6 @@ class Newsletter < ActiveRecord::Base
   end
 
   ########################################################################################################################
-
-  def template
-    account.template_html.tap do |t|
-      return DEFAULT_CONTENT if t.blank?
-    end
-  end
-
-  def template_text
-    account.template_text.tap do |t|
-      return "" if t.blank?
-    end
-  end
 
   def progress_percent
     return 0 if self.recipients_count.to_i < 1

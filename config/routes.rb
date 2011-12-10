@@ -7,8 +7,8 @@ Nups::Application.routes.draw do
 
   devise_for :users
 
-  match 'newsletters' => 'newsletters#index', :as => :newsletters
-  match 'newsletters/stats' => 'newsletters#stats', :as => :newsletter_stats
+  match 'newsletters' => 'newsletters#index', :as => :all_newsletters
+  match 'newsletters/stats' => 'newsletters#stats', :as => :all_newsletter_stats
 
   namespace :admin do
     resources :users
@@ -45,5 +45,5 @@ Nups::Application.routes.draw do
   match 'unsubscribe/:recipient_confirm_code' => 'public/recipients#destroy_confirm', :via => 'get',   :as => :unsubscribe
   match 'unsubscribe/:recipient_confirm_code' => 'public/recipients#destroy',         :via => 'delete'
 
-  match ':recipient_id/:send_out_id(/:image)' => 'public/newsletters#show', :via => 'get', :as => :public_newsletter
+  match ':recipient_id/:send_out_id(/:image)' => 'public/newsletters#show', :via => 'get', :as => :newsletter
 end

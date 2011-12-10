@@ -92,9 +92,9 @@ describe NewslettersController do
         end
       end
 
-      it "returns newletter hmtl content" do
+      it "returns newletter html content" do
         xhr :get, :show, :account_id => account.to_param, :id => newsletter.to_param
-        response.body.should == newsletter.content + "<img src=\"http://localhost/0/0.gif\" width=\"1\" height=\"1\">"
+        response.body.should include(newsletter.content)
       end
     end
 

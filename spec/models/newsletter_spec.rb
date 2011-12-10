@@ -117,23 +117,6 @@ describe Newsletter do
     end
   end
 
-  describe "#template" do
-    it "returns account value" do
-      account.template_html = "test"
-      newsletter.template.should == account.template_html
-    end
-
-    it "returns default value when nil" do
-      account.template_html = nil
-      newsletter.template.should == "<%= content %>"
-    end
-
-    it "returns default value when empty" do
-      account.template_html = " "
-      newsletter.template.should == "<%= content %>"
-    end
-  end
-
   describe "#attachments" do
     before do
       @newsletter = newsletters(:biff_newsletter)

@@ -5,42 +5,75 @@ describe NewsletterMailer do
 
   let(:newsletter) { newsletters(:biff_newsletter) }
   let(:recipient) { newsletter.recipients.first }
-  let(:asset) {
-    asset = newsletter.attachments.first
-    asset.attachment = fixture_file_upload('Example.jpg', 'image/jpeg')
-    asset.save!
-  }
+  let(:issue) { NewsletterMailer.issue(newsletter, recipient) }
+  let(:content) { newsletter.content }
+  let(:html_body) { issue.html_part.body.decoded }
+  let(:text_body) { issue.text_part.body.decoded  }
+
+  #TODO add asset test
+  # let(:asset) {
+  #   asset = newsletter.attachments.first
+  #   asset.attachment = fixture_file_upload('Example.jpg', 'image/jpeg')
+  #   asset.save!
+  # }
+
+  #TODO add more local var test
 
   describe "body" do
-    it "should include content" do
-      newsletter.update_attribute(:content, "TEST")
-      nl = NewsletterMailer.issue(newsletter, recipient)
+    context "from default template" do
+      it "includes content for HTML" do
+        html_body.should include(content)
+      end
 
-      nl.html_part.body.decoded.should == "TEST" + "<img src=\"http://localhost/712644932/0.gif\" width=\"1\" height=\"1\">"
+      it "includes tracking code" do
+        html_body.should include("/#{recipient.id}/0.gif")
+      end
+
+      it "includes content for TEXT" do
+        text_body.should include(content)
+      end
     end
 
-    it "includes tracking code" do
-      newsletter.update_attribute(:content, "TEST")
-      nl = NewsletterMailer.issue(newsletter, recipient, 1)
+    context "from empty template" do
+      it "includes content for HTML" do
+        newsletter.account.update_attribute(:template_html, "")
+        html_body.should include(content)
+      end
 
-      nl.html_part.body.decoded.should include("/#{recipient.id}/1")
+      it "includes content for TEXT" do
+        newsletter.account.update_attribute(:template_text, "")
+        text_body.should include(content)
+      end
     end
 
-    it "should include template AND content" do
-      newsletter.update_attribute(:content, "TEST")
-      newsletter.account.update_attribute(:template_html, "<html><body><%= content %></body></html>")
-      nl = NewsletterMailer.issue(newsletter, recipient)
+    context "from custom template" do
+      it "includes template AND content for HTML" do
+        newsletter.account.update_attribute(:template_html, "<html><body><%= content %></body></html>")
+        html_body.should == "<html><body>#{content}</body></html>"
+      end
 
-      nl.html_part.body.decoded.should == "<html><body>TEST</body></html>" + "<img src=\"http://localhost/#{recipient.id}/0.gif\" width=\"1\" height=\"1\">"
-      nl.text_part.body.decoded.should == "http://localhost/#{recipient.id}/0"
+      it "includes template AND content for Text" do
+        newsletter.account.update_attribute(:template_text, "<%= content %>")
+        text_body.should == content
+      end
     end
 
-    it "should include recipient email" do
-      newsletter.account.update_attribute(:template_html, "<%= recipient.email %>")
-      nl = NewsletterMailer.issue(newsletter, recipient)
+    context "from custom auto_link template" do
+      let(:url) { "http://www.example.tld/Ausgabe_2011_49.pdf" }
 
-      nl.html_part.body.decoded.should == recipient.email + "<img src=\"http://localhost/#{recipient.id}/0.gif\" width=\"1\" height=\"1\">"
-      nl.text_part.body.decoded.should == "http://localhost/#{recipient.id}/0"
+      before do
+        newsletter.account.update_attribute(:template_html, "<%= auto_link(content) %>")
+      end
+
+      it "adds link html" do
+        newsletter.update_attribute(:content, url)
+        html_body.should == "<a href=\"#{url}\">#{url}</a>"
+      end
+
+      it "does not double add link" do
+        newsletter.update_attribute(:content, "<a href=\"#{url}\">#{url}</a>")
+        html_body.should == "<a href=\"#{url}\">#{url}</a>"
+      end
     end
   end
 

@@ -38,7 +38,7 @@
                 %br
                 -# %strong= link_to t('menu.ftp'), domain.ftp_url
 
-              %strong= link_to t('menu.newsletters'), newsletters_path(:user_id => user)
+              %strong= link_to t('menu.newsletters'), all_newsletters_path(:user_id => user)
               %ul
                 - user.accounts.each do |account|
                   %li

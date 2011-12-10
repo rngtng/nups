@@ -18,9 +18,6 @@
   * heighlight reciever with bounce count, set option to disable
   * change update_newsletter to json
   * translation (gender)
-  * unsubscribe ->
-    header:  http://www.list-unsubscribe.com/
-    page: 
   * add better migration
   * filter valid/invalid ??????
   * resque status: http://github.com/quirkey/resque-status
@@ -30,6 +27,9 @@
     http://fabricationgem.org/#!extras
 
 ## DONE
+  * autodetect URLS
+  * unsubscribe ->
+    header:  http://www.list-unsubscribe.com/
   * recipients: overflow for user name + email
   * remove error_code from send_out
   * errors_count + errors message

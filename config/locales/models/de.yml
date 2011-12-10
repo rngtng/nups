@@ -1,15 +1,17 @@
 de:
   # Attributes names common to most models
-  #attributes:
-    #created_at: "Created at"
-    #updated_at: "Updated at"
+  attributes:
+    state: Status
+    type: Typ
+    created_at: "Created at"
+    updated_at: "Updated at"
 
   # Active Record models configuration
   activerecord:
     errors:
       messages:
-        taken: "has already been taken"
-        record_invalid: "Validation failed: %{errors}"
+        taken: "ist bereits vorhanden"
+        record_invalid: "Validierung fehlgeschlagen: %{errors}"
         # Append your own errors here or at the model/attributes scope.
 
       # You can define own errors for models or model attributes.
@@ -32,32 +34,24 @@ de:
     # Translate model attribute names. Used in Model.human_attribute_name(attribute).
     attributes:
       recipient:
-        # account_id:
-        # bounces:
         gender: Anrede
         first_name: Vorname
         last_name: Nachname
         email: Email
-        deliveries_count: Versand
+        deliveries_count: Versendet
         reads_count: Gelesen
-        bounces_count: Bounces
-        # created_at: Created at
-        # updated_at: Updated at
+        bounces_count: Bounced
 
       newsletter:
         from: Absender
-        # account_id:
-        # last_sent_id:
         attachments: Anhänge
         content: Inhalt
-        # deliveries_count:
-        # errors_count:
-        # mode:
         recipients_count: Empfänger
         status: Status
         subject: Betreff
-        # created_at:
         deliver_at: Versand am
         delivery_ended_at: Versand beendet am
         delivery_started_at: Versand gestartet am
-        # updated_at:
+
+      send_out:
+        created_at: Datum
