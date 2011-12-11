@@ -43,7 +43,7 @@ Nups::Application.configure do
   # config.action_controller.asset_host = "http://www2.multiadmin.de:8080"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( frame.js frame.css )
+  config.assets.precompile += %w(frame.js frame.css public.js public.css)
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

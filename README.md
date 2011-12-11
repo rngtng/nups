@@ -27,6 +27,7 @@
     http://fabricationgem.org/#!extras
   * check: http://isnotspam.com
   * test premailer
+  * add index to recipients
 
 ## DONE
   * autodetect URLS
