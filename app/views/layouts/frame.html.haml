@@ -9,6 +9,8 @@
 
     %base{:target => "application"}
 
+    = render :partial => "layouts/tracking"
+
     :javascript
       $(document).ready(function() {
         showMenu(#{@user.id});
@@ -54,7 +56,7 @@
             = target.link_to "New Relic", "https://rpm.newrelic.com/accounts/67031/applications/434489", :id => 'new-relic'
             = target.link_to "Airbrake", "http://nups.airbrakeapp.com/projects/54041/errors", :id => 'airbrake'
 
-          = link_to image_tag('buttons/logout.gif'), destroy_user_session_path, :id => 'logout'
+          = link_to image_tag('buttons/logout.gif'), destroy_user_session_path, :id => 'logout', :target => "_self"
 
       %tr
         %td{:bgcolor => "#ddd", :height => "100%"}
