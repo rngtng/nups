@@ -9,7 +9,11 @@ class Public::NewslettersController < ApplicationController
       @send_out.read!
 
       respond_with do |format|
-        format.html { @issue = @send_out.issue }
+        format.html do
+          @issue = @send_out.issue
+          @tracking = render_to_string :partial => "layouts/tracking"
+          render :layout => false
+        end
         # http://stackoverflow.com/questions/5228238/rails-how-to-send-an-image-from-a-controller
         format.gif { send_file "public/images/#{image}.gif" }
       end

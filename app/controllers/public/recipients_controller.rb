@@ -25,7 +25,7 @@ class Public::RecipientsController < ApplicationController
     respond_to do |format|
       if @recipient.confirm
         format.html
-        format.json  { head :ok }
+        format.json  { render :json => { :email => @recipient.email }, :status => :ok }
       else
         format.html
         format.json  { render :json => @recipient.errors, :status => :unprocessable_entity }

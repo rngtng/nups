@@ -68,6 +68,13 @@ describe Public::RecipientsController do
       get :confirm, :recipient_confirm_code => 'unasd'
       response.status.should == 404
     end
+
+    context "json format" do
+      it "returns email" do
+        get :confirm, :recipient_confirm_code => recipient.confirm_code, :format => :json
+        response.body.should == %|{"email":"#{recipient.email}"}|
+      end
+    end
   end
 
   describe "#destroy_confirm" do
