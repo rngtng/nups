@@ -1,9 +1,10 @@
 class NewsletterMailer < ActionMailer::Base
 
   def issue(newsletter, recipient, send_out_id = nil)
-    NewsletterMailer.delivery_method            = newsletter.account.mail_config['method'].to_sym
-    NewsletterMailer.default_url_options[:host] = newsletter.account.mail_config['host']
-    NewsletterMailer.smtp_settings              = newsletter.account.mail_config['smtp_settings']
+    account = newsletter.account
+    NewsletterMailer.delivery_method            = account.mail_config['method'].to_sym
+    NewsletterMailer.default_url_options[:host] = account.mail_config['host'] || $mail_config['host']
+    NewsletterMailer.smtp_settings              = account.mail_config['smtp_settings']
 
     data = {
       :subject         => newsletter.subject,
@@ -16,17 +17,15 @@ class NewsletterMailer < ActionMailer::Base
       :unsubscribe_url => unsubscribe_url(recipient.confirm_code || 'dummy'),
     }
 
-    head = {}
-    head[:to]        = recipient.email
-    head[:from]      = newsletter.from
-
-    head[:sender]    = newsletter.sender
-    head[:reply_to]  = newsletter.reply_to
-
-    head[:subject]   = data[:subject]
-
-    head["List-Unsubscribe"] = "<#{data[:unsubscribe_url]}>"
-    head["X-Sender"] = "MultiAdmin - Nups"
+    head = {
+      :to                => recipient.email,
+      :from              => account.from,
+      :sender            => account.sender,
+      :reply_to          => account.reply_to,
+      :subject           => data[:subject],
+      "List-Unsubscribe" => "<#{data[:unsubscribe_url]}>",
+      "X-Sender"         => "MultiAdmin - Nups",
+    }
 
     newsletter.attachments.each do |attachment|
        next unless File.exists?(attachment.path)
@@ -36,8 +35,8 @@ class NewsletterMailer < ActionMailer::Base
        }
     end
 
-    html_options = newsletter.template_html.present? ? {:inline => newsletter.template_html} : {:template => 'newsletter_mailer/issue.html'}
-    text_options = newsletter.template_text.present? ? {:inline => newsletter.template_text} : {:template => 'newsletter_mailer/issue.text'}
+    html_options = account.template_html.present? ? {:inline => account.template_html} : {:template => 'newsletter_mailer/issue.html'}
+    text_options = account.template_text.present? ? {:inline => account.template_text} : {:template => 'newsletter_mailer/issue.text'}
 
     if @premailer
       html_content = render html_options.merge(:locals => data)

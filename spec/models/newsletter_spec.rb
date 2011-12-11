@@ -90,7 +90,7 @@ describe Newsletter do
 
     context "test" do
       it "should have users" do
-        newsletter.test_recipient_emails_array.count.should == 2
+        newsletter.account.test_recipient_emails_array.count.should == 2
       end
 
       it_should_behave_like "sending to recipients"

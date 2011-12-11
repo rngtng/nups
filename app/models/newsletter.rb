@@ -16,12 +16,6 @@ class Newsletter < ActiveRecord::Base
   validates :account_id, :presence => true
   validates :subject,    :presence => true
 
-  with_options(:to => :account) do |account|
-    %w(from sender reply_to test_recipient_emails_array template_text template_html).each do |attr|
-      account.delegate attr
-    end
-  end
-
   before_create :set_recipients_count
 
   ########################################################################################################################
@@ -150,7 +144,7 @@ class Newsletter < ActiveRecord::Base
    end
 
    def _send_test!
-     self.test_recipient_emails_array.each do |test_recipient_email|
+     account.test_recipient_emails_array.each do |test_recipient_email|
        self.test_send_outs.create!(:email => test_recipient_email.strip)
      end
      self.finish!

@@ -25,6 +25,8 @@
   * animate sendout & test gif icons
   * move to better fixutres: factory_girl, machinist??
     http://fabricationgem.org/#!extras
+  * check: http://isnotspam.com
+  * test premailer
 
 ## DONE
   * autodetect URLS
