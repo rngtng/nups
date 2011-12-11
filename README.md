@@ -30,6 +30,7 @@
   * add index to recipients
 
 ## DONE
+  * newsletter unsubscribe by email
   * autodetect URLS
   * unsubscribe ->
     header:  http://www.list-unsubscribe.com/

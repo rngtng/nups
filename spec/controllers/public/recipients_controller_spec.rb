@@ -91,6 +91,30 @@ describe Public::RecipientsController do
     end
   end
 
+  describe "#destroy_by_email" do
+    it "is successful" do
+      delete :destroy_by_email, :account_permalink => recipient.account.permalink, :email => recipient.email
+      response.status.should == 200
+    end
+
+    it "is successful with json" do
+      delete :destroy_by_email, :account_permalink => recipient.account.permalink, :email => recipient.email, :format => :json
+      response.status.should == 200
+    end
+
+    it "destroys recipient" do
+      expect do
+        delete :destroy_by_email, :account_permalink => recipient.account.permalink, :email => recipient.email
+      end.to change { account.recipients.confirmed.count }.by(-1)
+    end
+
+    it "changes recipient state" do
+      expect do
+        delete :destroy_by_email, :account_permalink => recipient.account.permalink, :email => recipient.email
+      end.to change { recipient.reload.state }.from('confirmed').to('deleted')
+    end
+  end
+
   describe "#destroy" do
     it "is successful" do
       delete :destroy, :recipient_confirm_code => recipient.confirm_code

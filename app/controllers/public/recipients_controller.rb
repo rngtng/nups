@@ -1,7 +1,7 @@
 class Public::RecipientsController < ApplicationController
   layout 'public'
 
-  before_filter :load_account, :only => [:create]
+  before_filter :load_account, :only => [:create, :destroy_by_email]
   before_filter :load_recipient, :only => [:confirm, :destroy_confirm, :destroy]
 
   respond_to :html, :json
@@ -13,10 +13,10 @@ class Public::RecipientsController < ApplicationController
       if @recipient.save
         @recipient.confirm! if params[:auto_confirm]
         format.html
-        format.json  { render :json => { :confirm_path => confirm_path(@recipient.confirm_code) }, :status => :created }
+        format.json { render :json => { :confirm_path => confirm_path(@recipient.confirm_code) }, :status => :created }
       else
         format.html
-        format.json  { render :json => @recipient.errors, :status => :unprocessable_entity }
+        format.json { render :json => @recipient.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -25,10 +25,10 @@ class Public::RecipientsController < ApplicationController
     respond_to do |format|
       if @recipient.confirm
         format.html
-        format.json  { render :json => { :email => @recipient.email }, :status => :ok }
+        format.json { render :json => { :email => @recipient.email }, :status => :ok }
       else
         format.html
-        format.json  { render :json => @recipient.errors, :status => :unprocessable_entity }
+        format.json { render :json => @recipient.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -36,12 +36,17 @@ class Public::RecipientsController < ApplicationController
   def destroy_confirm
   end
 
+  def destroy_by_email
+    @recipient = @account.recipients.find_by_email(params[:email])
+    destroy
+  end
+
   def destroy
     @recipient.destroy
 
     respond_to do |format|
-      format.html {  }
-      format.json  { head :ok }
+      format.html { render :action => 'destroy' }
+      format.json { head :ok }
     end
   end
 
