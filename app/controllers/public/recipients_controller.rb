@@ -37,8 +37,11 @@ class Public::RecipientsController < ApplicationController
   end
 
   def destroy_by_email
-    @recipient = @account.recipients.find_by_email(params[:email])
-    destroy
+    if @recipient = @account.recipients.without_state('deleted').find_by_email(params[:email])
+      destroy
+    else
+      render_404
+    end
   end
 
   def destroy
@@ -57,7 +60,7 @@ class Public::RecipientsController < ApplicationController
   end
 
   def load_recipient
-    @recipient = Recipient.find_by_confirm_code(params[:recipient_confirm_code])
+    @recipient = Recipient.without_state('deleted').find_by_confirm_code(params[:recipient_confirm_code])
     render_404 unless @recipient
   end
 end

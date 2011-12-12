@@ -7,33 +7,34 @@ describe Public::RecipientsController do
   let(:recipient) { recipients(:wonne) }
 
   describe "#create" do
-    before do
-      recipient.force_destroy
+    let(:email) { "new@user.com" }
+    let(:request_opts) do
+      { :account_permalink => account.permalink, :recipient => { :email => email } }
     end
 
     it "create recipient" do
       expect do
-        post :create, :account_permalink => account.permalink, :recipient => recipient.attributes
+        post :create, request_opts
       end.to change { account.reload.recipients.count }
     end
 
     it "creates prending recipient" do
-      post :create, :account_permalink => account.permalink, :recipient => recipient.attributes
-      Recipient.find_by_email(recipient.email).state.should == 'pending'
+      post :create, request_opts
+      Recipient.find_by_email(email).state.should == 'pending'
     end
 
     it "creates confirmed recipient" do
-      post :create, :account_permalink => account.permalink, :recipient => recipient.attributes, :auto_confirm => true
-      Recipient.find_by_email(recipient.email).state.should == 'confirmed'
+      post :create, request_opts.merge(:auto_confirm => true)
+      Recipient.find_by_email(email).state.should == 'confirmed'
     end
 
     it "is successful" do
-      post :create, :account_permalink => account.permalink, :recipient => recipient.attributes
+      post :create, request_opts
       response.status.should == 200
     end
 
     it "returns confirm_code" do
-      post :create, :account_permalink => account.permalink, :recipient => { :email => recipient.email }, :format => :json
+      post :create, request_opts.merge(:format => :json)
       response.body.should include(assigns(:recipient).confirm_code)
     end
 
@@ -44,13 +45,34 @@ describe Public::RecipientsController do
 
     context "json format" do
       it "is successful" do
-        post :create, :account_permalink => account.permalink, :recipient => recipient.attributes, :format => :json
+        post :create,  request_opts.merge(:format => :json)
         response.status.should == 201
       end
 
       it "returns confirm_code" do
-        post :create, :account_permalink => account.permalink, :recipient => { "email" => recipient.email }, :format => :json
+        post :create, request_opts.merge(:format => :json)
         response.body.should == %|{"confirm_path":"/confirm/#{assigns(:recipient).confirm_code}"}|
+      end
+    end
+
+    context "recipient exists" do
+      it "is not successful" do
+        post :create, :account_permalink => account.permalink, :recipient => { :email => recipient.email }, :format => :json
+        response.status.should == 422
+      end
+
+      it "create recipient" do
+        expect do
+          post :create, :account_permalink => account.permalink, :recipient => { :email => recipient.email }
+        end.to_not change { account.reload.recipients.count }
+      end
+    end
+
+    context "recipient is deleted" do
+      it "is not successful" do
+        recipient.destroy
+        post :create, :account_permalink => account.permalink, :recipient => { :email => recipient.email }, :format => :json
+        response.status.should == 422
       end
     end
   end
@@ -113,12 +135,23 @@ describe Public::RecipientsController do
         delete :destroy_by_email, :account_permalink => recipient.account.permalink, :email => recipient.email
       end.to change { recipient.reload.state }.from('confirmed').to('deleted')
     end
+
+    it "not found on wrong recep" do
+      delete :destroy_by_email, :account_permalink => recipient.account.permalink, :email => "asd@asd.de"
+      response.status.should == 404
+    end
   end
 
   describe "#destroy" do
     it "is successful" do
       delete :destroy, :recipient_confirm_code => recipient.confirm_code
       response.status.should == 200
+    end
+
+    it "not found for already deleted recipient" do
+      recipient.destroy
+      delete :destroy, :recipient_confirm_code => recipient.confirm_code
+      response.status.should == 404
     end
 
     it "destroys recipient" do
