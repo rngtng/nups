@@ -28,36 +28,59 @@ describe NewslettersController do
   end
 
   context "logged in" do
+    render_views
+
     before do
       sign_in user
     end
 
-    it "should get index" do
-      get :index, :account_id => account.to_param
-      response.status.should == 200 #:success
-      assigns(:newsletters).should_not be_nil
-    end
-
-    context "as admin" do
-      before do
-        sign_out user
-        sign_in admin
+    describe "index" do
+      it "is success" do
+        get :index, :account_id => account.to_param
+        response.status.should == 200 #:success
       end
 
-      it "sees all newsletter for other user" do
-        get :index, :user_id => user.id
-        assigns(:newsletters).size.should == 2
+      it "assigns newsletters" do
+        get :index, :account_id => account.to_param
+        assigns(:newsletters).should =~ account.newsletters
+      end
+
+      it "gets not index for other user account" do
+        get :index, :account_id => accounts(:admin_account).to_param
+        response.status.should == 404
+      end
+
+      it "sees all own newsletters" do
+        get :index
+        assigns(:newsletters).should =~ user.newsletters
+      end
+
+      context "as admin" do
+        before do
+          sign_in admin
+        end
+
+        it "sees all newsletter for other user" do
+          get :index, :user_id => user.id
+          assigns(:newsletters).should =~ user.newsletters
+        end
+
+        it "gets index for other user account" do
+          get :index, :account_id => account.to_param
+          assigns(:newsletters).should =~ account.newsletters
+        end
       end
     end
 
-    it "should get stats" do
-      get :stats, :account_id => account.to_param, :format => :js
-      response.status.should == 200 #:success
-      assigns(:newsletters).should_not be_nil
+    describe "stats" do
+      it "should get stats" do
+        get :stats, :account_id => account.to_param, :format => :js
+        response.status.should == 200 #:success
+        assigns(:newsletters).should_not be_nil
+      end
     end
 
     describe "new" do
-      render_views
       it "should get new" do
         get :index, :account_id => account.to_param
         response.status.should == 200 #:success
@@ -120,12 +143,11 @@ describe NewslettersController do
         before do
           sign_in admin
         end
-        
+
         it "creates newsletter for other user" do
           expect do
             post :create, :account_id => account.to_param, :newsletter => newsletter.attributes, :preview => true
-          end.to change(Newsletter, :count)
-          #assert_redirected_to account_newsletter_path(account, assigns(:newsletter))
+          end.to change { account.newsletters.count }
         end
       end
     end

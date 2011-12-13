@@ -6,7 +6,7 @@ class NewslettersController < ApplicationNupsController
   def index
     @user        = User.find(params[:user_id]) if params[:user_id] && current_user.admin?
     @user      ||= (@account) ? @account.user : current_user
-    @accounts    = current_user.admin? ? Account.all : @user.accounts
+    @accounts    = @user.accounts
 
     @newsletters = @user.newsletters.with_account(@account).
                          order('IFNULL(deliver_at, IFNULL(delivery_started_at,newsletters.updated_at)) DESC').

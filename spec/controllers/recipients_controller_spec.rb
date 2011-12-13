@@ -52,7 +52,6 @@ describe RecipientsController do
 
     context "as admin" do
       before do
-        sign_out user
         sign_in admin
       end
 
