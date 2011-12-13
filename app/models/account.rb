@@ -67,10 +67,12 @@ class Account < ActiveRecord::Base
             begin
               Bounce.create!(:raw => imap.uid_fetch(uid, [encoding]).first.attr[encoding])
               imap.uid_store(uid, "+FLAGS", [:Deleted])
+            rescue ArgumentError => e
+              imap.uid_store(uid, "+FLAGS", [:Deleted])
             rescue => e
               Airbrake.notify(
-                :error_class   => "Bounce Error",
-                :error_message => "Bounce Error: #{e.message}",
+                :error_class   => e.class,
+                :error_message => e.message,
                 :parameters    => {:account_id => self.id, :uid => uid}
               )
             end

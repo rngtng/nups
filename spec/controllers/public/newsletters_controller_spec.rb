@@ -48,9 +48,18 @@ describe Public::NewslettersController do
           get :show, :recipient_id => live_send_out.recipient_id, :send_out_id => live_send_out.id, :format => 'gif'
           response.body.should include('GIF89a')
         end
+
+        it "body is custom image" do
+          get :show, :recipient_id => live_send_out.recipient_id, :send_out_id => live_send_out.id, :image => 'rohstoffanlagen_logo', :format => 'gif'
+          response.body.should include('GIF89a')
+        end
+
+        it "body is non existing custom image" do
+          get :show, :recipient_id => live_send_out.recipient_id, :send_out_id => live_send_out.id, :image => 'not_exists', :format => 'gif'
+          response.body.should include('GIF89a')
+        end
       end
 
     end
   end
-
 end
