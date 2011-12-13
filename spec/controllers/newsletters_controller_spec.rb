@@ -63,13 +63,13 @@ describe NewslettersController do
         response.status.should == 200 #:success
       end
 
-      it "should not get new if wrong account" do
+      it "doesn't get new if wrong account" do
         account = accounts(:admin_account)
         get :new, :account_id => account.to_param
         response.status.should == 404 #:not_found
       end
 
-      it "should get new if wrong account but admin" do
+      it "gets new if wrong account but admin" do
         sign_in admin
         get :new, :account_id => account.to_param
         assigns(:newsletter).subject.should == account.subject
@@ -115,6 +115,19 @@ describe NewslettersController do
         post :create, :account_id => account.to_param, :newsletter => newsletter.attributes
         response.should redirect_to(account_newsletters_path(account))
       end
+
+      context "as admin" do
+        before do
+          sign_in admin
+        end
+        
+        it "creates newsletter for other user" do
+          expect do
+            post :create, :account_id => account.to_param, :newsletter => newsletter.attributes, :preview => true
+          end.to change(Newsletter, :count)
+          #assert_redirected_to account_newsletter_path(account, assigns(:newsletter))
+        end
+      end
     end
 
     describe "edit" do
@@ -145,37 +158,26 @@ describe NewslettersController do
     end
 
     describe "schedule" do
-      it "should change newsletter state" do
+      it "changes newsletter state" do
         get :start, :account_id => account.to_param, :id => newsletter.to_param
         newsletter.reload.testing?.should be_true
       end
 
-      it "should queue test newsletter" do
+      it "queues test newsletter" do
         get :start, :account_id => account.to_param, :id => newsletter.to_param
-        Newsletter.should have_queued(newsletter.id, "_send_test!")
+        Newsletter.should have_queued(newsletter.id, "_send_test!", user.email)
       end
 
-      it "should queue live newsletter" do
+      it "queues live newsletter" do
         get :start, :account_id => account.to_param, :id => newsletter.to_param, :mode => 'live'
         Newsletter.should have_queued(newsletter.id, "_send_live!")
       end
 
-      it "should redirect to newsletters from account" do
+      it "redirects to newsletters from account" do
         get :start, :account_id => account.to_param, :id => newsletter.to_param
         response.should redirect_to(account_newsletters_path(account))
       end
     end
 
   end
-
-=begin
-    it "admin should be able to create newsletter for other user" do
-      expect do
-        post :create, :account_id => account.to_param, :newsletter => newsletter.attributes, :preview => true
-      end.to change(Newsletter, :count)
-      assert_redirected_to account_newsletter_path(account, assigns(:newsletter))
-    end
-  end
-=end
-
 end

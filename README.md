@@ -10,7 +10,7 @@
       http://mentalized.net/activity-indicators/
 
 ## TODO
-  * introduce foreign key for send_outs?
+  * introduce foreign key for send_outs? -> auto delete test sendouts
   * remove error_message from send_out -> catch error within resque?
   * remove  mode/status/last_send_id from newsletter
   * order DESC
@@ -28,8 +28,10 @@
   * check: http://isnotspam.com
   * test premailer
   * add index to recipients
+  * reactivate deleted users
 
 ## DONE
+  * send test email to current_user.email
   * newsletter unsubscribe by email
   * autodetect URLS
   * unsubscribe ->
@@ -71,6 +73,11 @@
 
   1. redis-server
   2. COUNT=1 QUEUE=* rake resque:workers
+
+## Mail
+  http://www.techsoup.org/learningcenter/internet/page5052.cfm
+  http://www.sitepoint.com/forums/showthread.php?571536-Building-a-newsletter-not-getting-listed-as-spam
+  http://gettingattention.org/articles/160/email-enewsletters/nonprofit-email-newsletter-success.html
 
 ## Builder
 [![Build Status](https://secure.travis-ci.org/rngtng/nups.png)](http://travis-ci.org/rngtng/nups)

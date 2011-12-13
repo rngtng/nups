@@ -51,8 +51,8 @@ class Newsletter < ActiveRecord::Base
       transition :finished => :finished
     end
 
-    after_transition all => :testing do |me|
-      Resque.enqueue(me.class, me.id, "_send_test!")
+    after_transition all => :testing do |me, transition|
+      Resque.enqueue(me.class, me.id, "_send_test!", transition.args[0])
     end
 
     after_transition :tested => :sending do |me|
@@ -78,8 +78,8 @@ class Newsletter < ActiveRecord::Base
     QUEUE
   end
 
-  def self.perform(id, action)
-    self.find(id).send(action)
+  def self.perform(id, action, email = nil)
+    self.find(id).send(action, email)
   end
 
   ########################################################################################################################
@@ -143,15 +143,15 @@ class Newsletter < ActiveRecord::Base
     self.recipients_count = recipients.count
    end
 
-   def _send_test!
-     account.test_recipient_emails_array.each do |test_recipient_email|
+   def _send_test!(email = nil)
+     account.test_recipient_emails_array(email).each do |test_recipient_email|
        self.test_send_outs.create!(:email => test_recipient_email.strip)
      end
+
      self.finish!
    end
 
-   def _send_live!
-     #TODO uses batches?
+   def _send_live!(email = nil)
      self.recipients.each do |live_recipient|
        self.live_send_outs.create!(:recipient => live_recipient)
      end

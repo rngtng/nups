@@ -48,8 +48,7 @@ class SendOut < ActiveRecord::Base
         me.issue.deliver
         me.finish!
       rescue Exception => e
-        me.error_message = e.message
-        me.failure! #(e.message)
+        me.failure!(e.message)
       end
     end
   end

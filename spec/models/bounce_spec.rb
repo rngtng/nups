@@ -53,12 +53,19 @@ describe Bounce do
 
     before do
       bounce.stub(:mail_id).and_return("ma-#{send_out.id}-#{recipient.id}")
+      bounce.stub(:error_message).and_return("error")
     end
 
     it "changes send_out state" do
       expect do
         bounce.process!
       end.to change { send_out.reload.state }.from('finished').to('bounced')
+    end
+
+    it "adds error_message to send_out" do
+      expect do
+        bounce.process!
+      end.to change { send_out.reload.error_message }.from(nil).to("error")
     end
 
     it "increases recipient bounces_count" do

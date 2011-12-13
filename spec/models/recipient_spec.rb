@@ -87,6 +87,21 @@ describe Recipient do
       end
     end
   end
+
+  describe "force_remove" do
+    it "does remove entry from DB" do
+      expect do
+        recipient.force_destroy
+      end.to change { Recipient.count }
+    end
+
+    it "does not remoce any send_outs" do
+      recipient.live_send_outs.create(:newsletter => Newsletter.last)
+      expect do
+        recipient.force_destroy
+      end.to_not change { SendOut.count }.from(1)
+    end
+  end
 end
 
 # == Schema Info

@@ -87,7 +87,7 @@ class NewslettersController < ApplicationNupsController
     if params[:mode] == 'live'
       @newsletter.send_live!
     else
-      @newsletter.send_test!
+      @newsletter.send_test! [current_user.email, $mail_config['test_recipient_emails']].compact.join(',')
     end
 
     if request.xhr?

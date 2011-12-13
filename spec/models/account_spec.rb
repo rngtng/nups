@@ -50,11 +50,14 @@ describe Account do
       end
     end
 
-    it "includes default test_emails" do
-      $mail_config['test_recipient_emails'] = "test3@test.de"
-      account.test_recipient_emails_array.should =~ %w(test@test.de test2@test.de test3@test.de)
-      $mail_config['test_recipient_emails'] = ""
+    it "includes extra test_emails" do
+      account.test_recipient_emails_array("test3@test.de").should =~ %w(test@test.de test2@test.de test3@test.de)
     end
+
+    it "uniques extra test_emails" do
+      account.test_recipient_emails_array("test2@test.de").should =~ %w(test@test.de test2@test.de)
+    end
+
   end
 
   describe "#process_bounces" do

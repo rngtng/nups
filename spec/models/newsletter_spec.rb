@@ -24,23 +24,70 @@ describe Newsletter do
     end
   end
 
+  describe "#draft" do
+    let(:new_newsletter) { Newsletter.new(:draft => newsletter) }
+
+    it "copies subject" do
+      new_newsletter.subject.should == newsletter.subject
+    end
+
+    it "copies content" do
+      new_newsletter.content.should == newsletter.content
+    end
+  end
+
   describe "#recipients_count" do
+    let(:new_newsletter) { account.newsletters.create!(:subject => "Test") }
+
     it "should be set on create" do
-      new_newsletter = account.newsletters.create!(:subject => "Test")
       new_newsletter.recipients_count.should == new_newsletter.recipients.count
     end
   end
 
   context "without StateMachine" do
-    describe "#send" do
-      it "gets created" do
+
+    describe "#_send_test!" do
+      it "creates TestSendOuts" do
+        newsletter.stub(:finish!)
+        expect do
+          newsletter.send("_send_test!")
+        end.to change(TestSendOut, :count).by(2)
+      end
+
+      it "uniq test" do
+        newsletter.stub(:finish!)
+        expect do
+          newsletter.send("_send_test!", newsletter.account.test_recipient_emails_array.first)
+        end.to change(TestSendOut, :count).by(2)
+      end
+
+      it "creates TestSendOuts for extra email" do
+        newsletter.stub(:finish!)
+        newsletter.send("_send_test!", "extra@email.de")
+        newsletter.test_send_outs.map(&:email).should include("extra@email.de")
+      end
+
+      it "calls finish" do
+        newsletter.should_receive(:finish!)
+        newsletter.send("_send_test!")
+      end
+    end
+
+    describe "#_send_live!" do
+      it "creates LiveSendOuts" do
         expect do
           newsletter.send("_send_live!")
         end.to change(LiveSendOut, :count).by(2)
       end
+
+      it "updates recipient count" do
+        expect do
+          newsletter.send("_send_live!")
+        end.to change { newsletter.recipients_count }.from(0).to(2)
+      end
     end
 
-    describe "#stop/resume" do
+    describe "#_stop!" do
       before do
         newsletter.stub('finish!').and_return(true)
         newsletter.send("_send_live!")
@@ -94,6 +141,14 @@ describe Newsletter do
       end
 
       it_should_behave_like "sending to recipients"
+
+      it "sends mail to custom email" do
+        expect do
+          with_resque do
+            newsletter.send_test!("another@email.de")
+          end
+        end.to change(ActionMailer::Base.deliveries, :size).by(3)
+      end
     end
 
     context "live" do
@@ -215,15 +270,6 @@ describe Newsletter do
 
   end
 end
-
-=begin
-it "updates recipients count" do
-  expect do
-    newsletter.update_stats!
-  end.to change { newsletter.recipients_count }.by(2)
-end
-
-=end
 
 # == Schema Info
 #

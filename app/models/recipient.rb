@@ -8,7 +8,6 @@ class Recipient < ActiveRecord::Base
   attr_accessible :account, :state, :gender, :first_name, :last_name, :email, :as => :test
 
   has_many :newsletters, :through => :account
-  has_many :send_outs, :dependent => :destroy
   has_many :live_send_outs
 
   scope :greater_than, lambda { |recipient_id|  {:conditions => [ "recipients.id > ?", recipient_id ] } }

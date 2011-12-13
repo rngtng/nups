@@ -10,7 +10,8 @@ class LiveSendOut < SendOut
       me.recipient.update_attribute(:deliveries_count,  me.recipient.deliveries_count + 1)
     end
 
-    before_transition :delivering => :failed do |me|
+    before_transition :delivering => :failed do |me, transition|
+      me.error_message = transition.args[0]
       me.recipient.update_attribute(:failed_count,  me.recipient.failed_count + 1)
     end
 
@@ -18,7 +19,8 @@ class LiveSendOut < SendOut
       me.recipient.update_attribute(:reads_count,  me.recipient.reads_count + 1)
     end
 
-    before_transition :finished => :bounced do |me|
+    before_transition :finished => :bounced do |me, transition|
+      me.error_message = transition.args[0]
       me.recipient.update_attribute(:bounces_count,  me.recipient.bounces_count + 1)
     end
   end

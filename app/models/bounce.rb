@@ -46,18 +46,13 @@ class Bounce < ActiveRecord::Base
     Resque.enqueue(Bounce, self.id)
   end
 
+  def error_message
+    "#{mail.diagnostic_code} #{mail.error_status}"
+  end
+
   def update_send_out
-    send_out.bounce! if send_out
+    send_out.bounce!(self.error_message) if send_out
   end
-
-  private
-  def save_to_recipient
-    if recipient
-      recipient.bounces = "#{mail.date.strftime("%Y-%m-%d")} #{mail_id} <>: #{mail.error_status} #{mail.diagnostic_code}\n#{recipient.bounces}"
-      recipient.save!
-    end
-  end
-
 end
 
 # == Schema Info
