@@ -20,8 +20,14 @@ class Recipient < ActiveRecord::Base
 
   StateMachine::Machine.ignore_method_conflicts = true #to enable #delete
   state_machine :initial => :pending do
+    event :pending do
+      transition :pending => :pending
+      transition :deleted => :pending
+    end
+
     event :confirm do
       transition :pending => :confirmed
+      transition :deleted => :confirmed
     end
 
     event :bounce do
@@ -35,6 +41,10 @@ class Recipient < ActiveRecord::Base
     event :delete do
       transition any => :deleted
     end
+  end
+
+  def self.find_or_build_by(attrs)
+    where(attrs).first || new(attrs)
   end
 
   alias_method :force_destroy, :destroy

@@ -20,12 +20,30 @@ describe Public::RecipientsController do
 
     it "creates prending recipient" do
       post :create, request_opts
-      Recipient.find_by_email(email).state.should == 'pending'
+      account.recipients.find_by_email(email).state.should == 'pending'
     end
 
     it "creates confirmed recipient" do
       post :create, request_opts.merge(:auto_confirm => true)
-      Recipient.find_by_email(email).state.should == 'confirmed'
+      account.recipients.find_by_email(email).state.should == 'confirmed'
+    end
+
+    context "email already in system" do
+      before do
+        recipient.destroy
+      end
+
+      it "creates pending recipient" do
+        expect do
+          post :create,  { :account_permalink => account.permalink, :recipient => { :email => recipient.email } }
+        end.to change { recipient.reload.state }.from('deleted').to('pending')
+      end
+
+      it "creates confirmed recipient" do
+        expect do
+          post :create,  { :account_permalink => account.permalink, :recipient => { :email => recipient.email  }, :auto_confirm => true }
+        end.to change { recipient.reload.state }.from('deleted').to('confirmed')
+      end
     end
 
     it "is successful" do
@@ -69,10 +87,10 @@ describe Public::RecipientsController do
     end
 
     context "recipient is deleted" do
-      it "is not successful" do
+      it "is successful" do
         recipient.destroy
         post :create, :account_permalink => account.permalink, :recipient => { :email => recipient.email }, :format => :json
-        response.status.should == 422
+        response.status.should == 201
       end
     end
   end

@@ -27,7 +27,7 @@ class RecipientsController < ApplicationNupsController
   def create
     @valid_recipients = []
     @invalid_recipients = split_emails(params[:emails]).map do |email|
-      recipient = @account.recipients.new(:email => email)
+      recipient = @account.recipients.find_or_build_by(:email => email)
       if recipient.save && recipient.confirm!
         @valid_recipients << recipient
         nil

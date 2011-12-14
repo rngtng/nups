@@ -7,10 +7,11 @@ class Public::RecipientsController < ApplicationController
   respond_to :html, :json
 
   def create
-    @recipient = @account.recipients.new(params[:recipient])
+    @recipient = @account.recipients.with_states(:pending, :deleted).where(params[:recipient]).first
+    @recipient ||= @account.recipients.new(params[:recipient])
 
     respond_to do |format|
-      if @recipient.save
+      if @recipient.save && @recipient.pending!
         @recipient.confirm! if params[:auto_confirm]
         format.html
         format.json { render :json => { :confirm_path => confirm_path(@recipient.confirm_code) }, :status => :created }

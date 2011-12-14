@@ -8,7 +8,7 @@ describe RecipientsController do
   let(:admin) { users(:admin) }
   let(:user) { users(:biff) }
   let(:recipient) { recipients(:josh) }
-  let(:account) { recipient.account }
+  let(:account) { accounts(:biff_account) }
 
   before do
     sign_in user
@@ -79,11 +79,32 @@ describe RecipientsController do
   describe "create" do
     render_views
     let(:emails) { "valid@email1.de,invalid" }
-    
+
     it "creates valid recipient" do
       expect do
         post :create, :account_id => account.to_param, :emails => emails
       end.to change { account.recipients.count }.by(1)
+    end
+
+    context "with already peding recipient" do
+      let(:recipient) { account.recipients.create( :email => "valid@email1.de" ) }
+
+      it "re-confirms" do
+        expect do
+          post :create, :account_id => account.to_param, :emails => recipient.email
+        end.to change { recipient.reload.state }.from('pending').to('confirmed')
+      end
+    end
+
+    context "with already deleted recipient" do
+      let(:recipient) { account.recipients.confirmed.first }
+
+      it "re-confirms" do
+        recipient.destroy
+        expect do
+          post :create, :account_id => account.to_param, :emails => recipient.email
+        end.to change { recipient.reload.state }.from('deleted').to('confirmed')
+      end
     end
 
     it "returns valid/invalid adresses for xhr" do

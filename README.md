@@ -11,16 +11,12 @@
 
 ## TODO
   * introduce foreign key for send_outs? -> auto delete test sendouts
-  * remove error_message from send_out -> catch error within resque?
   * remove  mode/status/last_send_id from newsletter
   * order DESC
-  * add infos to newsletter to see total read/bounces
   * heighlight reciever with bounce count, set option to disable
   * change update_newsletter to json
   * translation (gender)
   * add better migration
-  * filter valid/invalid ??????
-  * resque status: http://github.com/quirkey/resque-status
   * test coffeescript
   * animate sendout & test gif icons
   * move to better fixutres: factory_girl, machinist??
@@ -28,9 +24,20 @@
   * check: http://isnotspam.com
   * test premailer
   * add index to recipients
-  * reactivate deleted users
+  * newsletter stats: total/percent send/fail/bounces/read count
+     ->   * add infos to newsletter to see total read/bounces
+  * history stats
+     recipient growth
+	 newsletter read/bounce growth
+	 sending time/speed
+  * remove error_message recipeint -> move to send_out
+  * bounce only when 5.X code
+  * bounce cleanup
+  * check what happens if a single sendout fails within a batch
+  * mv send_out textfield into string? (speed up)
 
 ## DONE
+  * reactivate deleted users
   * send test email to current_user.email
   * newsletter unsubscribe by email
   * autodetect URLS
@@ -65,9 +72,10 @@
   * reload after recp import
   * open new newsletter in window
   * recipients
-  * in place editing
+  * in place editing (improvement see rails cast)
   * fix travis setup: http://about.travis-ci.org/docs/user/build-configuration/
   * progress bar update time
+  * resque status: http://github.com/quirkey/resque-status
 
 ## Resque Startup:
 
