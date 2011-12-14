@@ -27,6 +27,7 @@ class Recipient < ActiveRecord::Base
 
     event :confirm do
       transition :pending => :confirmed
+      transition :confirmed => :confirmed
       transition :deleted => :confirmed
     end
 

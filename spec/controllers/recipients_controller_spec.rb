@@ -86,13 +86,24 @@ describe RecipientsController do
       end.to change { account.recipients.count }.by(1)
     end
 
-    context "with already peding recipient" do
+    context "with already pending recipient" do
       let(:recipient) { account.recipients.create( :email => "valid@email1.de" ) }
 
       it "re-confirms" do
         expect do
           post :create, :account_id => account.to_param, :emails => recipient.email
         end.to change { recipient.reload.state }.from('pending').to('confirmed')
+      end
+    end
+
+    context "with already confirmed recipient" do
+      let(:recipient) { account.recipients.create( :email => "valid@email1.de" ) }
+
+      it "re-confirms" do
+        recipient.confirm!
+        expect do
+          post :create, :account_id => account.to_param, :emails => recipient.email
+        end.to_not change { recipient.reload.state }.from('confirmed')
       end
     end
 
