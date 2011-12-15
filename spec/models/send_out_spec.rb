@@ -97,11 +97,11 @@ describe SendOut do
         end.to change { live_send_out.reload.state }.from('sheduled').to('failed')
       end
 
-      it "increases recipients failed_count" do
+      it "increases recipients fails_count" do
         live_send_out.issue.stub(:deliver).and_raise
         expect do
           live_send_out.deliver!
-        end.to change { recipient.reload.failed_count }.by(1)
+        end.to change { recipient.reload.fails_count }.by(1)
       end
     end
   end

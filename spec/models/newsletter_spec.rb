@@ -258,7 +258,7 @@ describe Newsletter do
       it "updates errors_count" do
         expect do
           newsletter.update_stats!
-        end.to change { newsletter.errors_count }.by(1)
+        end.to change { newsletter.fails_count }.by(1)
       end
 
       it "updates deliveries_count" do

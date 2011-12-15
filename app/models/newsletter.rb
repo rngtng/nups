@@ -117,7 +117,7 @@ class Newsletter < ActiveRecord::Base
   end
 
   def count
-    self.deliveries_count.to_i + self.errors_count.to_i
+    self.deliveries_count.to_i + self.fails_count.to_i
   end
 
   def sendings_per_second
@@ -128,12 +128,15 @@ class Newsletter < ActiveRecord::Base
     if sending?
       self.delivery_started_at ||= live_send_outs.first(:order => "created_at ASC").try(:created_at)
       self.deliveries_count      = live_send_outs.where("finished_at IS NOT NULL").count
-      self.errors_count          = live_send_outs.with_state(:failed).count
+      self.fails_count           = live_send_outs.with_state(:failed).count
       if progress_percent >= 100
         self.delivery_ended_at   = live_send_outs.first(:order => "finished_at DESC").try(:finished_at)
         self.finish! #(end_time)
       end
       self.save!
+    else
+      self.bounces_count = live_send_outs.with_state(:bounced).count
+      self.reads_count = live_send_outs.with_state(:read).count
     end
   end
 

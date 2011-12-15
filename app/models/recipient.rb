@@ -31,10 +31,6 @@ class Recipient < ActiveRecord::Base
       transition :deleted => :confirmed
     end
 
-    event :bounce do
-      transition any => :bounced
-    end
-
     event :disable do
       transition any => :disabled
     end
@@ -57,7 +53,7 @@ class Recipient < ActiveRecord::Base
   def update_stats!
     self.deliveries_count = live_send_outs.with_states(:finished, :failed, :bounced, :read).count
     self.bounces_count    = live_send_outs.with_state(:bounced).count
-    self.failed_count     = live_send_outs.with_state(:failed).count
+    self.fails_count      = live_send_outs.with_state(:failed).count
     self.reads_count      = live_send_outs.with_state(:read).count
     self.save!
   end

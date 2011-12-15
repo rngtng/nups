@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111208161749) do
+ActiveRecord::Schema.define(:version => 20111215092303) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(:version => 20111208161749) do
     t.integer  "last_sent_id"
     t.integer  "recipients_count",    :default => 0,          :null => false
     t.integer  "deliveries_count",    :default => 0,          :null => false
-    t.integer  "errors_count",        :default => 0,          :null => false
+    t.integer  "fails_count",         :default => 0,          :null => false
     t.datetime "deliver_at"
     t.datetime "delivery_started_at"
     t.datetime "delivery_ended_at"
@@ -84,6 +84,8 @@ ActiveRecord::Schema.define(:version => 20111208161749) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "state",               :default => "finished"
+    t.integer  "bounces_count",       :default => 0,          :null => false
+    t.integer  "reads_count",         :default => 0,          :null => false
   end
 
   add_index "newsletters", ["account_id"], :name => "index_newsletters_on_account_id"
@@ -95,11 +97,10 @@ ActiveRecord::Schema.define(:version => 20111208161749) do
     t.string   "email"
     t.integer  "deliveries_count", :default => 0,         :null => false
     t.integer  "bounces_count",    :default => 0,         :null => false
-    t.text     "bounces"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "failed_count",     :default => 0,         :null => false
+    t.integer  "fails_count",      :default => 0,         :null => false
     t.string   "confirm_code"
     t.string   "state",            :default => "pending"
     t.integer  "reads_count",      :default => 0,         :null => false
