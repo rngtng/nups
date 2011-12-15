@@ -56,7 +56,7 @@ class Recipient < ActiveRecord::Base
 
   def update_stats!
     self.deliveries_count = live_send_outs.with_states(:finished, :failed, :bounced, :read).count
-    self.bounces_count    = live_send_outs.with_state(:bounced).count + self.bounces.to_s.split("\n").size
+    self.bounces_count    = live_send_outs.with_state(:bounced).count
     self.failed_count     = live_send_outs.with_state(:failed).count
     self.reads_count      = live_send_outs.with_state(:read).count
     self.save!
@@ -69,6 +69,20 @@ class Recipient < ActiveRecord::Base
       if errors[:confirm_code].present?
         self.confirm_code = SecureRandom.hex(8)
         return valid? #re-run validation
+      end
+    end
+  end
+
+  #temporary will soon be gone
+  def move_bounce_to_send_outs
+    self.bounces.split("\n").each do |bounce|
+      begin
+        if ids = bounce.scan(/ma-(\d+)-(\d+)/).first
+          account_id, newsletter_id = ids
+          LiveSendOut.create!(:newsletter_id => newsletter_id, :state => 'bounced', :error_message => bounce, :recipient_id => self.id, :email => self.email)
+        end
+      rescue => e
+        puts e.message
       end
     end
   end

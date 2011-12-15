@@ -37,7 +37,7 @@ Nups::Application.routes.draw do
       resources :send_outs
     end
 
-    resources :assets #TODO just create route!
+    resources :assets, :only => :create
   end
 
   match 'subscribe/:account_permalink'        => 'public/recipients#create',           :via => 'post',  :as => :subscribe
