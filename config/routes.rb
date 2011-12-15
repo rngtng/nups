@@ -38,6 +38,7 @@ Nups::Application.routes.draw do
     end
 
     resources :assets, :only => :create
+    resources :charts, :only => :index
   end
 
   match 'subscribe/:account_permalink'        => 'public/recipients#create',           :via => 'post',  :as => :subscribe

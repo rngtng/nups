@@ -97,3 +97,6 @@ de:
       valid_recipients: "Folgende Empfänger werden gelöscht"
     title: "%{account_name} - Empfänger (%{count})"
     nothing: Keine Einträge vorhanden
+
+  charts:
+    title: "%{account_name} - Statistik"

@@ -11,6 +11,7 @@
 //= require plupload/plupload.full.min
 //= require cleditor/jquery.cleditor
 //= require cleditor
+//= require highcharts
 //= require newsletters
 //= require recipients
 //= require send_outs

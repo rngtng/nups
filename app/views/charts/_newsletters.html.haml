@@ -1,0 +1,87 @@
+- data = newsletters_chart(@newsletters)
+#newsletters
+
+:javascript
+  var chart = new Highcharts.Chart({
+    chart: {
+       renderTo: 'newsletters',
+       zoomType: 'x'
+    },
+
+    title: {
+      text: "Newsletters"
+    },
+
+    tooltip: {
+      shared: true,
+      crosshairs: true
+    },
+
+    xAxis: {
+      type: 'datetime',
+       //tickInterval: #{1.week * 1000},
+      tickWidth: 0,
+      tickLength: 10,
+      gridLineWidth: 1,
+      maxZoom: #{1.week * 1000}
+    },
+
+    yAxis: [{
+      title: {
+        text: "Users"
+      }
+    },{
+      title: {
+        text: "Sendings per Second"
+      },
+      opposite: true
+     }],
+
+    plotOptions: {
+      series: {
+        type: 'column',
+        yAxis: 0,
+        pointWidth: 10,
+        stack: 0
+      },
+      column: {
+        stacking: 'normal'
+      }
+    },
+
+    series: [{
+      type: 'column',
+      name: 'Deliveries',
+      yAxis: 0,
+      pointWidth: 10,
+      data: #{data['deliveries_count'].to_json},
+      stack: 0
+    },{
+      type: 'column',
+      name: 'Errors',
+      yAxis: 0,
+      pointWidth: 10,
+      data: #{data['fails_count'].to_json},
+      stack: 0
+    },{
+      type: 'column',
+      name: 'Bounces',
+      yAxis: 0,
+      pointWidth: 10,
+      data: #{data['bounces_count'].to_json},
+      stack: 0
+    },{
+      type: 'column',
+      name: 'Reads',
+      yAxis: 0,
+      pointWidth: 10,
+      data: #{data['reads_count'].to_json},
+      stack: 0
+    },{
+      type: 'spline',
+      name: 'Speed',
+      yAxis: 1,
+      data: #{data['sendings_per_second'].to_json}
+    }]
+
+  });

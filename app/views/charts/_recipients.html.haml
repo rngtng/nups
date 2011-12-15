@@ -1,0 +1,97 @@
+- data = recipients_chart(@recipients)
+- deleted = accumulate(data[:deleted])
+- confirmed = accumulate(data[:confirmed])
+- pending = accumulate(data[:pending])
+
+#recipients
+
+:javascript
+  var chart = new Highcharts.Chart({
+    chart: {
+       renderTo: 'recipients',
+       zoomType: 'x'
+    },
+
+    title: {
+      text: "Recipients"
+    },
+
+    tooltip: {
+      shared: true,
+      crosshairs: true
+    },
+
+    xAxis: {
+      type: 'datetime',
+       //tickInterval: #{1.week * 1000},
+      tickWidth: 0,
+      tickLength: 10,
+      gridLineWidth: 1,
+      maxZoom: #{1.week * 1000}
+    },
+
+    yAxis: [{
+      title: {
+        text: "Users"
+      }
+    },{
+      title: {
+        text: "Sendings per Second"
+      },
+      opposite: true
+     }],
+
+    plotOptions: {
+      series: {
+        connectNulls: true
+      },
+      area: {
+        stacking: 'normal'
+      }
+    },
+
+    series: [{
+      type: 'area',
+      name: 'Deleted',
+      yAxis: 0,
+      pointWidth: 10,
+      data: #{deleted.to_json},
+      stack: 0
+    },{
+      type: 'area',
+      name: 'Confirmed',
+      yAxis: 0,
+      pointWidth: 10,
+      data: #{confirmed.to_json},
+      stack: 0
+    },{
+      type: 'area',
+      name: 'Pending',
+      yAxis: 0,
+      pointWidth: 10,
+      data: #{pending.to_json},
+      stack: 0
+    },{
+      type: 'pie',
+      name: 'Total consumption',
+      data: [{
+         name: 'Deleted',
+         y: #{deleted.last.try(:last).to_i},
+         color: '#4572A7'
+      },{
+         name: 'Confirmed',
+         y: #{confirmed.last.try(:last).to_i},
+         color: '#AA4643'
+      },{
+         name: 'Pending',
+         y: #{pending.last.try(:last).to_i},
+         color: '#89A54E'
+      }],
+      center: [120, 100],
+      size: 180,
+      showInLegend: false,
+      dataLabels: {
+         enabled: true
+      }
+    }]
+  });

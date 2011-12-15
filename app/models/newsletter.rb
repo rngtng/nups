@@ -134,7 +134,7 @@ class Newsletter < ActiveRecord::Base
         self.finish! #(end_time)
       end
       self.save!
-    else
+    elsif finished?
       self.bounces_count = live_send_outs.with_state(:bounced).count
       self.reads_count = live_send_outs.with_state(:read).count
     end
