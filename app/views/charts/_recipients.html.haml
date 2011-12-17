@@ -1,12 +1,22 @@
-- data = recipients_chart(@recipients)
-- deleted = accumulate(data[:deleted])
-- confirmed = accumulate(data[:confirmed])
-- pending = accumulate(data[:pending])
-
 #recipients
 
 :javascript
-  var chart = new Highcharts.Chart({
+  var raw_data = #{recipients_chart2(@account).to_json},
+  process = function(d) {
+    var out = {}
+    $.each(d, function(key, values) {
+      out[key] = {};
+      out[key].sum = 0;
+      out[key].acc = $.map(values, function(val, i) {
+        out[key].sum = val[1] += out[key].sum;
+        val[0] *= 1000;
+        return [val];
+      });
+    });
+    return out;
+  },
+  data = process(raw_data),
+  chart = new Highcharts.Chart({
     chart: {
        renderTo: 'recipients',
        zoomType: 'x'
@@ -55,36 +65,36 @@
       name: 'Deleted',
       yAxis: 0,
       pointWidth: 10,
-      data: #{deleted.to_json},
+      data: data.deleted.acc,
       stack: 0
     },{
       type: 'area',
       name: 'Confirmed',
       yAxis: 0,
       pointWidth: 10,
-      data: #{confirmed.to_json},
+      data: data.confirmed.acc,
       stack: 0
     },{
       type: 'area',
       name: 'Pending',
       yAxis: 0,
       pointWidth: 10,
-      data: #{pending.to_json},
+      data: data.pending.acc,
       stack: 0
     },{
       type: 'pie',
       name: 'Total consumption',
       data: [{
          name: 'Deleted',
-         y: #{deleted.last.try(:last).to_i},
+         y: data.deleted.sum,
          color: '#4572A7'
       },{
          name: 'Confirmed',
-         y: #{confirmed.last.try(:last).to_i},
+         y: data.confirmed.sum,
          color: '#AA4643'
       },{
          name: 'Pending',
-         y: #{pending.last.try(:last).to_i},
+         y: data.pending.sum,
          color: '#89A54E'
       }],
       center: [120, 100],

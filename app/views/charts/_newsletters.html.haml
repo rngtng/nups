@@ -1,8 +1,8 @@
-- data = newsletters_chart(@newsletters)
 #newsletters
 
 :javascript
-  var chart = new Highcharts.Chart({
+  var data = #{newsletters_chart(@newsletters).to_json},
+  chart = new Highcharts.Chart({
     chart: {
        renderTo: 'newsletters',
        zoomType: 'x'
@@ -51,37 +51,37 @@
 
     series: [{
       type: 'column',
-      name: 'Deliveries',
+      name: 'Unread',
       yAxis: 0,
       pointWidth: 10,
-      data: #{data['deliveries_count'].to_json},
+      data: data.finishs_count,
       stack: 0
     },{
       type: 'column',
       name: 'Errors',
       yAxis: 0,
       pointWidth: 10,
-      data: #{data['fails_count'].to_json},
+      data: data.fails_count,
       stack: 0
     },{
       type: 'column',
       name: 'Bounces',
       yAxis: 0,
       pointWidth: 10,
-      data: #{data['bounces_count'].to_json},
+      data: data.bounces_count,
       stack: 0
     },{
       type: 'column',
       name: 'Reads',
       yAxis: 0,
       pointWidth: 10,
-      data: #{data['reads_count'].to_json},
+      data: data.reads_count,
       stack: 0
     },{
       type: 'spline',
       name: 'Speed',
       yAxis: 1,
-      data: #{data['sendings_per_second'].to_json}
+      data: data.sendings_per_second,
     }]
 
   });

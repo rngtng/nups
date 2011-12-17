@@ -66,4 +66,5 @@ group :test do
   gem 'capybara' #selenium
   gem 'database_cleaner'
   gem 'simplecov'
+  gem 'faker'
 end

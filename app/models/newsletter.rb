@@ -120,6 +120,10 @@ class Newsletter < ActiveRecord::Base
     self.deliveries_count.to_i + self.fails_count.to_i
   end
 
+  def finishs_count
+    self.deliveries_count.to_i - self.bounces_count.to_i - self.reads_count.to_i
+  end
+
   def sendings_per_second
     (sending_time > 0) ? (count.to_f / sending_time).round(2) : 0
   end
@@ -133,11 +137,11 @@ class Newsletter < ActiveRecord::Base
         self.delivery_ended_at   = live_send_outs.first(:order => "finished_at DESC").try(:finished_at)
         self.finish! #(end_time)
       end
-      self.save!
     elsif finished?
       self.bounces_count = live_send_outs.with_state(:bounced).count
       self.reads_count = live_send_outs.with_state(:read).count
     end
+    self.save!
   end
 
   #-------------------------------------------------------------------------------------------------------------------------
