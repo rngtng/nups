@@ -1,7 +1,7 @@
 #recipients
 
 :javascript
-  var raw_data = #{recipients_chart2(@account).to_json},
+  var raw_data = #{recipients_chart(@account).to_json},
   process = function(d) {
     var out = {}
     $.each(d, function(key, values) {

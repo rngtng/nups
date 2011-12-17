@@ -15,45 +15,10 @@ module ChartsHelper
     end
   end
 
-  def recipients_chart(account, offset = 1.day)
-    {}.tap do |data|
-      data[:pending] = {}
-      data[:confirmed] = {}
-      data[:deleted] = {}
-
-      account.recipients.each do |recipient|
-        date_c = (recipient.created_at.to_i / offset) * offset
-        date_u = (recipient.updated_at.to_i / offset) * offset
-        if recipient.deleted?
-          data[:deleted][date_u] ||= 0
-          data[:deleted][date_u] += 1
-          if date_c != date_u
-            data[:confirmed][date_c] ||= 0
-            data[:confirmed][date_c] += 1
-            data[:confirmed][date_u] ||= 0
-            data[:confirmed][date_u] -= 1
-          end
-        elsif recipient.confirmed?
-          data[:confirmed][date_c] ||= 0
-          data[:confirmed][date_c] += 1
-          # if date_c != date_u
-          #   data[:pending][date_c] ||= 0
-          #   data[:pending][date_c] += 1
-          #   data[:pending][date_u] ||= 0
-          #   data[:pending][date_u] -= 1
-          # end
-        elsif recipient.pending?
-          data[:pending][date_c] ||= 0
-          data[:pending][date_c] += 1
-        end
-      end
-    end
-  end
-
-  def recipients_chart2(account)
+  def recipients_chart(account)
     {
       :pending   => get_recipients(account.id, 'pending', 'created_at'),
-      :confirmed => get_recipients(account.id, ['confirmed', 'deleted']),
+      :confirmed => get_recipients_all(account.id, ['confirmed', 'deleted']),
       :deleted   => get_recipients(account.id, 'deleted', 'updated_at'),
     }
   end
@@ -71,7 +36,7 @@ module ChartsHelper
     SQL
   end
 
-  def get_recipients2(account_id, states = [])
+  def get_recipients_all(account_id, states = [])
     Recipient.connection.select_rows <<-SQL
       SELECT
        UNIX_TIMESTAMP(`date`) + 3600 AS `date`,
@@ -96,5 +61,4 @@ module ChartsHelper
       ORDER BY `date`
     SQL
   end
-
 end

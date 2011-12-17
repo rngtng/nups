@@ -19,7 +19,7 @@ describe ChartsHelper do
     let(:ago_2) { date - 2 * time_group }
     let(:ago_1) { date - 1 * time_group }
 
-    let(:now_d) { Time.parse("2011-12-10 00:00:00 UTC") } #1hour utc difference
+    let(:now_d) { Time.parse("2011-12-10 00:00:00 UTC") }
     let(:ago_4_d) { (now_d - 4 * time_group).to_i }
     let(:ago_3_d) { (now_d - 3 * time_group).to_i }
     let(:ago_2_d) { (now_d - 2 * time_group).to_i }
@@ -55,33 +55,16 @@ describe ChartsHelper do
       end
     end
 
-    context "old" do
-      it "works for pending" do
-        actual_result[:pending].to_a.should =~ expected_result[:pending].to_a
-      end
-
-      it "works for confirmed" do
-        actual_result[:confirmed].to_a.should =~ expected_result[:confirmed].to_a
-      end
-
-      it "works for deleted" do
-        actual_result[:deleted].to_a.should =~ expected_result[:deleted].to_a
-      end
+    it "works for pending" do
+      actual_result[:pending].to_a.should =~ expected_result[:pending].to_a
     end
 
-    context "new" do
-      it "works for pending" do
-        helper.get_recipients(account.id, 'pending', 'created_at').to_a.should =~ expected_result[:pending].to_a
-      end
-
-      it "works for confirmed" do
-        helper.get_recipients2(account.id, ['confirmed', 'deleted']).to_a.should =~ expected_result[:confirmed].to_a
-      end
-
-      it "works for deleted" do
-        helper.get_recipients(account.id, 'deleted', 'updated_at').to_a.should =~ expected_result[:deleted].to_a
-      end
+    it "works for confirmed" do
+      actual_result[:confirmed].to_a.should =~ expected_result[:confirmed].to_a
     end
 
+    it "works for deleted" do
+      actual_result[:deleted].to_a.should =~ expected_result[:deleted].to_a
+    end
   end
 end
