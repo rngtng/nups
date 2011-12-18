@@ -47,6 +47,7 @@ RSpec.configure do |config|
 
   config.before :each do
     DatabaseCleaner.start
+    Machinist.reset_before_test
   end
 
   config.after :each do

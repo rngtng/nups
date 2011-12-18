@@ -1,11 +1,24 @@
 require 'spec_helper'
 
 describe ChartsHelper do
-  fixtures :users
 
-  let(:account) {Account.create :user => users(:biff)}
+  let(:account) { Account.make! }
 
   describe "newsletters_chart" do
+    let(:newsletter_attrs) do
+      [
+        {:created_at => ago_4, :deliveries_count => 10, :bounces_count => 10},
+        {:created_at => ago_3 + 3.hours},
+        {:created_at => ago_3, :updated_at => ago_2 + 2.hours},
+        {:created_at => ago_3},
+        {:created_at => ago_3, :updated_at => ago_2},
+        {:created_at => ago_2, :updated_at => ago_1},
+        {:created_at => ago_2, :updated_at => ago_2},
+        {:created_at => ago_2, :updated_at => ago_1},
+      ]
+    end
+
+
     it "works" do
       puts helper.newsletters_chart(account.newsletters)
     end
@@ -27,14 +40,14 @@ describe ChartsHelper do
 
     let(:recipient_attrs) do
       [
-        {:email => Faker::Internet.email, :state => 'pending',   :created_at => ago_4},
-        {:email => Faker::Internet.email, :state => 'pending',   :created_at => ago_3 + 3.hours},
-        {:email => Faker::Internet.email, :state => 'pending',   :created_at => ago_3, :updated_at => ago_2 + 2.hours},
-        {:email => Faker::Internet.email, :state => 'confirmed', :created_at => ago_3},
-        {:email => Faker::Internet.email, :state => 'confirmed', :created_at => ago_3, :updated_at => ago_2},
-        {:email => Faker::Internet.email, :state => 'confirmed', :created_at => ago_2, :updated_at => ago_1},
-        {:email => Faker::Internet.email, :state => 'deleted',   :created_at => ago_2, :updated_at => ago_2},
-        {:email => Faker::Internet.email, :state => 'deleted',   :created_at => ago_2, :updated_at => ago_1},
+        {:state => 'pending',   :created_at => ago_4},
+        {:state => 'pending',   :created_at => ago_3 + 3.hours},
+        {:state => 'pending',   :created_at => ago_3, :updated_at => ago_2 + 2.hours},
+        {:state => 'confirmed', :created_at => ago_3},
+        {:state => 'confirmed', :created_at => ago_3, :updated_at => ago_2},
+        {:state => 'confirmed', :created_at => ago_2, :updated_at => ago_1},
+        {:state => 'deleted',   :created_at => ago_2, :updated_at => ago_2},
+        {:state => 'deleted',   :created_at => ago_2, :updated_at => ago_1},
       ]
     end
 
@@ -49,9 +62,7 @@ describe ChartsHelper do
 
     before do
       recipient_attrs.each do |recipient_attr|
-        recipient = account.recipients.create(recipient_attr, :as => :test)
-        recipient.update_attribute(:created_at, recipient_attr[:created_at])
-        recipient.update_attribute(:updated_at, recipient_attr[:updated_at] || recipient_attr[:created_at])
+        Recipient.make!(recipient_attr.merge(:account => account))
       end
     end
 

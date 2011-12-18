@@ -10,7 +10,8 @@ class Account < ActiveRecord::Base
   has_many :newsletters, :dependent => :destroy
   has_many :recipients,  :dependent => :destroy
 
-  validates :user_id, :presence => true
+  validates :name, :presence => true
+  validates :user, :presence => true
   validates :permalink, :presence => true, :uniqueness => true, :on => :create
 
   scope :with_mail_config, :conditions => "mail_config_raw != ''"

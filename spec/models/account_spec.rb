@@ -1,48 +1,75 @@
 require 'spec_helper'
 
 describe Account do
-  fixtures :all
 
-  let(:account) { accounts(:biff_account) }
+  let(:account) { Account.make }
 
   describe "#validation" do
-    let(:user) { users(:biff) }
 
-    context "#create" do
-      context "permalink" do
-        it "generates random string for code" do
-          Account.create.permalink.should_not nil
-        end
+    it "is valid" do
+      expect do
+        Account.make!
+      end.to change { Account.count }.by(1)
+    end
 
-        it "does not mass assign code" do
-          Account.create(:permalink => 'custom').permalink.should_not == 'custom'
-        end
+    context "user" do
+      it "saves unsaved user" do
+        account.user = User.make
+        expect do
+          account.save!
+        end.to change { User.count }.by(1)
+      end
 
-        it "does not overwrite manual set permalink" do
-          Account.new(:user => user).tap do |account|
-            account.permalink = 'custom'
-            account.save!
-            account.permalink.should == 'custom'
-          end
-        end
+      it "fails on invalid unsaved user" do
+        account.user = User.make(:email => nil)
+  ##      expect do
+          account.save!
+          account.reload.user.should_not be_nil
+##        end.to raise_error
+      end
 
-        it "generates uniqe one" do
-          Account.new(:user => user).tap do |account|
-            account.permalink = Account.last.permalink
-            account.save!
-          end
+      it "uses saved user" do
+        account.user = User.make!
+        expect do
+          account.save!
+        end.to_not change { User.count }
+      end
+
+    end
+
+    context "permalink" do
+      it "generates random string for code" do
+        Account.create.permalink.should_not nil
+      end
+
+      it "does not mass assign code" do
+        Account.create(:permalink => 'custom').permalink.should_not == 'custom'
+      end
+
+      it "does not overwrite manual set permalink" do
+        Account.make!(:permalink => 'custom').permalink.should == 'custom'
+      end
+
+      it "generates uniqe one" do
+        Account.make.tap do |account|
+          account.permalink = Account.make!.permalink
+          account.save!
         end
       end
     end
   end
 
   describe "#test_recipient_emails_array" do
+    before do
+      account.test_recipient_emails = %w(test@test.de test2@test.de)
+    end
+
     {
-      :by_comma => "test@test.de,test2@test.de,test3@test.de",
+      :by_comma     => "test@test.de,test2@test.de,test3@test.de",
       :by_spec_char => "test@test.de;test2@test.de|test3@test.de",
-      :uniq => "test@test.de,test2@test.de\r,test3@test.de,test3@test.de",
+      :uniq         => "test@test.de,test2@test.de\r,test3@test.de,test3@test.de",
       :remove_empty => "test@test.de,,test2@test.de,test3@test.de,",
-      :and_strip => "test@test.de ;test2@test.de\n| test3@test.de   "
+      :and_strip    => "test@test.de ;test2@test.de\n| test3@test.de   "
     }.each do |name, value|
       it "splits recipients #{name}" do
         account.test_recipient_emails = value

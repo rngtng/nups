@@ -13,8 +13,8 @@ class Newsletter < ActiveRecord::Base
 
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
 
-  validates :account_id, :presence => true
-  validates :subject,    :presence => true
+  validates :account, :presence => true
+  validates :subject, :presence => true
 
   before_create :set_recipients_count
 

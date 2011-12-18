@@ -67,4 +67,5 @@ group :test do
   gem 'database_cleaner'
   gem 'simplecov'
   gem 'faker'
+  gem 'machinist', '>= 2.0.0.beta2'
 end
