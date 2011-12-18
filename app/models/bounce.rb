@@ -34,7 +34,7 @@ class Bounce < ActiveRecord::Base
 
       self.send_at      = mail.date
       self.subject      = mail.subject
-      self.from         = mail.from.join(';')
+      self.from         = Array(mail.from).join(';')
       self.header       = mail.header.to_s
       self.body         = mail.body.decoded
       self.error_status = mail.error_status
