@@ -18,8 +18,6 @@
   * add better migration
   * test coffeescript
   * animate sendout & test gif icons
-  * move to better fixutres: factory_girl, machinist??
-    http://fabricationgem.org/#!extras
   * check: http://isnotspam.com
   * test premailer
   * add index to recipients
@@ -29,6 +27,7 @@
   * mv send_out textfield into string? (speed up)
 
 ## DONE
+ * add better fixtures: factory_girl
  * newsletter stats: total/percent send/fail/bounces/read count
    ->   * add infos to newsletter to see total read/bounces
  * history stats

@@ -1,0 +1,70 @@
+Received: from [80.67.29.50] (helo=mx10.ispgateway.de)
+	by barber.ispgateway.de with esmtp (Exim 4.68)
+	id 1PseFK-0003GN-RX; Thu, 24 Feb 2011 17:40:54 +0100
+Return-path: <>
+X-Envelope-To: info@trendspekulant.de
+Received: from [212.89.0.157] (helo=smtp02.telecable.es)
+	by mx10.ispgateway.de with esmtp (Exim 4.68)
+	id 1PseFK-0008Lt-M7
+	for info@trendspekulant.de; Thu, 24 Feb 2011 17:40:54 +0100
+Received: by smtp02.telecable.es (8.5.122) id 4D54E95400943E13 for info@trendspekulant.de; Thu, 24 Feb 2011 17:40:54 +0100
+From: =?UTF-8?Q?Servicio_de_env=C3=ADo_de_correo?= <postmaster@telecable.es>
+Subject: =?UTF-8?Q?Notificacion_del_estado_del_envio?=
+To: info@trendspekulant.de
+Date: Thu, 24 Feb 2011 17:40:54 +0100
+Message-ID: <4D54E95400943E12@>
+X-CP-Transaction-ID: 4D54E95400943E0F
+X-CP-For: friedhelm@telecable.es
+MIME-Version: 1.0
+Content-Type: Multipart/Report; report-type=delivery-status; boundary="========/4D54E95400943E0F/smtp02.telecable.es"
+
+--========/4D54E95400943E0F/smtp02.telecable.es
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+ - El servidor de correo ha procesado los siguientes destinatarios del mensaje:
+friedhelm@telecable.es; Fallido; 5.1.1 (direcci\xC3\xB3n del buz\xC3\xB3n de correo de destino err\xC3\xB3nea)
+
+
+
+--========/4D54E95400943E0F/smtp02.telecable.es
+Content-Type: Message/Delivery-Status
+
+Reporting-MTA: dns; smtp02.telecable.es
+Received-from-MTA: dns; smtprelay06.ispgateway.de (80.67.31.95)
+Arrival-Date: Thu, 24 Feb 2011 17:40:54 +0100
+
+Final-Recipient: rfc822; friedhelm@telecable.es
+Action: Failed
+Status: 5.1.1 (bad destination mailbox address)
+
+--========/4D54E95400943E0F/smtp02.telecable.es
+Content-Type: Text/RFC822-headers
+
+Return-Path: <info@trendspekulant.de>
+Received: from smtprelay06.ispgateway.de (80.67.31.95) by smtp02.telecable.es (8.5.122)
+        id 4D54E95400943E0F for friedhelm@telecable.es; Thu, 24 Feb 2011 17:40:54 +0100
+Received: from [80.67.25.154] (helo=multiadmin.de)
+	by smtprelay06.ispgateway.de with esmtpa (Exim 4.68)
+	(envelope-from <info@trendspekulant.de>)
+	id 1PseFJ-0002iE-1X
+	for friedhelm@telecable.es; Thu, 24 Feb 2011 17:40:53 +0100
+Date: Thu, 24 Feb 2011 17:40:53 +0100
+From: Trendspekulant <info@trendspekulant.de>
+Sender: info@trendspekulant.de
+Reply-To: info@trendspekulant.de
+To: friedhelm@telecable.es
+Message-ID: <4d668a155db0_3b47403f4fe117669@m26s26da.ispgateway.de.mail>
+Subject: =?UTF-8?Q?Trendspekulant_Newsletter_-_Die_g=C3=BCnstigste?=
+ Goldaktie der Welt mit 80% Kurspotenzial in 2011
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Sender: MultiAdmin
+X-MA-Id: ma-14-87
+X-Df-Sender: no-reply@multiadmin.de
+
+
+--========/4D54E95400943E0F/smtp02.telecable.es--
+

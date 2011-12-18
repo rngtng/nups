@@ -1,13 +1,9 @@
 require 'spec_helper'
 
 describe Account do
-  fixtures :all
-
-  let(:account) { accounts(:biff_account) }
+  let(:account) { Account.make }
 
   describe "#validation" do
-    let(:user) { users(:biff) }
-
     context "#create" do
       context "permalink" do
         it "generates random string for code" do
@@ -19,7 +15,7 @@ describe Account do
         end
 
         it "does not overwrite manual set permalink" do
-          Account.new(:user => user).tap do |account|
+          Account.make.tap do |account|
             account.permalink = 'custom'
             account.save!
             account.permalink.should == 'custom'
@@ -27,8 +23,8 @@ describe Account do
         end
 
         it "generates uniqe one" do
-          Account.new(:user => user).tap do |account|
-            account.permalink = Account.last.permalink
+          Account.make.tap do |account|
+            account.permalink = Account.make!.permalink
             account.save!
           end
         end
@@ -38,11 +34,11 @@ describe Account do
 
   describe "#test_recipient_emails_array" do
     {
-      :by_comma => "test@test.de,test2@test.de,test3@test.de",
+      :by_comma     => "test@test.de,test2@test.de,test3@test.de",
       :by_spec_char => "test@test.de;test2@test.de|test3@test.de",
-      :uniq => "test@test.de,test2@test.de\r,test3@test.de,test3@test.de",
+      :uniq         => "test@test.de,test2@test.de\r,test3@test.de,test3@test.de",
       :remove_empty => "test@test.de,,test2@test.de,test3@test.de,",
-      :and_strip => "test@test.de ;test2@test.de\n| test3@test.de   "
+      :and_strip    => "test@test.de ;test2@test.de\n| test3@test.de   "
     }.each do |name, value|
       it "splits recipients #{name}" do
         account.test_recipient_emails = value

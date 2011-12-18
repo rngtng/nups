@@ -11,13 +11,13 @@ describe SendOut do
   context "#create" do
     describe LiveSendOut do
       it "should set email" do
-        live_send_out.email.should == newsletter.recipients.first.email
+        live_send_out.email.should == recipient.email
       end
 
       it "should not allow multiple instances" do
         live_send_out
         lambda do
-          LiveSendOut.create!(:newsletter => newsletter, :recipient => live_send_out.recipient)
+          LiveSendOut.create!(:newsletter => newsletter, :recipient => recipient)
         end.should raise_error
       end
     end
@@ -47,7 +47,7 @@ describe SendOut do
   end
 
   describe "#deliver!" do
-    before(:each) do
+    before do
       ActionMailer::Base.deliveries.clear
     end
 

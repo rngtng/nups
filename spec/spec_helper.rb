@@ -22,6 +22,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   config.include Delorean
+  config.include FactoryGirl::Syntax::Methods
 
   # == Mock Framework
   #

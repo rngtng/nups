@@ -58,13 +58,23 @@ group :assets do
 end
 
 group :test do
+  gem 'json' #needed for resque to run on travis-ci
+
+  #rspec
   gem 'rspec-rails'
   gem 'resque_spec'
+
   gem 'delorean'
-  gem 'watchr'
-  gem 'json' #needed for resque to run on travis-ci
-  gem 'capybara' #selenium
+
+  #selenium
+  gem 'capybara'
   gem 'database_cleaner'
-  gem 'simplecov'
+
+  #fixtures
   gem 'faker'
+  gem 'factory_girl_rails'
+
+  gem 'watchr'
+
+  gem 'simplecov'
 end

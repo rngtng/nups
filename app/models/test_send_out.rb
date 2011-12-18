@@ -1,5 +1,15 @@
 class TestSendOut < SendOut
 
+  state_machine :initial => :sheduled do
+    before_transition :delivering => :finished do |me|
+      me.finished_at = Time.now
+    end
+
+    before_transition :delivering => :failed do |me, transition|
+      me.error_message = transition.args[0]
+    end
+  end
+
   def recipient
     @recipient ||= Recipient.new(:email => email)
   end

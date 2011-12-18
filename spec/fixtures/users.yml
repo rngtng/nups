@@ -5,20 +5,20 @@
 # below each fixture, per the syntax in the comments below
 #
 
-admin: 
+admin:
   username: admin
   email: admin@localhost.de
   admin: true
   encrypted_password: $2a$10$1UMyzDm2SEsGBhFblkiCdelY2s4D48iL7fuEw.rMlxa7/eWUqixdW
   confirmed_at: <%= Time.now %>
 
-biff: 
+biff:
   username: biff
   email: biff@localhost.de
   admin: false
   encrypted_password: $2a$10$1UMyzDm2SEsGBhFblkiCdelY2s4D48iL7fuEw.rMlxa7/eWUqixdW
   confirmed_at: <%= Time.now %>
-  
+
 
 # == Schema Info
 #

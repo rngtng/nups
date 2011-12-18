@@ -10,6 +10,8 @@ class Account < ActiveRecord::Base
   has_many :newsletters, :dependent => :destroy
   has_many :recipients,  :dependent => :destroy
 
+  validates :from, :presence => true
+  validates :name, :presence => true
   validates :user_id, :presence => true
   validates :permalink, :presence => true, :uniqueness => true, :on => :create
 

@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Bounce do
-  fixtures :all
-
-  let(:bounce) { bounces(:raw) }
+  let(:bounce) { Bounce.make }
 
   context "create" do
     it "gets enqueued" do
@@ -47,13 +45,13 @@ describe Bounce do
   end
 
   context "send_out" do
-    let(:newsletter) { newsletters(:biff_newsletter) }
-    let(:recipient) { newsletter.recipients.first }
-    let(:send_out) { newsletter.live_send_outs.create(:recipient => recipient, :state => 'finished') }
+    let(:send_out) { LiveSendOut.make! }
+    let(:newsletter) { send_out.newsletter }
+    let(:recipient) { send_out.recipient }
 
     before do
-      bounce.stub(:mail_id).and_return("ma-#{send_out.id}-#{recipient.id}")
-      bounce.stub(:error_message).and_return("error")
+      bounce.stub(:mail_id).and_return "ma-#{send_out.id}-#{recipient.id}"
+      bounce.stub(:error_message).and_return "error"
     end
 
     it "changes send_out state" do
@@ -73,8 +71,12 @@ describe Bounce do
         bounce.process!
       end.to change { recipient.reload.bounces_count }.by(1)
     end
-  end
 
+    # #dummy test to make sure fixture is right
+    it "send_out has same account" do
+      recipient.account.id.should == newsletter.account.id
+    end
+  end
 end
 
 # == Schema Info
