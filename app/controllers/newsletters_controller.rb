@@ -20,6 +20,10 @@ class NewslettersController < ApplicationNupsController
     @newsletters = current_user.admin? ? Newsletter : current_user.newsletters
     @newsletters = @newsletters.find_all_by_id(params[:ids])
     @newsletters.map(&:update_stats!)
+    render :json => @newsletters.to_json(
+      :except => [:subject, :content, :account_id, :last_sent_id, :mode, :status],
+      :methods => [:progress_percent, :sending_time, :finishs_count, :sendings_per_second]
+    )
   end
 
   def show
