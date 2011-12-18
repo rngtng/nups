@@ -25,9 +25,10 @@ module ChartsHelper
 
   #private
   def get_recipients(account_id, state, field = 'created_at')
+    Recipient.connection.execute("Set time_zone = '+0:00'")
     Recipient.connection.select_rows <<-SQL
       SELECT
-        UNIX_TIMESTAMP(DATE_FORMAT(#{field}, '%Y-%m-%d')) + 3600 AS `date`,
+        UNIX_TIMESTAMP(DATE_FORMAT(#{field}, '%Y-%m-%d')) AS `date`,
         COUNT(*) AS cnt
       FROM recipients
       WHERE state = '#{state}'
@@ -37,9 +38,10 @@ module ChartsHelper
   end
 
   def get_recipients_all(account_id, states = [])
+    Recipient.connection.execute("Set time_zone = '+0:00'")
     Recipient.connection.select_rows <<-SQL
       SELECT
-       UNIX_TIMESTAMP(`date`) + 3600 AS `date`,
+       UNIX_TIMESTAMP(`date`) AS `date`,
        MAX(IF(cnt > 0,cnt,0)) + Min(IF(cnt < 0,cnt,0)) AS cnt
       FROM
         (SELECT
