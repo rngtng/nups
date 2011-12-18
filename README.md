@@ -14,7 +14,6 @@
   * remove  mode/status/last_send_id from newsletter
   * order DESC
   * heighlight reciever with bounce count, set option to disable
-  * change update_newsletter to json
   * translation (gender)
   * add better migration
   * test coffeescript
@@ -24,19 +23,20 @@
   * check: http://isnotspam.com
   * test premailer
   * add index to recipients
-  * newsletter stats: total/percent send/fail/bounces/read count
-     ->   * add infos to newsletter to see total read/bounces
-  * history stats
-     recipient growth
-	 newsletter read/bounce growth
-	 sending time/speed
-  * remove error_message recipeint -> move to send_out
   * bounce only when 5.X code
   * bounce cleanup
   * check what happens if a single sendout fails within a batch
   * mv send_out textfield into string? (speed up)
 
 ## DONE
+ * newsletter stats: total/percent send/fail/bounces/read count
+   ->   * add infos to newsletter to see total read/bounces
+ * history stats
+     recipient growth
+     newsletter read/bounce growth
+     sending time/speed
+  * remove error_message recipeint -> move to send_out
+  * change update_newsletter to json
   * reactivate deleted users
   * send test email to current_user.email
   * newsletter unsubscribe by email

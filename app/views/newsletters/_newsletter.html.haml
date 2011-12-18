@@ -8,10 +8,28 @@
     = link_to newsletter.subject, account_newsletter_path(*newsletter.route), :rel => "#overlay"
 
     .progress-bar
-      - title = "#{newsletter.progress_percent}% - #{distance_of_time(newsletter.delivery_started_at || Time.now, newsletter.delivery_ended_at || Time.now, true)} - #{"%.1f" % newsletter.sendings_per_second}/sec."
-      .progress{ :title => title, :style => "width: #{newsletter.progress_percent}%;" }
+      .progress{:style => "width: #{newsletter.progress_percent}%"}
         %label= newsletter.progress_percent.to_s + '%'
 
+    .stats
+      .progress-percent
+        #{newsletter.progress_percent}%
+      .sending-time
+        = distance_of_time(newsletter.delivery_started_at || Time.now, newsletter.delivery_ended_at || Time.now, true)
+      .sendings-per-sec
+        #{newsletter.sendings_per_second}/sec.
+      .reads
+        Read:
+        %span= newsletter.reads_count
+      .finishs
+        Unread:
+        %span= newsletter.finishs_count
+      .bounces
+        Bounced:
+        %span= newsletter.bounces_count
+      .fails
+        Failed:
+        %span= newsletter.fails_count
   %td.recipients
     = newsletter.recipients_count
 

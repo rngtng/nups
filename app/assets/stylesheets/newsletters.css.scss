@@ -79,7 +79,16 @@
           white-space: nowrap;
           overflow: hidden;
           display: block;
-          text-overflow: ellipsis; } }
+          text-overflow: ellipsis; }
+        .stats {
+          margin-top: 7px;
+          display: none;
+          div {
+            display: inline;
+            font-weight: bold;
+            margin-right: 5px;
+            span {
+              font-weight: normal; } } } }
       td.recipients {
         text-align: center;
         font-weight: bold; }
@@ -102,8 +111,14 @@
         .clone {
           display: block; } }
       &.sending, &.stopping, &.stopped, &.finished {
-        .progress-bar {
-          display: block; } }
+        .info
+          .progress-bar {
+            display: block; }
+          &:hover {
+            .progress-bar {
+              display: none; }
+            .stats {
+              display: block; } } }
       // disable urls: http://tricks.com/pointer-events-current-nav
       &.testing, &.sending, &.stopping, &.finished {
         .default & {
