@@ -50,12 +50,7 @@
                       %li= link_to t('menu.recipients'), account_recipients_path(account)
 
         %td
-          - with_options :target => "_blank" do |target|
-            = target.link_to image_tag("status/#{resque_status}.gif", :border => 0), "/resque", :id => 'resque'
-            = target.link_to image_tag("https://secure.travis-ci.org/rngtng/nups.png", :border => 0), "http://travis-ci.org/#!/rngtng/nups", :id => 'travis'
-            = target.link_to "New Relic", "https://rpm.newrelic.com/accounts/67031/applications/434489", :id => 'new-relic'
-            = target.link_to "Airbrake", "http://nups.airbrakeapp.com/projects/54041/errors", :id => 'airbrake'
-
+          = render :partial => "layouts/admin_panel"
           = link_to image_tag('buttons/logout.gif'), destroy_user_session_path, :id => 'logout', :target => "_self"
 
       %tr

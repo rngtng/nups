@@ -67,6 +67,10 @@ class Newsletter < ActiveRecord::Base
       Resque.enqueue(me.class, me.id, "_resume_live!")
     end
 
+    before_transition :sending => :finished do |me|
+      me.delivery_ended_at = me.live_send_outs.first(:select => "finished_at", :order => "finished_at DESC").try(:finished_at)
+    end
+
     after_transition all => :stopping do |me|
       Resque.enqueue(me.class, me.id, "_stop!")
     end
@@ -113,7 +117,7 @@ class Newsletter < ActiveRecord::Base
 
   #How long did it take to send newsletter
   def sending_time
-    ((self.delivery_ended_at || Time.now) - (self.delivery_started_at || Time.now)).to_f
+    ((self.delivery_ended_at || Time.now) - (self.delivery_started_at || Time.now)).to_f.round(2)
   end
 
   def count
@@ -133,17 +137,23 @@ class Newsletter < ActiveRecord::Base
       self.delivery_started_at ||= live_send_outs.first(:order => "created_at ASC").try(:created_at)
       self.deliveries_count      = live_send_outs.where("finished_at IS NOT NULL").count
       self.fails_count           = live_send_outs.with_state(:failed).count
-      if progress_percent >= 100
-        self.delivery_ended_at   = live_send_outs.first(:order => "finished_at DESC").try(:finished_at)
-        self.finish! #(end_time)
-      end
-    elsif finished?
+    end
+
+    if done?
+      self.finish!
+    end
+
+    if finished?
       self.bounces_count = live_send_outs.with_state(:bounced).count
       self.reads_count = live_send_outs.with_state(:read).count
     end
     self.save!
   end
 
+  def done?
+    (sending? && self.live_send_outs.with_state(:sheduled).count == 0) ||
+    (testing? && self.test_send_outs.with_state(:sheduled).count == 0)
+  end
   #-------------------------------------------------------------------------------------------------------------------------
    private
    def set_recipients_count
@@ -154,23 +164,21 @@ class Newsletter < ActiveRecord::Base
      account.test_recipient_emails_array(email).each do |test_recipient_email|
        self.test_send_outs.create!(:email => test_recipient_email.strip)
      end
-
-     self.finish!
    end
 
-   def _send_live!(email = nil)
+   def _send_live!(*args)
      self.recipients.each do |live_recipient|
        self.live_send_outs.create!(:recipient => live_recipient)
      end
     self.update_attribute(:recipients_count, self.live_send_outs.count) #TODO what if stopped??
    end
 
-   def _resume_live!
+   def _resume_live!(*args)
      #self.update_attributes(:delivery_started_at => Time.now)
      self.live_send_outs.with_state(:stopped).map(&:resume!)
    end
 
-   def _stop!
+   def _stop!(*args)
      self.live_send_outs.with_state(:sheduled).update_all(:state => 'stopped')
      self.finish!
      #self.live_send_outs.with_state(:sheduled).map(&:stop!) #TODO use magice mysql here

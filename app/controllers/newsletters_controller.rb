@@ -77,7 +77,7 @@ class NewslettersController < ApplicationNupsController
     @newsletter.destroy
 
     if request.xhr?
-      render :js => "$('#newsletter-#{@newsletter.id}').hide()"
+      render :json => @newsletter.to_json(:only => [:id])
     else
       redirect_to account_newsletters_path(@account)
     end
@@ -95,7 +95,10 @@ class NewslettersController < ApplicationNupsController
     end
 
     if request.xhr?
-      render @newsletter
+      render :json => @newsletter.reload.to_json(
+        :except => [:subject, :content, :account_id, :last_sent_id, :mode, :status],
+        :methods => [:progress_percent, :sending_time, :finishs_count, :sendings_per_second]
+      )
     else
       redirect_to account_newsletters_path(@account)
     end
@@ -106,7 +109,10 @@ class NewslettersController < ApplicationNupsController
     @newsletter.stop!
 
     if request.xhr?
-      render @newsletter
+      render :json => @newsletter.reload.to_json(
+        :except => [:subject, :content, :account_id, :last_sent_id, :mode, :status],
+        :methods => [:progress_percent, :sending_time, :finishs_count, :sendings_per_second]
+      )
     else
       redirect_to account_newsletters_path(@account)
     end

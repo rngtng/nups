@@ -41,8 +41,10 @@ gem 'airbrake'
 # auto_link replacement
 gem 'rinku'
 
+gem 'rspec-rails', :group => [:development, :test]
+gem 'spin', :group => [:development, :test]
+
 group :development do
-  gem 'rspec-rails' #for rake tasks
   gem 'capistrano'
   gem 'mailcatcher'
   gem 'ruby-graphviz', :require => 'graphviz'
@@ -60,8 +62,6 @@ end
 group :test do
   gem 'json' #needed for resque to run on travis-ci
 
-  #rspec
-  gem 'rspec-rails'
   gem 'resque_spec'
 
   gem 'delorean'
@@ -75,6 +75,5 @@ group :test do
   gem 'factory_girl_rails'
 
   gem 'watchr'
-
   gem 'simplecov'
 end

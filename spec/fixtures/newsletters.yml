@@ -7,13 +7,13 @@
 
 biff_newsletter:
   account: biff_account
-  subject: First Newsletter
+  subject: First Newsletter Tested
   state: tested
   content: "Monthly Newsletter"
 
-two:
+biff_newsletter_two:
   account: biff_account
-  subject: First Newsletter
+  subject: Second Newsletter New
   state: new
 
 # == Schema Info

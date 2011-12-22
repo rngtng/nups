@@ -80,7 +80,7 @@ class RecipientsController < ApplicationNupsController
     @recipient.destroy
 
     if request.xhr?
-      render :json => @recipient
+      render :json => @recipient.to_json(:only => [:id])
     else
       redirect_to account_recipients_path(@account)
     end

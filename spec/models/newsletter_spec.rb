@@ -66,11 +66,6 @@ describe Newsletter do
         newsletter.send("_send_test!", "extra@email.de")
         newsletter.test_send_outs.map(&:email).should include("extra@email.de")
       end
-
-      it "calls finish" do
-        newsletter.should_receive(:finish!)
-        newsletter.send("_send_test!")
-      end
     end
 
     describe "#_send_live!" do
@@ -173,11 +168,11 @@ describe Newsletter do
   end
 
   describe "#attachments" do
+    let(:newsletter) { newsletters(:biff_newsletter) }
     before do
-      @newsletter = newsletters(:biff_newsletter)
-      @newsletter.attachment_ids = [assets(:two), assets(:three)].map(&:id)
-      @newsletter.save!
-      @newsletter.reload
+      newsletter.attachment_ids = [assets(:two), assets(:three)].map(&:id)
+      newsletter.save!
+      #@newsletter.reload
     end
 
     it "updates attachments :one" do
@@ -185,15 +180,15 @@ describe Newsletter do
     end
 
     it "updates attachments :two" do
-      assets(:two).reload.newsletter_id.should == @newsletter.id
+      assets(:two).reload.newsletter_id.should == newsletter.id
     end
 
     it "updates attachments :two" do
-      assets(:three).reload.newsletter_id.should == @newsletter.id
+      assets(:three).reload.newsletter_id.should == newsletter.id
     end
 
     it "updates attachments" do
-      @newsletter.attachments.size.should == 2
+      newsletter.attachments.size.should == 2
     end
 
     it "doesn't assign empty blank ids" do
@@ -203,68 +198,88 @@ describe Newsletter do
   end
 
   describe "#update_stats!" do
-    before do
-      newsletter.update_attributes(:state => 'sending')
-      @send_out_first = newsletter.live_send_outs.create(:recipient => newsletter.recipients.first)
-      @send_out_last = newsletter.live_send_outs.create(:recipient => newsletter.recipients.last)
-    end
-
-    context "sending" do
-      let(:created_at) { 5.days.ago }
-
-      it "updates delivery_started_at" do
-        @send_out_first.update_attributes(:created_at => created_at)
-        expect do
-          newsletter.update_stats!
-        end.to change { newsletter.delivery_started_at.to_i }.to(created_at.to_i)
+    context "test newsletter" do
+       before do
+         newsletter.update_attribute('state', 'testing')
       end
 
-      it "doesn't change state" do
-        expect do
-          newsletter.update_stats!
-        end.to_not change { newsletter.state }
-      end
+       it "calls finish" do
+         expect do
+           newsletter.update_stats!
+         end.to change { newsletter.reload.state }.from('testing').to('tested')
+       end
     end
 
-    context "finished" do
-      let(:finished_at) { 2.days.ago }
-
+    context "live newsletter" do
       before do
-        @send_out_first.update_attributes(:state => 'finished', :finished_at => 3.days.ago)
-        @send_out_last.update_attributes(:state => 'read', :finished_at => finished_at)
-        @send_out_last.update_attributes(:state => 'failed', :updated_at => finished_at)
-        newsletter.update_attribute(:recipients_count, newsletter.live_send_outs.count)
+        newsletter.update_attributes(:state => 'sending')
+        @send_out_first = newsletter.live_send_outs.create!(:recipient => newsletter.recipients.first)
+        @send_out_last = newsletter.live_send_outs.create!(:recipient => newsletter.recipients.last)
       end
 
-      it "does not update delivery_started_at" do
-        newsletter.update_attributes(:delivery_started_at => Time.now)
-        expect do
-          newsletter.update_stats!
-        end.to_not change { newsletter.delivery_started_at }
+      context "sending" do
+        let(:created_at) { 5.days.ago }
+
+        it "updates delivery_started_at" do
+          @send_out_first.update_attributes(:created_at => created_at)
+          expect do
+            newsletter.update_stats!
+          end.to change { newsletter.delivery_started_at.to_i }.to(created_at.to_i)
+        end
+
+        it "doesn't change state" do
+          expect do
+            newsletter.update_stats!
+          end.to_not change { newsletter.reload.state }.from('sending')
+        end
       end
 
-      it "finishes newsletter" do
-        expect do
-          newsletter.update_stats!
-        end.to change { newsletter.state }.from('sending').to('finished')
-      end
+      context "finished" do
+        let(:finished_at) { 2.days.ago }
 
-      it "updates delivery_ended_at" do
-        expect do
-          newsletter.update_stats!
-        end.to change { newsletter.delivery_ended_at.to_i }.to(finished_at.to_i)
-      end
+        before do
+          newsletter.update_attributes(:state => 'sending')
+          @send_out_first.update_attributes(:state => 'finished', :finished_at => 3.days.ago)
+          @send_out_last.update_attributes(:state => 'read', :finished_at => finished_at)
+        end
 
-      it "updates errors_count" do
-        expect do
-          newsletter.update_stats!
-        end.to change { newsletter.fails_count }.by(1)
-      end
+        it "does not update delivery_started_at" do
+          newsletter.update_attributes(:delivery_started_at => Time.now)
+          expect do
+            newsletter.update_stats!
+          end.to_not change { newsletter.delivery_started_at }
+        end
 
-      it "updates deliveries_count" do
-        expect do
-          newsletter.update_stats!
-        end.to change { newsletter.deliveries_count }.by(2)
+        it "finishes newsletter" do
+          expect do
+            newsletter.update_stats!
+          end.to change { newsletter.reload.state }.from('sending').to('finished')
+        end
+
+        it "updates delivery_ended_at" do
+          expect do
+            newsletter.update_stats!
+          end.to change { newsletter.reload.delivery_ended_at.to_i }.to(finished_at.to_i)
+        end
+
+        it "updates errors_count" do
+          @send_out_last.update_attributes(:state => 'failed', :updated_at => finished_at)
+          expect do
+            newsletter.update_stats!
+          end.to change { newsletter.fails_count }.by(1)
+        end
+
+        it "updates reads_count" do
+          expect do
+            newsletter.update_stats!
+          end.to change { newsletter.reads_count }.by(1)
+        end
+
+        it "updates deliveries_count" do
+          expect do
+            newsletter.update_stats!
+          end.to change { newsletter.deliveries_count }.by(2)
+        end
       end
     end
 

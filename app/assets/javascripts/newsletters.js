@@ -2,9 +2,9 @@ var request = function(newsletterPath){
   $.ajax({
     url: newsletterPath,
     data: {
-      ids: $('.newsletter').map(function(){
+      ids: $.makeArray($('.newsletter').map(function(){
         return this.id.replace('newsletter-', '');
-      })
+      }))
     },
     dataType: 'json',
     success: function (data, status, xhr) {
@@ -12,6 +12,10 @@ var request = function(newsletterPath){
       $.each(data, function(index, newsletter){
         updateNewsletter(newsletter);
       });
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(textStatus);
+      alert(errorThrown);
     }
   });
 },
@@ -45,8 +49,19 @@ updateNewsletter = function(nl){
   schedule();
 };
 
-$.tools.tabs.addEffect("ajaxOverlay", function(tabIndex, done){
-  this.getPanes().eq(0).html("").load(this.getTabs().eq(tabIndex).attr("href"), function(){
+$('#newsletters a.delete').live('ajax:success', function(e, data, status, xhr) {
+  $('#newsletter-' + data.id).remove();
+});
+
+$('#newsletters').find('.send-live,.send-test,.stop').live('ajax:success', function(e, data, status, xhr) {
+  updateNewsletter(data);
+}).live('ajax:error', function(e, xhr, status, error){
+  alert("Please try again!" + e + " " +error);
+});
+
+
+$.tools.tabs.addEffect("ajaxOverlay", function(tabIndex, done) {
+  this.getPanes().eq(0).html("").load(this.getTabs().eq(tabIndex).attr("href"), function() {
     $(newsletterNavElements).attr('data-type', 'html');
     $("tbody a[rel=#overlay]").attachOverlay();
     $("table.content").showNothingFound();
