@@ -9,6 +9,7 @@ script: "bundle exec rake travis"
 branches:
   only:
     - master
+    - staging
 notifications:
   recipients:
     - tobi@rngtng.com
