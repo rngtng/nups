@@ -11,8 +11,15 @@ class LiveSendOut < SendOut
     end
 
     before_transition :delivering => :failed do |me, transition|
-      me.error_message = transition.args[0]
+      me.error_message = transition.args[0].message
       me.recipient.update_attribute(:fails_count,  me.recipient.fails_count + 1)
+    end
+
+    after_transition :delivering => :failed do |me, transition|
+      # a bit dirty hack: force to end transition successfull but still
+      # propagade execption
+      me.connection.execute("COMMIT") #prevent rollback
+      raise transition.args[0]
     end
 
     before_transition :finished => :read do |me|

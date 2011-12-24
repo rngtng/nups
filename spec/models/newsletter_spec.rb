@@ -111,7 +111,6 @@ describe Newsletter do
 
     describe "#_stop!" do
       before do
-        #newsletter.stub('finish!').and_return(true)
         newsletter.update_attribute("state", "pre_sending")
         newsletter.send("_send_live!")
       end
@@ -125,7 +124,9 @@ describe Newsletter do
       end
 
       it "resumes" do
+        newsletter.update_attribute("state", "stopping")
         newsletter.send("_stop!")
+        newsletter.update_attribute("state", "pre_sending")
 
         expect do
           expect do
@@ -139,12 +140,12 @@ describe Newsletter do
   describe "#send" do
     shared_examples_for "sending to recipients" do
       let(:klass){ TestSendOut }
-      let(:method){ "send_test!" }
+      let(:method){ :send_test }
 
       it "sends mail" do
         expect do
           with_resque do
-            newsletter.send(method)
+            newsletter.fire_state_event(method)
           end
         end.to change(ActionMailer::Base.deliveries, :size).by(2)
       end
@@ -152,7 +153,7 @@ describe Newsletter do
       it "creates sendouts" do
         expect do
           with_resque do
-            newsletter.send(method)
+            newsletter.fire_state_event(method)
           end
         end.to change(klass.with_state(:finished), :count).by(2)
       end
@@ -181,16 +182,16 @@ describe Newsletter do
 
       it_should_behave_like "sending to recipients" do
         let(:klass){ LiveSendOut }
-        let(:method){ "send_live!" }
+        let(:method){ :send_live }
       end
     end
 
     context "state machine" do
       it "should not scheduled twice" do
         newsletter.send_live!
-        lambda do
+        expect do
           newsletter.send_live!
-        end.should raise_error
+        end.to raise_error
       end
     end
   end

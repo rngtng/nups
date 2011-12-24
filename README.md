@@ -10,9 +10,9 @@
       http://mentalized.net/activity-indicators/
 
 ## TODO
-  * stop while in pre_sending??
+  * check: stop while in pre_sending??
+  * check: error when creating send_outs
   * chart when people read
-  * introduce foreign key for send_outs? -> auto delete test sendouts
   * remove  mode/status/last_send_id from newsletter
   * order DESC
   * heighlight reciever with bounce count, set option to disable
@@ -25,10 +25,10 @@
   * add index to recipients
   * bounce only when 5.X code
   * bounce cleanup
-  * check what happens if a single sendout fails within a batch
   * mv send_out textfield into string? (speed up)
 
 ## DONE
+ * check what happens if a single sendout fails within a batch
  * add better fixtures: factory_girl
  * newsletter stats: total/percent send/fail/bounces/read count
    ->   * add infos to newsletter to see total read/bounces
@@ -79,9 +79,7 @@
   * resque status: http://github.com/quirkey/resque-status
 
 ## Resque Startup:
-
-  1. redis-server
-  2. COUNT=1 QUEUE=* rake resque:workers
+  * rake resque:workers:start
 
 ## Mail
   http://www.techsoup.org/learningcenter/internet/page5052.cfm

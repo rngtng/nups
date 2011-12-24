@@ -1,7 +1,7 @@
 module NewslettersHelper
 
   def pull_time
-    Rails.env.test? ? 400 : 2000
+    Rails.env.test? ? 250 : 2000
   end
 end
 

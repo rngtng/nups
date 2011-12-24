@@ -5,13 +5,9 @@ class SendOut < ActiveRecord::Base
   belongs_to :recipient
 
   validates :newsletter_id, :presence => true
-  validates :email, :presence => true
 
   after_save :async_deliver!
 
-  # Add this to remove it from transition
-  # alias_method :save_state, :save
-  #, :use_transactions => false, :action => :save_state do
   state_machine :initial => :sheduled do
     event :deliver do
       transition :sheduled => :delivering
@@ -48,7 +44,7 @@ class SendOut < ActiveRecord::Base
         me.issue.deliver
         me.finish!
       rescue Exception => e
-        me.failure!(e.message)
+        me.failure!(e)
       end
     end
   end

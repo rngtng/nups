@@ -16,17 +16,17 @@ describe SendOut do
 
       it "should not allow multiple instances" do
         live_send_out
-        lambda do
+        expect do
           LiveSendOut.create!(:newsletter => newsletter, :recipient => recipient)
-        end.should raise_error
+        end.to raise_error
       end
     end
 
     it "should allow multiple instances of TestSendOut" do
       live_send_out
-      lambda do
+      expect do
         TestSendOut.create!(:newsletter => newsletter, :email => "test@test.de")
-      end.should_not raise_error
+      end.to_not raise_error
     end
   end
 
@@ -91,16 +91,20 @@ describe SendOut do
       end
 
       it "should change state to failed on failure" do
-        live_send_out.issue.stub(:deliver).and_raise
+        live_send_out.issue.should_receive(:deliver).and_raise
         expect do
-          live_send_out.deliver!
+          expect do
+            live_send_out.deliver!
+          end.to raise_error
         end.to change { live_send_out.reload.state }.from('sheduled').to('failed')
       end
 
       it "increases recipients fails_count" do
-        live_send_out.issue.stub(:deliver).and_raise
+        live_send_out.issue.should_receive(:deliver).and_raise
         expect do
-          live_send_out.deliver!
+          expect do
+            live_send_out.deliver!
+          end.to raise_error
         end.to change { recipient.reload.fails_count }.by(1)
       end
     end

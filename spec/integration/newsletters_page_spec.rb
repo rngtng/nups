@@ -77,7 +77,7 @@ describe 'recipients page' do
 
         ResqueSpec.perform_all(SendOut::QUEUE)
       end.to change(ActionMailer::Base.deliveries, :size).by(3)
-      sleep 5
+      sleep 1
 
       page.should have_selector("#{selector}.tested")
     end

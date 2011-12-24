@@ -12,9 +12,12 @@ var request = function(newsletterPath){
       $.each(data, function(index, newsletter){
         updateNewsletter(newsletter);
       });
+      schedule();
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      alert("Error in request: " + jqXHR + " - "+ textStatus + " - " + errorThrown);
+      console.log(jqXHR);
+      console.log("Error in request:" + textStatus + " - " + errorThrown);
+      schedule();
     }
   });
 },
@@ -46,7 +49,6 @@ updateNewsletter = function(nl){
       .find('.reads span').html(nl.reads_count).end()
       .find('.bounces span').html(nl.bounces_count).end()
       .find('.fails span').html(nl.fails_count).end();
-  schedule();
 };
 
 $('#newsletters a.delete').live('ajax:success', function(e, data, status, xhr) {
@@ -55,6 +57,7 @@ $('#newsletters a.delete').live('ajax:success', function(e, data, status, xhr) {
 
 $('#newsletters').find('.send-live,.send-test,.stop').live('ajax:success', function(e, data, status, xhr) {
   updateNewsletter(data);
+  schedule();
 }).live('ajax:error', function(e, xhr, status, error){
   alert("Please try again!" + e + " " +error);
 });

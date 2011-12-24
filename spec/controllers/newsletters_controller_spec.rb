@@ -180,24 +180,33 @@ describe NewslettersController do
     end
 
     describe "schedule" do
-      it "changes newsletter state" do
-        get :start, :account_id => account.to_param, :id => newsletter.to_param
-        newsletter.reload.testing?.should be_true
+      context "test" do
+        it "changes newsletter state" do
+          get :start, :account_id => account.to_param, :id => newsletter.to_param
+          newsletter.reload.pre_testing?.should be_true
+        end
+
+        it "queues test newsletter" do
+          get :start, :account_id => account.to_param, :id => newsletter.to_param
+          Newsletter.should have_queued(newsletter.id, "_send_test!", user.email)
+        end
+
+        it "redirects to newsletters from account" do
+          get :start, :account_id => account.to_param, :id => newsletter.to_param
+          response.should redirect_to(account_newsletters_path(account))
+        end
       end
 
-      it "queues test newsletter" do
-        get :start, :account_id => account.to_param, :id => newsletter.to_param
-        Newsletter.should have_queued(newsletter.id, "_send_test!", user.email)
-      end
+      context "live" do
+        it "changes newsletter state" do
+          get :start, :account_id => account.to_param, :id => newsletter.to_param, :mode => 'live'
+          newsletter.reload.pre_sending?.should be_true
+        end
 
-      it "queues live newsletter" do
-        get :start, :account_id => account.to_param, :id => newsletter.to_param, :mode => 'live'
-        Newsletter.should have_queued(newsletter.id, "_send_live!")
-      end
-
-      it "redirects to newsletters from account" do
-        get :start, :account_id => account.to_param, :id => newsletter.to_param
-        response.should redirect_to(account_newsletters_path(account))
+        it "queues live newsletter" do
+          get :start, :account_id => account.to_param, :id => newsletter.to_param, :mode => 'live'
+          Newsletter.should have_queued(newsletter.id, "_send_live!")
+        end
       end
     end
 
