@@ -17,3 +17,4 @@ config/setup_load_paths.rb
 log/resque_err
 log/resque_stdout
 coverage
+log/resque_scheduler

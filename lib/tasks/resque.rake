@@ -41,6 +41,7 @@ namespace :resque do
 
     desc "Quit running workers"
     task :stop => :environment do
+      Rake::Task['resque:scheduler:stop'].invoke
       pids = Resque.workers.select do |worker|
         worker.to_s.include?('nups_')
       end.map(&:worker_pids).flatten.uniq
@@ -57,6 +58,7 @@ namespace :resque do
     # http://stackoverflow.com/questions/2532427/why-is-rake-not-able-to-invoke-multiple-tasks-consecutively
     desc "Start workers"
     task :start => :environment do
+      Rake::Task['resque:scheduler:start'].invoke
       Rake::Task['resque:worker:start'].execute(:queue => Bounce, :count => 1, :jobs => 100)
       Rake::Task['resque:worker:start'].execute(:queue => Newsletter)
       Rake::Task['resque:worker:start'].execute(:queue => SendOut, :count => 5, :jobs => 100)
@@ -82,4 +84,38 @@ namespace :resque do
       }
     end
   end
+
+  namespace :scheduler do
+    def scheduler_pid
+      (Rails.root + "tmp/pids/resque_scheduler.pid").to_s
+    end
+
+    def scheduler_log
+      (Rails.root + "log/resque_scheduler").to_s
+    end
+
+    desc "Start Resque Scheduler"
+    task :start => :setup do
+      ops = {:pgroup => true, :err => [scheduler_log, "a"], :out => [scheduler_log, "a"]}
+      env_vars = {"PIDFILE" => scheduler_pid, "DYNAMIC_SCHEDULE" => true.to_s} #"VERBOSE" => true,
+      pid = spawn(env_vars, "rake resque:scheduler", ops)
+      Process.detach(pid)
+    end
+
+    desc "Stop Resque Scheduler"
+    task :stop do
+      if File.exists?(scheduler_pid)
+        begin
+          syscmd = "kill -s QUIT `cat #{scheduler_pid}`"
+          puts "Running syscmd: #{syscmd}"
+          system(syscmd)
+        rescue
+        end
+        system("rm -f #{scheduler_pid}")
+      else
+        puts "No PID File found"
+      end
+    end
+  end
+
 end
