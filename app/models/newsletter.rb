@@ -7,7 +7,8 @@ class Newsletter < ActiveRecord::Base
   has_many :recipients,  :through => :account, :conditions => { 'recipients.state' => :confirmed }
   has_many :attachments, :class_name => 'Asset'
 
-  has_many :send_outs,   :dependent => :destroy
+  # http://stackoverflow.com/questions/738906/rails-dependent-and-delete
+  has_many :send_outs,   :dependent => :delete_all #send_out has no dependency, speed it up
   has_many :live_send_outs
   has_many :test_send_outs
 

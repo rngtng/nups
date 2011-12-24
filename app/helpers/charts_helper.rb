@@ -7,7 +7,7 @@ module ChartsHelper
         data[method] = []
       end
       newsletters.each do |newsletter|
-        date = newsletter.delivery_started_at.to_i
+        date = newsletter.delivery_started_at.to_i * 1000
         NL_FIELDS.each do |method|
           data[method] << [date, newsletter.send(method)]
         end
