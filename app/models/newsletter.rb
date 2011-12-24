@@ -22,18 +22,18 @@ class Newsletter < ActiveRecord::Base
 
   state_machine :initial => :new do
     event :send_test do
-      transition :new     => :testing
-      transition :tested  => :testing
-      transition :stopped => :testing
+      transition :new     => :pre_testing
+      transition :tested  => :pre_testing
     end
 
     event :send_live do
-      transition :tested  => :sending
-      transition :stopped => :sending
+      transition :tested  => :pre_sending
+      transition :stopped => :pre_sending
     end
 
-    event :resume_live do
-      transition :stopped => :sending
+    event :process do
+      transition :pre_testing  => :testing
+      transition :pre_sending => :sending
     end
 
     event :stop do
@@ -47,15 +47,11 @@ class Newsletter < ActiveRecord::Base
       transition :stopping => :stopped
     end
 
-    event :duplicate do
-      transition :finished => :finished
-    end
-
-    after_transition all => :testing do |me, transition|
+    after_transition all => :pre_testing do |me, transition|
       Resque.enqueue(me.class, me.id, "_send_test!", transition.args[0])
     end
 
-    after_transition :tested => :sending do |me|
+    after_transition :tested => :pre_sending do |me|
       if me.deliver_at
         Resque.enqueue_at(me.deliver_at, me.class, me.id, "_send_live!")
       else
@@ -63,9 +59,13 @@ class Newsletter < ActiveRecord::Base
       end
     end
 
-    after_transition :stopped => :sending do |me|
+    after_transition :stopped => :pre_sending do |me|
       Resque.enqueue(me.class, me.id, "_resume_live!")
     end
+
+     before_transition :pre_sending => :sending do |me|
+       me.recipients_count = me.live_send_outs.count #TODO what if stopped??
+     end
 
     before_transition :sending => :finished do |me|
       me.delivery_ended_at = me.live_send_outs.first(:select => "finished_at", :order => "finished_at DESC").try(:finished_at)
@@ -164,24 +164,25 @@ class Newsletter < ActiveRecord::Base
      account.test_recipient_emails_array(email).each do |test_recipient_email|
        self.test_send_outs.create!(:email => test_recipient_email.strip)
      end
+     process!
    end
 
    def _send_live!(*args)
      self.recipients.each do |live_recipient|
        self.live_send_outs.create!(:recipient => live_recipient)
      end
-    self.update_attribute(:recipients_count, self.live_send_outs.count) #TODO what if stopped??
+     process!
    end
 
    def _resume_live!(*args)
      #self.update_attributes(:delivery_started_at => Time.now)
      self.live_send_outs.with_state(:stopped).map(&:resume!)
+     process!
    end
 
    def _stop!(*args)
      self.live_send_outs.with_state(:sheduled).update_all(:state => 'stopped')
      self.finish!
-     #self.live_send_outs.with_state(:sheduled).map(&:stop!) #TODO use magice mysql here
    end
 end
 

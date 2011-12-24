@@ -47,28 +47,44 @@ describe Newsletter do
   context "without StateMachine" do
 
     describe "#_send_test!" do
+      before do
+        newsletter.update_attribute("state", "pre_testing")
+      end
+
       it "creates TestSendOuts" do
-        newsletter.stub(:finish!)
         expect do
           newsletter.send("_send_test!")
         end.to change(TestSendOut, :count).by(2)
       end
 
       it "uniq test" do
-        newsletter.stub(:finish!)
         expect do
           newsletter.send("_send_test!", newsletter.account.test_recipient_emails_array.first)
         end.to change(TestSendOut, :count).by(2)
       end
 
+      it "calls process!" do
+        newsletter.should_receive(:process!)
+        newsletter.send("_send_test!")
+      end
+
+      it "calls process!" do
+        expect do
+          newsletter.send("_send_test!")
+        end.to change { newsletter.state }.from("pre_testing").to("testing")
+      end
+
       it "creates TestSendOuts for extra email" do
-        newsletter.stub(:finish!)
         newsletter.send("_send_test!", "extra@email.de")
         newsletter.test_send_outs.map(&:email).should include("extra@email.de")
       end
     end
 
     describe "#_send_live!" do
+      before do
+        newsletter.update_attribute("state", "pre_sending")
+      end
+
       it "creates LiveSendOuts" do
         expect do
           newsletter.send("_send_live!")
@@ -80,15 +96,27 @@ describe Newsletter do
           newsletter.send("_send_live!")
         end.to change { newsletter.recipients_count }.from(0).to(2)
       end
+
+      it "calls process!" do
+        newsletter.should_receive(:process!)
+        newsletter.send("_send_live!")
+      end
+
+      it "calls process!" do
+        expect do
+          newsletter.send("_send_live!")
+        end.to change { newsletter.state }.from("pre_sending").to("sending")
+      end
     end
 
     describe "#_stop!" do
       before do
-        newsletter.stub('finish!').and_return(true)
+        #newsletter.stub('finish!').and_return(true)
+        newsletter.update_attribute("state", "pre_sending")
         newsletter.send("_send_live!")
       end
 
-      it "should stop" do
+      it "stopps" do
         expect do
           expect do
             newsletter.send("_stop!")
@@ -96,7 +124,7 @@ describe Newsletter do
         end.to change(LiveSendOut.with_state(:stopped), :count).by(2)
       end
 
-      it "should resume" do
+      it "resumes" do
         newsletter.send("_stop!")
 
         expect do
@@ -194,6 +222,17 @@ describe Newsletter do
     it "doesn't assign empty blank ids" do
       account.should_not_receive(:assets)
       newsletter.update_attributes(:attachment_ids => [""])
+    end
+  end
+
+  describe "#done?" do
+
+    it "" do
+      #sending", one schedule, one done -> not done
+      #sending", no scheduled, two done -> done
+      #newsletter.
+
+      #newsletter.should be_done
     end
   end
 

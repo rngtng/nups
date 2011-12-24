@@ -55,76 +55,104 @@ describe 'recipients page' do
     page.should have_selector("textarea.cleditor")
   end
 
-  it 'sends test newsletter', :js => true do
-    visit account_newsletters_path(account)
+  context "sending" do
+    before do
+      visit account_newsletters_path(account)
+    end
 
-    page.should have_no_selector("#newsletter-#{newsletter2.id}.tested")
+    it 'sends test newsletter', :js => true do
+      selector = "#newsletter-#{newsletter2.id}"
 
-    expect do
-      find("#newsletter-#{newsletter2.id} a.send-test").click
+      page.should have_no_selector("#{selector}.tested")
+
+      expect do
+        find("#{selector} a.send-test").click
+        sleep 1
+        page.should have_selector("#newsletter-#{newsletter2.id}.pre_testing")
+        find("#{selector} .progress-bar").should be_visible
+
+        ResqueSpec.perform_next(Newsletter::QUEUE)
+        sleep 1
+        page.should have_selector("#{selector}.testing")
+
+        ResqueSpec.perform_all(SendOut::QUEUE)
+      end.to change(ActionMailer::Base.deliveries, :size).by(3)
+      sleep 5
+
+      page.should have_selector("#{selector}.tested")
+    end
+
+    it 'sends live newsletter', :js => true do
+      selector = "#newsletter-#{newsletter.id}"
+
+      expect do
+        find("#{selector} a.send-live").click
+        page.driver.browser.switch_to.alert.accept
+        sleep 1
+        page.should have_selector("#{selector}.pre_sending")
+        find("#{selector} .progress-bar").should be_visible
+
+        ResqueSpec.perform_next(Newsletter::QUEUE)
+        sleep 1
+        page.should have_selector("#{selector}.sending")
+
+        ResqueSpec.perform_next(SendOut::QUEUE)
+        sleep 1
+        page.should have_content('50%')
+        ResqueSpec.perform_next(SendOut::QUEUE)
+        sleep 1
+        page.should have_content('100%')
+      end.to change(ActionMailer::Base.deliveries, :size).by(2)
+
+      page.should have_selector("#{selector}.finished")
+    end
+
+    it 'stops and resume live newsletter', :js => true do
+      selector = "#newsletter-#{newsletter.id}"
+
+      expect do
+        find("#{selector} a.send-live").click
+        page.driver.browser.switch_to.alert.accept
+        sleep 1
+        page.should have_selector("#{selector}.pre_sending")
+        find("#{selector} .progress-bar").should be_visible
+
+        ResqueSpec.perform_next(Newsletter::QUEUE)
+        ResqueSpec.perform_next(SendOut::QUEUE)
+        sleep 1
+        page.should have_content('50%')
+      end.to change(ActionMailer::Base.deliveries, :size).by(1)
+
+      find("#{selector} a.stop").click
+      page.driver.browser.switch_to.alert.accept
       sleep 1
-      page.should have_selector("#newsletter-#{newsletter2.id}.testing")
+      page.should have_selector("#{selector}.stopping")
 
       ResqueSpec.perform_next(Newsletter::QUEUE)
       ResqueSpec.perform_all(SendOut::QUEUE)
-    end.to change(ActionMailer::Base.deliveries, :size).by(3)
-    sleep 5
-
-    page.should have_selector("#newsletter-#{newsletter2.id}.tested")
-  end
-
-  it 'sends live newsletter', :js => true do
-    visit account_newsletters_path(account)
-
-    expect do
-      find("#newsletter-#{newsletter.id} a.send-live").click
-      page.driver.browser.switch_to.alert.accept
       sleep 1
-      page.should have_selector("#newsletter-#{newsletter.id}.sending")
-      #procesbar visible
-
-      find("#newsletter-#{newsletter.id} .progress-bar").should be_visible
-      ResqueSpec.perform_next(Newsletter::QUEUE)
-      sleep 1
-      #show ? %
-      ResqueSpec.perform_next(SendOut::QUEUE)
-      sleep 3
       page.should have_content('50%')
-      ResqueSpec.perform_next(SendOut::QUEUE)
-    end.to change(ActionMailer::Base.deliveries, :size).by(2)
-    sleep 3
-    page.should have_content('100%')
-    page.should have_selector("#newsletter-#{newsletter.id}.finished")
-  end
+      page.should have_selector("#{selector}.stopped")
 
+     # sleep 100
 
-  it 'stops live newsletter', :js => true do
-    visit account_newsletters_path(account)
+      newsletter.live_send_outs.with_state(:stopped).count.should == 1
 
-    expect do
-      find("#newsletter-#{newsletter.id} a.send-live").click
-      page.driver.browser.switch_to.alert.accept
-      sleep 1
-      page.should have_selector("#newsletter-#{newsletter.id}.sending")
-      #procesbar visible
+      expect do
+        find("#{selector} a.resume").click
+        page.driver.browser.switch_to.alert.accept
+        sleep 1
+        page.should have_selector("#{selector}.pre_sending")
 
-      find("#newsletter-#{newsletter.id} .progress-bar").should be_visible
-      ResqueSpec.perform_next(Newsletter::QUEUE)
-      sleep 1
-      #show ? %
-      ResqueSpec.perform_next(SendOut::QUEUE)
-      sleep 3
-      page.should have_content('50%')
-
-      find("#newsletter-#{newsletter.id} a.stop").click
-      page.driver.browser.switch_to.alert.accept
-      sleep 2
-      page.should have_selector("#newsletter-#{newsletter.id}.stopping")
-      ResqueSpec.perform_next(Newsletter::QUEUE)
-    end.to change(ActionMailer::Base.deliveries, :size).by(1)
-    sleep 3
-    page.should have_selector("#newsletter-#{newsletter.id}.stopped")
-    page.should have_content('50%')
+        ResqueSpec.perform_next(Newsletter::QUEUE)
+        sleep 1
+        page.should have_selector("#{selector}.sending")
+        ResqueSpec.perform_next(SendOut::QUEUE)
+        sleep 1
+        page.should have_content('100%')
+        page.should have_selector("#{selector}.finished")
+      end.to change(ActionMailer::Base.deliveries, :size).by(1)
+    end
   end
 end
 

@@ -58,10 +58,10 @@
       &.new {
         .icon a {
           background: transparent asset-url("icon/new.png", image) no-repeat; } }
-      &.testing, &.tested {
+      &.pre_testing, &.testing, &.tested {
         .icon a {
           background: transparent asset-url("icon/tested.png", image) no-repeat; } }
-      &.sending {
+      &.pre_sending, &.sending {
         .icon a {
           background: transparent asset-url("icon/sending.png", image) no-repeat; } }
       &.stopping, &.stopped {
@@ -95,7 +95,7 @@
       td.actions {
         a {
           display: none; } }
-      &.new, &.tested, &.stopped {
+      &.new, &.tested {
         .send-test {
           display: block; } }
       &.tested {
@@ -107,10 +107,10 @@
       &.sending {
         .stop {
           display: block; } }
-      &.finished {
+      &.stopped, &.finished {
         .clone {
           display: block; } }
-      &.sending, &.stopping, &.stopped, &.finished {
+      &.pre_testing, &.testing, &.pre_sending, &.sending, &.stopping, &.stopped, &.finished {
         .info
           .progress-bar {
             display: block; }

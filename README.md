@@ -10,6 +10,7 @@
       http://mentalized.net/activity-indicators/
 
 ## TODO
+  * stop while in pre_sending??
   * chart when people read
   * introduce foreign key for send_outs? -> auto delete test sendouts
   * remove  mode/status/last_send_id from newsletter

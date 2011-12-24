@@ -14,18 +14,18 @@ var request = function(newsletterPath){
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      alert(textStatus);
-      alert(errorThrown);
+      alert("Error in request: " + jqXHR + " - "+ textStatus + " - " + errorThrown);
     }
   });
 },
 schedule = function(){
   $('#newsletters:not(.scheduled) .newsletter:not(.finished):first').each(function(){
-    var newsletterPath = $(this).data('newsletter-path');
+    var newsletterPath = $(this).data('newsletter-path'),
+        pullTime = $(this).data('pull-time');
     $('#newsletters').addClass('scheduled');
     window.setTimeout(function(){
       request(newsletterPath);
-    }, 2000);
+    }, window.parseInt(pullTime));
   })
 },
 updateNewsletter = function(nl){

@@ -88,10 +88,11 @@ $barColorLigt: #9bdd62;
       white-space: nowrap;
       font-weight: bold; } } }
 
-.sending .progress {
-  /* Webkit background stripes and gradient */
-  background: -webkit-gradient(linear, 0 0, 44 44, color-stop(0, $wt), color-stop(0.25, $wt), color-stop(0.26, $wf), color-stop(0.5, $wf), color-stop(0.51, $wt), color-stop(0.75, $wt), color-stop(0.76, $wf), color-stop(1, $wf)), -webkit-gradient(linear, left bottom, left top, color-stop(0, $barColor), color-stop(1, $barColorLigt));
-  /* Mozilla (Firefox etc) background stripes */
-  /* Note: Mozilla's support for gradients is more true to the original design, allowing gradients at 30 degrees, as apposed to 45 degress in webkit. */
-  background: -moz-repeating-linear-gradient(top left -30deg, $wt, $wt 15px, $wf 15px, $wf 30px), -moz-linear-gradient($barColorLigt 0%, $barColor 100%);
-  -webkit-animation: animate-stripes 2s linear infinite; }
+.pre_testing, .testing, .pre_sending, .sending {
+  .progress {
+    /* Webkit background stripes and gradient */
+    background: -webkit-gradient(linear, 0 0, 44 44, color-stop(0, $wt), color-stop(0.25, $wt), color-stop(0.26, $wf), color-stop(0.5, $wf), color-stop(0.51, $wt), color-stop(0.75, $wt), color-stop(0.76, $wf), color-stop(1, $wf)), -webkit-gradient(linear, left bottom, left top, color-stop(0, $barColor), color-stop(1, $barColorLigt));
+    /* Mozilla (Firefox etc) background stripes */
+    /* Note: Mozilla's support for gradients is more true to the original design, allowing gradients at 30 degrees, as apposed to 45 degress in webkit. */
+    background: -moz-repeating-linear-gradient(top left -30deg, $wt, $wt 15px, $wf 15px, $wf 30px), -moz-linear-gradient($barColorLigt 0%, $barColor 100%);
+    -webkit-animation: animate-stripes 2s linear infinite; } }
