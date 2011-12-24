@@ -47,11 +47,11 @@ class Newsletter < ActiveRecord::Base
       transition :stopping => :stopped
     end
 
-    before_transition all => :pre_testing do |me, transition|
+    after_transition all => :pre_testing do |me, transition|
       Resque.enqueue(me.class, me.id, "_send_test!", transition.args[0])
     end
 
-    before_transition :tested => :pre_sending do |me|
+    after_transition :tested => :pre_sending do |me|
       if me.deliver_at && me.deliver_at > Time.now
         Resque.enqueue_at(me.deliver_at, me.class, me.id, "_send_live!")
       else
@@ -59,7 +59,7 @@ class Newsletter < ActiveRecord::Base
       end
     end
 
-    before_transition :stopped => :pre_sending do |me|
+    after_transition :stopped => :pre_sending do |me|
       Resque.enqueue(me.class, me.id, "_resume_live!")
     end
 
@@ -71,7 +71,7 @@ class Newsletter < ActiveRecord::Base
       me.delivery_ended_at = me.live_send_outs.first(:select => "finished_at", :order => "finished_at DESC").try(:finished_at)
     end
 
-    before_transition all => :stopping do |me|
+    after_transition all => :stopping do |me|
       Resque.enqueue(me.class, me.id, "_stop!")
     end
   end
