@@ -1,0 +1,90 @@
+#send-outs
+
+:javascript
+  var data = #{send_outs_chart(@account).to_json},
+  process = function(d) {
+    var out = $.map(d, function(values, index) {
+      return [[(values[0] * 600 + 60 * 60) * 1000, values[1]]];
+    });
+    return out;
+  },
+  processPie = function(d) {
+    var i = 0,
+    out = $.map(d.opts, function(name, index) {
+      var sum = 0;
+      while((a = d.data[i]) && a[0] < index) {
+        sum += a[1];
+        i += 1;
+      }
+      return [{ name: name, y: sum }];
+    });
+    return out;
+  },
+  chart = new Highcharts.Chart({
+    chart: {
+       renderTo: 'send-outs',
+    },
+
+    title: {
+      text: "Lese Verhalten"
+    },
+
+    tooltip: {
+      formatter: function() {
+        if(this.series.index == 0) {
+          var d = new Date(this.x),
+              m = (d.getUTCMinutes() < 1) ? '00' : d.getUTCMinutes(),
+              s = '<b>' + d.getUTCHours() + ':' +  m + ' Uhr</b><br/>';
+              s += '<span style="fill:#4572A7">'+ this.series.name +':</span> '+ this.y;
+          return s;
+        } else {
+          var s = '<b>' + this.point.name + '</b><br/>';
+              s += '<span style="fill:#4572A7">'+ this.series.name +':</span> '+ Math.round(this.percentage * 100) / 100 + '%';
+          return s;
+        }
+      },
+      crosshairs: true
+    },
+
+    xAxis: {
+      type: 'datetime',
+      tickWidth: 0,
+      tickLength: 10,
+      gridLineWidth: 1,
+    },
+
+    yAxis: [{
+      title: {
+        text: "Anzahl"
+      }
+    }],
+
+    plotOptions: {
+      series: {
+        connectNulls: true
+      },
+      area: {
+        stacking: 'normal'
+      }
+    },
+
+    series: [{
+      type: 'area',
+      name: 'Lese Zeitpunkt',
+      yAxis: 0,
+      pointWidth: 4,
+      data: process(data.read_span),
+      stack: 0
+    },
+    {
+      type: 'pie',
+      name: 'Read Point',
+      data: processPie(data.read_diff),
+      center: [160, 100],
+      size: 180,
+      showInLegend: false,
+      dataLabels: {
+         enabled: true
+      }
+    }]
+  });

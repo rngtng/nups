@@ -48,6 +48,7 @@
                     %ul
                       %li= link_to t('menu.new'), new_account_newsletter_path(account)
                       %li= link_to t('menu.recipients'), account_recipients_path(account)
+                      %li.charts= link_to t('menu.charts'), account_charts_path(account)
 
         %td
           = render :partial => "layouts/admin_panel"
