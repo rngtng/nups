@@ -44,6 +44,9 @@ gem 'rinku'
 gem 'rspec-rails', :group => [:development, :test]
 gem 'spin', :group => [:development, :test]
 
+gem 'tolk', :git => 'git://github.com/rkyrychuk/tolk.git', :branch => 'master'
+# gem 'rails-i18nterface', :git => 'git://github.com/hakunin/rails-i18nterface.git', :branch => 'master'
+
 group :development do
   gem 'capistrano'
   gem 'mailcatcher'

@@ -1,93 +1,66 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
-en:
-  application:
-    title: MultiAdmin - Nups
-    login:
+--- 
+en: 
+  application: 
+    login: 
       forgot: "Forgot your password?"
-      signin: "Sign in"
       send_password: "Send me reset password instructions"
-  menu:
-    users: Users
-    user: User
-    accounts: Accounts
-    newsletters: Newsletters
-    new: New
-    recipients: Recipients
-    domains: Domain Management
-    ftp: FTP
-
-  views:
-    pagination:
-      previous: "&laquo; Prev"
-      next: "Next &raquo;"
-      truncate: "..."
-      last: "|&laquo;"
-      first: "&raquo;|"
-
-  ctrl:
-    show: show
-    new: new
-    preview: preview
-    edit: edit
-    delete: delete
+      signin: "Sign in"
+    title: "MultiAdmin - Nups"
+  ctrl: 
     back: back
     cancel: cancel
+    confirm: "Are you sure?"
+    delete: delete
+    edit: edit
+    new: new
+    preview: preview
     search: search
-    confirm: Are you sure?
-
-  recipients:
-    title: %{account_name} - Recipients
-    menu:
-      title: Recipient
-      import: import
-      export_xls: export as Excel
-      multiple_delete: delete
-    new:
-      title: Add Recipient
-    edit:
-      title: Edit Recipient
-    import:
-        title: Import Recipient
-        explanation: "One Email-Adress(es) each line or seperate by , or ;"
-        valid_recipients: Following valid recipients will be added
-        invalid_recipients: Following recipients are invalid
-        ctrl:
-          valid_import: Import valid Recipients
-          check: Check given Emails-Address(es)
-    multiple_delete:
-        title: Delete Multiple Recipients
-        explanation: "One Email-Adress(es) each line or seperate by , or ;"
-        valid_recipients: Following valid recipients will be added
-        invalid_recipients: Following recipients are invalid
-        ctrl:
-          valid_delete: Delete valid Recipients
-          confirm_delete: Are you sure?
-          check: Check given Emails-Address(es)
-    nothing: Nothing found
-
-  newsletters:
-    title: Newsletter
-    new: New Newsletter
+    show: show
+  menu: 
+    accounts: Accounts
+    domains: "Domain Management"
+    ftp: FTP
+    new: New
+    newsletters: Newsletters
+    recipients: Recipients
+    user: User
+    users: Users
+  newsletters: 
     account: Account
     action: Action
-    uploading: Uploading
-    form:
-      title: Create Newsletter
-      current_time: current time
-      add_attachment: add attachment
-    ctrl:
-      stop: stop
-      send_test: send test
-      send_live: send live
-      add_files: add File(s)
+    confirm: 
+      delete: "Really delete newsletter?"
+      resume: "Resume sending newsletter?"
+      send_live: "Start sending newsletter?"
+      stop: "Stop sending newsletter?"
+    ctrl: 
+      add_files: "add File(s)"
       resume: start
-      format_view: Format View
-      html_view: HTML View
-    confirm:
-      stop: Stop sending newsletter?
-      send_live: Start sending newsletter?
-      resume: Resume sending newsletter?
-      delete: Really delete newsletter?
-    nothing: Nothing found
+      send_live: "send live"
+      send_test: "send test"
+      stop: stop
+    form: 
+      add_attachment: "add attachment"
+      current_time: "current time"
+      title: "Create Newsletter"
+    new: "New Newsletter"
+    nothing: "Nothing found"
+    title: Newsletter
+    uploading: Uploading
+  recipients: 
+    edit: 
+      title: "Edit Recipient"
+    menu: 
+      export_xls: "export as Excel"
+      import: import
+      title: Recipient
+    new: 
+      title: "Add Recipient"
+    nothing: "Nothing found"
+  views: 
+    pagination: 
+      first: "&raquo;|"
+      last: "|&laquo;"
+      next: "Next &raquo;"
+      previous: "&laquo; Prev"
+      truncate: "..."

@@ -1,6 +1,8 @@
 
 Nups::Application.routes.draw do
   mount Resque::Server.new => "/resque"
+  mount Tolk::Engine => "/tolk"
+  # mount RailsI18nterface::Engine => "/translate", :as => "translate_engine"
 
   # first created -> highest priority.
   root :to => "frame#index"

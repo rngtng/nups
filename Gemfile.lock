@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/rkyrychuk/tolk.git
+  revision: 912a538d73e0fd16e76f5d4a80c62640f2130dfe
+  branch: master
+  specs:
+    tolk (1.0)
+      jquery-rails
+      kaminari
+      ya2yaml (~> 0.26)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -252,6 +262,7 @@ GEM
     watchr (0.7)
     xpath (0.1.4)
       nokogiri (~> 1.3)
+    ya2yaml (0.30)
 
 PLATFORMS
   ruby
@@ -291,4 +302,5 @@ DEPENDENCIES
   simplecov
   spin
   state_machine
+  tolk!
   watchr

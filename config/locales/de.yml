@@ -1,33 +1,12 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
-de:
-  application:
-    title: MultiAdmin - Nups
-    login:
+--- 
+de: 
+  application: 
+    login: 
       forgot: "Passwort vergessen?"
-      signin: "Einloggen"
       send_password: "Passwort reset Email senden"
-  menu:
-    users: Users
-    user: User
-    accounts: Accounts
-    newsletters: Übersicht Newsletter
-    new: Neuer Newsletter
-    recipients: Empfänger
-    charts: Statistik
-    domains: Domain Verwaltung
-    ftp: FTP
-
-  views:
-    pagination:
-      previous: "&laquo; Zurück"
-      next: "Vor &raquo;"
-      truncate: "..."
-      last: "&raquo;|"
-      first: "|&laquo;"
-
-  ctrl:
+      signin: Einloggen
+    title: "MultiAdmin - Nups"
+  ctrl: 
     back: zurück
     cancel: abbrechen
     confirm: Sicher?
@@ -37,67 +16,51 @@ de:
     preview: vorschau
     search: suchen
     show: details
-    save: speichern
-
-  newsletters:
-    title: Newsletter
-    new: Neuer Newsletter
-    all: "Übersicht"
+  menu: 
+    accounts: Accounts
+    domains: "Domain Verwaltung"
+    ftp: FTP
+    new: "Neuer Newsletter"
+    newsletters: "Übersicht Newsletter"
+    recipients: Empfänger
     user: User
     users: Users
+  newsletters: 
     account: Newsletter
     action: Aktion
-    confirm:
+    confirm: 
       delete: "Newsletter löschen?"
       resume: "Versand fortführen?"
       send_live: "Versand starten?"
       stop: "Versand stoppen?"
-    ctrl:
+    ctrl: 
       add_files: "Datei(en) hinzufügen"
       resume: versenden
       send_live: versenden
       send_test: testen
       stop: stoppen
-      clone: duplizieren
-    form:
+    form: 
       add_attachment: "Anhang hinzufügen"
       current_time: "aktuelle Zeit"
       title: "Newsletter erstellen"
-    menu: Menu
     new: "Neuer Newsletter"
+    nothing: "Keine Einträge vorhanden"
     title: Newsletter
-    uploading: wird hochgeladen
-    nothing: Keine Einträge vorhanden
-
-  recipients:
-    confirm:
-      delete: Empfänger löschen?
-    edit:
+    uploading: "wird hochgeladen"
+  recipients: 
+    edit: 
       title: "Empfänger editieren"
-    new:
-      ctrl:
-        check: "Emailadresse(n) überprüfen"
-        valid_import: "Valide Empfänger importieren"
-      explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
-      invalid_recipients: "Folgende Empfänger sind ungültig"
-      title: "Empfänger importieren"
-      valid_recipients: "Folgende valide Empfänger wurden hinzugefügt"
-    menu:
+    menu: 
       export_xls: "Export Exceldatei"
       import: Eintragen
-      delete: Austragen
       title: Empfänger
-    delete:
-      ctrl:
-        check: "Emailadresse(n) überprüfen"
-        confirm_delete: Sicher?
-        valid_delete: "Empfänger löschen"
-      explanation: "Emailadresse(n) pro Zeile oder durch Komma (,) bzw. Semikolon (;) getrennt eingeben:"
-      invalid_recipients: "Folgende Empfänger wurden nicht gefunden"
-      title: "Mehrere Empfänger löschen"
-      valid_recipients: "Folgende Empfänger werden gelöscht"
-    title: "%{account_name} - Empfänger (%{count})"
-    nothing: Keine Einträge vorhanden
-
-  charts:
-    title: "%{account_name} - Statistik"
+    new: 
+      title: "Empfänger importieren"
+    nothing: "Keine Einträge vorhanden"
+  views: 
+    pagination: 
+      first: "|&laquo;"
+      last: "&raquo;|"
+      next: "Vor &raquo;"
+      previous: "&laquo; Zurück"
+      truncate: "..."

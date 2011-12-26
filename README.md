@@ -19,6 +19,16 @@
   * order DESC
   * heighlight reciever with bounce count, set option to disable
   * translation (gender)
+     - https://github.com/stevo/i18n_translation_spawner
+     - https://github.com/lardawge/rails-i18nterface
+     - https://github.com/berk/tr8n
+     - https://github.com/amberbit/translator
+     - https://github.com/grosser/translation_db_engine
+     - https://github.com/mconf/translate
+     - http://railscasts.com/episodes/256-i18n-backends
+     - http://github.com/panva/tolk
+     - https://github.com/rkyrychuk/tolk
+     - http://guides.rubyonrails.org/i18n.html
   * add better migration
   * test coffeescript
   * animate sendout & test gif icons
