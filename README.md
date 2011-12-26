@@ -29,6 +29,7 @@
      - http://github.com/panva/tolk
      - https://github.com/rkyrychuk/tolk
      - http://guides.rubyonrails.org/i18n.html
+     - https://github.com/Exvo/exvo_globalize
   * add better migration
   * test coffeescript
   * animate sendout & test gif icons
