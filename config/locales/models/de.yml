@@ -3,8 +3,8 @@ de:
   attributes:
     state: Status
     type: Typ
-    created_at: "Created at"
-    updated_at: "Updated at"
+    created_at: "Erstellt am"
+    updated_at: "Updated am"
 
   # Active Record models configuration
   activerecord:
@@ -12,21 +12,6 @@ de:
       messages:
         taken: "ist bereits vorhanden"
         record_invalid: "Validierung fehlgeschlagen: %{errors}"
-        # Append your own errors here or at the model/attributes scope.
-
-      # You can define own errors for models or model attributes.
-      # The values :model, :attribute and :value are always available for interpolation.
-      #
-      # For example,
-      #   models:
-      #     user:
-      #       blank: "This is a custom blank message for %{model}: %{attribute}"
-      #       attributes:
-      #         login:
-      #           blank: "This is a custom blank message for User login"
-      # Will define custom blank validation message for User model and
-      # custom blank validation message for login attribute of User model.
-      #models:
 
     # Translate model names. Used in Model.human_name().
     models:
