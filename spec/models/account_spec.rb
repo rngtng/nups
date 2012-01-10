@@ -82,24 +82,27 @@ describe Account do
   end
 end
 
-# == Schema Info
+# == Schema Information
 #
 # Table name: accounts
 #
 #  id                    :integer(4)      not null, primary key
-#  user_id               :integer(4)
-#  color                 :string(255)     default("#FFF")
-#  from                  :string(255)
-#  has_attachments       :boolean(1)
-#  has_html              :boolean(1)      default(TRUE)
-#  has_scheduling        :boolean(1)
-#  has_text              :boolean(1)      default(TRUE)
-#  mail_config_raw       :text
 #  name                  :string(255)
-#  permalink             :string(255)
+#  from                  :string(255)
+#  user_id               :integer(4)
 #  subject               :string(255)
 #  template_html         :text
 #  template_text         :text
 #  test_recipient_emails :text
 #  created_at            :datetime
+#  updated_at            :datetime
+#  color                 :string(255)     default("#FFF")
+#  has_html              :boolean(1)      default(TRUE)
+#  has_text              :boolean(1)      default(TRUE)
+#  has_attachments       :boolean(1)
+#  has_scheduling        :boolean(1)
+#  mail_config_raw       :text
+#  permalink             :string(255)
+#
+
 #  updated_at            :datetime

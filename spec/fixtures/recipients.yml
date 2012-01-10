@@ -37,22 +37,30 @@ admin:
   state: confirmed
   confirm_code: admin
 
-# == Schema Info
+# == Schema Information
 #
 # Table name: recipients
 #
 #  id               :integer(4)      not null, primary key
-#  account_id       :integer(4)
-#  bounces          :text
-#  bounces_count    :integer(4)      not null, default(0)
-#  confirm_code     :string(255)
-#  deliveries_count :integer(4)      not null, default(0)
-#  email            :string(255)
-#  failed_count     :integer(4)      not null, default(0)
-#  first_name       :string(255)
 #  gender           :string(255)
+#  first_name       :string(255)
 #  last_name        :string(255)
-#  reads_count      :integer(4)      not null, default(0)
-#  state            :string(255)     default("pending")
+#  email            :string(255)
+#  deliveries_count :integer(4)      default(0), not null
+#  bounces_count    :integer(4)      default(0), not null
+#  account_id       :integer(4)
 #  created_at       :datetime
+#  updated_at       :datetime
+#  fails_count      :integer(4)      default(0), not null
+#  confirm_code     :string(255)
+#  state            :string(255)     default("pending")
+#  reads_count      :integer(4)      default(0), not null
+#
+# Indexes
+#
+#  index_recipients_on_id_and_account_id  (id,account_id) UNIQUE
+#  index_recipients_on_email              (email)
+#  index_recipients_on_account_id         (account_id)
+#
+
 #  updated_at       :datetime

@@ -5,6 +5,7 @@ require File.expand_path('../config/application', __FILE__)
 
 require 'rake'
 require 'rdoc/task'
+require 'annotate/tasks'
 
 Nups::Application.load_tasks
 

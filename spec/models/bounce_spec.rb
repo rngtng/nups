@@ -79,20 +79,23 @@ describe Bounce do
   end
 end
 
-# == Schema Info
+# == Schema Information
 #
 # Table name: bounces
 #
 #  id           :integer(4)      not null, primary key
 #  account_id   :integer(4)
 #  recipient_id :integer(4)
-#  send_out_id  :integer(4)
-#  body         :text
-#  error_status :string(255)
 #  from         :string(255)
-#  header       :text
-#  raw          :text
 #  subject      :string(255)
-#  created_at   :datetime
 #  send_at      :datetime
+#  header       :text
+#  body         :text
+#  raw          :text
+#  created_at   :datetime
+#  updated_at   :datetime
+#  error_status :string(255)
+#  send_out_id  :integer(4)
+#
+
 #  updated_at   :datetime

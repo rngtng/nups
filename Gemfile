@@ -41,6 +41,8 @@ gem 'airbrake'
 # auto_link replacement
 gem 'rinku'
 
+gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
+
 gem 'rspec-rails', :group => [:development, :test]
 gem 'spin', :group => [:development, :test]
 

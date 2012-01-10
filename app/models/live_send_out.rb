@@ -42,17 +42,25 @@ class LiveSendOut < SendOut
   end
 end
 
-# == Schema Info
+# == Schema Information
 #
 # Table name: send_outs
 #
 #  id            :integer(4)      not null, primary key
-#  newsletter_id :integer(4)
 #  recipient_id  :integer(4)
+#  newsletter_id :integer(4)
+#  type          :string(255)
+#  state         :string(255)
 #  email         :string(255)
 #  error_message :text
-#  state         :string(255)
-#  type          :string(255)
 #  created_at    :datetime
+#  updated_at    :datetime
 #  finished_at   :datetime
+#
+# Indexes
+#
+#  index_send_outs_on_newsletter_id_and_type                   (newsletter_id,type)
+#  index_send_outs_on_newsletter_id_and_type_and_recipient_id  (newsletter_id,type,recipient_id)
+#
+
 #  updated_at    :datetime
