@@ -20,7 +20,7 @@
 window.distance_of_time = function(from_time, to_time, include_seconds){
   var out         = '',
   s               = {},
-  diff            = Math.abs(new Date(to_time) - new Date(from_time)) / 1000;
+  diff            = Math.abs(new Date(to_time || $.now()) - new Date(from_time)) / 1000;
   var day_diff    = diff % (7 * 24 * 60 * 60);
   s.weeks         = (diff - day_diff) / (7 * 24 * 60 * 60);
   var hour_diff   = day_diff % (24 * 60 * 60);

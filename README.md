@@ -10,6 +10,8 @@
       http://mentalized.net/activity-indicators/
 
 ## TODO
+  * try send grids:
+    http://stackoverflow.com/questions/4798141/sendgrid-vs-postmark-vs-amazon-ses-and-other-email-smtp-api-providers
   * check: stop while in pre_sending??
   * check: error when creating send_outs
   * chart when people read
