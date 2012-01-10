@@ -18,7 +18,9 @@ describe Recipient do
       end
 
       it "does not mass assign code" do
-        Recipient.create(:confirm_code => 'custom').confirm_code.should_not == 'custom'
+        expect do
+          Recipient.create(:confirm_code => 'custom')
+        end.to raise_error
       end
 
       it "does not overwirte manual set confirm_code" do

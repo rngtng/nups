@@ -136,8 +136,27 @@ describe RecipientsController do
 
   describe "update" do
     it "updates recipient" do
-      put :update, :account_id => account.to_param, :id => recipient.to_param, :recipient => recipient.attributes
+      put :update, :account_id => account.to_param, :id => recipient.to_param, :recipient => { :first_name => Faker::Name.name }
       response.should redirect_to(account_recipients_path(account))
+    end
+
+    it "updates first_name" do
+      expect do
+        put :update, :account_id => account.to_param, :id => recipient.to_param, :recipient =>  { :first_name => Faker::Name.name }
+      end.to change { recipient.reload.first_name }
+    end
+
+    it "updates last_name" do
+      expect do
+        put :update, :account_id => account.to_param, :id => recipient.to_param, :recipient => { :last_name => Faker::Name.name }
+      end.to change { recipient.reload.last_name }
+    end
+
+    #reconfirm when emails changes??
+    it "updates email" do
+      expect do
+        put :update, :account_id => account.to_param, :id => recipient.to_param, :recipient => { :email => Faker::Internet.email }
+      end.to change { recipient.reload.email }
     end
   end
 

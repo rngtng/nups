@@ -7,6 +7,7 @@ describe Admin::AccountsController do
 
   let(:admin) { users(:admin) }
   let(:account) { admin.accounts.first }
+  let(:account_attributes) { attributes_for(:account).merge(:user_id => admin.id) }
 
   before do
     sign_in admin
@@ -47,12 +48,12 @@ describe Admin::AccountsController do
 
     it "creates account" do
       expect do
-        post :create, :account => account.attributes
+        post :create, :account => account_attributes
       end.to change { Account.count }
     end
 
     it "redirects to index" do
-      post :create, :account => account.attributes
+      post :create, :account => account_attributes
       response.should redirect_to(admin_accounts_path)
     end
   end
@@ -73,7 +74,7 @@ describe Admin::AccountsController do
 
   describe "#update" do
     it "updates account" do
-      put :update, :id => account.to_param, :account => account.attributes
+      put :update, :id => account.to_param, :account => account_attributes
       response.should redirect_to(admin_accounts_path)
     end
   end

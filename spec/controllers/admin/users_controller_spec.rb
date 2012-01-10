@@ -7,6 +7,7 @@ describe Admin::UsersController do
 
   let(:admin) { users(:admin) }
   let(:user) { users(:biff) }
+  let(:user_attributes) { attributes_for(:user) }
 
   before do
     sign_in admin
@@ -43,7 +44,7 @@ describe Admin::UsersController do
   describe "#create" do
     it "create user" do
      expect do
-       post :create, :user => user.attributes.merge(:email => "New@localhost.com", :password => "testest")
+       post :create, :user => user_attributes
      end.to change { User.count }
     end
      # response.should redirect_to(admin_user_path(user))
@@ -65,8 +66,14 @@ describe Admin::UsersController do
 
   describe "#update" do
     it "updates user" do
-      put :update, :id => user.to_param, :user => user.attributes
+      put :update, :id => user.to_param, :user => user_attributes
       response.should redirect_to(admin_user_path(user))
+    end
+
+    it "changes email" do
+      expect do
+        put :update, :id => user.to_param, :user => user_attributes
+      end.to change { user.reload.email }
     end
   end
 

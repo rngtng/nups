@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.1.3'
+gem 'rails', '~> 3.2.0.rc2'
 
 gem 'mysql2'
 
@@ -9,7 +9,7 @@ gem 'jquery-rails'
 gem 'haml'
 
 #Authorization
-gem "devise", "~> 1.5.0"
+gem "devise"
 
 # Use resque for async jobs
 gem 'resque'
@@ -28,7 +28,7 @@ gem 'ekuseru'
 # parsing bounce emails
 gem 'bounce_email'
 
-gem 'state_machine'
+gem 'state_machine', :git => 'git://github.com/pluginaweek/state_machine.git'
 
 gem 'nokogiri'
 gem 'premailer'
@@ -54,7 +54,7 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails'
+  gem 'sass-rails', '~> 3.2.3'
   gem 'coffee-rails'
   # gem 'compass', :git => 'git://github.com/chriseppstein/compass.git', :branch => 'rails31'
 end
@@ -68,7 +68,7 @@ group :test do
 
   #selenium
   gem 'capybara'
-  gem 'database_cleaner'
+  gem 'database_cleaner', :git => 'git://github.com/bmabey/database_cleaner.git'
 
   #fixtures
   gem 'faker'

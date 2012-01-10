@@ -11,7 +11,9 @@ describe Account do
         end
 
         it "does not mass assign code" do
-          Account.create(:permalink => 'custom').permalink.should_not == 'custom'
+          expect do
+            Account.create(:permalink => 'custom')
+          end.to raise_error
         end
 
         it "does not overwrite manual set permalink" do

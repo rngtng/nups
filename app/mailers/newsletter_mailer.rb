@@ -35,8 +35,8 @@ class NewsletterMailer < ActionMailer::Base
        }
     end
 
-    html_options = account.template_html.present? ? {:inline => account.template_html} : {:template => 'newsletter_mailer/issue.html'}
-    text_options = account.template_text.present? ? {:inline => account.template_text} : {:template => 'newsletter_mailer/issue.text'}
+    html_options = account.template_html.present? ? {:inline => account.template_html} : {:template => 'newsletter_mailer/issue'}
+    text_options = account.template_text.present? ? {:inline => account.template_text} : {:template => 'newsletter_mailer/issue'}
 
     if @premailer
       html_content = render html_options.merge(:locals => data)
@@ -47,8 +47,8 @@ class NewsletterMailer < ActionMailer::Base
       end
     else
       mail(head) do |format|
-        format.text { render text_options.merge(:locals => data) }
-        format.html { render html_options.merge(:locals => data) }
+        format.text { render text_options.merge(:formats => [:text], :locals => data) }
+        format.html { render html_options.merge(:formats => [:html], :locals => data) }
       end
     end
   end

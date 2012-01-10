@@ -135,9 +135,9 @@ class Newsletter < ActiveRecord::Base
 
   def update_stats!
     if pre_sending? || sending?
-      n.delivery_started_at ||= n.live_send_outs.first(:order => "created_at ASC").try(:created_at)
-      n.deliveries_count      = n.live_send_outs.where("finished_at IS NOT NULL").count
-      n.fails_count           = n.live_send_outs.with_state(:failed).count
+      self.delivery_started_at ||= self.live_send_outs.first(:order => "created_at ASC").try(:created_at)
+      self.deliveries_count      = self.live_send_outs.where("finished_at IS NOT NULL").count
+      self.fails_count           = self.live_send_outs.with_state(:failed).count
     end
 
     if done?
