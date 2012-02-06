@@ -349,9 +349,5 @@ end
 #  bounces_count       :integer(4)      default(0), not null
 #  reads_count         :integer(4)      default(0), not null
 #
-# Indexes
-#
-#  index_newsletters_on_account_id  (account_id)
-#
 
 #  updated_at          :datetime

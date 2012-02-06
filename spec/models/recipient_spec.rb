@@ -125,11 +125,5 @@ end
 #  state            :string(255)     default("pending")
 #  reads_count      :integer(4)      default(0), not null
 #
-# Indexes
-#
-#  index_recipients_on_id_and_account_id  (id,account_id) UNIQUE
-#  index_recipients_on_email              (email)
-#  index_recipients_on_account_id         (account_id)
-#
 
 #  updated_at       :datetime

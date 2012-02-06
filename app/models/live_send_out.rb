@@ -58,10 +58,5 @@ end
 #  updated_at    :datetime
 #  finished_at   :datetime
 #
-# Indexes
-#
-#  index_send_outs_on_newsletter_id_and_type                   (newsletter_id,type)
-#  index_send_outs_on_newsletter_id_and_type_and_recipient_id  (newsletter_id,type,recipient_id)
-#
 
 #  updated_at    :datetime

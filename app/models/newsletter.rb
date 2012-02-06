@@ -84,7 +84,7 @@ class Newsletter < ActiveRecord::Base
   end
 
   def self.perform(id, action, email = nil)
-    self.connection.verify! # ActiveRecord::Base.verify_active_connections!
+    # self.connection.verify! # ActiveRecord::Base.verify_active_connections!
     self.find(id).send(action, email)
   end
 
@@ -210,10 +210,6 @@ end
 #  state               :string(255)     default("finished")
 #  bounces_count       :integer(4)      default(0), not null
 #  reads_count         :integer(4)      default(0), not null
-#
-# Indexes
-#
-#  index_newsletters_on_account_id  (account_id)
 #
 
 #  updated_at          :datetime
