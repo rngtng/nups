@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.2.0.rc2'
+gem 'rails', '~> 3.2.1'
 
 gem 'mysql2'
 
@@ -28,7 +28,7 @@ gem 'ekuseru'
 # parsing bounce emails
 gem 'bounce_email'
 
-gem 'state_machine', :git => 'git://github.com/pluginaweek/state_machine.git'
+gem 'state_machine'
 
 gem 'nokogiri'
 gem 'premailer'
@@ -70,7 +70,7 @@ group :test do
 
   #selenium
   gem 'capybara'
-  gem 'database_cleaner', :git => 'git://github.com/bmabey/database_cleaner.git'
+  gem 'database_cleaner'
 
   #fixtures
   gem 'faker'

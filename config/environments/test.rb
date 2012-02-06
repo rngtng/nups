@@ -30,7 +30,7 @@ Nups::Application.configure do
   config.action_mailer.delivery_method = :test
   config.action_mailer.default_url_options = { :host => 'localhost' }
 
-  # Raise exception on mass assignment protection for ActiveRecord models
+  # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
 
   # Print deprecation notices to the stderr
