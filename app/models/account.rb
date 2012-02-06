@@ -22,6 +22,7 @@ class Account < ActiveRecord::Base
   end
 
   def self.perform(id = nil)
+    ActiveRecord::Base.verify_active_connections!
     if id
       self.find(id).process_bounces
     else

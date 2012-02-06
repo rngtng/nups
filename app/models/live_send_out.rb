@@ -19,6 +19,7 @@ class LiveSendOut < SendOut
       # a bit dirty hack: force to end transition successfull but still
       # propagade execption
       me.connection.execute("COMMIT") #prevent rollback
+      Airbrake.notify(transition.args[0], :params => { :id => self.id })
       raise transition.args[0]
     end
 

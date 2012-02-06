@@ -84,6 +84,7 @@ class Newsletter < ActiveRecord::Base
   end
 
   def self.perform(id, action, email = nil)
+    self.connection.verify! # ActiveRecord::Base.verify_active_connections!
     self.find(id).send(action, email)
   end
 

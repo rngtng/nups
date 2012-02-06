@@ -17,7 +17,7 @@
   * chart when people read
   * remove  mode/status/last_send_id from newsletter
   * order DESC
-  * heighlight reciever with bounce count, set option to disable
+  * highlight reciever with bounce count, set option to disable
   * translation (gender)
   * add better migration
   * test coffeescript
