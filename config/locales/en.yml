@@ -38,7 +38,7 @@ en:
     confirm: Are you sure?
 
   recipients:
-    title: %{account_name} - Recipients
+    title: "%{account_name} - Recipients"
     menu:
       title: Recipient
       import: import

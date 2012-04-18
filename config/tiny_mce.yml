@@ -2,7 +2,7 @@
 
 mode: textareas
 theme: advanced
-plugins: 
+plugins:
   - autoresize
 #  - table
 #  - fullscreen

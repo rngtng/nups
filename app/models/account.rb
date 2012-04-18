@@ -41,6 +41,8 @@ class Account < ActiveRecord::Base
 
   def mail_config
     @mail_config ||= YAML::load(self.mail_config_raw) || $mail_config
+  rescue Psych::SyntaxError
+    $mail_config
   rescue
     $mail_config
   end
