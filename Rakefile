@@ -10,7 +10,7 @@ require 'annotate/tasks'
 Nups::Application.load_tasks
 
 task :travis do
-  ["rake db:schema:load", "rake spec"].each do |cmd|
+  ["rake db:create", "rake db:schema:load", "rake spec"].each do |cmd|
     puts "Starting to run #{cmd}..."
     system("export DISPLAY=:99.0 && bundle exec #{cmd}")
     raise "#{cmd} failed!" unless $?.exitstatus == 0
