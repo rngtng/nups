@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.2.1'
+gem 'rails', '~> 3.2.3'
 
 gem 'mysql2'
 
@@ -13,7 +13,7 @@ gem "devise"
 
 # Use resque for async jobs
 gem 'resque'
-gem 'resque-scheduler', '~> 2.0.0.e'
+gem 'resque-scheduler', '~> 2.0.0.h'
 gem 'resque-jobs-per-fork'
 
 #For handling File uploads
