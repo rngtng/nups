@@ -5,7 +5,7 @@ rvm:
 before_script:
   - "mv config/database.travis.yml config/database.yml"
   - sh -e /etc/init.d/xvfb start
-bundler_args: --without development
+bundler_args: --without development --no-rdoc --no-ri
 script: "bundle exec rake travis"
 branches:
   only:
