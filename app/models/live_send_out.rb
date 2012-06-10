@@ -1,5 +1,7 @@
 class LiveSendOut < SendOut
 
+  attr_accessible :recipient
+
   validates :recipient_id, :presence => true, :uniqueness => {:scope => [:newsletter_id, :type]}, :on => :create
 
   before_validation :set_email, :on => :create

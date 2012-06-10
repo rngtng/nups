@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Account do
-  let(:account) { Account.make }
+  let(:account) { build(:account) }
 
   describe "#validation" do
     context "#create" do
@@ -17,7 +17,7 @@ describe Account do
         end
 
         it "does not overwrite manual set permalink" do
-          Account.make.tap do |account|
+          build(:account).tap do |account|
             account.permalink = 'custom'
             account.save!
             account.permalink.should == 'custom'
@@ -25,8 +25,8 @@ describe Account do
         end
 
         it "generates uniqe one" do
-          Account.make.tap do |account|
-            account.permalink = Account.make!.permalink
+          build(:account).tap do |account|
+            account.permalink = create(:account).permalink
             account.save!
           end
         end

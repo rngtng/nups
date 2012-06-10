@@ -121,17 +121,17 @@ describe NewslettersController do
       end
     end
 
-    describe "create" do
+    describe "#create" do
       it "creates newsletter" do
         expect do
           post :create, :account_id => account.to_param, :newsletter => newsletter.attributes
-        end.to change(Newsletter, :count)
+        end.to change { Newsletter.count }
       end
 
       it "creates newsletter with empty attachment_ids" do
         expect do
           post :create, :account_id => account.to_param, :newsletter => {:subject => "blabla", :attachment_ids => ["1"]}
-        end.to change(Newsletter, :count)
+        end.to change { Newsletter.count }
       end
 
       it "redirects to newsletters form account" do
@@ -152,7 +152,7 @@ describe NewslettersController do
       end
     end
 
-    describe "edit" do
+    describe "#edit" do
       it "does success" do
         get :edit, :account_id => account.to_param, :id => newsletter.to_param
         response.status.should == 200 #:success

@@ -1,5 +1,7 @@
 class TestSendOut < SendOut
 
+  attr_accessible :email
+
   state_machine :initial => :sheduled do
     before_transition :delivering => :finished do |me|
       me.finished_at = Time.now

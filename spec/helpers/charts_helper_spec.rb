@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ChartsHelper do
-  let(:account) { Account.make! }
+  let(:account) { create(:account) }
 
   describe "newsletters_chart" do
     let(:newsletter_attrs) do
@@ -60,7 +60,7 @@ describe ChartsHelper do
 
     before do
       recipient_attrs.each do |recipient_attr|
-        Recipient.make!(recipient_attr.merge(:account => account))
+        create(:recipient, recipient_attr.merge(:account => account))
       end
     end
 

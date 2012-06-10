@@ -4,6 +4,8 @@ class SendOut < ActiveRecord::Base
   belongs_to :newsletter
   belongs_to :recipient
 
+  attr_accessible :newsletter, :state, :finished_at, :created_at, :updated_at
+
   validates :newsletter_id, :presence => true
 
   after_save :async_deliver!

@@ -14,6 +14,11 @@ class Newsletter < ActiveRecord::Base
 
   scope :with_account, lambda { |account|  account ? where(:account_id => account.id) : {} }
 
+  attr_accessible :draft, :account, :subject, :content, :mode, :status, :last_sent_id, :recipients_count
+  attr_accessible :deliveries_count, :fails_count, :deliver_at, :delivery_started_at, :delivery_ended_at
+  attr_accessible :account_id, :created_at, :updated_at, :state, :bounces_count, :reads_count
+  attr_accessible :attachment_ids, :recipient
+
   validates :account_id, :presence => true
   validates :subject,    :presence => true
 

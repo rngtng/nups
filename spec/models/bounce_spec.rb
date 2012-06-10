@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe Bounce do
-  let(:bounce) { Bounce.make }
+  let(:bounce) { build(:bounce) }
 
   context "create" do
     it "gets enqueued" do
-      new_bounce = Bounce.create!(:raw => "example Email")
+      new_bounce = create(:bounce, :raw => "example Email")
       Bounce.should have_queued(new_bounce.id)
     end
   end
@@ -45,7 +45,7 @@ describe Bounce do
   end
 
   context "send_out" do
-    let(:send_out) { LiveSendOut.make! }
+    let(:send_out) { create(:live_send_out) }
     let(:newsletter) { send_out.newsletter }
     let(:recipient) { send_out.recipient }
 
