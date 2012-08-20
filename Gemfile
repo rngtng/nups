@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.2.5'
+gem 'rails', '~> 3.2.6'
 
 gem 'mysql2'
 
@@ -62,6 +62,7 @@ group :assets do
 end
 
 group :test do
+  gem 'rake'
   gem 'json' #needed for resque to run on travis-ci
 
   gem 'resque_spec'

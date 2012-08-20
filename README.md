@@ -9,12 +9,14 @@
       http://www.andrewdavidson.com/articles/spinning-wait-icons/
       http://mentalized.net/activity-indicators/
 
+Good Test examples:
+  * http://loopingrecursion.com/?t=capybara
+
 ## TODO
   * try send grids:
     http://stackoverflow.com/questions/4798141/sendgrid-vs-postmark-vs-amazon-ses-and-other-email-smtp-api-providers
   * check: stop while in pre_sending??
   * check: error when creating send_outs
-  * chart when people read
   * remove  mode/status/last_send_id from newsletter
   * order DESC
   * highlight reciever with bounce count, set option to disable
@@ -30,6 +32,7 @@
   * mv send_out textfield into string? (speed up)
 
 ## DONE
+ * chart when people read
  * check what happens if a single sendout fails within a batch
  * add better fixtures: factory_girl
  * newsletter stats: total/percent send/fail/bounces/read count

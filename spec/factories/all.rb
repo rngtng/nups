@@ -1,5 +1,4 @@
 # Read about factories at http://github.com/thoughtbot/factory_girl
-require 'factory_girl/syntax/blueprint'
 
 FactoryGirl.define do
   sequence :email do |n|
